@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>18</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1242</x>
+      <y>288</y>
+      <w>180</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+AbstractBean
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1206</x>
+      <y>216</y>
+      <w>1206</w>
+      <h>1278</h>
+    </coordinates>
+    <panel_attributes>controller
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>288</y>
+      <w>234</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>324</y>
+      <w>234</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;120.0;110.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>360</y>
+      <w>234</w>
+      <h>558</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;290.0;110.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>396</y>
+      <w>234</w>
+      <h>810</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;430.0;110.0;430.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>288</y>
+      <w>774</w>
+      <h>198</h>
+    </coordinates>
+    <panel_attributes>HistoriesBean
+--
++ HistoriesBean(Session, HistoryDAO)
+--
+--
++ save() : void
++ remove(History) : void
++ update() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>522</y>
+      <w>774</w>
+      <h>306</h>
+    </coordinates>
+    <panel_attributes>ImpressumBean
+--
++ ImpressumBean(Session)
+--
+--
++ getName() : String
++ getStreet() : String
++ getPostcode() : String
++ getTown() : String
++ getPhone() : String
++ getMail() : String
++ init() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>864</y>
+      <w>774</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>LectureCreateBean
+--
++ LectureCreateBean(Session)
+--
+--
++ getName() : String
++ setName(String) : void
++ getECTS() : int
++ setECTS(int) : void
++ create() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>1152</y>
+      <w>774</w>
+      <h>306</h>
+    </coordinates>
+    <panel_attributes>LectureInstanceBean
+--
++ LectureInstanceBean(Session)
+--
+--
++ getVAK() : String
++ setVAK(String) : void
++ getSemester() : String
++ setSemester(String) : void
++ createNewInstance() : void
++ copyInstance(Lecture) : void
++ deleteInstance(Lecture) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+    <!-- Hier wird das Profil des Admins, Pruefers oder Prueflings angezeigt -->
+</h:head>
+
+
+<h:body>
+    <ui:composition template="WEB-INF/template.xhtml">
+        <ui:param name="title" value="#{msg['title']}"/>
+        <ui:define name="content">
+            <f:loadBundle basename="internationalization.profile" var="msg" />
+
+            <b:form>
+                <b:container class="form-group">
+                <b:row>
+                    <b:column span="3">
+                        <h1>
+                            <h:outputText class="title" value="#{msg['outputProfile']}" />
+                        </h1>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="1">
+                        <h:outputLabel value="#{msg['inputLanguage']}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <b:selectOneMenu class="form-control" value="#{profileBean.languageName}">
+                            <f:selectItems value="#{profileBean.countries}" />
+                        </b:selectOneMenu>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <b:commandButton class="btn-green" value="#{msg['changeLanguage']}" action="#{profileBean.save}" />
+                    </b:column>
+                </b:row>
+                </b:container>
+            </b:form>
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

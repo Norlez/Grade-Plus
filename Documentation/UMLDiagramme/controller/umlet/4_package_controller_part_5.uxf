@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>15</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1320</x>
+      <y>585</y>
+      <w>150</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+AbstractBean
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1290</x>
+      <y>525</y>
+      <w>1005</w>
+      <h>945</h>
+    </coordinates>
+    <panel_attributes>controller
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1455</x>
+      <y>585</y>
+      <w>195</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1455</x>
+      <y>615</y>
+      <w>195</w>
+      <h>255</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;150.0;110.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1455</x>
+      <y>645</y>
+      <w>195</w>
+      <h>375</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;230.0;110.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1455</x>
+      <y>675</y>
+      <w>195</w>
+      <h>630</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;400.0;110.0;400.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1620</x>
+      <y>585</y>
+      <w>645</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>LecturesBean
+--
++ LecturesBean(Session, LectureDAO)
+--
+--
++ getLecture() : Lecture
++ getAllLectures() : List&lt;Lecture&gt;
++ save() : void
++ update() : void
++ remove() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1620</x>
+      <y>825</y>
+      <w>645</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>LoggingBean
+--
++ LoggingBean(Session)
+--
+--
++ log(String) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1620</x>
+      <y>975</y>
+      <w>645</w>
+      <h>255</h>
+    </coordinates>
+    <panel_attributes>LoginBean
+--
++ LoginBean(Session, UserDAO)
+--
+--
++ getUsername() : String
++ setUsername(String) : void
++ getPassword() : String
++ setPassword(String) : void
++ getLoginButton() : UIComponent
++ setLoginButton(UIComponent) : void
++ login() : String
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1620</x>
+      <y>1260</y>
+      <w>645</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>LectureRegisterBean
+--
++ LectureRegisterBean(Session, LectureDAO)
+--
+--
++ getLecture() : Lecture
++ setLecture(Lecture) : void
++ getAllLectures() : List&lt;Lecture&gt;
++ setAllLectures(List&lt;Lecture&gt;) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

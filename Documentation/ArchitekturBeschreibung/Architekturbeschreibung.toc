@@ -1,0 +1,51 @@
+\select@language {ngerman}
+\select@language {ngerman}
+\contentsline {section}{\numberline {1}Einf\IeC {\"u}hrung}{4}{section.1}
+\contentsline {subsection}{\numberline {1.1}Zweck}{4}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Status}{5}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Definitionen, Akronyme und Abk\IeC {\"u}rzungen}{5}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Referenzen}{6}{subsection.1.4}
+\contentsline {subsection}{\numberline {1.5}\IeC {\"U}bersicht \IeC {\"u}ber das Dokument}{6}{subsection.1.5}
+\contentsline {section}{\numberline {2}Globale Analyse}{8}{section.2}
+\contentsline {subsection}{\numberline {2.1}Einflussfaktoren}{8}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Organisatorische Faktoren}{8}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Produktfaktoren}{10}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Technische Faktoren}{11}{subsubsection.2.1.3}
+\contentsline {subsection}{\numberline {2.2}Probleme und Strategien}{13}{subsection.2.2}
+\contentsline {section}{\numberline {3}Konzeptionelle Sicht}{22}{section.3}
+\contentsline {subsection}{\numberline {3.1}Server}{23}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Persistence}{24}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}View}{24}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}Controller}{24}{subsubsection.3.1.3}
+\contentsline {subsubsection}{\numberline {3.1.4}BusinessLogic}{24}{subsubsection.3.1.4}
+\contentsline {subsubsection}{\numberline {3.1.5}Common}{24}{subsubsection.3.1.5}
+\contentsline {subsubsection}{\numberline {3.1.6}Model}{25}{subsubsection.3.1.6}
+\contentsline {subsubsection}{\numberline {3.1.7}Util}{25}{subsubsection.3.1.7}
+\contentsline {subsubsection}{\numberline {3.1.8}Exception}{26}{subsubsection.3.1.8}
+\contentsline {subsection}{\numberline {3.2}Einfluss der Strategien auf die konzeptionelle Sicht}{26}{subsection.3.2}
+\contentsline {section}{\numberline {4}Modulsicht}{27}{section.4}
+\contentsline {subsection}{\numberline {4.1}Businesslogic}{28}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Common}{29}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Exception}{30}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Model}{31}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Util}{37}{subsubsection.4.2.3}
+\contentsline {subsection}{\numberline {4.3}Controller}{38}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Persistence}{45}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}View}{49}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Anwendung der Strategien auf die Modulsicht}{49}{subsection.4.6}
+\contentsline {section}{\numberline {5}Datensicht}{51}{section.5}
+\contentsline {subsubsection}{\numberline {5.0.1}User}{52}{subsubsection.5.0.1}
+\contentsline {subsubsection}{\numberline {5.0.2}Examiner und StudentExaminer}{53}{subsubsection.5.0.2}
+\contentsline {subsubsection}{\numberline {5.0.3}Student}{54}{subsubsection.5.0.3}
+\contentsline {subsection}{\numberline {5.1}Anwendung der Strategien auf die Datensicht}{54}{subsection.5.1}
+\contentsline {section}{\numberline {6}Ausf\IeC {\"u}hrungssicht}{55}{section.6}
+\contentsline {section}{\numberline {7}Zusammenh\IeC {\"a}nge zwischen Anwendungsf\IeC {\"a}llen und Architektur}{55}{section.7}
+\contentsline {subsection}{\numberline {7.1}Anwendungsfall D1: Login als Pr\IeC {\"u}fling}{56}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Anwendungsfall D55: Passwort Vergessen}{57}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Anwendungsfall D24: Pr\IeC {\"u}fung festlegen}{58}{subsection.7.3}
+\contentsline {section}{\numberline {8}Evolution}{59}{section.8}
+\contentsline {subsection}{\numberline {8.1}HTTPS}{60}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Andere Datenbank anbinden}{60}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Andere Kalender anbinden}{60}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}Rolle des Sekret\IeC {\"a}rs einbauen}{60}{subsection.8.4}
+\contentsline {subsection}{\numberline {8.5}Mobiler Client}{60}{subsection.8.5}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+<h:outputStylesheet library = "css" name="style.css" position="last"/>
+
+<f:view locale="#{profileBean.getLanguage()}">
+    <f:loadBundle basename="internationalization.template" var="templateMsg" />
+
+    <h:head>
+        <title>#{title}</title>
+    </h:head>
+    <h:body rendered="#{profileBean.isLoggedIn()}">
+        <div id="top" class="top">
+            <h:form>
+            <b:navBar>
+                <b:navbarLinks>
+                    <b:navLink id="dashboardLink" value="#{templateMsg['actionLinkDashboard']}" outcome="/dashboard" />
+                    <b:navLink id="gradesLink" value="#{templateMsg['actionLinkGrades']}" outcome="/grades" />
+                    <b:navLink id="backupLink" value="#{templateMsg['actionLinkBackup']}" outcome="/admin/backup" />
+                    <b:navLink id="UserLink" value="#{templateMsg['actionLinkUser']}" outcome="/admin/users" />
+                    <b:navLink id="LectureLink" value="#{templateMsg['actionLinkLecture']}" outcome="/lecture" />
+                </b:navbarLinks>
+                <b:navbarLinks pull="right">
+
+                    <b:dropMenu value="User" iconAwesome="user">
+
+                            <b:navLink id="profileLink" value="#{templateMsg['actionLinkProfile']}"
+                                   outcome="/profile" />
+
+                            <b:navCommandLink id="logoutButton" value="#{templateMsg['actionLogout']}"
+                                              action="#{profileBean.logout()}" />
+                        </b:dropMenu>
+                </b:navbarLinks>
+            </b:navBar>
+            </h:form>
+        </div>
+        <div id="main_content" class="main_content">
+            <ui:insert name="content" />
+        </div>
+    </h:body>
+    <h:body rendered="#{!profileBean.isLoggedIn()}">
+        <p>
+            <h:link value="#{templateMsg['linkLogin']}" outcome="/index" />
+        </p>
+    </h:body>
+</f:view>
+</html>

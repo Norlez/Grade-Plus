@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+
+<f:view locale="#{loginBean.getLanguage()}">
+<f:loadBundle basename="internationalization.index" var="msg" />
+
+<h:head>
+    <!-- Login, Registrierung und Passwort vergessen -->
+    <title>#{msg['title']}</title>
+    <!-- CSS POSITION MUSS AUF LAST GESETZT SEIN -->
+    <h:outputStylesheet library = "css" name="style.css" position="last"/>
+</h:head>
+
+<h:body id="registrationRendered" rendered="#{!loginBean.isLoggedIn()}">
+
+    <b:form id="index">
+        <b:container class="form-group" fluid="false">
+
+            <!-- TITLE -->
+            <b:row>
+                <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                    <h1>
+                        <h:outputText value="#{msg['titleRegister']}" />
+                    </h1>
+                </b:column>
+            </b:row>
+
+            <!-- INPUT NAME -->
+            <b:row>
+                <b:column span="3" colSm="4" colMd="6" colXs="12">
+                    <b:inputText class="form-control" id="name" placeholder="#{msg['inputName']}"
+                                 value="#{loginBean.name}" required="true" requiredMessage="#{msg['errorNameRequired']}" />
+                </b:column>
+                <b:column>
+                    <b:message for="name" />
+                </b:column>
+            </b:row>
+
+            <!-- INPUT SURNAME -->
+            <b:row>
+                <b:column span="3" colSm="4" colMd="6" colXs="12">
+                    <b:inputText class="form-control" id="surname" placeholder="#{msg['inputSurname']}"
+                                 value="#{loginBean.surname}" required="true" requiredMessage="#{msg['errorSurname']}" />
+                </b:column>
+                <b:column>
+                    <b:message for="surname" />
+                </b:column>
+            </b:row>
+
+            <!-- INPUT MATRICIAL NUMBER -->
+            <b:row>
+                <b:column span="3" colSm="4" colMd="6" colXs="12">
+                    <b:inputText class="form-control" id="matriculationnumber" placeholder="#{msg['inputMatriculationNumber']}"
+                                 value="#{loginBean.matriculationNumber}" required="true" requiredMessage="#{msg['errorMatriculationNumber']}" />
+                </b:column>
+                <b:column>
+                    <b:message for="matriculationnumber" />
+                </b:column>
+            </b:row>
+
+            <!-- INPUT PASSWORD -->
+            <b:row>
+                <b:column span="3" colSm="4" colMd="6" colXs="12">
+                    <b:inputSecret class="form-control" id="password" placeholder="#{msg['inputPassword']}"
+                                 value="#{loginBean.password}" required="true" requiredMessage="#{msg['errorPasswordRequired']}" />
+                </b:column>
+                <b:column>
+                    <b:message for="password" />
+                </b:column>
+            </b:row>
+            <b:row class="btn-paragraph">
+                <b:column span="1" colSm="4" colMd="6" colXs="12">
+                    <b:commandButton class="btn" id="save" value="#{msg['actionRegister']}" />
+                </b:column>
+                <b:column span="1" colSm="4" colMd="6" colXs="12">
+                    <b:button class="btn" id="login" value="#{msg['linkLogin']}" outcome="index" />
+                </b:column>
+            </b:row>
+            <b:row>
+
+                <b:column>
+                    <b:navCommandLink value="#{msg['linkForgotPassword']}" outcome="restorepassword"/>
+                </b:column>
+            </b:row>
+        </b:container>
+    </b:form>
+
+
+
+</h:body>
+
+    <!-- WENN DER NUTZER EINGELOGGT IST -->
+    <h:body rendered="#{loginBean.isLoggedIn()}">
+        <p>
+            <h:link value="#{msg['linkGrades']}" outcome="/dashboard" />
+        </p>
+    </h:body>
+</f:view>
+
+</html>

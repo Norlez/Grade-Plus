@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://bootsfaces.net/ui" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xml:lang="en" lang="en">
+<head>
+    <!-- Seite zum Erstellen eines Users (Admin oder Pruefer -->
+    <title>Title</title>
+</head>
+<body>
+<ui:composition template="/WEB-INF/template.xhtml">
+<ui:param name="title" value="#{msg['title']}"/>
+
+<ui:define name="content">
+<f:loadBundle basename="internationalization.admin.users" var="msg" />
+
+<b:form id="registerUser">
+    <b:container class="form-group">
+
+        <!-- TITLE -->
+        <b:row>
+            <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                <h1>
+                    <h:outputText value="#{msg['title']}" />
+                </h1>
+            </b:column>
+        </b:row>
+
+        <!-- SUBTITLE -->
+        <b:row>
+            <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
+                <h2>
+                    <h:outputText value="#{msg['subtitleNewUser']}" />
+                </h2>
+            </b:column>
+        </b:row>
+
+        <!-- USERNAME -->
+        <b:row>
+            <b:column span="2">
+                <h:outputLabel value="#{msg['inputUsername']}" />
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="3" colSm="4" colMd="6" colXs="12">
+                <b:inputText class="form-control" id="username" value="#{usersBean.user.username}" required="true"
+                             requiredMessage="#{msg['errorUsernameRequired']}" />
+            </b:column>
+            <b:column>
+                <b:message for="username" />
+            </b:column>
+        </b:row>
+
+        <!-- PASSWORD -->
+        <b:row>
+            <b:column span="3">
+                <h:outputLabel value="#{msg['inputPassword']}" />
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="3" colSm="4" colMd="6" colXs="12">
+                <b:inputSecret class="form-control" id="password" value="#{usersBean.user.password}" required="true"
+                               requiredMessage="#{msg['errorPasswordRequired']}" />
+            </b:column>
+            <b:column>
+                <b:message for="password" />
+            </b:column>
+        </b:row>
+
+        <!-- MAIL -->
+        <b:row>
+            <b:column>
+                <h:outputLabel value="#{msg['inputEmail']}" />
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="3" colSm="4" colMd="6" colXs="12">
+                <b:inputText class="form-control" id="email" value="#{usersBean.user.email}" required="true"
+                             requiredMessage="#{msg['errorEmailRequired']}" />
+            </b:column>
+            <b:column>
+                <b:message for="email" />
+            </b:column>
+        </b:row>
+
+        <!-- SAVE AND BACK BUTTON-->
+        <b:row>
+            <b:column span="1" colSm="3" colMd="3" colXs="12">
+                <b:commandButton class="btn" id="saveButton" value="#{msg['actionCreate']}" action="#{usersBean.save}" />
+            </b:column>
+                <b:column span="1" colSm="3" colMd="3" colXs="12">
+                    <b:button class="btn" id="back" value="#{msg['actionBack']}" outcome="users" />
+                </b:column>
+            <b:column>
+                <b:message for="saveButton" />
+            </b:column>
+        </b:row>
+    </b:container>
+</b:form>
+
+</ui:define>
+</ui:composition>
+
+</body>
+</html>

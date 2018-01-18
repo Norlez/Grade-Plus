@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://bootsfaces.net/ui" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xml:lang="en" lang="en">
+<head>
+    <!-- Hier werden die Daten fuer eine neue LV eingetragen -->
+    <title>Title</title>
+</head>
+<body>
+<ui:composition template="WEB-INF/template.xhtml">
+    <ui:param name="title" value="#{msg['title']}"/>
+
+    <ui:define name="content">
+        <f:loadBundle basename="internationalization.lecture" var="msg" />
+
+        <b:form>
+            <b:container class="form-group">
+
+                <!-- TITLE -->
+                <b:row>
+                    <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                        <h1>
+                            <h:outputText value="#{msg['title']}" />
+                        </h1>
+                    </b:column>
+                </b:row>
+
+                <!-- SUBTITLE -->
+                <b:row>
+                    <b:column>
+                        <h2>
+                            <h:outputText rendered="#{false}" value="#{msg['subtitleEditLecture']}" />
+                            <h:outputText rendered="#{true}" value="#{msg['subtitleCreateLecture']}" />
+                        </h2>
+                    </b:column>
+                </b:row>
+
+                <!-- NAME -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputName']}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText rendered="#{false}" id="name" value="#{lectureCreateBean.name}" required="true"/>
+                        <b:inputText rendered="#{true}" placeholder="#{msg['inputName']}" />
+                    </b:column>
+                </b:row>
+
+                <!-- VAK -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputVAK']}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText rendered="#{false}" value="#{lectureCreateBean.}"/>
+                        <b:inputText rendered="#{true}" placeholder="#{msg['inputVAK']}" />
+                    </b:column>
+                </b:row>
+
+                <!-- DESCRIPTION -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputDescription']}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText rendered="#{false}" value="#{lectureBean.getLecture()}"/>
+                        <b:inputTextarea rendered="#{true}" placeholder="#{msg['inputDescription']}" />
+                    </b:column>
+                </b:row>
+
+                <!-- BUTTONS SAVE AND BACK -->
+                <b:row>
+                    <b:column span="1" colSm="12" colMd="12" colXs="12">
+                        <b:commandButton rendered="#{false}" value="#{msg['actionSave']}" />
+                        <b:commandButton rendered="#{true}" value="#{msg['actionCreate']}" />
+                    </b:column>
+                    <b:column span="1" colSm="12" colMd="12" colXs="12">
+                        <b:button value="#{msg['linkBack']}" />
+                    </b:column>
+                </b:row>
+            </b:container>
+        </b:form>
+
+
+    </ui:define>
+</ui:composition>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>12</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1224</x>
+      <y>576</y>
+      <w>120</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract&gt;&gt;
+JPADAO
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1200</x>
+      <y>528</y>
+      <w>804</w>
+      <h>960</h>
+    </coordinates>
+    <panel_attributes>persistence
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1584</x>
+      <y>576</y>
+      <w>396</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>BackupDAO
+--
+--
+--
+# getClazz() : Class&lt;Backup&gt;
++ save(Backup) : void
++ getAllBackups() : List&lt;Backup&gt;
++ getLatestBackup() : Backup
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1584</x>
+      <y>732</y>
+      <w>396</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>CommentDAO
+--
+--
+--
+# getClazz() : Class&lt;Comment&gt;
++ save(Comment) : void
++ update(Comment) : void
++ getAllComments() : List&lt;Comment&gt;
++ getCommentsForUser(User) : List&lt;COmment&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1584</x>
+      <y>912</y>
+      <w>396</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>ConfigurationDAO
+--
+--
+--
+# getClazz() : Class&lt;Configuration&gt;
++ save(Configuration) : void
++ update(Configuration) : void
++ getAllConfigurations() : List&lt;Configuration&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1584</x>
+      <y>1068</y>
+      <w>396</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>ExamDAO
+--
+--
+--
+# getClazz() : Class&lt;Exam&gt;
++ save(Exam) : void
++ update(Exam) : void
++ getAllExams() : List&lt;Exam&gt;
++ getExamForLecture(Lecture) : List&lt;Exam&gt;
++ getExamForSemester(String) : List&lt;Exam&gt;
++ getExamForExaminee(User) : List&lt;Exam&gt;
++ getExamForExaminer(User) : List&lt;Exam&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1584</x>
+      <y>1296</y>
+      <w>396</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>GradeDAO
+--
+--
+--
+# getClazz() : Class&lt;Grade&gt;
++ save(Grade) : void
++ update(Grade) : void
++ remove(Grade) : void
++ getAllGrades() : List&lt;Grade&gt;
++ getGradesForUser() : List&lt;Grade&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>576</y>
+      <w>276</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;210.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>600</y>
+      <w>276</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0;100.0;120.0;210.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>624</y>
+      <w>276</w>
+      <h>324</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;250.0;210.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>648</y>
+      <w>276</w>
+      <h>456</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;360.0;210.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>672</y>
+      <w>276</w>
+      <h>660</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;530.0;210.0;530.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1476</x>
+      <y>588</y>
+      <w>96</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::Backup
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1452</x>
+      <y>744</y>
+      <w>120</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::Comment
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1428</x>
+      <y>924</y>
+      <w>144</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::Configuration
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1404</x>
+      <y>1080</y>
+      <w>84</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::Exam
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1380</x>
+      <y>1308</y>
+      <w>96</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::Grade
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

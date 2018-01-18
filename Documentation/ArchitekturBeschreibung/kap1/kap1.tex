@@ -1,0 +1,134 @@
+
+\section{Einführung} \label{sec:einführung}
+
+\textbf{Autor: Andreas}\\
+\subsection{Zweck} %ReviewReady
+
+
+{  In diesem Dokument wird die Architektur des Prüfungsverwaltungssystem \glqq{}Grade+\grqq{} 
+beschrieben. Das Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  wird im Rahmen der Veranstaltung Software-Projekt 2 2017/18 entwickelt. Es handelt sich bei dem Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  um eine Weblösung in der Prüfungstermine organisiert und verwaltet werden können.  \\
+\\ %Addressaten
+Dieses Dokument soll die Entwurfsentscheidungen für den Kunden und die Entwickler transparent offenlegen.  Der Kunde soll durch dieses Dokument früh in die Entwicklung miteinbezogen werden, um sicher zu stellen, dass das Produkt alle Anforderungen erfüllt. Das Entwicklerteam soll das System gemäß dem Architekturentwurf und der Anforderungsspezifikationen implementieren. Die Tester können vor der Implementierung anhand der Architektur zukünftige Black-Box-Tests herleiten, da die grundsätzliche Struktur und Schnittstellen des Systems spezifiziert sind. Außerdem kann der Architekturentwurf als Grundlage für zukünftige Wartungen und Weiterentwicklungen des Systems genutzt werden. \\
+\\ %Vorgang in diesem Dokument
+Im Rahmen des Architekturentwurfs wurden verschiedene Einflussfaktoren (organisatorisch, technisch, produktspezifisch) global analysiert. Für die Probleme, die sich aus diesen Einflussfaktoren ergeben, wurden mögliche Lösungsstrategien formuliert. Die ausgewählten Lösungsstrategien wurden in den einzelenen Blickwinkeln (nach Hofmeister) beachtet, woraus sich die in diesem Dokument dargestellte Architektur ergeben hat. }
+
+\subsection{Status}
+{ Die vorläufige Architekturbeschreibung wurde fertig gestellt. Das gesamte Dokument wurde vom Team gereviewt. Die Architekturbeschreibung wurde der Tutorin Hui Shi zur Bewertung vorgelegt. Dieses Dokument wird ergänzt, falls sich in der Implementierungsphase Änderungen an der Architektur ergeben oder ein entsprechendes Feedback von Hui Shi vorliegt.}
+
+%
+% Definitionen, Akronyme und Abkürzungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Definitionen, Akronyme und Abkürzungen}
+{ 
+\textbf{Pabo:}  Das Prüfungsamt Bremen Online ist für die elektronische Erfassung der Prüfungsnoten an der Universität Bremen zuständig.\\
+\textbf{Responsive-Design:}  gestalterisches und technische Denkweise zur Erstellung von Websites, so dass diese auf Eigenschaften des jeweils benutzten Endgeräts, vor allem Smartphones reagieren können.\\
+\textbf{Prüfer:} erstellt und leitet Lehrveranstaltungen und Prüfungstermine in dem Softwaresystem. \\ 
+\textbf{Prüfling:} nimmt an Prüfungsterminen teil und wird in der gewählten ILV geprüft und benotet. \\ 
+\textbf{Admin:} verwaltet den Nutzer- und Datenbestand. Ist für das Anlegen von Back-Ups und Prüfern verantwortlich. \\
+\textbf{Lehrveranstaltung:} ein grobes Schema für eine angebotene Lehrveranstaltung, die als Vorlage für konkrete Ausprägungen genutzt werden kann. Ist editierbar und erstellbar durch den Prüfer. \\
+\textbf{ILV:} eine konkrete Ausprägung (Instanz) einer Lehrveranstaltung. Prüflinge können sich für die ILV anmelden und ihren Prüfungstermin auswählen. Prüfer können Prüfungstermine anlegen und verwalten in einer ILV. \\
+\textbf{Scope:} Die Lebenszeit eines Objekts kann in JSF durch Scopes angegeben werden, z.B. Session, falls alle Objekte der View nach einer Session zerstört werden sollen.\\
+\textbf{JPA:} Die Java Persistence API (JPA) ist eine Schnittstelle für Java-Anwendungen, die die Datenbankzugriffe und die objektrelationale Zuordnung vereinfacht.
+}
+\subsection{Referenzen}
+\begin{itemize}
+\item Koschke, R. : Vorlesungsskript SWP1. Universität Bremen, 2017.\\
+\item Rupp, C. , Queins, S. : UML 2 glasklar - Praxiswissen für die UML-Modellierung. Carl Hanser Verlag GmbH und Co. KG, 2012.\\
+\end{itemize}
+
+% Dokumentenübersicht
+\subsection{Übersicht über das Dokument}
+Dieses Dokument ist folgendermaßen gegliedert:\\
+\\
+% Kapitel 1
+\textbf{Kapitel \ref{sec:einführung}: Einführung} %ReviewReady
+\\
+\\
+{  Das erste Kapitel erläutert den Zweck dieser Architekturbeschreibung und an wen sie sich richtet. Zum besseren Verständnis des Dokuments und der Anwenderdomäne werden genutzte Definitionen, Akronyme und Abkürzungen erörtert und aufgelistet. 
+Ebenso werden in diesem Kapitel die Refernzen genannt. Der Abschluss des Kapitels stellt eine Übersicht über alle Kapitel der Architekturbeschreibung dar.}
+\\
+\\
+
+% Kapitel 2
+\textbf{Kapitel \ref{sec:globale_analyse}: Globale Analyse} %ReviewReady
+\\
+\\
+{ Dieses Kapitel widmet sich den verschiedenen Einflussfaktoren (organisatorisch, technisch, produktspezifisch) und welchen Einfluss sie auf die Architektur ausüben. Dazu werden zuerst die einzelnen Einflussfaktoren ermittelt und in ihrer
+Flexibilität und Veränderlichkeit charakterisiert. Daraus lassen sich konkrete Auswirkungen und weitere Einflussfaktoren ableiten. Aus der Menge der Einflussfaktoren werden mögliche Gefahren und Probleme für das System identifiziert und auf Problemkarten aufgeschrieben. Die Einflussfaktoren werden dabei global betrachtet, d.h. kein Einflussfaktor wird für sich alleine betrachtet. Zur Eindämmung der negativen Auswirkungen  der Einflussfaktoren werden für jede Problemkarte Lösungstrategien entwickelt. Die daraus ausgewählten Lösungsstrategien spiegeln sich im Architekturentwurf wieder.}
+\\
+\\
+
+% Kapitel 3
+\textbf{Kapitel \ref{sec:konzeptionell}: Konzeptionelle Sicht} %ReviewReady
+\\
+\\
+{In dem dritten Kapitel wird das System auf einer hohen (der Anwendungsdomäne nahen) Abstraktionsebene beschrieben.
+Die grobe Struktur des Systems und deren Systemfunktionalität wird dabei in Form von UML-Komponentendiagrammen beschrieben.
+Es werden keine technologischen Detailentscheidungen (z.B. Nutzung von bestimmten Sortieralgorithmen) abgebildet.
+Die Grobstruktur aus der konzeptionellen Sicht wird in den nachfolgenden Kapiteln 4 bis 6 konkretisiert.}
+\\
+\\
+
+% Kapitel 4
+\textbf{Kapitel \ref{sec:modulsicht}: Modulsicht} %ReviewReady
+{Die Modulsicht betrachtet den statischen Aufbau des Systems und wird in Form von UML-Paket- und Klassendiagramme visuallisiert.
+In Kapitel 4 wird die zuvor entwickelte Architektur konkretisiert. Die Zerlegung in konkrete Module endet bei Modulen, die ein klar umrissenes Arbeitspaket darstellen. Bei der Konkretisierung der einzelnen Module werden die zuvor entwickelten Lösungsstrategien berücksichtigt.
+Die Schnittstellen der Module werden in diesem Abschnitt ebenfalls behandelt und falls notwendig mit entsprechenden UML-Diagrammen unterstützt. Die Beschreibung der Schnittstellen und Methoden erfolgt per Javadoc im Quelltext.}
+
+
+
+
+%Die Module werden durch ihre Schnittstellen beschrieben. Die Schnittstelle eines Moduls
+%M ist die Menge aller Annahmen, die andere Module über M machen dürfen, bzw. jene
+%Annahmen, die M über seine verwendeten Module macht (bzw. seine Umgebung, wozu
+%auch Speicher, Laufzeit etc. gehören). Konkrete Implementierungen dieser Schnittstellen
+%sind das Geheimnis des Moduls und können vom Programmierer festgelegt werden. Sie
+%sollen hier dementsprechend nicht beschrieben werden.
+%Die Diagramme der Modulsicht sollten die zur Schnittstelle gehörenden Methoden enthalten.
+%Die Beschreibung der einzelnen Methoden (im Sinne der Schnittstellenbeschreibung)
+%geschieht per Javadoc im zugehörigen Quelltext. Das bedeutet, dass Ihr für alle Eure Module
+%Klassen, Interfaces und Pakete erstellt und sie mit den Methoden der Schnittstellen
+%verseht – natürlich noch ohne Methodenrümpfe bzw. mit minimalen Rümpfen. Dieses
+%Vorgehen vereinfacht den Schnittstellenentwurf und stellt Konsistenz sicher.
+
+%Jeder Schnittstelle liegt ein Protokoll zugrunde. Das Protokoll beschreibt die Vor- und
+%Nachbedingungen der Schnittstellenelemente. Dazu gehören die erlaubten Reihenfolgen,
+%in denen Methoden der Schnittstelle aufgerufen werden dürfen, sowie Annahmen über
+%Eingabeparameter und Zusicherungen über Ausgabeparameter. Das Protokoll von Modulen
+%wird in der Modulsicht beschrieben. Dort, wo es sinnvoll ist, sollte es mit Hilfe
+%von Zustands- oder Sequenzdiagrammen spezifiziert werden. Diese sind dann einzusetzen,
+%wenn der Text allein kein ausreichendes Verständnis vermittelt (insbesondere bei
+%komplexen oder nicht offensichtlichen Zusammenhängen).
+%Der Bezug zur konzeptionellen Sicht muss klar ersichtlich sein. Im Zweifel sollte er
+%explizit erklärt werden. Auch für diese Sicht muss die Entstehung anhand der Strategien
+%erläutert werden.}
+
+% Kapitel 5
+\textbf{Kapitel \ref{sec:datensicht}: Datensicht} %ReviewReady
+\\
+\\
+{ In diesem Abschnitt wird das zugrundeliegende Datenmodell der Anwendung beschrieben.
+Das in der Anforderungsspezifikation erhobene Datemodell wird dabei übernommen und um implementierungsspezifische Details verändert.  Die Darstellung erfolgt über erläuternde Texte und UML-Klassendiagramme.}
+\\
+\\
+% Kapitel 6
+\textbf{Kapitel \ref{sec:ausfuehrung}: Ausführungssicht} %ReviewReady
+\\
+\\
+{ Dieses Kapitel behandelt die Ausführungssicht auf das System. An dieser Stelle werden die Laufzeitelemente aufgeführt und mitsamt ihrem Laufzeitverhalten beschrieben. Weiterhin werden die Abhängigkeiten und Kommunikationen zwischen den einzelnen Laufzeitelementen behandelt. 
+\\
+\\
+% Kapitel 7
+\textbf{Kapitel \ref{sec:zusammenhang}: Zusammenhänge zwischen Anwendungsfällen und \mbox{Architektur}} %Review Ready
+\\
+\\
+{ Dieses Kapitel zeigt die exemplarische Umsetzung von mehreren Anwendungsfällen in Form von Sequenzdiagrammen in dem System \glqq{}Grade+\grqq{}. Die Anwendungsfälle sollen dabei möglichst eine große Anzahl von Modulen in der Architektur abdecken, um zu zeigen, ob die gewählte Architektur den Anforderungen standhält.}
+\\
+\\
+% Kapitel 8
+\textbf{Kapitel \ref{sec:evolution}: Evolution} %ReviewReady
+\\
+\\
+{ Dieser Abschnitt behandelt mögliche Änderungen an dem Systems, falls sich die Anforderungen oder Rahmenbedingungen ändern.
+Auch werden Änderungen durch mögliche zukünftige Erweiterungen des Systems (z.B. auf andere E-Mail Provider) betrachtet. }

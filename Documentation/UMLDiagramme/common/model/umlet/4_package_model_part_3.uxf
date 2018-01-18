@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>20</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1040</x>
+      <y>260</y>
+      <w>200</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>JPAEntity
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1000</x>
+      <y>180</y>
+      <w>1300</w>
+      <h>1140</h>
+    </coordinates>
+    <panel_attributes>model
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1220</x>
+      <y>260</y>
+      <w>260</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1440</x>
+      <y>260</y>
+      <w>820</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>Grade
+--
+--
+_- serialVersionUID : long_
+- user : User
+- subject : String
+- mark : BigDecimal
+--
++ getUser() : User
++ setUser(User) : void
++ getSubject() : String
++ setSubject(String) : void
++ getMark() : BigDecimal
++ setMark(BigDecimal) : void
++ equals(Object) : boolean
++ hashCode() : int
++ toString() : String
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1220</x>
+      <y>300</y>
+      <w>260</w>
+      <h>560</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;260.0;110.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1220</x>
+      <y>340</y>
+      <w>260</w>
+      <h>720</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;340.0;110.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1440</x>
+      <y>800</y>
+      <w>360</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>History
+--
+--
+history : List&lt;HistoryElem&gt;
+--
+
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1780</x>
+      <y>860</y>
+      <w>240</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=black</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1800</x>
+      <y>820</y>
+      <w>180</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>1            0..*
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1980</x>
+      <y>800</y>
+      <w>280</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>HistoryElem
+--
+--
+method : String
+date : LocalDateTime
+--
+
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1440</x>
+      <y>1000</y>
+      <w>820</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>Impressum
+--
+--
+- name : String
+- street : Sring
+- postcode : int
+- town : String
+- phone : String
+- mail : String
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

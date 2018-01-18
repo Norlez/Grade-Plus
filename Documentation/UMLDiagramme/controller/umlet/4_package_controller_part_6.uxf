@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>13</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1378</x>
+      <y>260</y>
+      <w>130</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+AbstractBean
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1352</x>
+      <y>208</y>
+      <w>871</w>
+      <h>715</h>
+    </coordinates>
+    <panel_attributes>controller
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1495</x>
+      <y>260</y>
+      <w>169</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1495</x>
+      <y>286</y>
+      <w>169</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;130.0;110.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1495</x>
+      <y>312</y>
+      <w>169</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;220.0;110.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1495</x>
+      <y>338</y>
+      <w>169</w>
+      <h>494</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;360.0;110.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1638</x>
+      <y>585</y>
+      <w>559</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>LectureInstanceStudentBean
+--
++ LectureInstanceStudentBean(Session)
+--
+--
++ getAllExaminees() : List&lt;User&gt;
++ setExaminee(User) : void
++ addExaminee(User) : void
++ setDirPath(String) : void
++ uploadPabo(File) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1638</x>
+      <y>442</y>
+      <w>559</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>LectureInstanceInfoBean
+--
++ LectureInstanceInfoBean(Session, LectureDAO)
+--
+--
++ getVAK() : String
++ getSemester() : String
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1638</x>
+      <y>260</y>
+      <w>559</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>LectureInstanceExaminerBean
+--
++ LectureInstanceExaminerBean(Session, LectureDAO)
+--
+--
++ getAllExaminers() : List&lt;User&gt;
++ setExaminer(User) : void
++ addExaminer(User) : void
++ removeExaminer(User) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1638</x>
+      <y>793</y>
+      <w>559</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>LoginIndependentBean
+--
++ LoginIndependentBean(Session)
+--
+--
++ getLanguage() : Locale
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

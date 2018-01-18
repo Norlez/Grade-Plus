@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>18</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1242</x>
+      <y>288</y>
+      <w>180</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+AbstractBean
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1206</x>
+      <y>216</y>
+      <w>1170</w>
+      <h>1620</h>
+    </coordinates>
+    <panel_attributes>controller
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>288</y>
+      <w>234</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>324</y>
+      <w>234</w>
+      <h>450</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;230.0;110.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>360</y>
+      <w>234</w>
+      <h>792</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;420.0;110.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>396</y>
+      <w>234</w>
+      <h>1044</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;560.0;110.0;560.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>288</y>
+      <w>738</w>
+      <h>396</h>
+    </coordinates>
+    <panel_attributes>ExamRegisterBean
+--
++ ExamRegisterBean(Session, UserDAO, ExamDAO)
+--
+--
++ getAllUsers() : List&lt;User&gt;
++ setUser() : void
++ getAllExamsForDate() : List&lt;Exam&gt;
++ setExam() : void
++ getAllDates() : List&lt;Exam&gt;
++ setDate() : void
++ register() : void
++ deregister() : void
++ update() : void
++ notifyForExams() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>720</y>
+      <w>738</w>
+      <h>342</h>
+    </coordinates>
+    <panel_attributes>ExamsBean
+--
++ ExamsBean(Session)
+--
+--
++ init() : void
++ setLecture(Lecture) : void
++ getAllLectures() : List&lt;Lecture&gt;
++ setExam(Exam) : void
++ getAllExams() : List&lt;Exam&gt;
++ changeExamDate(Exam) : boolean
++ deleteExamDate(Exam) : boolean
++ update() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>1098</y>
+      <w>738</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>ForgotPasswordBean
+--
++ ForgotPasswordBean(Session, MessageDAO)
+--
+--
++ getEmail() : String
++ setEmail(String) : void
++ getMatrNr() : int
++ setMatrNr(int) : void
++ sendPasswort() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1602</x>
+      <y>1386</y>
+      <w>738</w>
+      <h>414</h>
+    </coordinates>
+    <panel_attributes>GradesBean
+--
++ GradesBean(Session, GradeDAO, UserDAO)
+--
+--
++ init() : void
++ getGrade() : Grade
++ getAllGrades() : List&lt;Grade&gt;
++ getGradeAverage() : String
++ getGradeMedian() : String
++ save() : String
++ remove(Grade) : String
++ export(Grade) : void
++ setDirPath(String) : void
++ importGrades() : void
++ setFinalGrade() : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

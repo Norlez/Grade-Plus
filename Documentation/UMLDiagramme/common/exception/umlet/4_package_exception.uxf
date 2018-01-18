@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>18</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>684</y>
+      <w>486</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>DuplicateUniqueFieldException
+--
++ DuplicateUniqueFieldException(String)
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1008</x>
+      <y>720</y>
+      <w>162</w>
+      <h>342</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;30.0;10.0;30.0;170.0;70.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>504</x>
+      <y>612</y>
+      <w>1206</w>
+      <h>558</h>
+    </coordinates>
+    <panel_attributes>exception
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1008</x>
+      <y>684</y>
+      <w>162</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0;50.0;100.0;70.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1134</x>
+      <y>450</y>
+      <w>540</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>RuntimeException
+--
+--
+--
+layer=1
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>450</y>
+      <w>486</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>Exception
+--
+--
+--
+layer=1
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1134</x>
+      <y>846</y>
+      <w>540</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>DuplicateEmailException
+--
++ DuplicateEmailException(String)
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1134</x>
+      <y>684</y>
+      <w>540</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>UnexpectedUniqueViolationException
+--
++ UnexpectedUniqueViolationException(String)
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1134</x>
+      <y>1008</y>
+      <w>540</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>DuplicateUsernameException
+--
++ DuplicateUsernameException(String)
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>774</x>
+      <y>558</y>
+      <w>54</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1386</x>
+      <y>558</y>
+      <w>54</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+</diagram>

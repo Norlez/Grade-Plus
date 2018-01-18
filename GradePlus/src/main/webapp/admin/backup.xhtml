@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xml:lang="en" lang="en">
+<head>
+    <!-- Seite zum Erstellen und Wiederherstellen von Backups -->
+    <title>Title</title>
+</head>
+<body>
+<ui:composition template="/WEB-INF/template.xhtml">
+    <ui:param name="title" value="#{msg['title']}"/>
+
+    <ui:define name="content">
+        <f:loadBundle basename="internationalization.admin.backup" var="msg"/>
+
+        <b:form>
+            <b:container class="form-group" >
+                <b:row>
+                    <b:column class="title">
+                        <h1>
+                            <h:outputText value="#{msg['title']}" />
+                        </h1>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column>
+                        <b:button value="#{msg['linkNewBackup']}" outcome="backupcreate"/>
+                    </b:column>
+                </b:row>
+            </b:container>
+        </b:form>
+
+        <h:panelGroup rendered="#{! empty gradesBean.getAllGrades()}">
+
+            <b:form id="courses">
+
+                <b:container class="form-group">
+
+                    <!-- SUBTITLE -->
+                    <b:row>
+                        <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleRestoreBackup']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:dataTable class="table" span="8" value="#{gradesBean.getAllGrades()}" var="g"
+                                     excel="false" csv="false" pdf="false" columnVisibility="true"
+                                     copy="false" print="false" searching="false" paginated="false"
+                        >
+                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{g.subject}" />
+                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputDateTime']}" value="#{g.mark}" />
+                            <b:dataTableColumn class="col" orderable="false" label="Optionen">
+                                <b:commandButton value="#{msg['actionRestore']}" action="#{gradesBean.remove(g)}" />
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:row>
+                </b:container>
+            </b:form>
+
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>
+</body>
+</html>
