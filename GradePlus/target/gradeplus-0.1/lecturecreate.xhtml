@@ -41,7 +41,7 @@
                 <!-- NAME -->
                 <b:row>
                     <b:column>
-                        <h:outputLabel value="#{msg['inputName']}" />
+                        <h:outputLabel value="#{msg['inputName']}*" />
                     </b:column>
                 </b:row>
                 <b:row>
@@ -54,12 +54,12 @@
                 <!-- VAK -->
                 <b:row>
                     <b:column>
-                        <h:outputLabel value="#{msg['inputVAK']}" />
+                        <h:outputLabel value="#{msg['inputVAK']}*" />
                     </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText rendered="#{false}" value="#{lectureCreateBean.}"/>
+                        <b:inputText rendered="#{false}" value="#{lectureCreateBean.ects}"/>
                         <b:inputText rendered="#{true}" placeholder="#{msg['inputVAK']}" />
                     </b:column>
                 </b:row>
@@ -89,7 +89,6 @@
                 </b:row>
             </b:container>
         </b:form>
-
 
     </ui:define>
 </ui:composition>
