@@ -71,15 +71,16 @@ public class GradesBean extends AbstractBean implements Serializable {
     private static final long serialVersionUID = 320401008216711886L;
 
     /**
+     * Der Logger für diese Klasse.
+     */
+    private static final Logger logger = Logger.getLogger(GradesBean.class);
+
+    /**
      * Fehlermeldung für den Fall, dass der Durchschnitt der Noten angefordert wird,
      * obwohl keine Noten vorhanden sind.
      */
     private static final String NO_GRADES_PRESENT = "keine Noten eingetragen";
 
-    /**
-     * Der Logger für diese Klasse.
-     */
-    private static final Logger logger = Logger.getLogger(GradesBean.class);
 
     /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Noten-Objekte
@@ -245,6 +246,8 @@ public class GradesBean extends AbstractBean implements Serializable {
                     || (tmp.compareTo(n0) == 0)) {
                 user.addGrade(grade);
                 gradeDAO.save(grade);
+                logger.info("hats geklappt ?");
+
             } else {
                 return null;
             }
