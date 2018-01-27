@@ -4,22 +4,22 @@
  * Copyright (c) 2016 AG Softwaretechnik, University of Bremen:
  * Karsten Hölscher, Sebastian Offermann, Dennis Schürholz, Marcel Steinbeck
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights 
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
- * copies of the Software, and to permit persons to whom the Software is 
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI4NGS IN THE
  * SOFTWARE.
  */
 package controller;
@@ -36,7 +36,6 @@ import javax.inject.Named;
 
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
-import common.model.Session;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -44,10 +43,17 @@ import common.model.User;
 import persistence.SessionDAO;
 import persistence.UserDAO;
 
+
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+
+
 /**
  * Dieses Bean ist für die Benutzerverwaltung zuständig. Backing Bean (und damit
  * Controller im MVC-Muster) für das Facelet {@code admin/users.xhtml}.
- * 
+ *
  * Da die Webseite dynamisch ist in dem Sinne, dass während ihrer Anzeige mehrere Requests
  * möglich sind (Löschen eines Benutzers aus der angezeigten Tabelle) bekommt sie
  * {@code ViewScoped}.
@@ -107,8 +113,8 @@ public class UsersBean extends AbstractBean implements Serializable {
      *             {@code null} ist.
      */
     @Inject
-    public UsersBean(final Session pSession, final UserDAO pUserDAO,
-            final SessionDAO pSessionDAO) {
+    public UsersBean(final common.model.Session pSession, final UserDAO pUserDAO,
+                     final SessionDAO pSessionDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
@@ -145,6 +151,9 @@ public class UsersBean extends AbstractBean implements Serializable {
         return allUsers;
     }
 
+
+    MailBean sender = new MailBean();
+
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
      * bekannten Benutzer hinzu (unter Verwendung des Data-Access-Objektes) und setzt den
@@ -157,6 +166,7 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
+            sender.main(user.getEmail()); ;
             userDao.save(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
@@ -171,6 +181,11 @@ public class UsersBean extends AbstractBean implements Serializable {
         init();
         return "users.xhtml";
     }
+
+
+
+
+
 
     /**
      * Entfernt den übergebenen Benutzer aus der Liste aller bekannten Benutzer unter
@@ -200,12 +215,18 @@ public class UsersBean extends AbstractBean implements Serializable {
         return null;
     }
 
+
+
     /**
      * Aktualisiert den aktuell angezeigten Benutzer in der Liste aller bekannten Benutzer
      * unter Verwendung des entsprechenden Data-Access-Objekts.
+     *
+     *
      */
     public void update() {
         throw new UnsupportedOperationException();
     }
+
+
 
 }
