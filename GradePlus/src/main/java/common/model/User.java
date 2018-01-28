@@ -25,6 +25,7 @@
 package common.model;
 
 import static common.util.Assertion.assertNotNull;
+import static common.util.Assertion.assertNull;
 import static java.util.Collections.unmodifiableList;
 
 import java.io.Serializable;
@@ -45,7 +46,7 @@ import common.util.Assertion;
 /**
  * Repräsentation eines Benutzers. Ein Benutzer verfügt über einen Namen, ein Passwort,
  * eine Email-Adresse sowie eine Liste von Noten.
- * 
+ * <p>
  * Zwei Benutzer sind äquivalent, wenn sie die gleiche ID besitzen.
  *
  * @author Karsten Hölscher, Marcel Steinbeck
@@ -78,6 +79,16 @@ public class User extends JPAEntity implements Serializable {
     private String username;
 
     /**
+     * Der Nachname des Benutzers.
+     */
+    private String surname;
+
+    /**
+     * Der Vorname des Benutzers.
+     */
+    private String givenName;
+
+    /**
      * Das verschlüsselte Passwort dieses Benutzers.
      */
     @Column(nullable = false)
@@ -104,7 +115,7 @@ public class User extends JPAEntity implements Serializable {
     /**
      * Die Matrikelnummer eines Studenten.
      */
-    private int matrNr;
+    private String matrNr;
 
     /**
      * Liste mit allen Rollen des Benutzers.
@@ -141,6 +152,69 @@ public class User extends JPAEntity implements Serializable {
      */
     public void setUsername(final String pUsername) {
         username = Assertion.assertNotNull(pUsername);
+    }
+
+    /**
+     * Gibt den Nachnamen dieses Benutzers zurück.
+     *
+     * @return Den Nachnamen des Benutzers.
+     */
+    public String getSurname() {
+        return surname;
+    }
+
+    /**
+     * Setzt den Nachnamen dieses Benutzers auf den gegebenen Nachnamen.
+     *
+     * @param pSurname
+     *            Der neue Nachname für diesen Benutzer.
+     * @throws IllegalArgumentException
+     *             Falls der gegebene Nachname den Wert {@code null} hat.
+     */
+    public void setSurname(final String pSurname) {
+        surname = assertNotNull(pSurname);
+    }
+
+    /**
+     * Gibt den Vornamen dieses Benutzers zurück.
+     *
+     * @return Den Vornamen des Benutzers.
+     */
+    public String getGivenName() {
+        return givenName;
+    }
+
+    /**
+     * Setzt den Vornamen dieses Benutzers auf den gegebenen Nachnamen.
+     *
+     * @param pGivenName
+     *            Der neue Vorname für diesen Benutzer.
+     * @throws IllegalArgumentException
+     *             Falls der gegebene Vorname den Wert {@code null} hat.
+     */
+    public void setGivenName(final String pGivenName) {
+        givenName = assertNotNull(pGivenName);
+    }
+
+    /**
+     * Gibt die Matrikelnummer dieses Benutzers zurück.
+     *
+     * @return Die Matrikelnummer des Benutzers.
+     */
+    public String getMatrNr() {
+        return matrNr;
+    }
+
+    /**
+     * Setzt die Matrikelnummer dieses Benutzers auf den gegebenen Nachnamen.
+     *
+     * @param pMatrNr
+     *            Die neue Matrikelnummer für diesen Benutzer.
+     * @throws IllegalArgumentException
+     *             Falls die gegebene Matrikelnummer den Wert {@code null} hat.
+     */
+    public void setMatrNr(final String pMatrNr) {
+        matrNr = assertNotNull(pMatrNr);
     }
 
     /**
@@ -192,7 +266,7 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Gibt die Sprache dieses Benutzers zurück.
-     * 
+     *
      * @return Die Sprache dieses Benutzers.
      */
     public Locale getLanguage() {
@@ -201,7 +275,7 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Setzt die Sprache dieses Benutzers.
-     * 
+     *
      * @param pLanguage
      *            Die neue Sprache für diesen Benutzer.
      */
@@ -262,7 +336,7 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Liefert die Standardsprache zurück.
-     * 
+     *
      * @return Die Standardsprache.
      */
     public static Locale getDefaultLanguage() {

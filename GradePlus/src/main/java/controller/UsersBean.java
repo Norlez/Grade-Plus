@@ -43,12 +43,10 @@ import common.model.User;
 import persistence.SessionDAO;
 import persistence.UserDAO;
 
-
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
-
 
 /**
  * Dieses Bean ist für die Benutzerverwaltung zuständig. Backing Bean (und damit
@@ -114,7 +112,7 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     @Inject
     public UsersBean(final common.model.Session pSession, final UserDAO pUserDAO,
-                     final SessionDAO pSessionDAO) {
+            final SessionDAO pSessionDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
@@ -151,7 +149,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         return allUsers;
     }
 
-
     MailBean sender = new MailBean();
 
     /**
@@ -166,7 +163,8 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
-            sender.main(user.getEmail()); ;
+            sender.main(user.getEmail());
+            ;
             userDao.save(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
@@ -181,11 +179,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         init();
         return "users.xhtml";
     }
-
-
-
-
-
 
     /**
      * Entfernt den übergebenen Benutzer aus der Liste aller bekannten Benutzer unter
@@ -215,8 +208,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         return null;
     }
 
-
-
     /**
      * Aktualisiert den aktuell angezeigten Benutzer in der Liste aller bekannten Benutzer
      * unter Verwendung des entsprechenden Data-Access-Objekts.
@@ -226,7 +217,5 @@ public class UsersBean extends AbstractBean implements Serializable {
     public void update() {
         throw new UnsupportedOperationException();
     }
-
-
 
 }

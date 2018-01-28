@@ -81,7 +81,6 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     private static final String NO_GRADES_PRESENT = "keine Noten eingetragen";
 
-
     /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Noten-Objekte
      * übernimmt.

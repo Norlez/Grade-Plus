@@ -1,130 +1,97 @@
 package controller;
 
 //import com.sun.xml.internal.bind.v2.TODO;
+
+import common.exception.DuplicateEmailException;
+import common.exception.DuplicateUsernameException;
 import common.model.Session;
+import common.model.User;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import persistence.UserDAO;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import static common.util.Assertion.assertNotNull;
 
 /**
  * Dieses Bean ist der Controller für den Registrierungs-Dialog.
- * 
+ *
  * @author Torben Groß
- * @version 2017-12-21
+ * @version 2018-01-2018
  */
+@Named
+@RequestScoped
 public class RegistrationBean extends LoginIndependentBean {
 
     /**
+     * Der Logger für diese Klasse.
+     */
+    private static final Logger logger = Logger.getLogger(UsersBean.class);
+
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
+     * übernimmt.
+     */
+    private final UserDAO userDao;
+
+    /**
+     * Der zu registrierende Benutzer.
+     */
+    private User user;
+
+    /**
      * Erzeugt eine neue RegistrationBean.
-     * 
+     *
      * @param pSession
      *            Die Session der zu erzeugenden RegistrationBean.
      * @param pUserDAO
      *            Die UserDAO der zu erzeugenden RegistrationBean.
      */
+    @Inject
     public RegistrationBean(Session pSession, UserDAO pUserDAO) {
-        super(pSession);
+        super(assertNotNull(pSession));
+        userDao = assertNotNull(pUserDAO);
+        user = new User();
     }
 
     /**
-     * Gibt den anzuzeigenden Nachnamen zurück.
-     * 
-     * @return Den anzuzeigenden Nachnamen.
+     * Initialisiert das Attribut {@link #user}, sodass {@link #user} einen neu
+     * anzulegenden {@link User} repräsentiert.
      */
-    public String getSurname() {
-        throw new UnsupportedOperationException();
+    public void init() {
+        user = new User();
     }
 
     /**
-     * Setzt den anzuzeigenden Nachnamen auf den gegebenen Wert.
-     * 
-     * @param pSurname
-     *            Der anzuzeigende Nachname.
+     * Gibt den Benutzer zurück.
+     *
+     * @return Den Benutzer.
      */
-    public void setSurname(String pSurname) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt den anzuzeigenden Vornamen zurück.
-     * 
-     * @return Den anzuzeigenden Vornamen.
-     */
-    public String getGivenName() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Setzt den anzuzeigenden Vornamen auf den gegebenen Wert.
-     * 
-     * @param pGivenName
-     *            Der anzuzeigende Vornamen.
-     */
-    public void setGivenName(String pGivenName) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt das anzuzeigende Passwort zurück.
-     * 
-     * @return Das anzuzeigende Passwort.
-     */
-    public String getPassword() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Setzt das anzuzeigende Passwort auf den gegebenen Wert.
-     * 
-     * @param pPassword
-     *            Das anzuzeigende Passwort.
-     */
-    public void setPassword(String pPassword) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt die anzuzeigende Email zurück.
-     * 
-     * @return Die anzuzeigende Email.
-     */
-    public String getEmail() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Setzt die anzuzeigende Email auf den gegebenen Wert.
-     * 
-     * @param pEmail
-     *            Die anzuzeigende Email.
-     */
-    public void setEmail(String pEmail) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * 
-     * Gibt die anzuzeigende Matrikelnummer zurück.
-     * 
-     * @return Die anzuzeigende Matrikelnummer.
-     */
-    public int getMatrNr() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Setzt die anzuzeigende Matrikelnummer auf den gegebenen Wert.
-     * 
-     * @param pMatrNr
-     *            Die anzuzeigende Matrikelnummer.
-     */
-    public void setMatrNr(int pMatrNr) {
-        throw new UnsupportedOperationException();
+    public User getUser() {
+        return user;
     }
 
     /**
      * Registriert einen neuen Benutzer mit allen aktuell angezeigen Stammdatem im System.
      */
-    public void register() {
-        throw new UnsupportedOperationException();
+    public String register() {
+        try {
+            userDao.save(user);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", user.getEmail());
+        }
+        init();
+        return "index.xhtml";
     }
 
 }
