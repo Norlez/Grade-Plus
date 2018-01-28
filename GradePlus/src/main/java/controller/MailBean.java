@@ -16,8 +16,8 @@ public class MailBean {
 
     public static void main(String to) {
 
-        final String username = "arbnorr3@gmail.com";
-        final String password = "Angelosaskia07";
+        final String username = "test@gmail.com";
+        final String password = "Dudidu";
 
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
