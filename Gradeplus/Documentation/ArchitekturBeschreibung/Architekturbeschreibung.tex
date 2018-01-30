@@ -1,0 +1,107 @@
+\documentclass[fontsize=12pt,paper=a4,twoside]{scrartcl}
+
+\usepackage{booktabs}
+\usepackage{float}
+
+
+\input{../swp-preamble.tex}
+
+%
+% Und jetzt geht das Dokument los....
+%
+\begin{document}
+\renewcommand\documentTitle{Architekturbeschreibung}
+\renewcommand\groupName{Grapelog}
+
+\swpdocument{Hui Shi}{23. Dezember 2017}{2.7}%
+            {Andreas Estenfelder & aestenfe@uni-bremen.de}%
+            {Torben Groß & grosst@uni-bremen.de}%
+            {Marvin Kampen & mkampen@uni-bremen.de}%
+            {Tugce Karakus & karakus@uni-bremen.de}%
+            {Arbnor Miftari & arbnor@uni-bremen.de}%
+            {Anil Olgun & olgun@uni-bremen.de}%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Version und Änderungsgeschichte}
+\begin{tabular}{ccl}
+Version & Datum & Änderungen \\
+\hline
+0.1 & 19.10.2017 & Latex-Vorlage als initiale Fassung kopiert \\
+0.2 & 21.10.2017 & Anpassung der Latex-Struktur \\
+0.3 & 22.10.2017 & Kapitel 1.1 und 1.4 inhaltlich ergänzt\\
+0.4 & 24.10.2017 & Kapitel 1.4 inhaltlich ergänzt\\
+0.5 & 27.10.2017 & Kapitel 1.3 inhaltlich ergänzt\\
+0.6 & 28.10.2017 & Kapitel 2 - Problemfaktoren erfasst\\
+0.7 & 30.10.2017 & Kapitel 2.1 Problemfaktoren verschriftlicht\\
+0.8 & 02.11.2017 & Kapitel 2.2 Problemkarten definiert\\
+0.9 & 02.11.2017 & Kapitel 2.1 Problemfaktoren überarbeitet\\
+1.0 & 02.11.2017 & Kapitel 2 Problemkarten angepasst\\
+1.1 & 06.11.2017 & Kapitel 3 Grundstruktur der Komponenten festgelegt\\
+1.2 & 19.11.2017 & Erste Ideen zu Kapitel 4 eingefügt\\
+1.3 & 24.11.2017 & Kapitel 8 Evolutionsansätze hinzugefügt \\
+1.4 & 29.11.2017 & Kapitel 3 Ausführlicher geschrieben\\
+1.5 & 03.12.2017 & Kapitel 2 Anpassung der Problemkarten\\
+1.6 & 10.12.2017 & Erste Ideen zu Kapitel 5 eingefügt \\
+1.7 & 12.12.2017 & Kapitel 4 vervollständigt\\
+1.8 & 16.12.2017 & Kapitel 5 ergänzt\\
+1.9 & 17.12.2017 & Erste Ideen zu Kapitel 6 eingefügt\\
+2.0 & 20.12.2017 & Kapitel 5 vervollständigt\\
+2.1 & 20.12.2017 & Kapitel 7 Anwendungsfälle definiert\\
+2.2 & 21.12.2017 & Kapitel 6 vervollständigt\\
+2.3 & 21.12.2017 & Die Einflussfaktoren für die Sichten definiert\\
+2.4 & 22.12.2017 & Kapitel 8 ergänzt\\
+2.5 & 22.12.2017 & Kapitel 7 Sequenzdiagramme mit Erläuterung eingefügt  \\
+2.6 & 23.12.2017 & Kleinere Fehler behoben nach dem Korrekturlesen\\
+2.7 & 23.12.2017 & Abgabeversion \\
+\end{tabular}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{kap1/kap1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Globale Analyse} \label{sec:globale_analyse}
+\input{kap2/kap2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\raggedright	\section{Konzeptionelle Sicht} \label{sec:konzeptionell}
+	\input{kap3/kap3}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Modulsicht} \label{sec:modulsicht}
+\input{kap4/kap4}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Datensicht} \label{sec:datensicht}
+\input{kap5/kap5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ausführungssicht} \label{sec:ausfuehrung}
+\input{kap6/kap6}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Zusammenhänge zwischen Anwendungsfällen und Architektur} \label{sec:zusammenhang}
+\input{kap7/kap7}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Evolution} \label{sec:evolution}
+\input{kap8/kap8}
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% mode: reftex
+%%% mode: flyspell
+%%% ispell-local-dictionary: "de_DE"
+%%% TeX-master: t
+%%% End: 

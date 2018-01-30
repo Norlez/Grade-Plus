@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>12</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1224</x>
+      <y>576</y>
+      <w>120</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract&gt;&gt;
+JPADAO
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1200</x>
+      <y>528</y>
+      <w>804</w>
+      <h>828</h>
+    </coordinates>
+    <panel_attributes>persistence
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1560</x>
+      <y>576</y>
+      <w>420</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>HistoryDAO
+--
+--
+--
+# getClazz() : Class&lt;History&gt;
++ save(History) : void
++ update(History) : void
++ getAllHistories() : List&lt;History&gt;
++ getHistoryForUser(User) : List&lt;History&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1560</x>
+      <y>744</y>
+      <w>420</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>LectureDAO
+--
+--
+--
+# getClazz() : Class&lt;Lecture&gt;
++ save(Lecture) : void
++ update(Lecture) : void
++ getAllLectures() : List&lt;Lecture&gt;
++ getLecturesForName(String) : List&lt;Lecture&gt;
++ getLectureForVAK(String) : List&lt;Lecture&gt;
++ getLecturesForSemester(String) : List&lt;Lecture&gt;
++ getLecturesForLecturer(User) : List&lt;Lecture&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1560</x>
+      <y>972</y>
+      <w>420</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>MessageDAO
+--
+--
+--
+# getClazz() : Class&lt;Message&gt;
++ save(Message) : void
++ update(Message) : void
++ getAllMessages() : List&lt;Message&gt;
++ getAllMessagesForUser(User) : List&lt;Message&gt;
++ getAllMessagesSenderReceiver() : List&lt;Message&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1560</x>
+      <y>1164</y>
+      <w>420</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>UserDAO
+--
+--
+--
+# getClazz() : Class&lt;User&gt;
++ save(User) : void
++ update(User) : void
++ getAllUsers() : List&lt;User&gt;
++ getUserForUsername(String) : User
++ getUserForEmail(String) : User
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>576</y>
+      <w>252</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>600</y>
+      <w>252</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;130.0;190.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>624</y>
+      <w>252</w>
+      <h>384</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;300.0;190.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1332</x>
+      <y>648</y>
+      <w>252</w>
+      <h>552</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;440.0;190.0;440.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1452</x>
+      <y>588</y>
+      <w>96</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::History
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1428</x>
+      <y>756</y>
+      <w>120</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::Lecture
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1404</x>
+      <y>984</y>
+      <w>144</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::Message
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1380</x>
+      <y>1176</y>
+      <w>84</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;
+T::User
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

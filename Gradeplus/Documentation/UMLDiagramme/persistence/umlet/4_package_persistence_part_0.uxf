@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>13</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1287</x>
+      <y>988</y>
+      <w>286</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract&gt;&gt;
+JPADAO
+--
+--
+--
+/# getClazz() : Class&lt;T&gt;/
+/+ getEm() : EntityManager/
++ getById(Long) : T
++ save(T) : void
++ update(T) : void
++ remove(T) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1261</x>
+      <y>702</y>
+      <w>650</w>
+      <h>897</h>
+    </coordinates>
+    <panel_attributes>persistence
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1287</x>
+      <y>793</y>
+      <w>286</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+GenericDAO
+--
+--
+--
++ save(T) : void
++ remove(T) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1469</x>
+      <y>754</y>
+      <w>104</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=.
+T
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1599</x>
+      <y>1183</y>
+      <w>286</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>SessionDAO
+--
+--
+--
++ isUserLoggedIn(User) : boolean
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1287</x>
+      <y>1222</y>
+      <w>286</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>JPAEntityListener
+--
+--
+--
++ prePersist(JPAEntity) : void
++ postPersist(JPAEntity) : void
++ preRemove(JPAEntity) : void
++ postRemove(JPAEntity) : void
++ preUpdate(JPAEntity) : void
++ postUpdate(JPAEntity) : void
++ postLoad(JPAEntity) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1599</x>
+      <y>988</y>
+      <w>286</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>TransientDAO
+--
+--
+--
++ save(T) : void
++ remove(T) : void
++ getAll() : List&lt;T&gt;
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1287</x>
+      <y>1456</y>
+      <w>286</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>DBInit
+--
+--
+--
++ init(ServletContext) : void
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1534</x>
+      <y>897</y>
+      <w>234</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0;160.0;40.0;160.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1508</x>
+      <y>897</y>
+      <w>39</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1729</x>
+      <y>1092</y>
+      <w>39</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1261</x>
+      <y>936</y>
+      <w>260</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;T::T extends JPAEntity
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1742</x>
+      <y>1131</y>
+      <w>169</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;bind&gt;&gt;T::Session
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

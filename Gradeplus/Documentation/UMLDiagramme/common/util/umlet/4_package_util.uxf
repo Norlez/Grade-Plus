@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>20</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1000</x>
+      <y>180</y>
+      <w>1300</w>
+      <h>780</h>
+    </coordinates>
+    <panel_attributes>util
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1040</x>
+      <y>260</y>
+      <w>780</w>
+      <h>660</h>
+    </coordinates>
+    <panel_attributes>Assertion
+--
+- Assertion()
+--
+_- PARAM_NEGATIVE : String_
+_- PARAM_NULL : String_
+_- PARAM_NOT_NULL : String_
+_- PARAM_ELEMENT_INVALID : String_
+_- PARAM_EMPTY_STRING : String_
+--
++ assertNotNegative(int, String) : int
++ assertNotNegative(int) : int
++ assertNotNull(T, String) : T
++ assertNutNull(T) : T
++ assertNull(T, String) : T
++ assertNull(T) : T
++ assertNotEmpty(String, String) : String
++ assertNotEmpty(String) : String
++ assertWithoutNull(T, String) : String
++ assertWithoutNull(String) : String
++ assertWithoutEmpty(T, String) : String
++ assertWithoutEmpty(T) : T
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1860</x>
+      <y>260</y>
+      <w>400</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+StringValidationMode
+--
+NOT_NULL
+NOT_NULL_NOR_EMPTY
+--
+- errorDescription : String
+--
+# getErrorDescription() : String
+# valid(String, String) : String
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1800</x>
+      <y>520</y>
+      <w>300</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=black</panel_attributes>
+    <additional_attributes>10.0;100.0;130.0;100.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1820</x>
+      <y>660</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>1
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>2000</x>
+      <y>540</y>
+      <w>80</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>0..*
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

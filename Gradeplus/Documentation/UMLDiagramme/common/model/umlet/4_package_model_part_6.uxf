@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>16</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1024</x>
+      <y>288</y>
+      <w>160</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>JPAEntity
+--
+--
+--
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>992</x>
+      <y>224</y>
+      <w>1040</w>
+      <h>1200</h>
+    </coordinates>
+    <panel_attributes>model
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1168</x>
+      <y>288</y>
+      <w>208</w>
+      <h>448</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;260.0;110.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1344</x>
+      <y>688</y>
+      <w>656</w>
+      <h>704</h>
+    </coordinates>
+    <panel_attributes>User
+--
+--
+_- DEFAULT_LANGUAGE : Locale_
+_- serialVersionUID : long_
+- username : String
+- password : String
+- email : String
+- language : Locale
+- grades : List&lt;Grade&gt;
+- matrNr : int
+- roles : List&lt;Role&gt;
+- isActive : boolean
+--
++ getUsername() : String
++ setUsername(String) : void
++ getPassword() : String
++ setPassword(String) : void
++ getEmail() : String
++ setEmail(String) : void
++ getLanguage() : Locale
++ setLanguage(Locale) : void
++ addGrade(Grade) : void
++ removeGrade(Grade) : void
++ getGrades() : List&lt;Grade&gt;
++ equals(Object) : boolean
++ hashCode() : int
++ toString() : String
++ getDefaultLanguage() : Locale
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1344</x>
+      <y>288</y>
+      <w>656</w>
+      <h>368</h>
+    </coordinates>
+    <panel_attributes>Session
+--
+--
+_- serialVersionUID : long_
+- userDAO : UserDAO
+- sessionDAO : SessionDAO
+- loginTime : LocalDateTime
+- userId : Long
+--
++ init() : void
++ destory() : void
++ setLoginTime(LocalDateTime) : void
++ getLoginTime() : LocalDateTime
++ getUser() : User
++ setUser(User) : void
++ isLoggedInt() : boolean
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

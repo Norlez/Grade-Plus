@@ -1,0 +1,23 @@
+\textbf{Autor: Anil}\\
+Im Folgenden werden mögliche Weiterentwicklungen des Softwaresystems \glqq{}Grade+\grqq{} erläutert und die spezifischen Stellen in der Software genannt, die im Falle von geänderten Anforderungen oder Rahmenbedingungen, geändert werden müssten.\\
+
+\subsection{HTTPS}
+Momentan wird  \glqq{}Grade+\grqq{} ohne Hypertext Transfer Protocol Secure (HTTPS) betrieben. 
+Jedoch wird für den Betrieb des Systems der Umstieg auf HTTPS  dringend empfohlen. Datensicherheit spielt für den Kunden und die Öffentlichkeit eine wichtige Rolle und HTTPS unterstüzt diesen Wunsch durch besser geschützte Datenübertragungen. Es wurde  bisher nicht implementiert, da aktuell nur lokale Server benutzt wurden. 
+
+\subsection{Andere Datenbank anbinden}
+Falls die Datenbank des Softwaresystems nachträglich geändert werden soll, müsste man nur die Komponente Persistence anpassen.
+Dort müssten die Methodenzugriffe auf die neue Datenbank angepasst werden. Es sind nur wenige Änderungen erforderlich, da die Komponente als Interface zur Datenbankbank entworfen wurde mithilfe von JPA.
+
+\subsection{Andere Kalender anbinden}
+Für das Anbinden von weiteren Kalendern müsste man die Klasse CalendarBean (siehe Abbildung \ref{cal}) anpassen. Dort wird aktuell nur die Implementierung für den Google Kalendar erfolgen. Für weitere  Kalender sollte am besten ein Interface erstellt werden, welche für jeden Kalendar implementiert wird. Die Userprofile müssen angepasst werden, um die Zugangsdaten für weitere Kalendar hinterlegen zu können. Die View müsste um weitere Icons ergänzt werden, damit die anderen Kalendar ausgewählt werden können.
+
+\subsection{Rolle des Sekretärs einbauen}
+Die Rolle des Sekretärs wurde bisher nicht eingebaut. Der Sekretär soll den Prüfer unterstützen, wobe er nicht die selben Befugnisse wie ein Prüfer hat.
+Es müsste die Rolle des Sektretärs in der Datenbank hinzugefügt werden. Die Zugriffsrechte müssten für jede View  und Bean angepasst werden. Die genauen Zugriffe und und verfügbaren Methoden müsssten für den Sekretär konfiguriert werden. Der Sekretär ist Teil des Chinese Menu.
+
+\subsection{Mobiler Client}
+Aus der Problemkarte und unser dazu gehörigen ausgewählten Strategie S10 (Siehe Kapitel \ref{K5} Problemkarte K3) haben wir zunächst auf einen zusätzlichen mobilen Client verzichtet und haben uns für das responsive-Design entschieden.  Die Weiterentwicklung dieser Software, würde für uns bedeuten, dass man eine zusätzliche App für die mobilen Geräte entwickeln könnte. Der mobile Client würde auf die index.xhtml verweisen. In der bestehenden Software müsste man keine Änderungen vornehmen. Alle Seiten der View würden sich aufgrund des responsiven Designs nahtlos in die App integrieren lassen.
+
+
+

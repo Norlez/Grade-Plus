@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>11</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>781</x>
+      <y>330</y>
+      <w>693</w>
+      <h>308</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+AbstractBean
+--
++ AbstractBean(Session)
+--
+--
++ isLoggedIn() : boolean
+# getSession() : Session
++ setUser(User) : void
++ logout() : String
+# addErrorMessage(String, String, Object...) : void
+# addErrorMessage(UIComponent, String, Object...) : void
+# addErrorMessage(String, Object...) : void
+# addErrorMessageWithLogging(String, Exception, Logger, Level, String, Object...) : void
+# addErrorMessageWithLogging(Exception, Logger, Level, String, Object...) : void
++ getLanguage() : Locale
++ getTranslation(String, Object...) : String
++ getLogTranslation(String, Object...) : String
++ getTranslation(Locale, String, Object...) : String
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>759</x>
+      <y>286</y>
+      <w>737</w>
+      <h>374</h>
+    </coordinates>
+    <panel_attributes>controller
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
