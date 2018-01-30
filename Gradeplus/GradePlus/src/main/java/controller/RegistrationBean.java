@@ -81,7 +81,7 @@ public class RegistrationBean extends LoginIndependentBean {
      */
     public String register() {
         try {
-            sender.main(user.getEmail());
+            sender.main(user);
             userDao.save(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
