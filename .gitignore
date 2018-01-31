@@ -17,7 +17,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-Documentation/
+Gradeplus/Documentation/
 Gradeplus/derby.log
 Gradeplus/LICENSE.txt
 Gradeplus/target/
