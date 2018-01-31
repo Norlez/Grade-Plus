@@ -2,19 +2,22 @@ package persistence;
 
 import java.util.List;
 
+import common.exception.DuplicateUniqueFieldException;
+import common.exception.UnexpectedUniqueViolationException;
 import common.model.Lecture;
-import common.model.User;
+import common.util.Assertion;
 
 /**
  * Dieses DAO verwaltet die Objekte der Klasse {@link Lecture}.
  * 
- * @author Torben Groß
+ * @author Torben Groß, Marvin Kampen
+ * @version 2018-01-31
  */
 public class LectureDAO extends JPADAO<Lecture> {
 
     @Override
     Class<Lecture> getClazz() {
-        throw new UnsupportedOperationException();
+        return Lecture.class;
     }
 
     /**
@@ -25,7 +28,12 @@ public class LectureDAO extends JPADAO<Lecture> {
      */
     @Override
     public synchronized void save(Lecture pLecture) {
-        throw new UnsupportedOperationException();
+        Assertion.assertNotNull(pLecture);
+        try {
+            super.save(pLecture);
+        } catch (final DuplicateUniqueFieldException e) {
+            throw new UnexpectedUniqueViolationException(e);
+        }
     }
 
     /**
@@ -36,7 +44,12 @@ public class LectureDAO extends JPADAO<Lecture> {
      */
     @Override
     public synchronized void update(Lecture pLecture) {
-        throw new UnsupportedOperationException();
+        Assertion.assertNotNull(pLecture);
+        try {
+            super.update(pLecture);
+        } catch (final DuplicateUniqueFieldException e) {
+            throw new UnexpectedUniqueViolationException(e);
+        }
     }
 
     /**
@@ -46,18 +59,24 @@ public class LectureDAO extends JPADAO<Lecture> {
      * @return Liste mit allen innerhalb der Applikation bekannten Lehrveranstaltungen.
      */
     public List<Lecture> getAllLectures() {
-        throw new UnsupportedOperationException();
+        return getEm().createNamedQuery("Lecture.findAll", getClazz()).getResultList();
     }
 
     /**
-     * Gibt alle Lehrveranstaltungen mit dem gegebenen Namen zurück.
+     * Gibt alle Lehrveranstaltungen mit dem gegebenen Namen zurück. TODO: Kann Buggy sein
      * 
      * @param pName
      *            Der Name der gesuchten Lehrveranstaltungen.
      * @return Die Lehrveranstaltungen mit dem gegebenen Namen als Liste.
      */
-    public List<Lecture> getLecturesForName(String pName) {
-        throw new UnsupportedOperationException();
+    public Lecture getLecturesForName(String pName) {
+        Assertion.assertNotEmpty(pName);
+        final List<Lecture> lectures = getEm()
+                .createNamedQuery("Lecture.findName", getClazz())
+                .setParameter("name", pName).getResultList();
+        return lectures.isEmpty() ? null : lectures.get(0); // Hier könnte es Buggy sein,
+                                                            // wenn mehrere gleiche Namen
+                                                            // existieren
     }
 
     /**
@@ -68,29 +87,11 @@ public class LectureDAO extends JPADAO<Lecture> {
      * @return Die Lehrveranstaltung mit der gegebenen VAK-Nummer.
      */
     public Lecture getLectureForVAK(String pVAK) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt alle Lehrveranstaltungen des gegebenen Semesters zurück.
-     * 
-     * @param pSemester
-     *            Der Semester der gesuchten Lehrveranstaltungen.
-     * @return Die Lehrveranstaltungen des gegebenen Semesters.
-     */
-    public List<Lecture> getLecturesForSemester(String pSemester) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt alle Lehrveranstaltungen des gegebenen Dozenten zurück.
-     * 
-     * @param pLecturer
-     *            Der Dozent der gesuchten Lehrveranstaltungen.
-     * @return Die Lehrveranstaltungen des gegebenen Dozenten.
-     */
-    public List<Lecture> getLecturesForLecturer(User pLecturer) {
-        throw new UnsupportedOperationException();
+        Assertion.assertNotEmpty(pVAK);
+        final List<Lecture> lectures = getEm()
+                .createNamedQuery("Lecture.findVAK", getClazz())
+                .setParameter("vak", pVAK).getResultList();
+        return lectures.isEmpty() ? null : lectures.get(0);
     }
 
 }

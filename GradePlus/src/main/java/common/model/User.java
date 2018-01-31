@@ -133,7 +133,7 @@ public class User extends JPAEntity implements Serializable {
     private boolean isActive = true;
 
     @Column(nullable = true)
-    private List<Lecture> lectures;
+    private List<InstanceLecture> instanceLectures;
 
     /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
@@ -342,12 +342,12 @@ public class User extends JPAEntity implements Serializable {
         this.role = role;
     }
 
-    public List<Lecture> getLectures() {
-        return lectures;
+    public List<InstanceLecture> getLectures() {
+        return instanceLectures;
     }
 
-    public void setLectures(List<Lecture> lectures) {
-        this.lectures = lectures;
+    public void setLectures(List<InstanceLecture> lectures) {
+        this.instanceLectures = lectures;
     }
 
     @Override
