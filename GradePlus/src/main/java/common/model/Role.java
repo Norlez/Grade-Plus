@@ -8,5 +8,5 @@ package common.model;
  * @version 2017-12-23
  */
 public enum Role {
-    ADMIN, EXAMINEE, STUDENTEXAMINEE, STUDENT
+    ADMIN, EXAMINEE, STUDENT
 }

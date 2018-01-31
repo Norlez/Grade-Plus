@@ -33,6 +33,7 @@ import javax.servlet.ServletContext;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
+import common.model.Role;
 import common.model.User;
 import org.apache.log4j.Logger;
 
@@ -94,6 +95,9 @@ public class DBInit {
             user.setUsername(DEFAULT_USER_NAME);
             user.setEmail(DEFAULT_USER_EMAIL);
             user.setPassword(DEFAULT_USER_PASSWORD);
+            user.setGivenName("Putin");
+            user.setSurname("Vladi");
+            user.setRole(Role.ADMIN);
             try {
                 userDAO.save(user);
             } catch (final DuplicateUsernameException ex) {

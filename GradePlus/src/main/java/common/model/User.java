@@ -49,8 +49,8 @@ import common.util.Assertion;
  * <p>
  * Zwei Benutzer sind äquivalent, wenn sie die gleiche ID besitzen.
  *
- * @author Karsten Hölscher, Marcel Steinbeck
- * @version 2017-12-23
+ * @author Karsten Hölscher, Marcel Steinbeck, Marvin Kampen
+ * @version 2018-01-31
  */
 @Entity
 @Table(name = "Users")
@@ -73,7 +73,7 @@ public class User extends JPAEntity implements Serializable {
     private static final long serialVersionUID = -2841896419854631425L;
 
     /**
-     * Der Benutzername.
+     * Der Benutzername. Ist die gekürzte Email-Adresse
      */
     @Column(unique = true, nullable = false)
     private String username;
@@ -81,11 +81,13 @@ public class User extends JPAEntity implements Serializable {
     /**
      * Der Nachname des Benutzers.
      */
+    @Column(nullable = false)
     private String surname;
 
     /**
      * Der Vorname des Benutzers.
      */
+    @Column(nullable = false)
     private String givenName;
 
     /**
@@ -115,17 +117,23 @@ public class User extends JPAEntity implements Serializable {
     /**
      * Die Matrikelnummer eines Studenten.
      */
+    @Column(unique = true)
     private String matrNr;
 
     /**
-     * Liste mit allen Rollen des Benutzers.
+     * Rolle des Benutzers.
      */
-    private List<Role> roles;
+    @Column(nullable = false)
+    private Role role = Role.STUDENT;
 
     /**
      * Gibt an, ob der Benutzer aktiv ist.
      */
-    private boolean isActive;
+    @Column(nullable = false)
+    private boolean isActive = true;
+
+    @Column(nullable = true)
+    private List<Lecture> lectures;
 
     /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
@@ -312,6 +320,34 @@ public class User extends JPAEntity implements Serializable {
      */
     public List<Grade> getGrades() {
         return unmodifiableList(grades);
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive() {
+        if (isActive == true) {
+            isActive = false;
+        } else {
+            isActive = true;
+        }
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
     @Override
