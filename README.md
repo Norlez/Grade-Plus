@@ -1,5 +1,10 @@
 ## Anmerkungen
 
+
+##PASSWORT UND EMAIL FÜR UNSER GMAIL KONTO
+##gradeplusbremen@gmail.com
+##Koschke123
+
 ### Project-Stage
 
 In der Datei `web.xml` wurde der Parameter `javax.faces.PROJECT_STAGE` auf
