@@ -17,9 +17,9 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-Documentation/
-derby.log
-LICENSE.txt
+/Documentation
+*.log
+LICENSE.txt/
 target/
 
 # External tool builders

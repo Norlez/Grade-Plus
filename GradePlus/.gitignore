@@ -17,6 +17,10 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+Documentation/
+derby.log
+LICENSE.txt
+target/
 
 # External tool builders
 .externalToolBuilders/
@@ -61,6 +65,7 @@ local.properties
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
+GradePlus/.idea*
 .idea/
 gradeplus.iml
 
