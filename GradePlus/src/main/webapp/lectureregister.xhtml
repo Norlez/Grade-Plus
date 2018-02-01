@@ -16,6 +16,8 @@
     <h:body rendered="#{!loginBean.isLoggedIn()}">
         <b:form id="register">
             <b:container fluid="false">
+
+                <!-- TITLE -->
                 <b:row>
                     <b:column class="title">
                         <h1>
@@ -23,6 +25,8 @@
                         </h1>
                     </b:column>
                 </b:row>
+
+                <!-- TITLE -->
                 <b:row>
                     <b:column span="3" colSm="3" colMd="3" colXs="12">
                         <b:inputText placeholder="#{msg['inputUsername']}" id="username" value="#{loginBean.username}" required="true"

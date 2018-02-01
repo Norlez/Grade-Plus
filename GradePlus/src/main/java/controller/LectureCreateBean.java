@@ -17,6 +17,14 @@ import java.io.Serializable;
 @RequestScoped
 public class LectureCreateBean extends AbstractBean implements Serializable {
 
+    private String name;
+
+    private String vak;
+
+    private int ects;
+
+    private String description;
+
     /**
      * Erzeugt eine neue LectureCreateBean.
      *
@@ -36,7 +44,7 @@ public class LectureCreateBean extends AbstractBean implements Serializable {
      * @return Der gegebene Name.
      */
     public String getName() {
-        throw new UnsupportedOperationException();
+        return name;
     }
 
     /**
@@ -46,7 +54,7 @@ public class LectureCreateBean extends AbstractBean implements Serializable {
      *            Das gegebene Name.
      */
     public void setName(String pName) {
-        throw new UnsupportedOperationException();
+        name = pName;
     }
 
     /**
@@ -55,7 +63,7 @@ public class LectureCreateBean extends AbstractBean implements Serializable {
      * @return Die gegebenen ECTS.
      */
     public int getEcts() {
-        throw new UnsupportedOperationException();
+        return ects;
     }
 
     /**
@@ -65,14 +73,33 @@ public class LectureCreateBean extends AbstractBean implements Serializable {
      *            Die gegebenen ECTS.
      */
     public void setEcts(int pEcts) {
-        throw new UnsupportedOperationException();
+        ects = pEcts;
+    }
+
+    /**
+     * Gibt die VAK der Lehrveranstaltung aus.
+     *
+     * @return Die gegebene VAK.
+     */
+    public String getVak() {
+        return vak;
+    }
+
+    /**
+     * Setzt die VAK der Lehrveranstaltung.
+     *
+     * @param pVak
+     *            Die gegebene VAK.
+     */
+    public void setVak(String pVak) {
+        vak = pVak;
     }
 
     /**
      * Erzeugt die neue Lehrveranstaltung.
      */
-    public void create() {
-        throw new UnsupportedOperationException();
+    public String create() {
+        return "dashboard";
     }
 
 }

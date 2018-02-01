@@ -46,8 +46,7 @@
                 </b:row>
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText rendered="#{false}" id="name" value="#{lectureCreateBean.name}" required="true"/>
-                        <b:inputText rendered="#{true}" placeholder="#{msg['inputName']}" />
+                        <b:inputText id="lectureName" rendered="#{true}" placeholder="#{msg['inputName']}" value="#{lectureCreateBean.name}"/>
                     </b:column>
                 </b:row>
 
@@ -59,11 +58,19 @@
                 </b:row>
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText rendered="#{false}" value="#{lectureCreateBean.ects}"/>
-                        <b:inputText rendered="#{true}" placeholder="#{msg['inputVAK']}" />
+                        <b:inputText id="vak" rendered="#{true}" placeholder="#{msg['inputVAK']}" value="#{lectureCreateBean.vak}"/>
                     </b:column>
                 </b:row>
 
+                <!-- ECTS -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputECTS']}*" />
+                    </b:column>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText id="ects" rendered="#{true}" placeholder="#{msg['inputECTS']}" value="#{lectureCreateBean.ects}"/>
+                    </b:column>
+                </b:row>
                 <!-- DESCRIPTION -->
                 <b:row>
                     <b:column>
@@ -72,7 +79,6 @@
                 </b:row>
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText rendered="#{false}" value="#{lectureBean.getLecture()}"/>
                         <b:inputTextarea rendered="#{true}" placeholder="#{msg['inputDescription']}" />
                     </b:column>
                 </b:row>
@@ -80,8 +86,7 @@
                 <!-- BUTTONS SAVE AND BACK -->
                 <b:row>
                     <b:column span="1" colSm="12" colMd="12" colXs="12">
-                        <b:commandButton rendered="#{false}" value="#{msg['actionSave']}" />
-                        <b:commandButton rendered="#{true}" value="#{msg['actionCreate']}" />
+                        <b:commandButton rendered="#{true}" value="#{msg['actionCreate']}" action="#{lectureCreateBean.create}"/>
                     </b:column>
                     <b:column span="1" colSm="12" colMd="12" colXs="12">
                         <b:button value="#{msg['linkBack']}" />
