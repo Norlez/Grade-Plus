@@ -17,10 +17,10 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-Gradeplus/Documentation/
-Gradeplus/derby.log
-Gradeplus/LICENSE.txt
-Gradeplus/target/
+Documentation/
+derby.log
+LICENSE.txt
+target/
 
 # External tool builders
 .externalToolBuilders/
