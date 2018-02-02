@@ -44,6 +44,12 @@ public class Lecture extends JPAEntity {
     private String description;
 
     /**
+     * Eine Liste aller Instanzen der Lehrveranstaltung
+     */
+    // @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE)
+    private List<InstanceLecture> instanceLectures;
+
+    /**
      * Gibt den Namen der Lehrveranstaltung zurück.
      *
      * @return Den Namen der Lehrveranstaltung.
@@ -117,5 +123,19 @@ public class Lecture extends JPAEntity {
      */
     public void setDescription(String pDescription) {
         this.description = pDescription;
+    }
+
+    /**
+     * Gibt die Liste der instanzierten Lehrveranstaltungen zurück.
+     */
+    public List<InstanceLecture> getInstanceLectures() {
+        return instanceLectures;
+    }
+
+    /**
+     * Setzt die Liste der instanzierten Lehrveranstaltungen.
+     */
+    public void setInstanceLectures(List<InstanceLecture> instanceLectures) {
+        this.instanceLectures = instanceLectures;
     }
 }

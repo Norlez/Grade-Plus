@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Thu Feb 01 18:59:51 CET 2018:
-Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-0161-5286-5586-00001d25d128
-fÃ¼r Datenbankverzeichnis /private/var/folders/0v/02h4f5mx0sq8t6ngq1w2sb840000gn/T/gfembed6045468030961971548tmp/lib/databases/embedded_default mit Class Loader ClassRealm[plugin>co.luminositylabs.oss.maven.plugins:embedded-payara-maven-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@18b4aac2]
-Geladen aus file:/Users/arbnor/.m2/repository/fish/payara/extras/payara-embedded-all/4.1.1.171.1/payara-embedded-all-4.1.1.171.1.jar
+Fri Feb 02 14:24:27 CET 2018:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-0161-56b0-91eb-000013774dd0
+für Datenbankverzeichnis C:\Users\marvi\AppData\Local\Temp\gfembed1085318764575796303tmp\lib\databases\embedded_default mit Class Loader ClassRealm[plugin>co.luminositylabs.oss.maven.plugins:embedded-payara-maven-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@5c647e05]
+Geladen aus file:/C:/Users/marvi/.m2/repository/fish/payara/extras/payara-embedded-all/4.1.1.171.1/payara-embedded-all-4.1.1.171.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_101-b13
-user.dir=/Users/arbnor/Documents/Repositories/Software_Projekt2/GradePlus/GradePlus
-os.name=Mac OS X
-os.arch=x86_64
-os.version=10.13.1
+java.runtime.version=1.8.0_144-b01
+user.dir=C:\Users\marvi\Documents\GradePlus\GradePlus
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
 derby.system.home=null
 Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
