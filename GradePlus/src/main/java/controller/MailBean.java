@@ -5,6 +5,9 @@ import common.model.User;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -14,9 +17,12 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+@RequestScoped
+@Named
 public class MailBean {
 
-    public static void main(User user) {
+    @Inject
+    public void main(User user) {
 
         final String username = "gradeplusbremen@gmail.com";
         final String password = "Koschke123";
