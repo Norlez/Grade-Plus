@@ -4,9 +4,6 @@ import javax.persistence.*;
 import java.util.List;
 import common.util.Assertion;
 
-import static common.util.Assertion.assertNotNegative;
-import static common.util.Assertion.assertNotNull;
-
 /**
  * Repräsentiert eine Lehrveranstaltung. Eine Lehrveranstaltung enthält einen Namen, eine
  * Vak-Nummer, ein Semester, die ECTS der Veranstaltung sowie eine Beschreibung der
@@ -43,7 +40,7 @@ public class Lecture extends JPAEntity {
     /**
      * Beschreibung der Lehrveranstaltung.
      */
-    @Column
+    @Column(nullable = true)
     private String description;
 
     /**
@@ -68,7 +65,7 @@ public class Lecture extends JPAEntity {
      *            Der neue Name der Lehrveranstaltung.
      */
     public void setName(String pName) {
-        name = assertNotNull(pName);
+        name = Assertion.assertNotEmpty(pName);
     }
 
     /**
@@ -76,18 +73,18 @@ public class Lecture extends JPAEntity {
      *
      * @return Die VAK-Nummer der Lehrveranstaltung.
      */
-    public String getVak() {
+    public String getVAK() {
         return vak;
     }
 
     /**
      * Setzt die VAK-Nummer der Lehrveranstaltung auf die gegebene VAK-Nummer.
      *
-     * @param pVak
+     * @param pVAK
      *            Die neue VAK-Nummer der Lehrveranstaltung.
      */
-    public void setVak(final String pVak) {
-        vak = assertNotNull(pVak);
+    public void setVAK(String pVAK) {
+        vak = Assertion.assertNotEmpty(pVAK);
     }
 
     /**
@@ -95,18 +92,18 @@ public class Lecture extends JPAEntity {
      *
      * @return Die ECTS der Lehrveranstaltung.
      */
-    public int getEcts() {
+    public int getECTS() {
         return ects;
     }
 
     /**
      * Setzt die ECTS der Lehrveranstaltung auf die gegebenen ECTS.
      *
-     * @param pEcts
+     * @param pECTS
      *            Die neuen ECTS der Lehrveranstaltung.
      */
-    public void setEcts(final int pEcts) {
-        ects = assertNotNegative(pEcts);
+    public void setECTS(int pECTS) {
+        ects = Assertion.assertNotNegative(pECTS);
     }
 
     /**
@@ -124,8 +121,8 @@ public class Lecture extends JPAEntity {
      * @param pDescription
      *            Die Beschreibung als String.
      */
-    public void setDescription(final String pDescription) {
-        description = assertNotNull(pDescription);
+    public void setDescription(String pDescription) {
+        this.description = pDescription;
     }
 
     /**
@@ -138,7 +135,7 @@ public class Lecture extends JPAEntity {
     /**
      * Setzt die Liste der instanzierten Lehrveranstaltungen.
      */
-    public void setInstanceLectures(final List<InstanceLecture> pInstanceLectures) {
-        instanceLectures = assertNotNull(pInstanceLectures);
+    public void setInstanceLectures(List<InstanceLecture> instanceLectures) {
+        this.instanceLectures = instanceLectures;
     }
 }
