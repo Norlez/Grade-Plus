@@ -37,8 +37,8 @@ public class LectureBean extends AbstractBean implements Serializable {
     private final LectureDAO lectureDao;
 
     /**
-     * Die aktuell angezeigte Lehrveranstaltung, dessen Attribute durch die
-     * UIKomponenten des Facelets geschrieben und gelesen werden.
+     * Die aktuell angezeigte Lehrveranstaltung, dessen Attribute durch die UIKomponenten
+     * des Facelets geschrieben und gelesen werden.
      */
     private Lecture lecture;
 
@@ -65,10 +65,9 @@ public class LectureBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Initialisiert die Attribute {@link #lecture} und {@link #allLectures},
-     * sodass {@link #lecture} eine neu anzulegende {@link Lecture} repräsentiert
-     * und {@link #allLectures} alle bekannten Lehrveranstaltungen der Applikation
-     * enthält.
+     * Initialisiert die Attribute {@link #lecture} und {@link #allLectures}, sodass
+     * {@link #lecture} eine neu anzulegende {@link Lecture} repräsentiert und
+     * {@link #allLectures} alle bekannten Lehrveranstaltungen der Applikation enthält.
      */
     @PostConstruct
     public void init() {
@@ -99,8 +98,8 @@ public class LectureBean extends AbstractBean implements Serializable {
      * Fügt die aktuell angezeigte Lehrveranstaltung der Liste aller innerhalb der
      * Applikation bekannten Lehrveranstaltungen hinzu.
      *
-     * @return "lectures.xhtml", um auf das Facelet der Übersicht der Lehrveranstaltung
-     * zu leiten.
+     * @return "lectures.xhtml", um auf das Facelet der Übersicht der Lehrveranstaltung zu
+     *         leiten.
      */
     public String save() {
         try {
@@ -116,8 +115,8 @@ public class LectureBean extends AbstractBean implements Serializable {
      * Aktualisiert die aktuell angezeigte Lehrveranstaltung in der Liste aller innerhalb
      * der Applikation bekannten Lehrveranstaltungen.
      *
-     * @return "lectures.xhtml", um auf das Facelet der Übersicht der Lehrveranstaltung
-     * zu leiten.
+     * @return "lectures.xhtml", um auf das Facelet der Übersicht der Lehrveranstaltung zu
+     *         leiten.
      */
     public String update() {
         try {
@@ -131,9 +130,9 @@ public class LectureBean extends AbstractBean implements Serializable {
 
     /**
      * Entfernt die übergebene Lehrveranstaltung aus der Liste aller bekannten
-     * Lehrveranstaltung unter Verwendung des entsprechenden Data-Access-Objekts.
-     * Sollte die zu entfernende Lehrveranstaltung nicht in der Liste der
-     * Lehrveranstaltung vorhanden sein, passiert nichts.
+     * Lehrveranstaltung unter Verwendung des entsprechenden Data-Access-Objekts. Sollte
+     * die zu entfernende Lehrveranstaltung nicht in der Liste der Lehrveranstaltung
+     * vorhanden sein, passiert nichts.
      *
      * @param pLecture
      *            Die zu entfernende Lehrveranstaltung.
