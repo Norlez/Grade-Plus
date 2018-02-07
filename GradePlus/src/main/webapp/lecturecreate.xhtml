@@ -14,7 +14,7 @@
     <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
-        <f:loadBundle basename="internationalization.lecture" var="msg" />
+        <f:loadBundle basename="internationalization.lectures" var="msg" />
 
         <b:form>
             <b:container class="form-group">
@@ -46,31 +46,38 @@
                 </b:row>
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText id="lectureName" rendered="#{true}" placeholder="#{msg['inputName']}" value="#{lectureCreateBean.name}"/>
+                        <b:inputText id="lectureName" rendered="#{true}" placeholder="#{msg['inputName']}"
+                                     value="#{lecturesBean.lecture.name}" required="true"
+                                     requiredMessage="#{msg['errorNameRequired']}" />
                     </b:column>
                 </b:row>
 
                 <!-- VAK -->
                 <b:row>
                     <b:column>
-                        <h:outputLabel value="#{msg['inputVAK']}*" />
+                        <h:outputLabel value="#{msg['inputVak']}*" />
                     </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText id="vak" rendered="#{true}" placeholder="#{msg['inputVAK']}" value="#{lectureCreateBean.vak}"/>
+                        <b:inputText id="vak" rendered="#{true}" placeholder="#{msg['inputVak']}"
+                                     value="#{lecturesBean.lecture.vak}" required="true"
+                                     requiredMessage="#{msg['errorVakRequired']}" />
                     </b:column>
                 </b:row>
 
                 <!-- ECTS -->
                 <b:row>
                     <b:column>
-                        <h:outputLabel value="#{msg['inputECTS']}*" />
+                        <h:outputLabel value="#{msg['inputEcts']}*" />
                     </b:column>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText id="ects" rendered="#{true}" placeholder="#{msg['inputECTS']}" value="#{lectureCreateBean.ects}"/>
+                        <b:inputText id="ects" rendered="#{true}" placeholder="#{msg['inputEcts']}"
+                                     value="#{lecturesBean.lecture.ects}" required="true"
+                                     requiredMessage="#{msg['errorEctsRequired']}" />
                     </b:column>
                 </b:row>
+
                 <!-- DESCRIPTION -->
                 <b:row>
                     <b:column>
@@ -79,17 +86,20 @@
                 </b:row>
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputTextarea rendered="#{true}" placeholder="#{msg['inputDescription']}" />
+                        <b:inputTextarea rendered="#{true}" placeholder="#{msg['inputDescription']}" value="#{lecturesBean.lecture.description}"/>
                     </b:column>
                 </b:row>
 
                 <!-- BUTTONS SAVE AND BACK -->
                 <b:row>
                     <b:column span="1" colSm="12" colMd="12" colXs="12">
-                        <b:commandButton rendered="#{true}" value="#{msg['actionCreate']}" action="#{lectureCreateBean.create}"/>
+                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionCreate']}" action="#{lecturesBean.save}"/>
                     </b:column>
                     <b:column span="1" colSm="12" colMd="12" colXs="12">
-                        <b:button value="#{msg['linkBack']}" />
+                        <b:button class="btn" id="back" value="#{msg['linkBack']}" outcome="lectures"/>
+                    </b:column>
+                    <b:column>
+                        <b:message for="saveButton" />
                     </b:column>
                 </b:row>
             </b:container>

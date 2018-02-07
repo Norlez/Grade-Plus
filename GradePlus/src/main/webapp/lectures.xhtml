@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://bootsfaces.net/ui" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xml:lang="en" lang="en">
+<h:head>
+    <!-- Hier kann der Pruefer seine Lehrveranstaltungen einsehen, sowie
+        * Instanzen anlegen
+        * Instanzen kopieren
+        * LV kopieren -->
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="WEB-INF/template.xhtml">
+        <ui:param name="title" value="#{msg['title']}"/>
+
+        <ui:define name="content">
+            <f:loadBundle basename="internationalization.lectures" var="msg" />
+
+            <b:form>
+                <b:container class="form-group">
+
+                    <b:row>
+                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                            <h1>
+                                <h:outputText value="#{msg['title']}" />
+                            </h1>
+                        </b:column>
+                    </b:row>
+
+                    <b:row>
+                        <b:column span="1" colSm="12" colMd="12" colXs="12">
+                            <b:button value="#{msg['linkCreateLecture']}" outcome="/lecturecreate"/>
+                        </b:column>
+                    </b:row>
+
+                </b:container>
+            </b:form>
+
+            <b:form rendered="#{! empty lecturesBean.allLectures}">
+                <b:container class="form-group">
+
+                    <!-- SUBTITLE -->
+                <b:row>
+                    <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
+                        <h2>
+                            <h:outputText value="#{msg['subtitleLectures']}" />
+                        </h2>
+                    </b:column>
+                </b:row>
+
+                <b:dataTable span="8" value="#{lecturesBean.allLectures}" var="l"
+                             excel="false"
+                             csv="false"
+                             pdf="false"
+                             columnVisibility="false"
+                             copy="false"
+                             print="false">
+
+                    <b:dataTableColumn label="#{msg['outputName']}" value="#{l.name}" />
+                    <b:dataTableColumn label="#{msg['outputVak']}" value="#{l.vak}" />
+                    <b:dataTableColumn label="#{msg['outputEcts']}" value="#{l.ects}" />
+                    <b:dataTableColumn label="#{msg['outputDescription']}" value="#{l.description}" />
+
+                    <b:dataTableColumn label="Optionen">
+                        <b:commandButton value="#{msg['actionRemove']}" action="#{lecturesBean.remove(l)}" />
+                    </b:dataTableColumn>
+                </b:dataTable>
+                </b:container>
+            </b:form>
+
+            <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
