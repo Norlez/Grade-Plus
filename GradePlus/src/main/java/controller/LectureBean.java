@@ -1,6 +1,5 @@
 package controller;
 
-import common.exception.DuplicateVakException;
 import common.model.Lecture;
 import common.model.Session;
 import org.apache.log4j.Level;
@@ -24,7 +23,7 @@ import static common.util.Assertion.assertNotNull;
  */
 @Named
 @RequestScoped
-public class LecturesBean extends AbstractBean implements Serializable {
+public class LectureBean extends AbstractBean implements Serializable {
 
     /**
      * Der Logger für diese Klasse.
@@ -60,7 +59,7 @@ public class LecturesBean extends AbstractBean implements Serializable {
      *             Falls {@code pSession} {@code null} ist.
      */
     @Inject
-    public LecturesBean(Session pSession, LectureDAO pLectureDao) {
+    public LectureBean(Session pSession, LectureDAO pLectureDao) {
         super(pSession);
         lectureDao = assertNotNull(pLectureDao);
     }
@@ -108,11 +107,7 @@ public class LecturesBean extends AbstractBean implements Serializable {
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorLecturedataIncomplete"));
-        } catch (final DuplicateVakException e) {
-            addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorVakAlreadyInUse", lecture.getVak());
         }
-        init();
         return "lectures.xhtml";
     }
 
@@ -130,7 +125,6 @@ public class LecturesBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorLecturedataIncomplete"));
         }
-        init();
         return "lectures.xhtml";
     }
 
