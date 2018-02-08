@@ -45,7 +45,7 @@ import common.util.Assertion;
  * Zwei Benutzer sind äquivalent, wenn sie die gleiche ID besitzen.
  *
  * @author Karsten Hölscher, Marcel Steinbeck, Marvin Kampen
- * @version 2018-01-31
+ * @version 2018-02-08
  */
 @Entity
 @Table(name = "Users")
@@ -128,9 +128,15 @@ public class User extends JPAEntity implements Serializable {
     @Column(nullable = false)
     private boolean isActive = true;
 
+    /**
+     * Enthält die Ilvs in der der User ein Prüfer ist.
+     */
     @ManyToMany
     private Set<InstanceLecture> ilvPruefer;
 
+    /**
+     * Enthält die ILvs in der der User ein Prüfling ist.
+     */
     @ManyToMany
     private Set<InstanceLecture> ilvPruefling;
 
@@ -401,36 +407,69 @@ public class User extends JPAEntity implements Serializable {
     }
 
     // Prüfer
+
+    /**
+     * Gibt die ILvs zurück an denen man Prüfer ist.
+     * @return Ilvs als Set
+     */
     public Set<InstanceLecture> getIlvPruefer() {
         return ilvPruefer;
     }
 
+    /**
+     * Setzt die ILVs in den der User Prüfer ist.
+     * @param ilv in denen der User Prüfer ist.
+     */
     public void setIlvPruefer(Set<InstanceLecture> ilv) {
         this.ilvPruefer = ilv;
     }
 
+    /**
+     * Fügt eine ILV hinzu, in der der User Prüfer ist.
+     * @param pIlv wird als ILV hinzugefügt
+     */
     public void addIlvPruefer(InstanceLecture pIlv) {
         ilvPruefer.add(pIlv);
     }
 
+    /**
+     * Entfernt eine ILV in der man Prüfer ist.
+     * @param pIlv verlässt jene ILV
+     */
     public void removeIlvPruefer(InstanceLecture pIlv) {
         ilvPruefer.remove(pIlv);
     }
 
     // Prüfling
 
+    /**
+     * Erhält die Ilvs in der man Prüfling ist.
+     * @return Die ILVs in der man Prüfling ist
+     */
     public Set<InstanceLecture> getIlvPruefling() {
         return ilvPruefling;
     }
 
+    /**
+     * Setzt die ILVS in denen man als Prüfling teilnimmt.
+     * @param ilvPruefling in welchen man teilnimmt
+     */
     public void setIlvPruefling(Set<InstanceLecture> ilvPruefling) {
         this.ilvPruefling = ilvPruefling;
     }
 
+    /**
+     * Tritt einer ILV als Prüfling bei
+     * @param pIlv welcher man beitritt
+     */
     public void addIlvPruefling(InstanceLecture pIlv) {
         ilvPruefling.add(pIlv);
     }
 
+    /**
+     * Verlässt eine ILV für die man Prüfling ist.
+     * @param pIlv welche man verlässt.
+     */
     public void removeIlvPruefling(InstanceLecture pIlv) {
         ilvPruefling.remove(pIlv);
     }
