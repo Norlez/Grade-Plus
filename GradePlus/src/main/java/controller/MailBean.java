@@ -189,7 +189,7 @@ public class MailBean extends AbstractBean{
      * Versendet eine Nachricht, an eine beliebige Email-Adresse.
      *
      * @return Die Xhtml auf die der User nach der Versendung der Mail weitergeleitet wird.
-     */
+
 
     public String sendMailTo(){
         Properties props = new Properties();
@@ -200,7 +200,7 @@ public class MailBean extends AbstractBean{
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        Session session = Session.getDefaultInstance(props,
+        Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(user.getEmail(),user.getTmpPassword());
@@ -220,6 +220,42 @@ public class MailBean extends AbstractBean{
             throw new RuntimeException(e);
         }
         return "dashboard.xhtml";
+    }
+     */
+
+
+    public String sendMailTo(){
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.uni-bremen.de");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getInstance(props, null);
+        session.setDebug(true);
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user.getEmail()));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(recipient));
+            message.setSubject(topic);
+            message.setText(user.getEmail() + user.getTmpPassword());
+            message.setSentDate(new Date());
+
+            Transport transport = session.getTransport("smtp");
+            transport.connect("smtp.uni-bremen.de","arbnor@uni-bremen.de", "Angelosaskia07");
+            transport.sendMessage(message, message.getAllRecipients() );
+            transport.close();
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        return "dashboard.xhtml";
+
     }
 
 }

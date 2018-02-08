@@ -62,7 +62,7 @@ public class RegisterMailBean {
      * Eine Loginunabhängige Funktion, die dem sich registrierenden Benutzer, nach der Registrierung
      * eine Bestätigungsmail zusendet, in der alle relevanten Daten  vermerkt sind.
      * @param pUser Der Empfänger der Registrierungsmail.
-     */
+
 
     public void registerMail(User pUser) {
 
@@ -108,6 +108,45 @@ public class RegisterMailBean {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+    */
+
+
+
+    public void registerMail(User pUser){
+
+        try {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class",
+                    "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
+
+            Session session = Session.getInstance(props, null);
+            session.setDebug(true);
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(pUser.getEmail()));
+            message.setSubject("Ihre Registrierung bei GradePlus");
+            message.setText("was geht");
+
+            Transport transport = session.getTransport("smtp");
+            transport.connect("smtp.gmail.com","gradeplusbremen@gmail.com", "Koschke123" );
+
+            transport.sendMessage(message, message.getAllRecipients() );
+            transport.close();
+
+        }catch (MessagingException e){
+            throw new RuntimeException(e);
+
+        }
+
+
+
     }
 
 

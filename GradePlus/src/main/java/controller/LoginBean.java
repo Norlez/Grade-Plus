@@ -194,7 +194,10 @@ public class LoginBean extends AbstractBean {
      *             durchzuführen.
      */
     public void setPassword(final String pPassword) {
+
         password = Assertion.assertNotNull(pPassword);
+        User user = userDAO.getUserForUsername(username);
+        user.setTmpPassword(pPassword);
     }
 
     /**
@@ -239,7 +242,6 @@ public class LoginBean extends AbstractBean {
             return null;
         }
         final User registeredUser = userDAO.getUserForUsername(username);
-        registeredUser.setTmpPassword(password);
         if (registeredUser == null) {
             addErrorMessage(loginButton, "errorUnknownUsername");
             password = "";
