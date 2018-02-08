@@ -1,5 +1,6 @@
 package common.model;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -12,8 +13,9 @@ import static common.util.Assertion.assertNotNull;
  * der Inhalt und das Erstellungsdatum.
  *
  * @author Torben Groß, Marvin Kampen
- * @version 2018-01-09
+ * @version 2018-02-08
  */
+
 public class Comment extends JPAEntity {
 
     /**
@@ -32,18 +34,24 @@ public class Comment extends JPAEntity {
     private String content;
 
     /**
-     * Erzeugt ein neues Comment Objekt.
-     * 
-     * @param pAuthor
-     *            Der Autor des Kommentars.
-     * @param pDate
-     *            Das Datum des Kommentars.
-     * @param pContent
-     *            Der Inhalt des Kommentars.
+     * Die Prüfung zu dem der Kommentar verfasst wird.
      */
-    public Comment(User pAuthor, LocalDateTime pDate, String pContent) {
-        author = assertNotNull(pAuthor);
-        date = assertNotNull(pDate);
+    private Exam exam;
+
+    /**
+     * Gibt die Prüfung zu dem Kommentar aus.
+     */
+    public Exam getExam() {
+        return exam;
+    }
+
+    /**
+     * Setzt den Kommentar für eine Prüfung.
+     */
+    public void setExam(Exam exam) {
+        if (exam != null) {
+            this.exam = exam;
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package common.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "instanceLectures")
 public class InstanceLecture extends JPAEntity {
 
     @ManyToOne(optional = false)

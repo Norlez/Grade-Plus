@@ -44,6 +44,7 @@ import javax.persistence.*;
  * @version 2016-07-22
  */
 @Entity
+@Table(name = "grades")
 public class Grade extends JPAEntity implements Serializable {
 
     /**

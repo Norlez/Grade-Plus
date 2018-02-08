@@ -1,7 +1,6 @@
 package controller;
 
 import common.model.Session;
-import persistence.MessageDAO;
 
 /**
  * Dieses Bean ist der Controller für den Forgot-Password-Dialog.
@@ -20,7 +19,7 @@ public class ForgotPasswordBean extends AbstractBean {
      *            Die DAO der zu erzeugenden MessageBean.
      *
      */
-    public ForgotPasswordBean(Session pSession, MessageDAO pMessageDAO) {
+    public ForgotPasswordBean(Session pSession) {
         super(pSession);
     }
 
