@@ -13,6 +13,9 @@ public class InstanceLecture extends JPAEntity {
     @ManyToMany
     private Set<User> pruefer;
 
+    @ManyToMany
+    private Set<User> pruefling;
+
     public Lecture getLecture() {
         return lecture;
     }
@@ -21,7 +24,7 @@ public class InstanceLecture extends JPAEntity {
         this.lecture = lecture;
     }
 
-    // Tests
+    // Prüfer
     public Set<User> getPruefer() {
         return pruefer;
     }
@@ -36,5 +39,23 @@ public class InstanceLecture extends JPAEntity {
 
     public void removePruefer(User pPruefer) {
         pruefer.remove(pPruefer);
+    }
+
+    // Prüfling
+
+    public void setPruefling(Set<User> pruefling) {
+        this.pruefling = pruefling;
+    }
+
+    public Set<User> getPruefling() {
+        return pruefling;
+    }
+
+    public void addPruefling(User pPruefling) {
+        pruefling.add(pPruefling);
+    }
+
+    public void removePruefling(User pPruefling) {
+        pruefling.remove(pPruefling);
     }
 }

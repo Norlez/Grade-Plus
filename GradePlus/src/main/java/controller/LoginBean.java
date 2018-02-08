@@ -103,7 +103,6 @@ public class LoginBean extends AbstractBean {
      */
     private final UserDAO userDAO;
 
-
     /**
      * Erzeugt eine neue LoginBean.
      *

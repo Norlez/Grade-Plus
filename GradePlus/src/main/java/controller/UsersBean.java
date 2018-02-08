@@ -155,7 +155,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         return allUsers;
     }
 
-
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
      * bekannten Benutzer hinzu (unter Verwendung des Data-Access-Objektes) und setzt den

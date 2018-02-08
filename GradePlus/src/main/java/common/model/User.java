@@ -129,7 +129,10 @@ public class User extends JPAEntity implements Serializable {
     private boolean isActive = true;
 
     @ManyToMany
-    private Set<InstanceLecture> ilv;
+    private Set<InstanceLecture> ilvPruefer;
+
+    @ManyToMany
+    private Set<InstanceLecture> ilvPruefling;
 
     /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
@@ -138,29 +141,30 @@ public class User extends JPAEntity implements Serializable {
     // private History history;
 
     /**
-     * Temporäres Passwort, das für die Authenfizierung der eingegebenen Email und Password bei der Registrierung
-     * benötigt wird
+     * Temporäres Passwort, das für die Authenfizierung der eingegebenen Email und
+     * Password bei der Registrierung benötigt wird
      */
     private String tmpPassword;
 
-
     /**
      * Setzt den übergebenen String als temporäres Passwort
-     *  @param pTmpPassword
+     * 
+     * @param pTmpPassword
      *            Der neue Nachname für diesen Benutzer.
      * @throws IllegalArgumentException
      *             Falls der gegebene Nachname den Wert {@code null} hat.
      */
-    public void setTmpPassword(String pTmpPassword){
+    public void setTmpPassword(String pTmpPassword) {
 
         tmpPassword = Assertion.assertNotNull(pTmpPassword);
     }
 
     /**
      * Gibt das temporäre Passwort zurück.
+     * 
      * @return Das Passwort, welches temporär gespeichert wird.
      */
-    public String getTmpPassword(){
+    public String getTmpPassword() {
         return tmpPassword;
     }
 
@@ -396,21 +400,38 @@ public class User extends JPAEntity implements Serializable {
         return DEFAULT_LANGUAGE;
     }
 
-    // Test
-
-    public Set<InstanceLecture> getIlv() {
-        return ilv;
+    // Prüfer
+    public Set<InstanceLecture> getIlvPruefer() {
+        return ilvPruefer;
     }
 
-    public void setIlv(Set<InstanceLecture> ilv) {
-        this.ilv = ilv;
+    public void setIlvPruefer(Set<InstanceLecture> ilv) {
+        this.ilvPruefer = ilv;
     }
 
-    public void addIlv(InstanceLecture pIlv) {
-        ilv.add(pIlv);
+    public void addIlvPruefer(InstanceLecture pIlv) {
+        ilvPruefer.add(pIlv);
     }
 
-    public void removeIlv(InstanceLecture pIlv) {
-        ilv.remove(pIlv);
+    public void removeIlvPruefer(InstanceLecture pIlv) {
+        ilvPruefer.remove(pIlv);
+    }
+
+    // Prüfling
+
+    public Set<InstanceLecture> getIlvPruefling() {
+        return ilvPruefling;
+    }
+
+    public void setIlvPruefling(Set<InstanceLecture> ilvPruefling) {
+        this.ilvPruefling = ilvPruefling;
+    }
+
+    public void addIlvPruefling(InstanceLecture pIlv) {
+        ilvPruefling.add(pIlv);
+    }
+
+    public void removeIlvPruefling(InstanceLecture pIlv) {
+        ilvPruefling.remove(pIlv);
     }
 }

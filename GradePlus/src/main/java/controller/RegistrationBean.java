@@ -80,7 +80,6 @@ public class RegistrationBean extends LoginIndependentBean {
         return user;
     }
 
-
     /**
      * Registriert einen neuen Benutzer mit allen aktuell angezeigen Stammdatem im System.
      *
@@ -88,9 +87,10 @@ public class RegistrationBean extends LoginIndependentBean {
      */
     public String register() {
         try {
-            //Prüft, ob die eingegebenen Daten gültig sind.
-            if(sender.isEmailPassCombiValid(user.getEmail(), user.getTmpPassword())){
-                //Überschreibt, das kurz benötigte Passwort mit einem leeren String(Sicherheit)
+            // Prüft, ob die eingegebenen Daten gültig sind.
+            if (sender.isEmailPassCombiValid(user.getEmail(), user.getTmpPassword())) {
+                // Überschreibt, das kurz benötigte Passwort mit einem leeren
+                // String(Sicherheit)
                 user.setTmpPassword("");
                 userDao.save(user);
                 sender.registerMail(user);
