@@ -98,6 +98,11 @@ public class UsersBean extends AbstractBean implements Serializable {
     private List<User> allUsers;
 
     /**
+     * Die zu erstellende Mail.
+     */
+    private RegisterMailBean sender;
+
+    /**
      * Erzeugt eine neue UsersBean.
      *
      * @param pSession
@@ -116,6 +121,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         super(pSession);
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
+        sender = new RegisterMailBean();
     }
 
     /**
@@ -149,7 +155,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         return allUsers;
     }
 
-    MailBean sender = new MailBean();
 
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
@@ -163,7 +168,7 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
-            sender.main(user);
+            sender.registerMail(user);
             userDao.save(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,

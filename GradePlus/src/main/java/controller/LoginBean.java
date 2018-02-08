@@ -103,6 +103,7 @@ public class LoginBean extends AbstractBean {
      */
     private final UserDAO userDAO;
 
+
     /**
      * Erzeugt eine neue LoginBean.
      *
@@ -193,7 +194,10 @@ public class LoginBean extends AbstractBean {
      *             durchzuführen.
      */
     public void setPassword(final String pPassword) {
+
         password = Assertion.assertNotNull(pPassword);
+        User user = userDAO.getUserForUsername(username);
+        user.setTmpPassword(pPassword);
     }
 
     /**
