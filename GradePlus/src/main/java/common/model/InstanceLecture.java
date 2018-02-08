@@ -4,8 +4,9 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Eine Instanz der Lehrveranstaltung (ILV). Ist eine konkrete Ausprägung in
- * der sich die Studenten eintragen können.
+ * Eine Instanz der Lehrveranstaltung (ILV). Ist eine konkrete Ausprägung in der sich die
+ * Studenten eintragen können.
+ * 
  * @author Marvin Kampen
  * @version 2018-02-08
  */
@@ -14,8 +15,8 @@ import java.util.Set;
 public class InstanceLecture extends JPAEntity {
 
     /**
-     * Die Lehrveranstaltung zu der die ILV gehört.
-     * Die ILV existiert nur so lange es eine LV gibt.
+     * Die Lehrveranstaltung zu der die ILV gehört. Die ILV existiert nur so lange es eine
+     * LV gibt.
      */
     @ManyToOne(optional = false)
     private Lecture lecture;
@@ -33,7 +34,14 @@ public class InstanceLecture extends JPAEntity {
     private Set<User> pruefling;
 
     /**
+     * Die Prüfungstermine, die zur ILV gehören
+     */
+    @OneToMany(mappedBy = "ilv", cascade = CascadeType.REMOVE)
+    private Set<Exam> termine;
+
+    /**
      * Erhält die LV für die ILV.
+     * 
      * @return Die LV der ILV.
      */
     public Lecture getLecture() {
@@ -42,7 +50,9 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Setzt die LV der ILV.
-     * @param lecture wird als LV übernommen.
+     * 
+     * @param lecture
+     *            wird als LV übernommen.
      */
     public void setLecture(Lecture lecture) {
         this.lecture = lecture;
@@ -52,6 +62,7 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Erhält die Prüfer der ILV.
+     * 
      * @return Die Prüfer
      */
     public Set<User> getPruefer() {
@@ -60,7 +71,9 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Setzt die Prüfer der ILV.
-     * @param pruefer wird als Prüfer der ILV gesetzt.
+     * 
+     * @param pruefer
+     *            wird als Prüfer der ILV gesetzt.
      */
     public void setPruefer(Set<User> pruefer) {
         this.pruefer = pruefer;
@@ -68,7 +81,9 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Fügt einen Prüfer zu der ILV hinzu.
-     * @param pPruefer, der hinzugefügt wird.
+     * 
+     * @param pPruefer
+     *            , der hinzugefügt wird.
      */
     public void addPruefer(User pPruefer) {
         pruefer.add(pPruefer);
@@ -76,7 +91,9 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Entfernt einen Prüfer aus der ILV.
-     * @param pPruefer, der aus der ILV entfernt wird.
+     * 
+     * @param pPruefer
+     *            , der aus der ILV entfernt wird.
      */
     public void removePruefer(User pPruefer) {
         pruefer.remove(pPruefer);
@@ -86,7 +103,9 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Setzt die Prüflinge für die ILV.
-     * @param pruefling wird für die ILV übernommen.
+     * 
+     * @param pruefling
+     *            wird für die ILV übernommen.
      */
     public void setPruefling(Set<User> pruefling) {
         this.pruefling = pruefling;
@@ -94,6 +113,7 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Erhält die Prüflinge der ILV zurück.
+     * 
      * @return Die Prüflinge
      */
     public Set<User> getPruefling() {
@@ -102,7 +122,9 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Fügt einen Prüfling zur ILV hinzu.
-     * @param pPruefling der hinzugefügt wird.
+     * 
+     * @param pPruefling
+     *            der hinzugefügt wird.
      */
     public void addPruefling(User pPruefling) {
         pruefling.add(pPruefling);
@@ -110,9 +132,45 @@ public class InstanceLecture extends JPAEntity {
 
     /**
      * Entfernt den Prüfling aus der ILV.
-     * @param pPruefling der entfernt wird
+     * 
+     * @param pPruefling
+     *            der entfernt wird
      */
     public void removePruefling(User pPruefling) {
         pruefling.remove(pPruefling);
+    }
+
+    // Prüfungstermine
+
+    /**
+     *
+     * @return
+     */
+    public Set<Exam> getTermine() {
+        return termine;
+    }
+
+    /**
+     *
+     * @param termine
+     */
+    public void setTermine(Set<Exam> termine) {
+        this.termine = termine;
+    }
+
+    /**
+     *
+     * @param pTermin
+     */
+    public void addTermin(Exam pTermin) {
+        termine.add(pTermin);
+    }
+
+    /**
+     *
+     * @param pTermin
+     */
+    public void removeTermin(Exam pTermin) {
+        termine.remove(pTermin);
     }
 }

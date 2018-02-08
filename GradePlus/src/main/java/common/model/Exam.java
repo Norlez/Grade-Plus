@@ -6,50 +6,64 @@ import java.util.List;
 //import com.sun.xml.internal.bind.v2.TODO;
 import common.util.Assertion;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * Repräsentiert eine Prüfung. Eine Prüfung enthält ein Datum, eine Lehrveranstaltung,
  * Prüfer, Prüflinge sowie die Information, ob es sich bei der Prüfung um eine Einzel-
  * oder Gruppenprüfung handelt.
  *
  * @author Torben Groß, Marvin Kampen
- * @version 2018-01-09
+ * @version 2018-02-08
  *
  */
+@Entity
+@Table(name = "Exams")
 public class Exam extends JPAEntity {
 
     /**
      * Die Prüfungsordnung der Prüfung.
      */
+    @Column
     private String examRegulations;
 
     /**
      * Die Lehrveranstaltung der Prüfung.
      */
-    private InstanceLecture lecture;
+    @ManyToOne(optional = false)
+    private InstanceLecture ilv;
 
     /**
      * Der Startzeitpunkt der Prüfung.
      */
+    @Column
     private LocalDateTime date;
 
     /**
      * Die Prüfungsdauer.
      */
+    @Column
     private int examLength;
 
     /**
      * Der Prüfungsort.
      */
+    @Column
     private String location;
 
     /**
      * Die Art der Prüfung (bspw. Fachgespräch).
      */
+    @Column
     private String type;
 
     /**
      * Gibt an, ob es sich bei der Prüfung um eine Gruppenprüfung handelt.
      */
+    @Column
     private boolean groupExam;
 
     /**
@@ -70,6 +84,7 @@ public class Exam extends JPAEntity {
     /**
      * Die Bemerkung zur Prüfung.
      */
+    @Column
     private String comment;
 
     /**
@@ -92,22 +107,22 @@ public class Exam extends JPAEntity {
     }
 
     /**
-     * Gibt die Lehrveranstaltung der Prüfung zurück.
+     * Gibt die ILV der Prüfung zurück.
      *
-     * @return Die Lehrveranstaltung der Prüfung.
+     * @return Die ILV der Prüfung.
      */
-    public Lecture getLecture() {
-        throw new UnsupportedOperationException();
+    public InstanceLecture getIlv() {
+        return ilv;
     }
 
     /**
-     * Setzt die Lehrveranstaltung der Prüfung auf die gegebene Lehrveranstaltung.
+     * Setzt die ILV der Prüfung auf die gegebene Lehrveranstaltung.
      *
-     * @param pLecture
+     * @param pILV
      *            Die neue Lehrveranstaltung der Prüfung.
      */
-    public void setLecture(Lecture pLecture) {
-        throw new UnsupportedOperationException();
+    public void setIlv(InstanceLecture pILV) {
+        Assertion.assertNotNull(pILV);
     }
 
     /**

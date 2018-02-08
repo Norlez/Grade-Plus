@@ -410,6 +410,7 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Gibt die ILvs zurück an denen man Prüfer ist.
+     * 
      * @return Ilvs als Set
      */
     public Set<InstanceLecture> getIlvPruefer() {
@@ -418,7 +419,9 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Setzt die ILVs in den der User Prüfer ist.
-     * @param ilv in denen der User Prüfer ist.
+     * 
+     * @param ilv
+     *            in denen der User Prüfer ist.
      */
     public void setIlvPruefer(Set<InstanceLecture> ilv) {
         this.ilvPruefer = ilv;
@@ -426,7 +429,9 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Fügt eine ILV hinzu, in der der User Prüfer ist.
-     * @param pIlv wird als ILV hinzugefügt
+     * 
+     * @param pIlv
+     *            wird als ILV hinzugefügt
      */
     public void addIlvPruefer(InstanceLecture pIlv) {
         ilvPruefer.add(pIlv);
@@ -434,7 +439,9 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Entfernt eine ILV in der man Prüfer ist.
-     * @param pIlv verlässt jene ILV
+     * 
+     * @param pIlv
+     *            verlässt jene ILV
      */
     public void removeIlvPruefer(InstanceLecture pIlv) {
         ilvPruefer.remove(pIlv);
@@ -444,6 +451,7 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Erhält die Ilvs in der man Prüfling ist.
+     * 
      * @return Die ILVs in der man Prüfling ist
      */
     public Set<InstanceLecture> getIlvPruefling() {
@@ -452,7 +460,9 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Setzt die ILVS in denen man als Prüfling teilnimmt.
-     * @param ilvPruefling in welchen man teilnimmt
+     * 
+     * @param ilvPruefling
+     *            in welchen man teilnimmt
      */
     public void setIlvPruefling(Set<InstanceLecture> ilvPruefling) {
         this.ilvPruefling = ilvPruefling;
@@ -460,7 +470,9 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Tritt einer ILV als Prüfling bei
-     * @param pIlv welcher man beitritt
+     * 
+     * @param pIlv
+     *            welcher man beitritt
      */
     public void addIlvPruefling(InstanceLecture pIlv) {
         ilvPruefling.add(pIlv);
@@ -468,7 +480,9 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Verlässt eine ILV für die man Prüfling ist.
-     * @param pIlv welche man verlässt.
+     * 
+     * @param pIlv
+     *            welche man verlässt.
      */
     public void removeIlvPruefling(InstanceLecture pIlv) {
         ilvPruefling.remove(pIlv);

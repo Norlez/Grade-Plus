@@ -15,7 +15,7 @@ public class ExamDAO extends JPADAO<Exam> {
 
     @Override
     Class<Exam> getClazz() {
-        throw new UnsupportedOperationException();
+        return Exam.class;
     }
 
     /**
