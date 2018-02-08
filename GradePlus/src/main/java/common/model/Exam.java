@@ -2,6 +2,7 @@ package common.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 //import com.sun.xml.internal.bind.v2.TODO;
 import common.util.Assertion;
@@ -69,17 +70,17 @@ public class Exam extends JPAEntity {
     /**
      * Die Liste der Prüfer.
      */
-    private List<User> examiners;
+    private Set<User> examiners;
 
     /**
      * Die Liste der Prüflinge.
      */
-    private List<User> examinees;
+    private Set<User> examinees;
 
     /**
      * Die Liste der Noten der Prüfung.
      */
-    private List<Grade> grades;
+    private Set<Grade> grades;
 
     /**
      * Die Bemerkung zur Prüfung.
@@ -93,7 +94,7 @@ public class Exam extends JPAEntity {
      * @return Die Prüfungsordnung der Prüfung.
      */
     public String getExamRegulations() {
-        throw new UnsupportedOperationException();
+        return examRegulations;
     }
 
     /**
@@ -103,7 +104,7 @@ public class Exam extends JPAEntity {
      *            Die neue Prüfungsordnung.
      */
     public void setExamRegulations(String pExamRegulations) {
-        throw new UnsupportedOperationException();
+        examRegulations = Assertion.assertNotNull(pExamRegulations);
     }
 
     /**
@@ -119,10 +120,10 @@ public class Exam extends JPAEntity {
      * Setzt die ILV der Prüfung auf die gegebene Lehrveranstaltung.
      *
      * @param pILV
-     *            Die neue Lehrveranstaltung der Prüfung.
+     *            Die neue ILV der Prüfung.
      */
     public void setIlv(InstanceLecture pILV) {
-        Assertion.assertNotNull(pILV);
+        ilv = Assertion.assertNotNull(pILV);
     }
 
     /**
@@ -131,7 +132,7 @@ public class Exam extends JPAEntity {
      * @return Den Startzeitpunkt der Prüfung.
      */
     public LocalDateTime getDate() {
-        throw new UnsupportedOperationException();
+        return date;
     }
 
     /**
@@ -141,7 +142,7 @@ public class Exam extends JPAEntity {
      *            Der neue Startzeitpunkt der Prüfung.
      */
     public void setDate(LocalDateTime pDate) {
-        throw new UnsupportedOperationException();
+        date = Assertion.assertNotNull(pDate);
     }
 
     /**
@@ -150,7 +151,7 @@ public class Exam extends JPAEntity {
      * @return Die Prüfungsdauer in Minuten.
      */
     public int getExamLength() {
-        throw new UnsupportedOperationException();
+        return examLength;
     }
 
     /**
@@ -160,7 +161,7 @@ public class Exam extends JPAEntity {
      *            Die neue Prüfungsdauer in Minuten.
      */
     public void setExamLength(int pExamLength) {
-        throw new UnsupportedOperationException();
+        examLength = pExamLength;
     }
 
     /**
@@ -169,7 +170,7 @@ public class Exam extends JPAEntity {
      * @return Den Prüfungsort.
      */
     public String getLocation() {
-        throw new UnsupportedOperationException();
+        return location;
     }
 
     /**
@@ -179,7 +180,7 @@ public class Exam extends JPAEntity {
      *            Der neue Prüfungsort.
      */
     public void setLocation(String pLocation) {
-        throw new UnsupportedOperationException();
+        location = Assertion.assertNotNull(pLocation);
     }
 
     /**
@@ -190,7 +191,7 @@ public class Exam extends JPAEntity {
      * @return Die Art der Prüfung als String.
      */
     public String getType() {
-        throw new UnsupportedOperationException();
+        return type;
     }
 
     /**
@@ -199,8 +200,8 @@ public class Exam extends JPAEntity {
      * @param pType
      *            Die neue Prüfungsart.
      */
-    public void pType(String pType) {
-        throw new UnsupportedOperationException();
+    public void setType(String pType) {
+        type = Assertion.assertNotEmpty(pType);
     }
 
     /**
@@ -210,16 +211,28 @@ public class Exam extends JPAEntity {
      *         sonst {@code false}.
      */
     public boolean isGroupExam() {
-        throw new UnsupportedOperationException();
+        return groupExam;
     }
+
+    /**
+     * Gibt an ob eine Gruppenprüfung vorliegt
+     * 
+     * @param groupExam
+     *            setzt die Prüfung auf den gegebenen Wert.
+     */
+    public void setGroupExam(boolean groupExam) {
+        this.groupExam = groupExam;
+    }
+
+    // Prüfer
 
     /**
      * Gibt die Prüfer als Liste zurück.
      *
      * @return Die Prüfer als Liste.
      */
-    public List<User> getExaminers() {
-        throw new UnsupportedOperationException();
+    public Set<User> getExaminers() {
+        return examiners;
     }
 
     /**
@@ -229,17 +242,9 @@ public class Exam extends JPAEntity {
      *            Der hinzuzufügende Prüfer.
      */
     public void addExaminer(User theExaminer) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Fügt die in der gegebenen Liste vorhandenen Benutzer den Prüfern hinzu.
-     *
-     * @param pExaminers
-     *            Die Liste der hinzuzufügenden Prüfer.
-     */
-    public void addExaminers(List<User> pExaminers) {
-        throw new UnsupportedOperationException();
+        if (theExaminer != null) {
+            examiners.add(theExaminer);
+        }
     }
 
     /**
@@ -248,18 +253,8 @@ public class Exam extends JPAEntity {
      * @param pExaminer
      *            Der neue Prüfer.
      */
-    public void setExaminer(User pExaminer) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Setzt die Prüfer auf die in der gegebenen Liste vorhandenen Benutzer.
-     *
-     * @param pExaminers
-     *            Die neuen Prüfer.
-     */
-    public void setExaminers(List<User> pExaminers) {
-        throw new UnsupportedOperationException();
+    public void setExaminer(Set<User> pExaminer) {
+        examiners = Assertion.assertNotNull(pExaminer);
     }
 
     /**
@@ -269,26 +264,20 @@ public class Exam extends JPAEntity {
      *            Der zu entfernende Prüfer.
      */
     public void removeExaminer(User pExaminer) {
-        throw new UnsupportedOperationException();
+        if (pExaminer != null) {
+            examiners.remove(pExaminer);
+        }
     }
 
-    /**
-     * Entfernt die in der gegebenen Liste vorhandenen Benutzer als Prüfer.
-     *
-     * @param pExaminers
-     *            Die Liste der zu entfernenden Prüfer.
-     */
-    public void removeExaminers(List<User> pExaminers) {
-        throw new UnsupportedOperationException();
-    }
+    // Prüflinge
 
     /**
      * Gibt die Prüflinge als Liste zurück.
      *
      * @return Die Prüflinge als Liste.
      */
-    public List<User> getExaminees() {
-        throw new UnsupportedOperationException();
+    public Set<User> getExaminees() {
+        return examinees;
     }
 
     /**
@@ -298,17 +287,9 @@ public class Exam extends JPAEntity {
      *            Der hinzuzufügende Prüfling.
      */
     public void addExaminee(User pExaminee) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt die in der gegebenen Liste vorhandenen Benutzer den Prüflingen hinzu.
-     *
-     * @param pExaminees
-     *            Die Liste der hinzuzufügenden Prüflinge.
-     */
-    public void addExaminees(List<User> pExaminees) {
-        throw new UnsupportedOperationException();
+        if (pExaminee != null) {
+            examinees.add(pExaminee);
+        }
     }
 
     /**
@@ -317,18 +298,8 @@ public class Exam extends JPAEntity {
      * @param pExaminee
      *            Der neue Prüfling.
      */
-    public void setExaminee(User pExaminee) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Setzt die Prüflinge auf die in der gegebenen Liste vorhandenen Benutzer.
-     *
-     * @param pExaminees
-     *            Die Liste der neuen Prüflinge.
-     */
-    public void setExaminees(List<User> pExaminees) {
-        throw new UnsupportedOperationException();
+    public void setExaminee(Set<User> pExaminee) {
+        examinees = Assertion.assertNotNull(pExaminee);
     }
 
     /**
@@ -338,26 +309,24 @@ public class Exam extends JPAEntity {
      *            Der zu entfernende Prüfling.
      */
     public void removeExaminee(User pExaminee) {
-        throw new UnsupportedOperationException();
+        if (pExaminee != null) {
+            examinees.remove(pExaminee);
+        }
     }
 
-    /**
-     * Entfernt die in der gegebenen Liste vorhandenen Benutzer als Prüflinge.
-     *
-     * @param pExaminees
-     *            Die Liste der zu entfernenden Prüflinge.
-     */
-    public void removeExaminees(List<User> pExaminees) {
-        throw new UnsupportedOperationException();
-    }
+    // Grade
 
     /**
      * Gibt die Noten der Prüfung als Liste zurück.
      *
      * @return Die Noten der Prüfung als Liste.
      */
-    public List<Grade> getGrades() {
-        throw new UnsupportedOperationException();
+    public Set<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<Grade> grades) {
+        this.grades = Assertion.assertNotNull(grades);
     }
 
     /**
@@ -378,17 +347,7 @@ public class Exam extends JPAEntity {
      *            Die hinzuzufügende Note.
      */
     public void addGrade(Grade pGrade) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Fügt die in der gegebenen Liste vorhandenen Noten zu den Noten der Prüfung hinzu.
-     *
-     * @param pGrades
-     *            Die Liste der hinzuzufügenden Noten.
-     */
-    public void addGrades(List<Grade> pGrades) {
-        throw new UnsupportedOperationException();
+        grades.add(pGrade);
     }
 
     /**
@@ -398,17 +357,7 @@ public class Exam extends JPAEntity {
      *            Die zu entfernende Note.
      */
     public void removeGrade(Grade pGrade) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Entfernt die in der gegebenen Liste vorhandenen Noten aus den Noten der Prüfung.
-     *
-     * @param pGrades
-     *            Die Liste der zu entfernenden Noten.
-     */
-    public void removeGrades(List<Grade> pGrades) {
-        throw new UnsupportedOperationException();
+        grades.remove(pGrade);
     }
 
 }
