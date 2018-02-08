@@ -141,6 +141,18 @@ public class User extends JPAEntity implements Serializable {
     private Set<InstanceLecture> ilvPruefling;
 
     /**
+     * Die Prüfungen für die man als Prüfer eingetragen ist.
+     */
+
+    private Set<Exam> examPruefer;
+
+    /**
+     * Die Prüfungen für die man als Prüfling eingetragen ist.
+     */
+
+    private Set<Exam> examPruefling;
+
+    /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
      */
     // TODO: Problem mit History
@@ -470,7 +482,7 @@ public class User extends JPAEntity implements Serializable {
 
     /**
      * Tritt einer ILV als Prüfling bei
-     * 
+     *
      * @param pIlv
      *            welcher man beitritt
      */
@@ -486,5 +498,33 @@ public class User extends JPAEntity implements Serializable {
      */
     public void removeIlvPruefling(InstanceLecture pIlv) {
         ilvPruefling.remove(pIlv);
+    }
+
+    // TerminPrüfer
+
+    public Set<Exam> getExamPruefer() {
+        return examPruefer;
+    }
+
+    public void setExamPruefer(Set<Exam> examPruefer) {
+        this.examPruefer = examPruefer;
+    }
+
+    public void addExamForPruefer(Exam pExam) {
+        examPruefer.add(pExam);
+    }
+
+    public void removeExamForPruefer(Exam pExam) {
+        examPruefer.remove(pExam);
+    }
+
+    // TerminPrüfling
+
+    public Set<Exam> getExamPruefling() {
+        return examPruefling;
+    }
+
+    public void setExamPruefling(Set<Exam> examPruefling) {
+        this.examPruefling = examPruefling;
     }
 }

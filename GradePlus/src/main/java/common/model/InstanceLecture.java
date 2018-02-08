@@ -34,6 +34,18 @@ public class InstanceLecture extends JPAEntity {
     private Set<User> pruefling;
 
     /**
+     * Das Jahr in dem die ILV stattfindet.
+     */
+    @Column(nullable = false)
+    private String year;
+
+    /**
+     * Das Semester in dem die ILV stattfindet (Winter oder Sommer).
+     */
+    @Column(nullable = false)
+    private boolean semester;
+
+    /**
      * Die Prüfungstermine, die zur ILV gehören
      */
     @OneToMany(mappedBy = "ilv", cascade = CascadeType.REMOVE)
@@ -143,34 +155,79 @@ public class InstanceLecture extends JPAEntity {
     // Prüfungstermine
 
     /**
-     *
-     * @return
+     * Gibt die Prüfungstermine der ILV zurück.
+     * 
+     * @return Prüfungstermine
      */
     public Set<Exam> getTermine() {
         return termine;
     }
 
     /**
-     *
+     * Setzt die Prüfungstermine der ILV.
+     * 
      * @param termine
+     *            der ILV
      */
     public void setTermine(Set<Exam> termine) {
         this.termine = termine;
     }
 
     /**
-     *
+     * Fügt einen Prüfungstermin der ILV hinzu.
+     * 
      * @param pTermin
+     *            , der hinzugefügt wird
      */
     public void addTermin(Exam pTermin) {
         termine.add(pTermin);
     }
 
     /**
-     *
+     * Entfernt einen Prüfungstermin aus der ILV.
+     * 
      * @param pTermin
+     *            , der entfernt wird
      */
     public void removeTermin(Exam pTermin) {
         termine.remove(pTermin);
+    }
+
+    /**
+     * Gibt das Jahr der ILV zurück
+     * 
+     * @return Jahr der ILV
+     */
+    public String getYear() {
+        return year;
+    }
+
+    /**
+     * Setzt das Jahr der ILv.
+     * 
+     * @param year
+     *            wird als Jahr übernommen.
+     */
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    /**
+     * Gibt das Semester der ILV zurück
+     * 
+     * @return das Semester als boolean
+     */
+    public boolean isSemester() {
+        return semester;
+    }
+
+    /**
+     * Setzt das Semester der Ilv
+     * 
+     * @param semester
+     *            ist das Semester als boolean
+     */
+    public void setSemester(boolean semester) {
+        this.semester = semester;
     }
 }
