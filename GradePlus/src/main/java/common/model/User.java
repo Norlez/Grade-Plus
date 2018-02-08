@@ -31,6 +31,7 @@ import static java.util.Collections.unmodifiableList;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -126,6 +127,9 @@ public class User extends JPAEntity implements Serializable {
      */
     @Column(nullable = false)
     private boolean isActive = true;
+
+    @ManyToMany
+    private Set<InstanceLecture> ilv;
 
     /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
@@ -363,4 +367,21 @@ public class User extends JPAEntity implements Serializable {
         return DEFAULT_LANGUAGE;
     }
 
+    // Test
+
+    public Set<InstanceLecture> getIlv() {
+        return ilv;
+    }
+
+    public void setIlv(Set<InstanceLecture> ilv) {
+        this.ilv = ilv;
+    }
+
+    public void addIlv(InstanceLecture pIlv) {
+        ilv.add(pIlv);
+    }
+
+    public void removeIlv(InstanceLecture pIlv) {
+        ilv.remove(pIlv);
+    }
 }

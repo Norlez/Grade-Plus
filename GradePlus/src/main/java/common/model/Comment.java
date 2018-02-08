@@ -1,6 +1,7 @@
 package common.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -15,7 +16,6 @@ import static common.util.Assertion.assertNotNull;
  * @author Torben Groß, Marvin Kampen
  * @version 2018-02-08
  */
-
 public class Comment extends JPAEntity {
 
     /**

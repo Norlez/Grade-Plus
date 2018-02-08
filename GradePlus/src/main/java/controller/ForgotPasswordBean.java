@@ -15,8 +15,6 @@ public class ForgotPasswordBean extends AbstractBean {
      * 
      * @param pSession
      *            Die Session der zu erzeugenden ForgotPasswordBean.
-     * @param pMessageDAO
-     *            Die DAO der zu erzeugenden MessageBean.
      *
      */
     public ForgotPasswordBean(Session pSession) {
