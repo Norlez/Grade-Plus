@@ -142,6 +142,33 @@ public class User extends JPAEntity implements Serializable {
     // private History history;
 
     /**
+     * Temporäres Passwort, das für die Authenfizierung der eingegebenen Email und Password bei der Registrierung
+     * benötigt wird
+     */
+    private String tmpPassword;
+
+
+    /**
+     * Setzt den übergebenen String als temporäres Passwort
+     *  @param pTmpPassword
+     *            Der neue Nachname für diesen Benutzer.
+     * @throws IllegalArgumentException
+     *             Falls der gegebene Nachname den Wert {@code null} hat.
+     */
+    public void setTmpPassword(String pTmpPassword){
+
+        tmpPassword = Assertion.assertNotNull(pTmpPassword);
+    }
+
+    /**
+     * Gibt das temporäre Passwort zurück.
+     * @return Das Passwort, welches temporär gespeichert wird.
+     */
+    public String getTmpPassword(){
+        return tmpPassword;
+    }
+
+    /**
      * Gibt den Benutzernamen dieses Benutzers zurück.
      *
      * @return Den Benutzernamen dieses Benutzers.
@@ -248,7 +275,9 @@ public class User extends JPAEntity implements Serializable {
      *             durchzuführen.
      */
     public void setPassword(final String pPassword) {
+
         password = Crypt.hash(Assertion.assertNotNull(pPassword));
+        tmpPassword = Assertion.assertNotNull(pPassword);
     }
 
     /**

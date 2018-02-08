@@ -43,6 +43,11 @@ public class RegistrationBean extends LoginIndependentBean {
     private User user;
 
     /**
+     * Die zu erstellende Mail.
+     */
+    private RegisterMailBean sender;
+
+    /**
      * Erzeugt eine neue RegistrationBean.
      *
      * @param pSession
@@ -54,6 +59,7 @@ public class RegistrationBean extends LoginIndependentBean {
     public RegistrationBean(Session pSession, UserDAO pUserDAO) {
         super(assertNotNull(pSession));
         userDao = assertNotNull(pUserDAO);
+        sender = new RegisterMailBean();
         user = new User();
     }
 
@@ -74,15 +80,21 @@ public class RegistrationBean extends LoginIndependentBean {
         return user;
     }
 
-    MailBean sender = new MailBean();
 
     /**
      * Registriert einen neuen Benutzer mit allen aktuell angezeigen Stammdatem im System.
+     *
+     * @return Die Seite, auf der der User nach der Registrierung weitergeleitet wird.
      */
     public String register() {
         try {
-            sender.main(user);
-            userDao.save(user);
+            //Prüft, ob die eingegebenen Daten gültig sind.
+            if(sender.isEmailPassCombiValid(user.getEmail(), user.getTmpPassword())){
+                //Überschreibt, das kurz benötigte Passwort mit einem leeren String(Sicherheit)
+                user.setTmpPassword("");
+                userDao.save(user);
+                sender.registerMail(user);
+            }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));

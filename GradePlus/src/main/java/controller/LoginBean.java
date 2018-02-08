@@ -103,6 +103,7 @@ public class LoginBean extends AbstractBean {
      */
     private final UserDAO userDAO;
 
+
     /**
      * Erzeugt eine neue LoginBean.
      *
@@ -238,6 +239,7 @@ public class LoginBean extends AbstractBean {
             return null;
         }
         final User registeredUser = userDAO.getUserForUsername(username);
+        registeredUser.setTmpPassword(password);
         if (registeredUser == null) {
             addErrorMessage(loginButton, "errorUnknownUsername");
             password = "";

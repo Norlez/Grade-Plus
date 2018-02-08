@@ -30,43 +30,44 @@
                     </b:column>
                 </b:row>
 
-                <!-- USER -->
-                <b:row>
-                    <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText placeholder="user" id="user" required="true" />
-                    </b:column>
-                </b:row>
 
-                <!-- PASSWORD -->
-                <b:row>
-                    <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputSecret placeholder="password" id="password" required="true" />
-                    </b:column>
-                </b:row>
 
                 <!-- RECEIVER -->
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputText placeholder="receiver" id="receiver" required="true" />
+                        <b:inputText placeholder="receiver" id="receiver" required="true"
+                                     value="#{mailBean.recipient}"/>
+                    </b:column>
+                </b:row>
+
+                <!-- TOPIC -->
+                <b:row>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText placeholder="Topic" id="topic" required="true"
+                                     value="#{mailBean.topic}"/>
                     </b:column>
                 </b:row>
 
                 <!-- MESSAGE -->
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:inputTextarea placeholder="Message" id="message" required="true" />
+                        <b:inputTextarea placeholder="Message" id="message" required="true"
+                                         value="#{mailBean.content}"/>
                     </b:column>
                 </b:row>
 
                 <!-- SEND BUTTON -->
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:commandButton id="sendMessage" value="Send" />
+                        <b:commandButton id="sendMessage"
+                                         value="send"
+                                         action="#{mailBean.sendMailTo}"/>
                     </b:column>
                 </b:row>
 
             </b:container>
         </b:form>
+
 
     </ui:define>
 </ui:composition>
