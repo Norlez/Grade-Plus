@@ -1,12 +1,16 @@
 package common.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class InstanceLecture extends JPAEntity {
 
-    @ManyToOne(optional = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "lecture_fk")
     private Lecture lecture;
 
     public Lecture getLecture() {
