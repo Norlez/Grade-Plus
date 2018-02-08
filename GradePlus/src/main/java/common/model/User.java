@@ -32,13 +32,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import businesslogic.Crypt;
 import common.util.Assertion;
@@ -99,6 +93,7 @@ public class User extends JPAEntity implements Serializable {
     /**
      * Die Email-Adresse dieses Benutzers.
      */
+
     @Column(unique = true, nullable = false)
     private String email;
 

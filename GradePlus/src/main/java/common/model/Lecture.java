@@ -31,7 +31,7 @@ public class Lecture extends JPAEntity {
     /**
      * Die VAK-Nummer der Lehrveranstaltung.
      */
-    @Id
+
     @Column(nullable = false, unique = true)
     private String vak;
 
@@ -50,8 +50,7 @@ public class Lecture extends JPAEntity {
     /**
      * Eine Liste aller Instanzen der Lehrveranstaltung
      */
-    @OneToMany(mappedBy = "lecture")
-    @JoinColumn(name = "lecture_fk")
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE)
     private Set<InstanceLecture> instanceLectures;
 
     /**
