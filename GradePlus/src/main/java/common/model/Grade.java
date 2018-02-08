@@ -31,9 +31,7 @@ import static common.util.Assertion.assertNotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Repräsentation einer Noteneintragung für ein Fach. Zwei Noteneintragungen sind gleich,
@@ -46,6 +44,7 @@ import javax.persistence.ManyToOne;
  * @version 2016-07-22
  */
 @Entity
+@Table(name = "grades")
 public class Grade extends JPAEntity implements Serializable {
 
     /**

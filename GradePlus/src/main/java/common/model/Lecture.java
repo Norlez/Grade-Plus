@@ -1,7 +1,7 @@
 package common.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 import common.util.Assertion;
 
 import static common.util.Assertion.assertNotNegative;
@@ -31,6 +31,7 @@ public class Lecture extends JPAEntity {
     /**
      * Die VAK-Nummer der Lehrveranstaltung.
      */
+
     @Column(nullable = false, unique = true)
     private String vak;
 
@@ -49,8 +50,8 @@ public class Lecture extends JPAEntity {
     /**
      * Eine Liste aller Instanzen der Lehrveranstaltung
      */
-    // @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE)
-    private List<InstanceLecture> instanceLectures;
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE)
+    private Set<InstanceLecture> instanceLectures;
 
     /**
      * Gibt den Namen der Lehrveranstaltung zurück.
@@ -131,14 +132,31 @@ public class Lecture extends JPAEntity {
     /**
      * Gibt die Liste der instanzierten Lehrveranstaltungen zurück.
      */
-    public List<InstanceLecture> getInstanceLectures() {
+    public Set<InstanceLecture> getInstanceLectures() {
         return instanceLectures;
     }
 
     /**
      * Setzt die Liste der instanzierten Lehrveranstaltungen.
      */
-    public void setInstanceLectures(final List<InstanceLecture> pInstanceLectures) {
+    public void setInstanceLectures(final Set<InstanceLecture> pInstanceLectures) {
         instanceLectures = assertNotNull(pInstanceLectures);
+    }
+
+    /**
+     * Fügt eine ILV hinzu zu einer Lehrveranstaltung
+     */
+
+    public void addILV(final InstanceLecture ilv) {
+        if (ilv != null) {
+            instanceLectures.add(ilv);
+        }
+    }
+
+    /**
+     * Entfernt eine ILV aus einer Lehrveranstaltung.
+     */
+    public void removeILV(final InstanceLecture ilv) {
+        instanceLectures.remove(ilv);
     }
 }

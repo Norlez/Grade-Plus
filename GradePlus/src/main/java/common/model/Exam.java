@@ -25,7 +25,7 @@ public class Exam extends JPAEntity {
     /**
      * Die Lehrveranstaltung der Prüfung.
      */
-    private Lecture lecture;
+    private InstanceLecture lecture;
 
     /**
      * Der Startzeitpunkt der Prüfung.
@@ -71,13 +71,6 @@ public class Exam extends JPAEntity {
      * Die Bemerkung zur Prüfung.
      */
     private String comment;
-
-    public Exam(String pExamRegulations, Lecture pLecture, LocalDateTime pDate,
-            int pExamLength, String pLocation, String pType, boolean pGroupExam,
-            List<User> pExaminiers, List<User> pExaminees, List<Grade> pGrades,
-            String pComment) {
-        // TODO: Hier knackt es.
-    }
 
     /**
      * Gibt die Prüfungsordnung der Prüfung zurück.

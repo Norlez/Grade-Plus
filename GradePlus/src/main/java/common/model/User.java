@@ -31,14 +31,9 @@ import static java.util.Collections.unmodifiableList;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import businesslogic.Crypt;
 import common.util.Assertion;
@@ -99,6 +94,7 @@ public class User extends JPAEntity implements Serializable {
     /**
      * Die Email-Adresse dieses Benutzers.
      */
+
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -132,8 +128,8 @@ public class User extends JPAEntity implements Serializable {
     @Column(nullable = false)
     private boolean isActive = true;
 
-    // @Column(nullable = true)
-    // private List<InstanceLecture> instanceLectures;
+    @ManyToMany
+    private Set<InstanceLecture> ilv;
 
     /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
@@ -342,14 +338,6 @@ public class User extends JPAEntity implements Serializable {
         this.role = role;
     }
 
-    // public List<InstanceLecture> getLectures() {
-    // return instanceLectures;
-    // }
-
-    // public void setLectures(List<InstanceLecture> lectures) {
-    // this.instanceLectures = lectures;
-    // }
-
     @Override
     public boolean equals(final Object theObject) {
         if (!(theObject instanceof User)) {
@@ -379,4 +367,21 @@ public class User extends JPAEntity implements Serializable {
         return DEFAULT_LANGUAGE;
     }
 
+    // Test
+
+    public Set<InstanceLecture> getIlv() {
+        return ilv;
+    }
+
+    public void setIlv(Set<InstanceLecture> ilv) {
+        this.ilv = ilv;
+    }
+
+    public void addIlv(InstanceLecture pIlv) {
+        ilv.add(pIlv);
+    }
+
+    public void removeIlv(InstanceLecture pIlv) {
+        ilv.remove(pIlv);
+    }
 }
