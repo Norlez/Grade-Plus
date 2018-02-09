@@ -48,8 +48,19 @@ public class ExamDAO extends JPADAO<Exam> {
      */
     @Override
     public synchronized void update(Exam pExam) {
-        throw new UnsupportedOperationException();
+        assertNotNull(pExam);
+        try
+        {
+            super.update(pExam);
+        }
+        catch (DuplicateUniqueFieldException e)
+        {
+            throw new UnexpectedUniqueViolationException(e);
+        }
+
     }
+
+    //TODO: Die anderen Sachen implementieren
 
     /**
      * Gibt eine Liste mit allen innerhalb der Applikation bekannten Prüfungen zurück.
