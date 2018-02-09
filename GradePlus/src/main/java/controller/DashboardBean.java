@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Mittels BackupBean werden die Anzeigen und Aktivitätsmöglichkeiten Aufgrund der
+ * Mittels DashboardBean werden die Anzeigen und Aktivitätsmöglichkeiten Aufgrund der
  * Benutzerberechtigung auf der Startseite geregelt.
  *
  * @author Andreas Estenfelder, Torben Groß

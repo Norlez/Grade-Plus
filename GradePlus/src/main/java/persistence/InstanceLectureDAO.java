@@ -3,6 +3,11 @@ package persistence;
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.InstanceLecture;
+import common.model.Lecture;
+
+import java.util.List;
+
+import static common.util.Assertion.assertNotEmpty;
 import static common.util.Assertion.assertNotNull;
 
 /**
@@ -35,5 +40,28 @@ public class InstanceLectureDAO extends JPADAO<InstanceLecture> {
         }
     }
 
-    // TODO: SQL Querries fehlen noch(siehe z.B. ExamDAO)
+    // TODO: SQL Querries fehlen noch(siehe z.B. ExamDAO) oder sind ungetestet
+    /**
+     * Gibt eine Liste mit allen innerhalb der Applikation bekannten ILVs
+     * zurück.
+     *
+     * @return Liste mit allen innerhalb der Applikation bekannten Lehrveranstaltungen.
+     */
+    public List<InstanceLecture> getAllIlvs() {
+        return getEm().createNamedQuery("InstanceLectures.findAll", getClazz()).getResultList();
+    }
+
+    /**
+     * Gibt die ILV mit der gegebenen Lehrveranstaltung zurück.
+     *
+     * @param pLecture
+     *            Der Name der gesuchten Lehrveranstaltung.
+     * @return Die ILVS mit der gegebenen Lehrveranstaltung.
+     */
+    public List<InstanceLecture> getIlvForLecture(Lecture pLecture) {
+        final List<InstanceLecture> lectures = getEm()
+                .createNamedQuery("InstanceLectures.findForLecture", getClazz())
+                .setParameter("lecture", pLecture).getResultList();
+        return lectures.isEmpty() ? null : lectures;
+    }
 }

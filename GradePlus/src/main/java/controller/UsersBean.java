@@ -235,14 +235,15 @@ public class UsersBean extends AbstractBean implements Serializable {
         init();
     }
 
-    //TODO: Rollenänderung ist nicht getestet
+    // TODO: Rollenänderung ist nicht getestet
 
     /**
      * Setzt die User-Rolle auf Prüfer.
-     * @param pUser, der zu verändernde User
+     * 
+     * @param pUser
+     *            , der zu verändernde User
      */
-    public void setRolePruefer(User pUser)
-    {
+    public void setRolePruefer(User pUser) {
         assertNotNull(pUser);
         pUser.setRole(Role.EXAMINER);
         update(pUser);
@@ -251,10 +252,11 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt die User-Rolle auf Student.
-     * @param pUser, der zu verändernde User
+     * 
+     * @param pUser
+     *            , der zu verändernde User
      */
-    public void setRoleStudent(User pUser)
-    {
+    public void setRoleStudent(User pUser) {
         assertNotNull(pUser);
         pUser.setRole(Role.STUDENT);
         update(pUser);
@@ -263,10 +265,11 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt die User-Rolle auf Admin.
-     * @param pUser, der zu verändernde User
+     * 
+     * @param pUser
+     *            , der zu verändernde User
      */
-    public void setRoleAdmin(User pUser)
-    {
+    public void setRoleAdmin(User pUser) {
         assertNotNull(pUser);
         pUser.setRole(Role.ADMIN);
         update(pUser);
