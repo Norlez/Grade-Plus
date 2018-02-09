@@ -39,11 +39,14 @@ public class CryptTest {
     /**
      * Testet die erwartete Exception falls der Parameterwert {@code null} ist.
      */
-    /*
-     * @Test public void testHashNull() {
-     * assertThatIllegalArgumentException().isThrownBy(() -> Crypt.hash(null)); }
-     * 
-     * /** Testet den erwarteten MD5-Hash für den leeren String.
+
+    @Test
+    public void testHashNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> Crypt.hash(null));
+    }
+
+    /**
+     * Testet den erwarteten MD5-Hash für den leeren String.
      */
     /*
      * @Test public void testHashEmpty() { final String expected =

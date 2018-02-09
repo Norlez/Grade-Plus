@@ -156,6 +156,13 @@
             <version>0.3m</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-calendar -->
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-calendar</artifactId>
+            <version>v3-rev290-1.23.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

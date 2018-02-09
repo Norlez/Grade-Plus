@@ -217,8 +217,21 @@ public class UsersBean extends AbstractBean implements Serializable {
      *
      *
      */
-    public void update() {
-        throw new UnsupportedOperationException();
+    public void update(final User pUser) { // TODO: Nicht Getestet
+        assertNotNull(pUser);
+        try {
+            userDao.update(pUser);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", user.getEmail());
+        }
+        init();
     }
 
 }

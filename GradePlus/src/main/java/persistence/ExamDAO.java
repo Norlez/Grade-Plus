@@ -30,12 +30,9 @@ public class ExamDAO extends JPADAO<Exam> {
     @Override
     public synchronized void save(Exam pExam) {
         assertNotNull(pExam);
-        try
-        {
+        try {
             super.save(pExam);
-        }
-        catch(DuplicateUniqueFieldException e)
-        {
+        } catch (DuplicateUniqueFieldException e) {
             throw new UnexpectedUniqueViolationException(e);
         }
     }
@@ -49,18 +46,15 @@ public class ExamDAO extends JPADAO<Exam> {
     @Override
     public synchronized void update(Exam pExam) {
         assertNotNull(pExam);
-        try
-        {
+        try {
             super.update(pExam);
-        }
-        catch (DuplicateUniqueFieldException e)
-        {
+        } catch (DuplicateUniqueFieldException e) {
             throw new UnexpectedUniqueViolationException(e);
         }
 
     }
 
-    //TODO: Die anderen Sachen implementieren
+    // TODO: Die anderen Sachen implementieren
 
     /**
      * Gibt eine Liste mit allen innerhalb der Applikation bekannten Prüfungen zurück.
