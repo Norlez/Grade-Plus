@@ -197,3 +197,4 @@ $RECYCLE.BIN/
 /Tools/
 *.log
 /GradePlus/
+/derby.log
