@@ -7,10 +7,7 @@ import java.util.Set;
 //import com.sun.xml.internal.bind.v2.TODO;
 import common.util.Assertion;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Repräsentiert eine Prüfung. Eine Prüfung enthält ein Datum, eine Lehrveranstaltung,
@@ -70,11 +67,13 @@ public class Exam extends JPAEntity {
     /**
      * Die Liste der Prüfer.
      */
+    @ManyToOne(targetEntity = User.class, optional = true)
     private Set<User> examiners;
 
     /**
      * Die Liste der Prüflinge.
      */
+    @ManyToOne(targetEntity = User.class, optional = true)
     private Set<User> examinees;
 
     /**

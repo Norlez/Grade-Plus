@@ -24,13 +24,13 @@ public class InstanceLecture extends JPAEntity {
     /**
      * Die Prüfer der ILV.
      */
-    @ManyToMany
+    @ManyToMany(targetEntity = User.class)
     private Set<User> pruefer;
 
     /**
      * Die Prüflinge der ILV.
      */
-    @ManyToMany
+    @ManyToMany(targetEntity = User.class)
     private Set<User> pruefling;
 
     /**
