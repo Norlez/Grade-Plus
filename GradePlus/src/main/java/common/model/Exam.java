@@ -77,7 +77,7 @@ public class Exam extends JPAEntity {
     private Set<User> examinees;
 
     /**
-     * Die Liste der Noten der Prüfung.
+     * Die Liste der Noten der Prüfung. TODO: Mapping hinzufügen
      */
     private Set<Grade> grades;
 

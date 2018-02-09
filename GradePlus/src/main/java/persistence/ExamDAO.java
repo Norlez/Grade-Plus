@@ -2,9 +2,12 @@ package persistence;
 
 import java.util.List;
 
+import common.exception.DuplicateUniqueFieldException;
+import common.exception.UnexpectedUniqueViolationException;
 import common.model.Exam;
 import common.model.Lecture;
 import common.model.User;
+import static common.util.Assertion.assertNotNull;
 
 /**
  * Dieses DAO verwaltet die Objekte der Klasse {@link Exam}.
@@ -26,7 +29,15 @@ public class ExamDAO extends JPADAO<Exam> {
      */
     @Override
     public synchronized void save(Exam pExam) {
-        throw new UnsupportedOperationException();
+        assertNotNull(pExam);
+        try
+        {
+            super.save(pExam);
+        }
+        catch(DuplicateUniqueFieldException e)
+        {
+            throw new UnexpectedUniqueViolationException(e);
+        }
     }
 
     /**
