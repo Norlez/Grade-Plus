@@ -36,6 +36,7 @@ import javax.inject.Named;
 
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
+import common.model.Role;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -231,6 +232,44 @@ public class UsersBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", user.getEmail());
         }
+        init();
+    }
+
+    //TODO: Rollenänderung ist nicht getestet
+
+    /**
+     * Setzt die User-Rolle auf Prüfer.
+     * @param pUser, der zu verändernde User
+     */
+    public void setRolePruefer(User pUser)
+    {
+        assertNotNull(pUser);
+        pUser.setRole(Role.EXAMINER);
+        update(pUser);
+        init();
+    }
+
+    /**
+     * Setzt die User-Rolle auf Student.
+     * @param pUser, der zu verändernde User
+     */
+    public void setRoleStudent(User pUser)
+    {
+        assertNotNull(pUser);
+        pUser.setRole(Role.STUDENT);
+        update(pUser);
+        init();
+    }
+
+    /**
+     * Setzt die User-Rolle auf Admin.
+     * @param pUser, der zu verändernde User
+     */
+    public void setRoleAdmin(User pUser)
+    {
+        assertNotNull(pUser);
+        pUser.setRole(Role.ADMIN);
+        update(pUser);
         init();
     }
 
