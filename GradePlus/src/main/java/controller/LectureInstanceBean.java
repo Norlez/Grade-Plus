@@ -26,7 +26,6 @@ import java.util.List;
 @RequestScoped
 public class LectureInstanceBean extends AbstractBean implements Serializable {
 
-
     /**
      * Der Logger für diese Klasse.
      */
@@ -39,8 +38,8 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
     private final InstanceLectureDAO instanceLectureDAO;
 
     /**
-     * Die aktuell angezeigte ILV, dessen Attribute durch die UIKomponenten
-     * des Facelets geschrieben und gelesen werden.
+     * Die aktuell angezeigte ILV, dessen Attribute durch die UIKomponenten des Facelets
+     * geschrieben und gelesen werden.
      */
     private InstanceLecture ilv;
 
@@ -53,7 +52,6 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
      * Die Liste aller ILVs zu einer Lehrveranstaltung.
      */
     private List<InstanceLecture> ilvs;
-
 
     /**
      * Erzeugt eine neue LectureInstanceBean.
@@ -72,9 +70,9 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Initialisiert die Attribute {@link #ilv} und {@link #allIlvs}, sodass
-     * {@link #ilv} eine neu anzulegende {@link #ilv} repräsentiert und
-     * {@link #allIlvs} alle bekannten ILVs der Applikation enthält.
+     * Initialisiert die Attribute {@link #ilv} und {@link #allIlvs}, sodass {@link #ilv}
+     * eine neu anzulegende {@link #ilv} repräsentiert und {@link #allIlvs} alle bekannten
+     * ILVs der Applikation enthält.
      */
     @PostConstruct
     public void init() {
@@ -94,8 +92,7 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
     /**
      * Gibt alle innerhalb der Applikation bekannten ILVs zurück.
      *
-     * @return Die anzuzeigende Liste aller innerhalb der Applikation bekannten
-     *         ILVs.
+     * @return Die anzuzeigende Liste aller innerhalb der Applikation bekannten ILVs.
      */
     public List<InstanceLecture> getAllLectures() {
         return allIlvs;
@@ -104,9 +101,9 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
     /**
      * Gibt alle ILVs einer LV zurück.
      *
-     * @param pLecture Die gesuchte Lehrveranstaltung.
-     * @return Die anzuzeigende Liste aller
-     *         ILVs zu einer LV.
+     * @param pLecture
+     *            Die gesuchte Lehrveranstaltung.
+     * @return Die anzuzeigende Liste aller ILVs zu einer LV.
      */
     public List<InstanceLecture> getAllIlvsForLecture(final Lecture pLecture) {
         Lecture l = pLecture;
@@ -115,8 +112,8 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Fügt die aktuell angezeigte ILV der Liste aller innerhalb der
-     * Applikation bekannten ILVs hinzu.
+     * Fügt die aktuell angezeigte ILV der Liste aller innerhalb der Applikation bekannten
+     * ILVs hinzu.
      *
      * @return "lectures.xhtml", um auf das Facelet der Übersicht der Lehrveranstaltung zu
      *         leiten.
@@ -129,7 +126,7 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
                     getTranslation("errorILVdataIncomplete"));
         }
         init();
-        return "lectures.xhtml"; //TODO: Muss auf die ILV Seite zeigen
+        return "lectures.xhtml"; // TODO: Muss auf die ILV Seite zeigen
     }
 
     /**

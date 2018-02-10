@@ -12,11 +12,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "instanceLectures")
-@NamedQueries( {
-        @NamedQuery(name="InstanceLectures.findAll", query = "SELECT l FROM InstanceLecture l"),
-        @NamedQuery(name="InstanceLectures.findForLecture", query = "SELECT l FROM InstanceLecture l WHERE l.lecture =: lecture")
-}
-)
+@NamedQueries({
+        @NamedQuery(name = "InstanceLectures.findAll", query = "SELECT l FROM InstanceLecture l"),
+        @NamedQuery(name = "InstanceLectures.findForLecture", query = "SELECT l FROM InstanceLecture l WHERE l.lecture = :lecture") })
 public class InstanceLecture extends JPAEntity {
 
     /**

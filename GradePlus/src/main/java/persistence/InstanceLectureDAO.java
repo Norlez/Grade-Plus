@@ -42,13 +42,13 @@ public class InstanceLectureDAO extends JPADAO<InstanceLecture> {
 
     // TODO: SQL Querries fehlen noch(siehe z.B. ExamDAO) oder sind ungetestet
     /**
-     * Gibt eine Liste mit allen innerhalb der Applikation bekannten ILVs
-     * zurück.
+     * Gibt eine Liste mit allen innerhalb der Applikation bekannten ILVs zurück.
      *
      * @return Liste mit allen innerhalb der Applikation bekannten Lehrveranstaltungen.
      */
     public List<InstanceLecture> getAllIlvs() {
-        return getEm().createNamedQuery("InstanceLectures.findAll", getClazz()).getResultList();
+        return getEm().createNamedQuery("InstanceLectures.findAll", getClazz())
+                .getResultList();
     }
 
     /**
