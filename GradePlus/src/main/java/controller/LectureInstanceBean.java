@@ -1,5 +1,6 @@
 package controller;
 
+import common.exception.DuplicateInstanceLectureException;
 import common.model.InstanceLecture;
 import common.model.Lecture;
 import common.model.Session;
@@ -77,7 +78,7 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         ilv = new InstanceLecture();
-        allIlvs = instanceLectureDAO.getAllIlvs();
+        allIlvs = instanceLectureDAO.getAllInstanceLectures();
     }
 
     /**
@@ -107,7 +108,7 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
      */
     public List<InstanceLecture> getAllIlvsForLecture(final Lecture pLecture) {
         Lecture l = pLecture;
-        ilvs = instanceLectureDAO.getIlvForLecture(pLecture);
+        ilvs = instanceLectureDAO.getInstanceLecturesForLecture(pLecture);
         return allIlvs;
     }
 
@@ -121,6 +122,9 @@ public class LectureInstanceBean extends AbstractBean implements Serializable {
     public String save() {
         try {
             instanceLectureDAO.save(ilv);
+        } catch (final DuplicateInstanceLectureException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorILVdataDuplicated"));
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorILVdataIncomplete"));
