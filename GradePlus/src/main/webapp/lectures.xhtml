@@ -66,7 +66,10 @@
                     <b:dataTableColumn label="#{msg['outputDescription']}" value="#{l.description}" />
 
                     <b:dataTableColumn label="Optionen">
-                        <b:commandButton value="#{msg['actionRemove']}" action="#{lecturesBean.remove(l)}" />
+                        <b:commandButton value="#{msg['actionCreateInstance']}"
+                                         action="#{instanceLecturesBean.setLecture(l)}" />
+                        <b:commandButton value="#{msg['actionRemove']}"
+                                         action="#{lecturesBean.remove(l)}" />
                     </b:dataTableColumn>
                 </b:dataTable>
                 </b:container>

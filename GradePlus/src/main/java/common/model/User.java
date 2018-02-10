@@ -29,9 +29,9 @@ import static common.util.Assertion.assertNull;
 import static java.util.Collections.unmodifiableList;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import javax.persistence.*;
 
@@ -129,28 +129,28 @@ public class User extends JPAEntity implements Serializable {
     private boolean isActive = true;
 
     /**
-     * Enthält die Ilvs in der der User ein Prüfer ist.
+     * Enthält die ILVs in der der User ein Prüfer ist.
      */
-    @ManyToMany(mappedBy = "pruefer")
-    private Set<InstanceLecture> ilvPruefer;
+    @ManyToMany(mappedBy = "examiners")
+    private List<InstanceLecture> instanceLecturesExaminer = new ArrayList<>();
 
     /**
-     * Enthält die ILvs in der der User ein Prüfling ist.
+     * Enthält die ILVs in der der User ein Prüfling ist.
      */
-    @ManyToMany(mappedBy = "pruefling")
-    private Set<InstanceLecture> ilvPruefling;
+    @ManyToMany(mappedBy = "examinees")
+    private List<InstanceLecture> instanceLecturesExaminee = new ArrayList<>();
 
     /**
      * Die Prüfungen für die man als Prüfer eingetragen ist.
      */
     @OneToMany(mappedBy = "examiners")
-    private Set<Exam> examPruefer;
+    private List<Exam> examExaminers = new ArrayList<>();
 
     /**
      * Die Prüfungen für die man als Prüfling eingetragen ist.
      */
     @OneToMany(mappedBy = "examinees")
-    private Set<Exam> examPruefling;
+    private List<Exam> examExaminees = new ArrayList<>();
 
     /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
@@ -173,7 +173,6 @@ public class User extends JPAEntity implements Serializable {
      *             Falls der gegebene Nachname den Wert {@code null} hat.
      */
     public void setTmpPassword(String pTmpPassword) {
-
         tmpPassword = Assertion.assertNotNull(pTmpPassword);
     }
 
@@ -425,38 +424,38 @@ public class User extends JPAEntity implements Serializable {
      * 
      * @return Ilvs als Set
      */
-    public Set<InstanceLecture> getIlvPruefer() {
-        return ilvPruefer;
+    public List<InstanceLecture> getInstanceLecturesExaminer() {
+        return instanceLecturesExaminer;
     }
 
     /**
      * Setzt die ILVs in den der User Prüfer ist.
      * 
-     * @param ilv
+     * @param pLectures
      *            in denen der User Prüfer ist.
      */
-    public void setIlvPruefer(Set<InstanceLecture> ilv) {
-        this.ilvPruefer = ilv;
+    public void setInstanceLecturesExaminer(final List<InstanceLecture> pLectures) {
+        instanceLecturesExaminer = assertNotNull(pLectures);
     }
 
     /**
      * Fügt eine ILV hinzu, in der der User Prüfer ist.
      * 
-     * @param pIlv
+     * @param pLecture
      *            wird als ILV hinzugefügt
      */
-    public void addIlvPruefer(InstanceLecture pIlv) {
-        ilvPruefer.add(pIlv);
+    public void addInstanceLectureExaminer(final InstanceLecture pLecture) {
+        instanceLecturesExaminer.add(assertNotNull(pLecture));
     }
 
     /**
      * Entfernt eine ILV in der man Prüfer ist.
      * 
-     * @param pIlv
+     * @param pLecture
      *            verlässt jene ILV
      */
-    public void removeIlvPruefer(InstanceLecture pIlv) {
-        ilvPruefer.remove(pIlv);
+    public void removeInstanceLectureExaminer(final InstanceLecture pLecture) {
+        instanceLecturesExaminer.remove(assertNotNull(pLecture));
     }
 
     // Prüfling
@@ -466,65 +465,65 @@ public class User extends JPAEntity implements Serializable {
      * 
      * @return Die ILVs in der man Prüfling ist
      */
-    public Set<InstanceLecture> getIlvPruefling() {
-        return ilvPruefling;
+    public List<InstanceLecture> getInstanceLecturesExaminee() {
+        return instanceLecturesExaminee;
     }
 
     /**
      * Setzt die ILVS in denen man als Prüfling teilnimmt.
      * 
-     * @param ilvPruefling
+     * @param pLectures
      *            in welchen man teilnimmt
      */
-    public void setIlvPruefling(Set<InstanceLecture> ilvPruefling) {
-        this.ilvPruefling = ilvPruefling;
+    public void setInstanceLecturesExaminee(final List<InstanceLecture> pLectures) {
+        instanceLecturesExaminee = assertNotNull(pLectures);
     }
 
     /**
      * Tritt einer ILV als Prüfling bei
      *
-     * @param pIlv
+     * @param pLecture
      *            welcher man beitritt
      */
-    public void addIlvPruefling(InstanceLecture pIlv) {
-        ilvPruefling.add(pIlv);
+    public void addInstanceLectureExaminee(final InstanceLecture pLecture) {
+        instanceLecturesExaminee.add(assertNotNull(pLecture));
     }
 
     /**
      * Verlässt eine ILV für die man Prüfling ist.
      * 
-     * @param pIlv
+     * @param pLecture
      *            welche man verlässt.
      */
-    public void removeIlvPruefling(InstanceLecture pIlv) {
-        ilvPruefling.remove(pIlv);
+    public void removeInstanceLectureExaminee(final InstanceLecture pLecture) {
+        instanceLecturesExaminee.remove(assertNotNull(pLecture));
     }
 
     // TerminPrüfer
 
-    public Set<Exam> getExamPruefer() {
-        return examPruefer;
+    public List<Exam> getExamExaminers() {
+        return examExaminers;
     }
 
-    public void setExamPruefer(Set<Exam> examPruefer) {
-        this.examPruefer = examPruefer;
+    public void setExamExaminers(final List<Exam> pLectures) {
+        examExaminers = assertNotNull(pLectures);
     }
 
-    public void addExamForPruefer(Exam pExam) {
-        examPruefer.add(pExam);
+    public void addExamForExaminer(final Exam pExam) {
+        examExaminers.add(assertNotNull(pExam));
     }
 
-    public void removeExamForPruefer(Exam pExam) {
-        examPruefer.remove(pExam);
+    public void removeExamForExaminer(final Exam pExam) {
+        examExaminers.remove(assertNotNull(pExam));
     }
 
     // TerminPrüfling
 
-    public Set<Exam> getExamPruefling() {
-        return examPruefling;
+    public List<Exam> getExamExaminees() {
+        return examExaminees;
     }
 
-    public void setExamPruefling(Set<Exam> examPruefling) {
-        this.examPruefling = examPruefling;
+    public void setExamExaminees(final List<Exam> pExam) {
+        examExaminees = assertNotNull(pExam);
     }
 }
