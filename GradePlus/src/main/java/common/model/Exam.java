@@ -20,6 +20,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "Exams")
+@NamedQueries({
+        @NamedQuery(name = "Exam.findAll", query = "SELECT e FROM Exam e"),
+        @NamedQuery(name = "Exam.findByLecture", query = "SELECT e FROM Exam e WHERE e.ilv = :ilv"),
+        @NamedQuery(name = "Exam.findByExaminees", query = "SELECT e FROM Exam e WHERE e.examinees = :examinees"),
+        @NamedQuery(name = "Exam.findByExaminer", query = "SELECT e FROM Exam e WHERE e.examiners = :examiners") })
 public class Exam extends JPAEntity {
 
     /**
@@ -328,6 +333,8 @@ public class Exam extends JPAEntity {
         this.grades = Assertion.assertNotNull(grades);
     }
 
+
+    //TODO
     /**
      * Gibt die Note des gegebenen Nutzers zurück.
      *
