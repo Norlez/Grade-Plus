@@ -333,8 +333,7 @@ public class Exam extends JPAEntity {
         this.grades = Assertion.assertNotNull(grades);
     }
 
-
-    //TODO
+    // TODO
     /**
      * Gibt die Note des gegebenen Nutzers zurück.
      *

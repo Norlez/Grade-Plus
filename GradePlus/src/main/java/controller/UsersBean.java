@@ -276,4 +276,49 @@ public class UsersBean extends AbstractBean implements Serializable {
         init();
     }
 
+    /**
+     * Prüft, ob der User ein Admin ist.
+     *
+     * @param user
+     *            , der geprüft wird
+     * @return true, wenn der User ein Admin ist
+     */
+    public boolean isAdmin(final User user) {
+        assertNotNull(user);
+        if (user.getRole() == Role.ADMIN) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Prüft, ob der User ein Examiner ist.
+     *
+     * @param user
+     *            , der geprüft wird
+     * @return true, wenn der User ein Examiner ist
+     */
+    public boolean isExaminer(final User user) {
+        assertNotNull(user);
+        if (user.getRole() == Role.EXAMINER) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Prüft, ob der User ein Student ist.
+     *
+     * @param user
+     *            , der geprüft wird
+     * @return true, wenn der User ein Student ist
+     */
+    public boolean isStudent(final User user) {
+        assertNotNull(user);
+        if (user.getRole() == Role.STUDENT) {
+            return true;
+        }
+        return false;
+    }
+
 }

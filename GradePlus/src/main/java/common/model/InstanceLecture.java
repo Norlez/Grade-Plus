@@ -35,13 +35,13 @@ public class InstanceLecture extends JPAEntity {
      * Die Prüfer der ILV.
      */
     @ManyToMany(targetEntity = User.class)
-    private List<User> examiners = new ArrayList<>();
+    private List<User> examiners;
 
     /**
      * Die Prüflinge der ILV.
      */
     @ManyToMany(targetEntity = User.class)
-    private List<User> examinees = new ArrayList<>();
+    private List<User> examinees;
 
     /**
      * Das Jahr in dem die ILV stattfindet.
@@ -59,7 +59,7 @@ public class InstanceLecture extends JPAEntity {
      * Die Prüfungen der ILV.
      */
     @OneToMany(mappedBy = "ilv", cascade = CascadeType.REMOVE)
-    private List<Exam> exams = new ArrayList<>();
+    private List<Exam> exams;
 
     /**
      * Gibt die LV der ILV zurück.

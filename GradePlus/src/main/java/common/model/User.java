@@ -132,25 +132,25 @@ public class User extends JPAEntity implements Serializable {
      * Enthält die ILVs in der der User ein Prüfer ist.
      */
     @ManyToMany(mappedBy = "examiners")
-    private List<InstanceLecture> instanceLecturesExaminer = new ArrayList<>();
+    private List<InstanceLecture> instanceLecturesExaminer;
 
     /**
      * Enthält die ILVs in der der User ein Prüfling ist.
      */
     @ManyToMany(mappedBy = "examinees")
-    private List<InstanceLecture> instanceLecturesExaminee = new ArrayList<>();
+    private List<InstanceLecture> instanceLecturesExaminee;
 
     /**
      * Die Prüfungen für die man als Prüfer eingetragen ist.
      */
     @OneToMany(mappedBy = "examiners")
-    private List<Exam> examExaminers = new ArrayList<>();
+    private List<Exam> examExaminers;
 
     /**
      * Die Prüfungen für die man als Prüfling eingetragen ist.
      */
     @OneToMany(mappedBy = "examinees")
-    private List<Exam> examExaminees = new ArrayList<>();
+    private List<Exam> examExaminees;
 
     /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.

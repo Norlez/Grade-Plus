@@ -95,7 +95,8 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen des gegebenen Prüflings als Liste.
      */
     public List<Exam> getExamsForExaminee(User pExaminee) {
-        return getEm().createNamedQuery("Exam.findByExaminees", getClazz()).getResultList();
+        return getEm().createNamedQuery("Exam.findByExaminees", getClazz())
+                .getResultList();
     }
 
     /**
@@ -106,7 +107,8 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen des gegebenen Prüfers als Liste.
      */
     public List<Exam> getExamsForExaminer(User pExaminer) {
-        return getEm().createNamedQuery("Exam.findByExaminer", getClazz()).getResultList();
+        return getEm().createNamedQuery("Exam.findByExaminer", getClazz())
+                .getResultList();
     }
 
 }
