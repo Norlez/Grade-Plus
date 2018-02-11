@@ -62,7 +62,7 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Liste mit allen innerhalb der Applikation bekannten Prüfungen.
      */
     public List<Exam> getAllExams() {
-        throw new UnsupportedOperationException();
+        return getEm().createNamedQuery("Exam.findAll", getClazz()).getResultList();
     }
 
     /**
@@ -73,7 +73,7 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen der gegebenen Lehrveranstaltung als Liste.
      */
     public List<Exam> getExamsForLecture(Lecture pLecture) {
-        throw new UnsupportedOperationException();
+        return getEm().createNamedQuery("Exam.findByLecture", getClazz()).getResultList();
     }
 
     /**
@@ -95,7 +95,7 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen des gegebenen Prüflings als Liste.
      */
     public List<Exam> getExamsForExaminee(User pExaminee) {
-        throw new UnsupportedOperationException();
+        return getEm().createNamedQuery("Exam.findByExaminees", getClazz()).getResultList();
     }
 
     /**
@@ -106,7 +106,7 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen des gegebenen Prüfers als Liste.
      */
     public List<Exam> getExamsForExaminer(User pExaminer) {
-        throw new UnsupportedOperationException();
+        return getEm().createNamedQuery("Exam.findByExaminer", getClazz()).getResultList();
     }
 
 }
