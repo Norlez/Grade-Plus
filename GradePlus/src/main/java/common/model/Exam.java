@@ -24,7 +24,9 @@ import javax.persistence.*;
         @NamedQuery(name = "Exam.findAll", query = "SELECT e FROM Exam e"),
         @NamedQuery(name = "Exam.findByLecture", query = "SELECT e FROM Exam e WHERE e.ilv = :ilv"),
         @NamedQuery(name = "Exam.findByExaminees", query = "SELECT e FROM Exam e WHERE e.examinees = :examinees"),
-        @NamedQuery(name = "Exam.findByExaminer", query = "SELECT e FROM Exam e WHERE e.examiners = :examiners") })
+        @NamedQuery(name = "Exam.findByExaminer", query = "SELECT e FROM Exam e WHERE e.examiners = :examiners"),
+        @NamedQuery(name = "Exam.findByDate", query = "SELECT e FROM Exam e WHERE e.date = :date")
+})
 public class Exam extends JPAEntity {
 
     /**
@@ -84,6 +86,7 @@ public class Exam extends JPAEntity {
     /**
      * Die Liste der Noten der Prüfung. TODO: Mapping hinzufügen
      */
+    @OneToMany(targetEntity = Grade.class)
     private Set<Grade> grades;
 
     /**
@@ -170,7 +173,7 @@ public class Exam extends JPAEntity {
 
     /**
      * Gibt den Prüfungsort zurück.
-     * 
+     *
      * @return Den Prüfungsort.
      */
     public String getLocation() {
@@ -179,7 +182,7 @@ public class Exam extends JPAEntity {
 
     /**
      * Setzt den Prüfungsort auf den gegebenen Wert.
-     * 
+     *
      * @param pLocation
      *            Der neue Prüfungsort.
      */
@@ -220,7 +223,7 @@ public class Exam extends JPAEntity {
 
     /**
      * Gibt an ob eine Gruppenprüfung vorliegt
-     * 
+     *
      * @param groupExam
      *            setzt die Prüfung auf den gegebenen Wert.
      */
