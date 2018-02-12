@@ -45,6 +45,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "grades")
+@NamedQueries({
+        @NamedQuery(name = "grades.getAll", query = "SELECT g FROM Grade g"),
+        @NamedQuery(name = "grades.forUser", query = "SELECT g FROM Grade g WHERE g.user = :user") })
 public class Grade extends JPAEntity implements Serializable {
 
     /**
