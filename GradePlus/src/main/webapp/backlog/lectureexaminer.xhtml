@@ -6,11 +6,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
       xml:lang="en" lang="en">
 <head>
-    <!-- Hier werden die Daten fuer eine LV geaendert -->
+    <!-- Hier koennen die Pruefer fuer eine ILV eingesehen und neue Pruefer
+            hinzugefuegt werden
+    -->
     <title>Title</title>
 </head>
 <body>
-<ui:composition template="WEB-INF/template.xhtml">
+<ui:composition template="../WEB-INF/template.xhtml">
     <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">

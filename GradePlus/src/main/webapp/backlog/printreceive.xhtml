@@ -6,11 +6,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
       xml:lang="en" lang="en">
 <head>
-    <!-- Hier wird das Impressum dargestellt -->
+    <!-- Gibt die Quittung fuer eine Pruefung aus -->
     <title>Title</title>
 </head>
 <body>
-<ui:composition template="WEB-INF/template.xhtml">
+<ui:composition template="../WEB-INF/template.xhtml">
     <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
@@ -23,28 +23,6 @@
                         <h1>
                             <h:outputText value="#{msg['title']}" />
                         </h1>
-                    </b:column>
-                </b:row>
-
-                <!-- NAME -->
-                <b:row>
-                    <b:column>
-                        <strong><h:outputText value="#{impressumBean.name}"/> </strong>
-                    </b:column>
-                </b:row>
-
-                <!-- ADRESS -->
-                <b:row>
-                    <b:column>
-                        <strong><h:outputText value="#{impressumBean.name}"/> </strong>
-                    </b:column>
-                </b:row>
-
-                <!-- ZIP CODE AND CITY -->
-                <b:row>
-                    <b:column>
-                        <h:outputText value="#{impressumBean.postcode}"/>
-                        <h:outputText value="#{impressumBean.name}"/>
                     </b:column>
                 </b:row>
             </b:container>

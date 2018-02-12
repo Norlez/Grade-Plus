@@ -6,12 +6,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
       xml:lang="en" lang="en">
 <head>
-    <!-- Fuer den Pruefling, hier kann er sich zu einer Pruefung aus seinen Lehrveranstaltungen
-     anmelden -->
+    <!-- Hier werden die Daten fuer eine LV geaendert -->
     <title>Title</title>
 </head>
 <body>
-<ui:composition template="WEB-INF/template.xhtml">
+<ui:composition template="../WEB-INF/template.xhtml">
     <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
