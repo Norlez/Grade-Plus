@@ -49,7 +49,7 @@ public class GradeDAO extends JPADAO<Grade> {
 
     @Override
     public void save(final Grade pT) {
-        try {
+        try {                               // TODO: Weiter ergaenzen
             super.save(pT);
         } catch (final DuplicateUniqueFieldException e) {
             throw new UnexpectedUniqueViolationException(e);
@@ -63,7 +63,11 @@ public class GradeDAO extends JPADAO<Grade> {
      *            Die zu aktualisierende Note.
      */
     public void update(Grade pGrade) {
-        throw new UnsupportedOperationException();
+        try {                               // TODO: Weiter ergaenzen
+            super.update(pGrade);
+        } catch (final DuplicateUniqueFieldException e) {
+            throw new UnexpectedUniqueViolationException(e);
+        }
     }
 
     /**
@@ -81,19 +85,25 @@ public class GradeDAO extends JPADAO<Grade> {
      * 
      * @return Alle bekannten Noten.
      */
-    public List<Grade> getAllGrades() {
-        throw new UnsupportedOperationException();
-    }
+    public List<Grade> getAllGrades() { return getEm().createNamedQuery("grades.getAll", getClazz()).getResultList(); }
 
     /**
      * Gibt alle Noten des gegebenen Nutzers zurück.
      * 
      * @param pUser
      *            Der Nutzer.
-     * @return Alle Noten des Nutzers.
+     * @return Alle Noten des Nutzers oder {@code null} falls es keine
+     *         Noten gibt.
+     * @throws IllegalArgumentException
+     *              Falls der gegebene Nutzer leer ist oder {@code null} falls es keinen
+     *              solchen Nutzer gibt.
      */
     public List<Grade> getGradesForUser(User pUser) {
-        throw new UnsupportedOperationException();
+        Assertion.assertNotEmpty(pUser);
+        final List<Grade> grades = getEm()
+                .createNamedQuery("grades.forUser", getClazz())
+                .setParameter("grades", pUser).getResultList();
+        return grades.isEmpty() ? null : grades.get(0);
     }
 
 }
