@@ -51,27 +51,31 @@
                         </h2>
                     </b:column>
                 </b:row>
+                <b:row>
+                    <b:column span="12" colSm="12" colMd="12" colXs="12">
+                        <b:dataTable span="8" value="#{lecturesBean.allLectures}" var="l"
+                                     excel="false"
+                                     csv="false"
+                                     pdf="false"
+                                     columnVisibility="false"
+                                     copy="false"
+                                     print="false">
 
-                <b:dataTable span="8" value="#{lecturesBean.allLectures}" var="l"
-                             excel="false"
-                             csv="false"
-                             pdf="false"
-                             columnVisibility="false"
-                             copy="false"
-                             print="false">
+                            <b:dataTableColumn label="#{msg['outputName']}" value="#{l.name}" />
+                            <b:dataTableColumn label="#{msg['outputVak']}" value="#{l.vak}" />
+                            <b:dataTableColumn label="#{msg['outputEcts']}" value="#{l.ects}" />
+                            <b:dataTableColumn label="#{msg['outputDescription']}" value="#{l.description}" />
 
-                    <b:dataTableColumn label="#{msg['outputName']}" value="#{l.name}" />
-                    <b:dataTableColumn label="#{msg['outputVak']}" value="#{l.vak}" />
-                    <b:dataTableColumn label="#{msg['outputEcts']}" value="#{l.ects}" />
-                    <b:dataTableColumn label="#{msg['outputDescription']}" value="#{l.description}" />
+                            <b:dataTableColumn label="Optionen">
+                                <b:commandButton value="#{msg['actionCreateInstance']}"
+                                                 action="#{instanceLecturesBean.setLecture(l)}" />
+                                <b:commandButton value="#{msg['actionRemove']}"
+                                                 action="#{lecturesBean.remove(l)}" />
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:column>
+                </b:row>
 
-                    <b:dataTableColumn label="Optionen">
-                        <b:commandButton value="#{msg['actionCreateInstance']}"
-                                         action="#{instanceLecturesBean.setLecture(l)}" />
-                        <b:commandButton value="#{msg['actionRemove']}"
-                                         action="#{lecturesBean.remove(l)}" />
-                    </b:dataTableColumn>
-                </b:dataTable>
                 </b:container>
             </b:form>
 
