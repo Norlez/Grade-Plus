@@ -2,7 +2,6 @@ package common.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 //import com.sun.xml.internal.bind.v2.TODO;
 import common.util.Assertion;
@@ -23,10 +22,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "Exam.findAll", query = "SELECT e FROM Exam e"),
         @NamedQuery(name = "Exam.findByLecture", query = "SELECT e FROM Exam e WHERE e.ilv = :ilv"),
-        @NamedQuery(name = "Exam.findByExaminees", query = "SELECT e FROM Exam e WHERE e.examinees = :examinees"),
-        @NamedQuery(name = "Exam.findByExaminer", query = "SELECT e FROM Exam e WHERE e.examiners = :examiners"),
-        @NamedQuery(name = "Exam.findByDate", query = "SELECT e FROM Exam e WHERE e.date = :date")
-})
+        @NamedQuery(name = "Exam.findByDate", query = "SELECT e FROM Exam e WHERE e.date = :date") })
 public class Exam extends JPAEntity {
 
     /**
@@ -74,20 +70,8 @@ public class Exam extends JPAEntity {
     /**
      * Die Liste der Prüfer.
      */
-    @ManyToOne(targetEntity = User.class, optional = true)
-    private Set<User> examiners;
 
-    /**
-     * Die Liste der Prüflinge.
-     */
-    @ManyToOne(targetEntity = User.class, optional = true)
-    private Set<User> examinees;
-
-    /**
-     * Die Liste der Noten der Prüfung. TODO: Mapping hinzufügen
-     */
-    @OneToMany(targetEntity = Grade.class)
-    private Set<Grade> grades;
+    // private List<User> examiners;
 
     /**
      * Die Bemerkung zur Prüfung.
@@ -238,9 +222,9 @@ public class Exam extends JPAEntity {
      *
      * @return Die Prüfer als Liste.
      */
-    public Set<User> getExaminers() {
-        return examiners;
-    }
+    // public List<User> getExaminers() {
+    // return examiners;
+    // }
 
     /**
      * Fügt den gegebenen Benutzer den Prüfern hinzu.
@@ -248,11 +232,11 @@ public class Exam extends JPAEntity {
      * @param theExaminer
      *            Der hinzuzufügende Prüfer.
      */
-    public void addExaminer(User theExaminer) {
-        if (theExaminer != null) {
-            examiners.add(theExaminer);
-        }
-    }
+    // public void addExaminer(User theExaminer) {
+    // if (theExaminer != null) {
+    // examiners.add(theExaminer);
+    // }
+    // }
 
     /**
      * Setzt die Prüfer auf den gegebenen Benutzer.
@@ -260,9 +244,9 @@ public class Exam extends JPAEntity {
      * @param pExaminer
      *            Der neue Prüfer.
      */
-    public void setExaminer(Set<User> pExaminer) {
-        examiners = Assertion.assertNotNull(pExaminer);
-    }
+    // public void setExaminer(List<User> pExaminer) {
+    // examiners = Assertion.assertNotNull(pExaminer);
+    // }
 
     /**
      * Entfernt den gegebenen Benutzer als Prüfer.
@@ -270,102 +254,9 @@ public class Exam extends JPAEntity {
      * @param pExaminer
      *            Der zu entfernende Prüfer.
      */
-    public void removeExaminer(User pExaminer) {
-        if (pExaminer != null) {
-            examiners.remove(pExaminer);
-        }
-    }
-
-    // Prüflinge
-
-    /**
-     * Gibt die Prüflinge als Liste zurück.
-     *
-     * @return Die Prüflinge als Liste.
-     */
-    public Set<User> getExaminees() {
-        return examinees;
-    }
-
-    /**
-     * Fügt den gegebenen Benutzer als Prüfling hinzu.
-     *
-     * @param pExaminee
-     *            Der hinzuzufügende Prüfling.
-     */
-    public void addExaminee(User pExaminee) {
-        if (pExaminee != null) {
-            examinees.add(pExaminee);
-        }
-    }
-
-    /**
-     * Setzt die Prüflinge auf den gegebenen Benutzer.
-     *
-     * @param pExaminee
-     *            Der neue Prüfling.
-     */
-    public void setExaminee(Set<User> pExaminee) {
-        examinees = Assertion.assertNotNull(pExaminee);
-    }
-
-    /**
-     * Entfernt den gegebenen Benutzer als Prüfling.
-     *
-     * @param pExaminee
-     *            Der zu entfernende Prüfling.
-     */
-    public void removeExaminee(User pExaminee) {
-        if (pExaminee != null) {
-            examinees.remove(pExaminee);
-        }
-    }
-
-    // Grade
-
-    /**
-     * Gibt die Noten der Prüfung als Liste zurück.
-     *
-     * @return Die Noten der Prüfung als Liste.
-     */
-    public Set<Grade> getGrades() {
-        return grades;
-    }
-
-    public void setGrades(Set<Grade> grades) {
-        this.grades = Assertion.assertNotNull(grades);
-    }
-
-    // TODO
-    /**
-     * Gibt die Note des gegebenen Nutzers zurück.
-     *
-     * @param pExaminee
-     *            Der Prüfling.
-     * @return Die Note des gegebenen Benutzers.
-     */
-    public Grade getGrade(User pExaminee) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Fügt die gegebene Note zu den Noten der Prüfung hinzu.
-     *
-     * @param pGrade
-     *            Die hinzuzufügende Note.
-     */
-    public void addGrade(Grade pGrade) {
-        grades.add(pGrade);
-    }
-
-    /**
-     * Entfernt die gegebene Note aus den Noten der Prüfung.
-     *
-     * @param pGrade
-     *            Die zu entfernende Note.
-     */
-    public void removeGrade(Grade pGrade) {
-        grades.remove(pGrade);
-    }
-
+    // public void removeExaminer(User pExaminer) {
+    // if (pExaminer != null) {
+    // examiners.remove(pExaminer);
+    // }
+    // }
 }

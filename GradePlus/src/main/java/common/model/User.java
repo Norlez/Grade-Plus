@@ -141,18 +141,6 @@ public class User extends JPAEntity implements Serializable {
     private List<InstanceLecture> instanceLecturesExaminee;
 
     /**
-     * Die Prüfungen für die man als Prüfer eingetragen ist.
-     */
-    @OneToMany(mappedBy = "examiners")
-    private List<Exam> examExaminers;
-
-    /**
-     * Die Prüfungen für die man als Prüfling eingetragen ist.
-     */
-    @OneToMany(mappedBy = "examinees")
-    private List<Exam> examExaminees;
-
-    /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
      */
     // TODO: Problem mit History
@@ -499,31 +487,4 @@ public class User extends JPAEntity implements Serializable {
         instanceLecturesExaminee.remove(assertNotNull(pLecture));
     }
 
-    // TerminPrüfer
-
-    public List<Exam> getExamExaminers() {
-        return examExaminers;
-    }
-
-    public void setExamExaminers(final List<Exam> pLectures) {
-        examExaminers = assertNotNull(pLectures);
-    }
-
-    public void addExamForExaminer(final Exam pExam) {
-        examExaminers.add(assertNotNull(pExam));
-    }
-
-    public void removeExamForExaminer(final Exam pExam) {
-        examExaminers.remove(assertNotNull(pExam));
-    }
-
-    // TerminPrüfling
-
-    public List<Exam> getExamExaminees() {
-        return examExaminees;
-    }
-
-    public void setExamExaminees(final List<Exam> pExam) {
-        examExaminees = assertNotNull(pExam);
-    }
 }

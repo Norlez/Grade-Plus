@@ -72,7 +72,8 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen der gegebenen Lehrveranstaltung als Liste.
      */
     public List<Exam> getExamsForLecture(Lecture pLecture) {
-        return getEm().createNamedQuery("Exam.findByLecture", getClazz()).setParameter("ilv", pLecture).getResultList();
+        return getEm().createNamedQuery("Exam.findByLecture", getClazz())
+                .setParameter("ilv", pLecture).getResultList();
     }
 
     /**
@@ -94,8 +95,8 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen des gegebenen Prüflings als Liste.
      */
     public List<Exam> getExamsForExaminee(User pExaminee) {
-        return getEm().createNamedQuery("Exam.findByExaminees", getClazz()).setParameter("examinees", pExaminee)
-                .getResultList();
+        return getEm().createNamedQuery("Exam.findByExaminees", getClazz())
+                .setParameter("examinees", pExaminee).getResultList();
     }
 
     /**
@@ -105,9 +106,9 @@ public class ExamDAO extends JPADAO<Exam> {
      *            Das Datum der gesuchten Prüfungen.
      * @return Die Prüfungen am gegebenen Datum als Liste.
      */
-    public List<Exam> getExamForDate (LocalDateTime pDate){
-        return getEm().createNamedQuery("Exam.findByDate", getClazz()).setParameter("date", pDate)
-                .getResultList();
+    public List<Exam> getExamForDate(LocalDateTime pDate) {
+        return getEm().createNamedQuery("Exam.findByDate", getClazz())
+                .setParameter("date", pDate).getResultList();
     }
 
     /**
@@ -118,8 +119,8 @@ public class ExamDAO extends JPADAO<Exam> {
      * @return Die Prüfungen des gegebenen Prüfers als Liste.
      */
     public List<Exam> getExamsForExaminer(User pExaminer) {
-        return getEm().createNamedQuery("Exam.findByExaminer", getClazz()).setParameter("examiners", pExaminer)
-                .getResultList();
+        return getEm().createNamedQuery("Exam.findByExaminer", getClazz())
+                .setParameter("examiners", pExaminer).getResultList();
     }
 
 }
