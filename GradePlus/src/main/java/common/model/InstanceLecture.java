@@ -34,13 +34,15 @@ public class InstanceLecture extends JPAEntity {
     /**
      * Die Prüfer der ILV.
      */
-    @ManyToMany(targetEntity = User.class)
-    private List<User> examiners;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "user_id", nullable = true) //Kann raus
+    private List<User> examiners = new ArrayList<User>();
 
     /**
      * Die Prüflinge der ILV.
      */
-    @ManyToMany(targetEntity = User.class)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "user_id", nullable = true) //Kann raus
     private List<User> examinees;
 
     /**
