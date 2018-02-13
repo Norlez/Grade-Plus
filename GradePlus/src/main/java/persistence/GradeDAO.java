@@ -32,6 +32,7 @@ import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.Grade;
 import common.model.User;
+import common.util.Assertion;
 
 /**
  * Dieses DAO verwaltet Objekte der Klasse {@link Grade}.
@@ -49,7 +50,7 @@ public class GradeDAO extends JPADAO<Grade> {
 
     @Override
     public void save(final Grade pT) {
-        try {                               // TODO: Weiter ergaenzen
+        try { // TODO: Weiter ergaenzen
             super.save(pT);
         } catch (final DuplicateUniqueFieldException e) {
             throw new UnexpectedUniqueViolationException(e);
@@ -63,7 +64,7 @@ public class GradeDAO extends JPADAO<Grade> {
      *            Die zu aktualisierende Note.
      */
     public void update(Grade pGrade) {
-        try {                               // TODO: Weiter ergaenzen
+        try { // TODO: Weiter ergaenzen
             super.update(pGrade);
         } catch (final DuplicateUniqueFieldException e) {
             throw new UnexpectedUniqueViolationException(e);
@@ -85,25 +86,25 @@ public class GradeDAO extends JPADAO<Grade> {
      * 
      * @return Alle bekannten Noten.
      */
-    public List<Grade> getAllGrades() { return getEm().createNamedQuery("grades.getAll", getClazz()).getResultList(); }
+    public List<Grade> getAllGrades() {
+        return getEm().createNamedQuery("grades.getAll", getClazz()).getResultList();
+    }
 
     /**
      * Gibt alle Noten des gegebenen Nutzers zurück.
      * 
      * @param pUser
      *            Der Nutzer.
-     * @return Alle Noten des Nutzers oder {@code null} falls es keine
-     *         Noten gibt.
+     * @return Alle Noten des Nutzers oder {@code null} falls es keine Noten gibt.
      * @throws IllegalArgumentException
-     *              Falls der gegebene Nutzer leer ist oder {@code null} falls es keinen
-     *              solchen Nutzer gibt.
+     *             Falls der gegebene Nutzer leer ist oder {@code null} falls es keinen
+     *             solchen Nutzer gibt.
      */
     public List<Grade> getGradesForUser(User pUser) {
-        Assertion.assertNotEmpty(pUser);
-        final List<Grade> grades = getEm()
-                .createNamedQuery("grades.forUser", getClazz())
+        Assertion.assertNotNull(pUser);
+        final List<Grade> grades = getEm().createNamedQuery("grades.forUser", getClazz())
                 .setParameter("grades", pUser).getResultList();
-        return grades.isEmpty() ? null : grades.get(0);
+        return grades.isEmpty() ? null : grades;
     }
 
 }
