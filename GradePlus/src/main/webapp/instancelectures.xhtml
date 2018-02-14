@@ -93,11 +93,11 @@
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
                                 <b:dataTableColumn label="#{msg['outputExaminee']}" value="#{l.examiners}" />
 
-                                <b:dataTableColumn label="Delete">
+                                <b:dataTableColumn label="Delete" rendered="#{true}">
                                     <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLecturesBean.remove(l)}" />
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="Quit">
+                                <b:dataTableColumn label="Quit" rendered="#{true}">
                                     <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}" />
                                 </b:dataTableColumn>
 

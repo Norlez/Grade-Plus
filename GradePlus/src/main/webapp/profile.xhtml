@@ -16,32 +16,145 @@
         <ui:define name="content">
             <f:loadBundle basename="internationalization.profile" var="msg" />
 
-            <b:form>
+            <b:form rendered="#{true}">
                 <b:container class="form-group">
-                <b:row>
-                    <b:column span="3">
-                        <h1>
-                            <h:outputText class="title" value="#{msg['outputProfile']}" />
-                        </h1>
-                    </b:column>
-                </b:row>
-                <b:row>
-                    <b:column span="1">
-                        <h:outputLabel value="#{msg['inputLanguage']}" />
-                    </b:column>
-                </b:row>
-                <b:row>
-                    <b:column span="2">
-                        <b:selectOneMenu class="form-control" value="#{profileBean.languageName}">
-                            <f:selectItems value="#{profileBean.countries}" />
-                        </b:selectOneMenu>
-                    </b:column>
-                </b:row>
-                <b:row>
-                    <b:column span="2">
-                        <b:commandButton class="btn-green" value="#{msg['changeLanguage']}" action="#{profileBean.save}" />
-                    </b:column>
-                </b:row>
+                    <b:row>
+                        <b:column span="3">
+                            <h1>
+                                <h:outputText class="title" value="#{msg['outputProfile']}" />
+                            </h1>
+                        </b:column>
+                    </b:row>
+
+                    <b:formGroup rendered="#{true}">
+
+                        <!-- USER DATA -->
+                        <b:row>
+                            <b:column span="3">
+                                <h2>
+                                    <h:outputText class="title" value="User Data" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+
+                        <!-- USERNAME -->
+                        <b:row>
+                            <b:column span="4">
+                                <h:outputLabel value="Username:" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText renderered="#{true}" value="#{usersBean.user.username}" id="username" />
+                                <h:outputText renderered="#{true}" value="#{usersBean.user.username}" />
+                            </b:column>
+                        </b:row>
+
+                        <!-- NAME -->
+                        <b:row>
+                            <b:column span="4">
+                                <h:outputLabel value="Name:" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText renderered="#{true}" value="#{usersBean.user.givenName}" id="givenname" />
+                                <h:outputText renderered="#{true}" value="#{usersBean.user.givenName}" />
+                            </b:column>
+                        </b:row>
+
+                        <!-- SURNAME -->
+                        <b:row>
+                            <b:column span="4">
+                                <h:outputLabel value="Surname:" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText renderered="#{true}" value="#{usersBean.user.surname}" id="surname" />
+                                <h:outputText renderered="#{true}" value="#{usersBean.user.surname}" />
+                            </b:column>
+                        </b:row>
+
+                        <!-- MATRIKELNUMMER -->
+                        <b:row>
+                            <b:column span="4">
+                                <h:outputLabel value="Matrikelnummer:" />
+                            </b:column>
+                            <b:column span="2">
+                                <h:outputText renderered="#{true}" value="#{usersBean.user.matrNr}" />
+                            </b:column>
+                        </b:row>
+
+                        <!-- MAIL-ADRESS -->
+                        <b:row>
+                            <b:column span="4">
+                                <h:outputLabel value="Email:" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText renderered="#{true}" value="#{usersBean.user.email}" id="email" />
+                                <h:outputText renderered="#{true}" value="#{usersBean.user.email}" />
+                            </b:column>
+                        </b:row>
+
+                        <!-- LANGUAGE -->
+                        <b:row>
+                            <b:column span="1">
+                                <h:outputLabel value="#{msg['inputLanguage']}" />
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2">
+                                <h:outputText rendered="#{true}" value="#{profileBean.languageName}" />
+                                <b:selectOneMenu rendered="#{true}" class="form-control" value="#{profileBean.languageName}">
+                                    <f:selectItems value="#{profileBean.countries}" />
+                                </b:selectOneMenu>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2">
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['changeLanguage']}" />
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['changeLanguage']}" action="#{profileBean.save}" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:button class="btn-green" value="Change Password" />
+                            </b:column>
+                        </b:row>
+                    </b:formGroup>
+
+                    <!-- CHANGE PASSWORD -->
+                    <b:formGroup rendered="#{true}">
+                            <b:row>
+                                <b:column span="3">
+                                    <h2>
+                                        <h:outputText class="title" value="Cange Password" />
+                                    </h2>
+                                </b:column>
+                            </b:row>
+
+                            <!-- OLD PASSWORD -->
+                            <b:row>
+                                <b:column span="2">
+                                    <h:outputLabel value="Old Password:"/>
+                                </b:column>
+                                <b:column span="2">
+                                    <b:inputSecret value="#{loginBean.password}"/>
+                                </b:column>
+                            </b:row>
+
+                            <!-- NEW PASSWORD -->
+                            <b:row>
+                                <b:column span="2">
+                                    <h:outputLabel value="New Password:"/>
+                                </b:column>
+                                <b:column span="2">
+                                    <b:inputSecret value="#{loginBean.password}"/>
+                                </b:column>
+                            </b:row>
+
+                            <b:row>
+                                <b:column span="2">
+                                    <b:commandButton rendered="#{true}" class="btn-green" value="Change Password" action="#{profileBean.save}" />
+                                </b:column>
+                                <b:column span="2">
+                                    <b:commandButton class="btn-green" value="Cancel"/>
+                                </b:column>
+                            </b:row>
+                    </b:formGroup>
                 </b:container>
             </b:form>
 
