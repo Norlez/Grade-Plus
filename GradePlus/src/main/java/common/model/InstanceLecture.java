@@ -34,15 +34,15 @@ public class InstanceLecture extends JPAEntity {
     /**
      * Die Prüfer der ILV.
      */
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinColumn(name = "user_id", nullable = true) //Kann raus
+    //TODO
+    @OneToMany
     private List<User> examiners = new ArrayList<User>();
 
     /**
      * Die Prüflinge der ILV.
      */
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinColumn(name = "user_id", nullable = true) //Kann raus
+    //TODO
+    @OneToMany
     private List<User> examinees;
 
     /**

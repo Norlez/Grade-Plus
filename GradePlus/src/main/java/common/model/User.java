@@ -129,18 +129,6 @@ public class User extends JPAEntity implements Serializable {
     private boolean isActive = true;
 
     /**
-     * Enthält die ILVs in der der User ein Prüfer ist.
-     */
-    @ManyToMany(mappedBy = "examiners")
-    private List<InstanceLecture> instanceLecturesExaminer;
-
-    /**
-     * Enthält die ILVs in der der User ein Prüfling ist.
-     */
-    @ManyToMany(mappedBy = "examinees")
-    private List<InstanceLecture> instanceLecturesExaminee;
-
-    /**
      * Die Historie der bestimmter Vorgänge eines Prüflings.
      */
     // TODO: Problem mit History
@@ -413,7 +401,8 @@ public class User extends JPAEntity implements Serializable {
      * @return Ilvs als Set
      */
     public List<InstanceLecture> getInstanceLecturesExaminer() {
-        return instanceLecturesExaminer;
+        throw new UnsupportedOperationException();
+        //return instanceLecturesExaminer;
     }
 
     /**
@@ -423,7 +412,8 @@ public class User extends JPAEntity implements Serializable {
      *            in denen der User Prüfer ist.
      */
     public void setInstanceLecturesExaminer(final List<InstanceLecture> pLectures) {
-        instanceLecturesExaminer = assertNotNull(pLectures);
+        throw new UnsupportedOperationException();
+        //instanceLecturesExaminer = assertNotNull(pLectures);
     }
 
     /**
@@ -433,7 +423,8 @@ public class User extends JPAEntity implements Serializable {
      *            wird als ILV hinzugefügt
      */
     public void addInstanceLectureExaminer(final InstanceLecture pLecture) {
-        instanceLecturesExaminer.add(assertNotNull(pLecture));
+        throw new UnsupportedOperationException();
+        //instanceLecturesExaminer.add(assertNotNull(pLecture));
     }
 
     /**
@@ -443,7 +434,8 @@ public class User extends JPAEntity implements Serializable {
      *            verlässt jene ILV
      */
     public void removeInstanceLectureExaminer(final InstanceLecture pLecture) {
-        instanceLecturesExaminer.remove(assertNotNull(pLecture));
+        throw new UnsupportedOperationException();
+        //instanceLecturesExaminer.remove(assertNotNull(pLecture));
     }
 
     // Prüfling
@@ -454,7 +446,8 @@ public class User extends JPAEntity implements Serializable {
      * @return Die ILVs in der man Prüfling ist
      */
     public List<InstanceLecture> getInstanceLecturesExaminee() {
-        return instanceLecturesExaminee;
+        throw new UnsupportedOperationException();
+        //return instanceLecturesExaminee;
     }
 
     /**
@@ -464,7 +457,8 @@ public class User extends JPAEntity implements Serializable {
      *            in welchen man teilnimmt
      */
     public void setInstanceLecturesExaminee(final List<InstanceLecture> pLectures) {
-        instanceLecturesExaminee = assertNotNull(pLectures);
+        throw new UnsupportedOperationException();
+        //instanceLecturesExaminee = assertNotNull(pLectures);
     }
 
     /**
@@ -474,7 +468,8 @@ public class User extends JPAEntity implements Serializable {
      *            welcher man beitritt
      */
     public void addInstanceLectureExaminee(final InstanceLecture pLecture) {
-        instanceLecturesExaminee.add(assertNotNull(pLecture));
+        throw new UnsupportedOperationException();
+        //instanceLecturesExaminee.add(assertNotNull(pLecture));
     }
 
     /**
@@ -484,7 +479,8 @@ public class User extends JPAEntity implements Serializable {
      *            welche man verlässt.
      */
     public void removeInstanceLectureExaminee(final InstanceLecture pLecture) {
-        instanceLecturesExaminee.remove(assertNotNull(pLecture));
+        throw new UnsupportedOperationException();
+        //instanceLecturesExaminee.remove(assertNotNull(pLecture));
     }
 
 }
