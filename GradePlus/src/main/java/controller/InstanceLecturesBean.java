@@ -124,7 +124,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String setLecture(final Lecture pLecture) {
         instanceLecture.setLecture(assertNotNull(pLecture));
-        return "instancelecturecreate.xhtml";
+        return "instancelectures.xhtml";
     }
 
     /**

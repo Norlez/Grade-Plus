@@ -14,6 +14,10 @@ h2 {
     margin-top: 15%;
 }
 
+.space50px{
+    padding-bottom: 50px;
+}
+
 .btn {
     height: 40px;
     border-width: thin;

@@ -64,11 +64,13 @@
                             <b:dataTableColumn label="#{msg['outputName']}" value="#{l.name}" />
                             <b:dataTableColumn label="#{msg['outputVak']}" value="#{l.vak}" />
                             <b:dataTableColumn label="#{msg['outputEcts']}" value="#{l.ects}" />
-                            <b:dataTableColumn label="#{msg['outputDescription']}" value="#{l.description}" />
 
-                            <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['actionCreateInstance']}"
+                            <b:dataTableColumn label="Choose" >
+                                <b:commandButton value="#{msg['actionChooseLectureInstance']}"
                                                  action="#{instanceLecturesBean.setLecture(l)}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Delete">
+
                                 <b:commandButton value="#{msg['actionRemove']}"
                                                  action="#{lecturesBean.remove(l)}" />
                             </b:dataTableColumn>
