@@ -24,7 +24,8 @@
                     <b:row>
                         <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                             <h1>
-                                <h:outputText value="#{msg['title']}" />
+                                <!-- TODO: Name is missing on Page, change in Bean -->
+                                <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name}" />
                             </h1>
                         </b:column>
                     </b:row>
@@ -33,7 +34,7 @@
                     <b:row>
                         <b:column>
                             <h2>
-                                <h:outputText value="Create new Instance for #{instanceLecturesBean.instanceLecture.lecture.name}" />
+                                <h:outputText value="#{msg['subtitleCreateSemester']}" />
                             </h2>
                         </b:column>
                     </b:row>
@@ -45,10 +46,13 @@
                         </b:column>
                         <b:column span="12" colSm="12" colMd="12" colXs="12">
 
-                            <b:selectOneMenu value="#{instanceLecturesBean.instanceLecture.semester}" span="2" required="true">
+                            <b:selectOneMenu id="semester" value="#{instanceLecturesBean.instanceLecture.semester}" span="2" required="true" requiredMessage="#{msg['errorSemesterRequired']}">
                                 <f:selectItems itemLabel="WiSe" itemValue="1" />
                                 <f:selectItems itemLabel="SoSe" itemValue="2" />
                             </b:selectOneMenu>
+                        </b:column>
+                        <b:column span="4">
+                            <b:message for="semester"/>
                         </b:column>
                     </b:row>
 
@@ -65,6 +69,9 @@
                                          required="true"
                                          requiredMessage="#{msg['errorYearRequired']}" />
                         </b:column>
+                        <b:column span="4">
+                            <b:message for="year"/>
+                        </b:column>
                     </b:row>
 
                     <!-- BUTTONS SAVE AND BACK -->
@@ -72,8 +79,8 @@
                         <b:column span="1" colSm="12" colMd="12" colXs="12">
                             <b:commandButton class="btn" id="saveButton" value="#{msg['actionCreate']}" action="#{instanceLecturesBean.save}"/>
                         </b:column>
-                        <b:column span="1" colSm="12" colMd="12" colXs="12">
-                            <b:button class="btn" id="back" value="#{msg['linkBack']}" outcome="instancelectures"/>
+                        <b:column span="2" colSm="12" colMd="12" colXs="12">
+                            <b:button class="btn" id="back" value="#{msg['linkCancel']}" outcome="instancelectures"/>
                         </b:column>
                         <b:column>
                             <b:message for="saveButton" />

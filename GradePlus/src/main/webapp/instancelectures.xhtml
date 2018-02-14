@@ -24,7 +24,7 @@
                     <b:row>
                         <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                             <h1>
-                                <h:outputText value="#{msg['title']}" />
+                                <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name}" />
                             </h1>
                         </b:column>
                     </b:row>
@@ -33,7 +33,7 @@
                     <b:row>
                         <b:column span="4">
                             <h2>
-                                <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name}" />
+                                <h:outputText value="#{msg['subtitleGeneralInformations']}" />
                             </h2>
                         </b:column>
                     </b:row>
@@ -41,7 +41,7 @@
                     <!-- VAK -->
                     <b:row>
                         <b:column span="1">
-                            <h:outputLabel value="VAK:" />
+                            <h:outputLabel value="#{msg['outputVAK']}" />
                         </b:column>
                         <b:column span="2">
                             <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.vak}" />
@@ -51,7 +51,7 @@
                     <!-- ECTS -->
                     <b:row>
                         <b:column span="1">
-                            <h:outputLabel value="ECTS:" />
+                            <h:outputLabel value="#{msg['outputECTS']}" />
                         </b:column>
                         <b:column span="2">
                             <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.ects}" />
@@ -69,13 +69,13 @@
                     <b:row>
                         <b:column span="4">
                             <h2>
-                                <h:outputText value="ILV Lectures" />
+                                <h:outputText value="#{msg['subtitleSemester']}" />
                             </h2>
                         </b:column>
                     </b:row>
                     <b:row>
                         <b:column span="2">
-                            <b:button class="btn" value="Create Lecture Instance" outcome="instancelecturecreate" />
+                            <b:button class="btn" value="#{msg['actionCreateNewSemester']}" outcome="instancelecturecreate" />
                         </b:column>
                     </b:row>
                     <b:row class="space50px" />
@@ -93,11 +93,16 @@
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
                                 <b:dataTableColumn label="#{msg['outputExaminee']}" value="#{l.examiners}" />
 
-                                <b:dataTableColumn label="Delete" rendered="#{true}">
-                                    <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLecturesBean.remove(l)}" />
+                                <!-- TODO: Function for Action Edit -->
+                                <b:dataTableColumn label="#{msg['actionEdit']}" rendered="#{true}">
+                                    <b:commandButton value="#{msg['actionEdit']}" action="#{instanceLecturesBean.setLecture(l)}" />
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="Quit" rendered="#{true}">
+                                <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{true}">
+                                    <b:commandButton value="#{msg['actionDelete']}" action="#{instanceLecturesBean.remove(l)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{true}">
                                     <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}" />
                                 </b:dataTableColumn>
 
