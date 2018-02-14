@@ -32,7 +32,7 @@
                         <b:row>
                             <b:column span="3">
                                 <h2>
-                                    <h:outputText class="title" value="User Data" />
+                                    <h:outputText class="title" value="#{msg['subtitleUserData']}" />
                                 </h2>
                             </b:column>
                         </b:row>
@@ -40,7 +40,7 @@
                         <!-- USERNAME -->
                         <b:row>
                             <b:column span="4">
-                                <h:outputLabel value="Username:" />
+                                <h:outputLabel value="#{msg['outputUsername']}" />
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.username}" id="username" />
@@ -51,7 +51,7 @@
                         <!-- NAME -->
                         <b:row>
                             <b:column span="4">
-                                <h:outputLabel value="Name:" />
+                                <h:outputLabel value="#{msg['outputName']}" />
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.givenName}" id="givenname" />
@@ -62,7 +62,7 @@
                         <!-- SURNAME -->
                         <b:row>
                             <b:column span="4">
-                                <h:outputLabel value="Surname:" />
+                                <h:outputLabel value="#{msg['outputSurname']}" />
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.surname}" id="surname" />
@@ -73,7 +73,7 @@
                         <!-- MATRIKELNUMMER -->
                         <b:row>
                             <b:column span="4">
-                                <h:outputLabel value="Matrikelnummer:" />
+                                <h:outputLabel value="#{msg['outputMatriculationNumber']}" />
                             </b:column>
                             <b:column span="2">
                                 <h:outputText renderered="#{true}" value="#{usersBean.user.matrNr}" />
@@ -83,7 +83,7 @@
                         <!-- MAIL-ADRESS -->
                         <b:row>
                             <b:column span="4">
-                                <h:outputLabel value="Email:" />
+                                <h:outputLabel value="#{msg['outputEmail']}" />
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.email}" id="email" />
@@ -107,11 +107,12 @@
                         </b:row>
                         <b:row>
                             <b:column span="2">
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['changeLanguage']}" />
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['changeLanguage']}" action="#{profileBean.save}" />
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionEditData']}" />
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.save}" />
                             </b:column>
                             <b:column span="2">
-                                <b:button class="btn-green" value="Change Password" />
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionChangePassword']}" />
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionCancel']}" outcome="profile" />
                             </b:column>
                         </b:row>
                     </b:formGroup>
@@ -121,7 +122,7 @@
                             <b:row>
                                 <b:column span="3">
                                     <h2>
-                                        <h:outputText class="title" value="Cange Password" />
+                                        <h:outputText class="title" value="#{msg['subtitleChangePassword']}" />
                                     </h2>
                                 </b:column>
                             </b:row>
@@ -129,7 +130,7 @@
                             <!-- OLD PASSWORD -->
                             <b:row>
                                 <b:column span="2">
-                                    <h:outputLabel value="Old Password:"/>
+                                    <h:outputLabel value="#{msg['outputOldPassword']}"/>
                                 </b:column>
                                 <b:column span="2">
                                     <b:inputSecret value="#{loginBean.password}"/>
@@ -139,7 +140,7 @@
                             <!-- NEW PASSWORD -->
                             <b:row>
                                 <b:column span="2">
-                                    <h:outputLabel value="New Password:"/>
+                                    <h:outputLabel value="#{msg['outputNewPassword']}"/>
                                 </b:column>
                                 <b:column span="2">
                                     <b:inputSecret value="#{loginBean.password}"/>
@@ -148,10 +149,10 @@
 
                             <b:row>
                                 <b:column span="2">
-                                    <b:commandButton rendered="#{true}" class="btn-green" value="Change Password" action="#{profileBean.save}" />
+                                    <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.save}" />
                                 </b:column>
                                 <b:column span="2">
-                                    <b:commandButton class="btn-green" value="Cancel"/>
+                                    <b:commandButton class="btn-green" value="#{msg['actionCancel']}"/>
                                 </b:column>
                             </b:row>
                     </b:formGroup>
