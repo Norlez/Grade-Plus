@@ -14,7 +14,7 @@
     <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
-        <f:loadBundle basename="internationalization.examcreate" var="msg" />
+        <f:loadBundle basename="internationalization.exams" var="msg" />
 
         <b:form>
             <b:container class="form-group">
@@ -33,33 +33,77 @@
                     </b:column>
                 </b:row>
 
+                <b:row class="space50px"/>
+
                 <!-- PERIOD START -->
                 <b:row>
                     <b:column span="2">
-                        <h:outputLabel value="#{msg['outputPeriodStart']}"/>
+                        <h:outputLabel value="#{msg['outputDateStart']}"/>
                     </b:column>
                     <b:column span="2">
-                        <b:datepicker mode="popup" value="#{msg['inputChooseDate']}"/>
+                        <b:datepicker id="dateStart" mode="popup" value="#{msg['inputSelectDate']}"/>
+                    </b:column>
+                    <b:column span="2">
+                        <b:message for="dateStart"/>
                     </b:column>
                 </b:row>
 
                 <!-- PERIOD END -->
                 <b:row>
                     <b:column span="2">
-                        <h:outputLabel value="#{msg['outputPeriodEnd']}"/>
+                        <h:outputLabel value="#{msg['outputDateEnd']}"/>
                     </b:column>
                     <b:column span="2">
-                        <b:datepicker mode="popup" value="#{msg['inputChooseDate']}"/>
+                        <b:datepicker id="dateEnd" mode="popup" value="#{msg['inputSelectDate']}"/>
+                    </b:column>
+                    <b:column span="2">
+                        <b:message for="dateEnd"/>
                     </b:column>
                 </b:row>
 
                 <!-- EXAMINER -->
-                <b:row>
+                <b:row class="btn-paragraph">
                     <b:column span="2">
                         <h:outputLabel value="#{msg['inputExaminer']}"/>
                     </b:column>
                     <b:column span="2">
-                        <b:datepicker mode="popup" value="#{msg['inputChooseDate']}"/>
+                        <b:form horizontal="true">
+                            <b:inputText value="" placeholder="#{msg['inputExaminer']}" typeahead="true" typeahead-values="#{usersBean.allUsers}"/>
+                        </b:form>
+                    </b:column>
+                    <b:column span="2">
+                        <b:commandButton value="#{msg['actionSearch']}"/>
+                    </b:column>
+                </b:row>
+
+                <!-- TIME START -->
+                <b:row class="btn-paragraph">
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputTimeStart']}"/>
+                    </b:column>
+                    <b:column span="2">
+                        <b:dateTimePicker mode="popup" showIcon="false" disabledDates="true" format="HH:mm" value="00:00"/>
+                    </b:column>
+                </b:row>
+
+                <!-- TIME END -->
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputTimeEnd']}"/>
+                    </b:column>
+                    <b:column span="2">
+                        <b:datepicker mode="popup" value="#{msg['inputSelectTime']}"/>
+                    </b:column>
+                </b:row>
+
+                <b:row class="space50px"/>
+                <!-- BUTTON SAVE CANCEL -->
+                <b:row>
+                    <b:column span="1">
+                        <b:commandButton value="#{msg['actionCreate']}"/>
+                    </b:column>
+                    <b:column span="1">
+                        <b:button value="#{msg['linkCancel']}" outcome="exams"/>
                     </b:column>
                 </b:row>
             </b:container>
