@@ -188,6 +188,11 @@ public class User extends JPAEntity implements Serializable {
         username = Assertion.assertNotNull(pUsername);
     }
 
+    public void setUsernameForUserMail() {
+        final String tmp = usernameFromEmail(email, '@');
+        username = Assertion.assertNotNull(tmp);
+    }
+
     /**
      * Gibt den Nachnamen dieses Benutzers zurück.
      *
@@ -388,6 +393,17 @@ public class User extends JPAEntity implements Serializable {
     public String toString() {
         return String.format("User {id: %d, username: %s, password: %s, email: %s}",
                 getId(), username, password, email);
+    }
+
+    /**
+     * Trennt den String bis zum Trennungszeichen
+     * 
+     * @param pString
+     * @param delimeter
+     * @return
+     */
+    public String usernameFromEmail(String pString, char delimeter) {
+        return pString.substring(0, pString.indexOf(delimeter));
     }
 
     /**
