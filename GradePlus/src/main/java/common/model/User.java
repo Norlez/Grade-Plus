@@ -110,6 +110,12 @@ public class User extends JPAEntity implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Grade> grades;
 
+    @ManyToOne(optional = false)
+    private InstanceLecture asProf;
+
+    @ManyToOne(optional = true)
+    private InstanceLecture asStudent;
+
     /**
      * Die Matrikelnummer eines Studenten.
      */
@@ -393,94 +399,19 @@ public class User extends JPAEntity implements Serializable {
         return DEFAULT_LANGUAGE;
     }
 
-    // Prüfer
-
-    /**
-     * Gibt die ILvs zurück an denen man Prüfer ist.
-     * 
-     * @return Ilvs als Set
-     */
-    public List<InstanceLecture> getInstanceLecturesExaminer() {
-        throw new UnsupportedOperationException();
-        //return instanceLecturesExaminer;
+    public InstanceLecture getAsProf() {
+        return asProf;
     }
 
-    /**
-     * Setzt die ILVs in den der User Prüfer ist.
-     * 
-     * @param pLectures
-     *            in denen der User Prüfer ist.
-     */
-    public void setInstanceLecturesExaminer(final List<InstanceLecture> pLectures) {
-        throw new UnsupportedOperationException();
-        //instanceLecturesExaminer = assertNotNull(pLectures);
+    public void setAsProf(InstanceLecture asProf) {
+        this.asProf = asProf;
     }
 
-    /**
-     * Fügt eine ILV hinzu, in der der User Prüfer ist.
-     * 
-     * @param pLecture
-     *            wird als ILV hinzugefügt
-     */
-    public void addInstanceLectureExaminer(final InstanceLecture pLecture) {
-        throw new UnsupportedOperationException();
-        //instanceLecturesExaminer.add(assertNotNull(pLecture));
+    public InstanceLecture getAsStudent() {
+        return asStudent;
     }
 
-    /**
-     * Entfernt eine ILV in der man Prüfer ist.
-     * 
-     * @param pLecture
-     *            verlässt jene ILV
-     */
-    public void removeInstanceLectureExaminer(final InstanceLecture pLecture) {
-        throw new UnsupportedOperationException();
-        //instanceLecturesExaminer.remove(assertNotNull(pLecture));
+    public void setAsStudent(InstanceLecture asStudent) {
+        this.asStudent = asStudent;
     }
-
-    // Prüfling
-
-    /**
-     * Erhält die Ilvs in der man Prüfling ist.
-     * 
-     * @return Die ILVs in der man Prüfling ist
-     */
-    public List<InstanceLecture> getInstanceLecturesExaminee() {
-        throw new UnsupportedOperationException();
-        //return instanceLecturesExaminee;
-    }
-
-    /**
-     * Setzt die ILVS in denen man als Prüfling teilnimmt.
-     * 
-     * @param pLectures
-     *            in welchen man teilnimmt
-     */
-    public void setInstanceLecturesExaminee(final List<InstanceLecture> pLectures) {
-        throw new UnsupportedOperationException();
-        //instanceLecturesExaminee = assertNotNull(pLectures);
-    }
-
-    /**
-     * Tritt einer ILV als Prüfling bei
-     *
-     * @param pLecture
-     *            welcher man beitritt
-     */
-    public void addInstanceLectureExaminee(final InstanceLecture pLecture) {
-        throw new UnsupportedOperationException();
-        //instanceLecturesExaminee.add(assertNotNull(pLecture));
-    }
-
-    /**
-     * Verlässt eine ILV für die man Prüfling ist.
-     * 
-     * @param pLecture
-     *            welche man verlässt.
-     */
-    public void removeInstanceLectureExaminee(final InstanceLecture pLecture) {
-        throw new UnsupportedOperationException();
-        //instanceLecturesExaminee.remove(assertNotNull(pLecture));
-    }
-
 }

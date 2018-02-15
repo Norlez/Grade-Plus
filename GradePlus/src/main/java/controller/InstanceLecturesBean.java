@@ -185,7 +185,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
-            user.addInstanceLectureExaminer(instanceLecture);
+            user.setAsProf(instanceLecture);
             userDao.update(user);
             instanceLectureDao.save(instanceLecture);
         } catch (final IllegalArgumentException e) {
