@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.model.Session;

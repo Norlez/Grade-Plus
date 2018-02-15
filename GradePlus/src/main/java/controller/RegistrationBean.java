@@ -88,13 +88,13 @@ public class RegistrationBean extends LoginIndependentBean {
     public String register() {
         try {
             // Prüft, ob die eingegebenen Daten gültig sind.
-            //if (sender.isEmailPassCombiValid(user.getEmail(), user.getTmpPassword())) {
-                // Überschreibt, das kurz benötigte Passwort mit einem leeren
-                // String(Sicherheit)
-                user.setTmpPassword("");
-                userDao.save(user);
-                sender.registerMail(user);
-           // }
+            // if (sender.isEmailPassCombiValid(user.getEmail(), user.getTmpPassword())) {
+            // Überschreibt, das kurz benötigte Passwort mit einem leeren
+            // String(Sicherheit)
+            user.setTmpPassword("");
+            userDao.save(user);
+            sender.registerMail(user);
+            // }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));
