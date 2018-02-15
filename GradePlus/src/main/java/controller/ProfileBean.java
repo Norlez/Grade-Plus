@@ -27,6 +27,7 @@ package controller;
 import static common.util.Assertion.assertNotEmpty;
 import static common.util.Assertion.assertNotNull;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +38,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -91,6 +94,11 @@ public class ProfileBean extends AbstractBean implements Serializable {
     private static final Logger logger = Logger.getLogger(ProfileBean.class);
 
     /**
+     * Ein weiterer User..
+     */
+    private User thisUser;
+
+    /**
      * Erzeugt eine neue ProfileBean.
      *
      * @param pSession
@@ -104,6 +112,15 @@ public class ProfileBean extends AbstractBean implements Serializable {
     public ProfileBean(final Session pSession, final UserDAO pUserDAO) {
         super(pSession);
         dao = Assertion.assertNotNull(pUserDAO);
+        thisUser = getSession().getUser();
+    }
+
+    public User getThisUser() {
+        return thisUser;
+    }
+
+    public void setThisUser(User thisUser) {
+        this.thisUser = Assertion.assertNotNull(thisUser);
     }
 
     /**
@@ -211,4 +228,20 @@ public class ProfileBean extends AbstractBean implements Serializable {
         return Collections.unmodifiableMap(countriesMap);
     }
 
+    /**
+     * Verweist auf die UniMail-Webseite um das Passwort zurückzusetzen.
+     */
+
+    public void redirect() {
+        try {
+            ExternalContext externalContext = FacesContext.getCurrentInstance()
+                    .getExternalContext();
+            externalContext
+                    .redirect("https://oracle-web.zfn.uni-bremen.de/secure/passwort_vergessen");
+
+        } catch (IOException e) {
+            System.out.println("jojo");
+        }
+
+    }
 }

@@ -37,6 +37,7 @@ import javax.inject.Named;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.model.Role;
+import common.util.Assertion;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -123,6 +124,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
         sender = new RegisterMailBean();
+
     }
 
     /**

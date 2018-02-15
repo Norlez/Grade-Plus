@@ -44,7 +44,7 @@
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.username}" id="username" />
-                                <h:outputText renderered="#{true}" value="#{usersBean.user.username}" />
+                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.username}" />
                             </b:column>
                         </b:row>
 
@@ -55,7 +55,7 @@
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.givenName}" id="givenname" />
-                                <h:outputText renderered="#{true}" value="#{usersBean.user.givenName}" />
+                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.givenName}" />
                             </b:column>
                         </b:row>
 
@@ -66,7 +66,7 @@
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.surname}" id="surname" />
-                                <h:outputText renderered="#{true}" value="#{usersBean.user.surname}" />
+                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.surname}" />
                             </b:column>
                         </b:row>
 
@@ -76,7 +76,7 @@
                                 <h:outputLabel value="#{msg['outputMatriculationNumber']}" />
                             </b:column>
                             <b:column span="2">
-                                <h:outputText renderered="#{true}" value="#{usersBean.user.matrNr}" />
+                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.matrNr}" />
                             </b:column>
                         </b:row>
 
@@ -87,7 +87,7 @@
                             </b:column>
                             <b:column span="2">
                                 <b:inputText renderered="#{true}" value="#{usersBean.user.email}" id="email" />
-                                <h:outputText renderered="#{true}" value="#{usersBean.user.email}" />
+                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.email}" />
                             </b:column>
                         </b:row>
 
