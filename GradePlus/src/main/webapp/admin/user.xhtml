@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+    <!-- Seite gibt eine Uebersicht der aktuellen User in einer Tabelle aus -->
+    <title>User</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/WEB-INF/template.xhtml">
+        <ui:param name="title" value="#{msg['title']}"/>
+        
+        <ui:define name="content">
+            <f:loadBundle basename="internationalization.admin.users" var="msg" />
+
+            <b:form id="registerUser">
+                <b:container class="form-group">
+
+                    <!-- TITLE -->
+                    <b:row>
+                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                            <h1>
+                                <h:outputText value="#{msg['title']}" />
+                            </h1>
+                        </b:column>
+                    </b:row>
+
+                    <!-- SUBTITLE -->
+                    <b:row>
+                        <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleEditUser']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
+
+                    <!-- ID -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputId']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText value="#{usersBean.user.id}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- USERNAME -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputUsername']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText rendered="#{true}" value="#{usersBean.user.username}"/>
+                            <b:inputText rendered="#{true}" value="#{usersBean.user.username}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- PASSWORD HASH -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputPasswordHash']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText rendered="#{true}" value="#{usersBean.user.password}"/>
+                            <b:inputText rendered="#{true}" value="#{usersBean.user.password}"/>
+
+                        </b:column>
+                    </b:row>
+
+                    <!-- ROLE -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputRole']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText rendered="#{true}" value="#{usersBean.user.role}"/>
+                            <!-- TODO: Auf User Role umstellen -->
+                            <b:selectOneMenu rendered="#{true}" class="form-control" value="#{profileBean.languageName}">
+                                <f:selectItems value="#{profileBean.countries}" />
+                            </b:selectOneMenu>
+                        </b:column>
+                    </b:row>
+
+                    <!-- MATRICAL NUMBER -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputMatricalNumber']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText rendered="#{true}" value="#{usersBean.user.matrNr}"/>
+                            <b:inputText rendered="#{true}" value="#{usersBean.user.matrNr}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- EMAIL -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputEmail']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText rendered="#{true}" value="#{usersBean.user.email}"/>
+                            <b:inputText rendered="#{true}" value="#{usersBean.user.email}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- ACTIVITY STATUS -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputStatus']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText rendered="#{true}" value="#{usersBean.user.active}"/>
+                            <!-- TODO: Auf User Status umstellen -->
+                            <b:selectOneMenu rendered="#{true}" class="form-control" value="#{profileBean.languageName}">
+                                <f:selectItems value="#{profileBean.countries}" />
+                            </b:selectOneMenu>
+                        </b:column>
+                    </b:row>
+
+                    <!-- BUTTON EDIT SAVE DELETE -->
+                    <b:row>
+                        <b:column span="1">
+                            <b:commandButton value="#{msg['actionEdit']}" action="#{usersBean.remove(u)}" />
+                        </b:column>
+                        <b:column span="1">
+                            <b:commandButton value="#{msg['actionSave']}" action="#{usersBean.remove(u)}" />
+                        </b:column>
+                        <b:column span="1">
+                            <b:commandButton value="#{msg['actionCancel']}" action="#{usersBean.remove(u)}" />
+                        </b:column>
+                        <b:column span="1">
+                            <b:commandButton rendered="#{true}" value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
+                        </b:column>
+                    </b:row>
+
+                </b:container>
+            </b:form>
+
+            <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

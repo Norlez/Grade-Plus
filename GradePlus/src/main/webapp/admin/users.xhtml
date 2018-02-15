@@ -60,14 +60,22 @@
 
                     <b:dataTableColumn label="#{msg['outputId']}" value="#{u.id}" />
                     <b:dataTableColumn label="#{msg['outputUsername']}" value="#{u.username}" />
-                    <b:dataTableColumn label="#{msg['outputPasswordHash']}" value="#{u.password}" />
                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}" />
-                    <b:dataTableColumn label="#{msg['outputMatnr']}" value="#{u.matrNr}" />
-                    <b:dataTableColumn label="#{msg['outputActive']}" value="#{u.active}" />
-                    <!-- <b:dataTableColumn label="#{msg['outputLectures']}" value="#{u.instanceLectures}" /> -->
-                    <b:dataTableColumn label="Optionen">
+                    <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}" />
+                    <b:dataTableColumn label="#{msg['outputStatus']}" value="#{u.active}" />
+
+                    <b:dataTableColumn label="#{msg['actionSelect']}">
+                        <!-- TODO: Mit Set Funktion verbinden -->
+                        <b:button value="#{msg['actionSelect']}" outcome="user"/>
+                        <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{usersBean.remove(u)}" />
+                    </b:dataTableColumn>
+
+                    <b:dataTableColumn label="#{msg['actionRemove']}">
                         <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
                     </b:dataTableColumn>
+
+
+
                 </b:dataTable>
                 </b:container>
             </b:form>
