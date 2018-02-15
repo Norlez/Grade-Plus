@@ -11,7 +11,7 @@
 </head>
 <body>
 <ui:composition template="WEB-INF/template.xhtml">
-    <ui:param name="title" value="#{msg['title']}"/>
+    <ui:param name="title" value="#{msg['titleExamCreate']}"/>
 
     <ui:define name="content">
         <f:loadBundle basename="internationalization.exams" var="msg" />
@@ -82,23 +82,43 @@
                         <h:outputLabel value="#{msg['outputTimeStart']}"/>
                     </b:column>
                     <b:column span="2">
-                        <b:dateTimePicker mode="popup" showIcon="false" disabledDates="true" format="HH:mm" value="00:00"/>
+                        <b:dateTimePicker value="08:00" format="HH:mm" mode="popup" />
                     </b:column>
                 </b:row>
 
                 <!-- TIME END -->
-                <b:row>
+                <b:row class="btn-paragraph">
                     <b:column span="2">
                         <h:outputLabel value="#{msg['outputTimeEnd']}"/>
                     </b:column>
                     <b:column span="2">
-                        <b:datepicker mode="popup" value="#{msg['inputSelectTime']}"/>
+                        <b:dateTimePicker value="08:00" format="HH:mm" mode="popup" />
+                    </b:column>
+                </b:row>
+
+                <!-- DURATION -->
+                <b:row class="btn-paragraph">
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputDuration']}"/>
+                    </b:column>
+                    <b:column span="2">
+                        <b:dateTimePicker value="08:00" format="HH:mm" mode="popup" />
+                    </b:column>
+                </b:row>
+
+                <!-- BREAK -->
+                <b:row class="btn-paragraph">
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputBreak']}"/>
+                    </b:column>
+                    <b:column span="2">
+                        <b:dateTimePicker value="08:00" format="HH:mm" mode="popup" />
                     </b:column>
                 </b:row>
 
                 <b:row class="space50px"/>
                 <!-- BUTTON SAVE CANCEL -->
-                <b:row>
+                <b:row class="btn-paragraph">
                     <b:column span="1">
                         <b:commandButton value="#{msg['actionCreate']}"/>
                     </b:column>
