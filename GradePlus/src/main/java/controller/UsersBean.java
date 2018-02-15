@@ -95,11 +95,6 @@ public class UsersBean extends AbstractBean implements Serializable {
     private User user;
 
     /**
-     * Ein weiterer User..
-     */
-    private User thisUser;
-
-    /**
      * Die Liste aller innerhalb der Applikation bekannten Benutzer.
      */
     private List<User> allUsers;
@@ -129,7 +124,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
         sender = new RegisterMailBean();
-        thisUser = getSession().getUser();
+
     }
 
     /**
@@ -150,14 +145,6 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     public User getUser() {
         return user;
-    }
-
-    public User getThisUser() {
-        return thisUser;
-    }
-
-    public void setThisUser(User thisUser) {
-        this.thisUser = Assertion.assertNotNull(thisUser);
     }
 
     /**

@@ -94,6 +94,11 @@ public class ProfileBean extends AbstractBean implements Serializable {
     private static final Logger logger = Logger.getLogger(ProfileBean.class);
 
     /**
+     * Ein weiterer User..
+     */
+    private User thisUser;
+
+    /**
      * Erzeugt eine neue ProfileBean.
      *
      * @param pSession
@@ -107,6 +112,15 @@ public class ProfileBean extends AbstractBean implements Serializable {
     public ProfileBean(final Session pSession, final UserDAO pUserDAO) {
         super(pSession);
         dao = Assertion.assertNotNull(pUserDAO);
+        thisUser = getSession().getUser();
+    }
+
+    public User getThisUser() {
+        return thisUser;
+    }
+
+    public void setThisUser(User thisUser) {
+        this.thisUser = Assertion.assertNotNull(thisUser);
     }
 
     /**
