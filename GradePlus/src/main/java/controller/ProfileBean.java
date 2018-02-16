@@ -182,6 +182,11 @@ public class ProfileBean extends AbstractBean implements Serializable {
         languageName = Assertion.assertNotEmpty(pLanguage);
     }
 
+    public String saveAll() {
+        save();
+        return setEditChecker();
+    }
+
     /**
      * Speichert die Einstellungen aus der GUI im Nutzerprofil. Aktuell ist lediglich die
      * Sprache einstellbar.

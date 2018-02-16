@@ -45,8 +45,8 @@
                                 <h:outputLabel value="#{msg['outputUsername']}" />
                             </b:column>
                             <b:column span="2">
-                                <h:outputText renderered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.username}" />
-                                <b:inputText renderered="#{profileBean.getEditChecker()}" value="#{profileBean.thisUser.username}" id="username" />
+                                <h:outputText rendered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.username}" />
+                                <b:inputText rendered="#{profileBean.getEditChecker()}" value="#{profileBean.thisUser.username}" id="username" />
                             </b:column>
                         </b:row>
 
@@ -56,8 +56,8 @@
                                 <h:outputLabel value="#{msg['outputName']}" />
                             </b:column>
                             <b:column span="2">
-                                <h:outputText renderered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.givenName}" />
-                                <b:inputText renderered="#{profileBean.getEditChecker()}" value="#{profileBean.thisUser.givenName}" id="givenname" />
+                                <h:outputText rendered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.givenName}" />
+                                <b:inputText rendered="#{profileBean.getEditChecker()}" value="#{profileBean.thisUser.givenName}" id="givenname" />
                             </b:column>
                         </b:row>
 
@@ -67,8 +67,8 @@
                                 <h:outputLabel value="#{msg['outputSurname']}" />
                             </b:column>
                             <b:column span="2">
-                                <h:outputText renderered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.surname}" />
-                                <b:inputText renderered="#{profileBean.getEditChecker()}" value="#{profileBean.thisUser.surname}" id="surname" />
+                                <h:outputText rendered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.surname}" />
+                                <b:inputText rendered="#{profileBean.editChecker}" value="#{profileBean.thisUser.surname}" id="surname" />
                             </b:column>
                         </b:row>
 
@@ -78,7 +78,7 @@
                                 <h:outputLabel value="#{msg['outputMatriculationNumber']}" />
                             </b:column>
                             <b:column span="2">
-                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.matrNr}" />
+                                <h:outputText rendered="#{true}" value="#{profileBean.thisUser.matrNr}" />
                             </b:column>
                         </b:row>
 
@@ -87,9 +87,9 @@
                             <b:column span="2">
                                 <h:outputLabel value="#{msg['outputEmail']}" />
                             </b:column>
-                            <b:column span="2">
-                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.email}" />
-                                <b:inputText renderered="#{true}" value="#{profileBean.thisUser.email}" id="email" />
+                            <b:column span="3">
+                                <h:outputText rendered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.email}" />
+                                <b:inputText rendered="#{profileBean.editChecker}" value="#{profileBean.thisUser.email}" id="email" />
                             </b:column>
                         </b:row>
 
@@ -98,10 +98,9 @@
                             <b:column span="2">
                                 <h:outputLabel value="#{msg['inputLanguage']}" />
                             </b:column>
-                        </b:row>
-                        <b:row>
                             <b:column span="2">
-                                <b:selectOneMenu rendered="#{true}" class="form-control" value="#{profileBean.languageName}">
+                                <h:outputText rendered="#{!profileBean.getEditChecker()}" value="#{profileBean.languageName}" />
+                                <b:selectOneMenu rendered="#{profileBean.getEditChecker()}" class="form-control" value="#{profileBean.languageName}">
                                     <f:selectItems value="#{profileBean.countries}" />
                                 </b:selectOneMenu>
                             </b:column>
@@ -112,12 +111,17 @@
                         <!-- BUTTONS -->
                         <b:row>
                             <b:column span="2">
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionEditData']}" action="#{profileBean.setEditChecker()}"/>
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.setEditChecker()}" />
+                                <b:commandButton rendered="#{!profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionEditData']}" action="#{profileBean.setEditChecker()}"/>
+                                <b:commandButton rendered="#{profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.saveAll}" />
                             </b:column>
                             <b:column span="2">
+                                <b:commandButton rendered="#{profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionCancel']}" action="#{profileBean.setEditChecker()}" />
+                            </b:column>
+                        </b:row>
+                        <b:row class="space50px"/>
+                        <b:row>
+                            <b:column span="2">
                                 <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionChangePassword']}" href="https://oracle-web.zfn.uni-bremen.de/secure/passwort_vergessen"/>
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionCancel']}" outcome="profile" />
                             </b:column>
                         </b:row>
                     </b:formGroup>
