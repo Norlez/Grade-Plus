@@ -46,10 +46,8 @@
                         </b:column>
                         <b:column span="12" colSm="12" colMd="12" colXs="12">
 
-                            <b:selectOneMenu id="semester" value="#{instanceLecturesBean.instanceLecture.semester}" span="2" required="true" requiredMessage="#{msg['errorSemesterRequired']}">
-                                <f:selectItems itemLabel="WiSe" itemValue="1" />
-                                <f:selectItems itemLabel="SoSe" itemValue="2" />
-                            </b:selectOneMenu>
+                            <b:inputText id="semester" value="#{instanceLecturesBean.instanceLecture.semester}" span="2" required="true" requiredMessage="#{msg['errorSemesterRequired']}"/>
+
                         </b:column>
                         <b:column span="4">
                             <b:message for="semester"/>
