@@ -134,7 +134,8 @@ public class User extends JPAEntity implements Serializable {
     @Column(nullable = false)
     private boolean isActive = true;
 
-    @ManyToOne(optional = true)
+    @ManyToOne
+    // (optional = true)
     public Exam myExamAsProf;
 
     /**
@@ -434,11 +435,11 @@ public class User extends JPAEntity implements Serializable {
         this.asStudent = asStudent;
     }
 
-    public void setMyExamAsProf(Exam myExamAsProf) {
-        this.myExamAsProf = myExamAsProf;
-    }
+    // public void setMyExamAsProf(Exam myExamAsProf) {
+    // this.myExamAsProf = myExamAsProf;
+    // }
 
-    public Exam getMyExamAsProf() {
-        return myExamAsProf;
-    }
+    // public Exam getMyExamAsProf() {
+    // return myExamAsProf;
+    // }
 }

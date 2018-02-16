@@ -70,7 +70,8 @@ public class Exam extends JPAEntity {
     /**
      * Die Liste der Prüfer.
      */
-    @OneToMany(mappedBy = "myExamAsProf")
+    @OneToMany
+    // (mappedBy = "myExamAsProf")
     private List<User> examiners;
 
     /**
@@ -222,9 +223,9 @@ public class Exam extends JPAEntity {
      *
      * @return Die Prüfer als Liste.
      */
-    public List<User> getExaminers() {
-        return examiners;
-    }
+    // public List<User> getExaminers() {
+    // return examiners;
+    // }
 
     /**
      * Fügt den gegebenen Benutzer den Prüfern hinzu.
@@ -232,11 +233,11 @@ public class Exam extends JPAEntity {
      * @param theExaminer
      *            Der hinzuzufügende Prüfer.
      */
-    public void addExaminer(User theExaminer) {
-        if (theExaminer != null) {
-            examiners.add(theExaminer);
-        }
-    }
+    // public void addExaminer(User theExaminer) {
+    // if (theExaminer != null) {
+    // examiners.add(theExaminer);
+    // }
+    // }
 
     /**
      * Setzt die Prüfer auf den gegebenen Benutzer.
@@ -244,9 +245,9 @@ public class Exam extends JPAEntity {
      * @param pExaminer
      *            Der neue Prüfer.
      */
-    public void setExaminer(List<User> pExaminer) {
-        examiners = Assertion.assertNotNull(pExaminer);
-    }
+    // public void setExaminer(List<User> pExaminer) {
+    // examiners = Assertion.assertNotNull(pExaminer);
+    // }
 
     /**
      * Entfernt den gegebenen Benutzer als Prüfer.
@@ -254,9 +255,9 @@ public class Exam extends JPAEntity {
      * @param pExaminer
      *            Der zu entfernende Prüfer.
      */
-    public void removeExaminer(User pExaminer) {
-        if (pExaminer != null) {
-            examiners.remove(pExaminer);
-        }
-    }
+    // public void removeExaminer(User pExaminer) {
+    // if (pExaminer != null) {
+    // examiners.remove(pExaminer);
+    // }
+    // }
 }
