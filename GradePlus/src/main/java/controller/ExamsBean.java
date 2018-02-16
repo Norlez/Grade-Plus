@@ -5,6 +5,10 @@ import common.model.Lecture;
 import common.model.Session;
 import common.util.Assertion;
 
+import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,6 +21,8 @@ import static common.util.Assertion.assertNotNull;
  * @author Andreas Estenfelder, Torben Groß
  * @version 2017-12-21
  */
+@Named
+@ViewScoped
 public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
@@ -47,6 +53,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @throws IllegalArgumentException
      *             Falls {@code pSession} {@code null} ist.
      */
+    @Inject
     public ExamsBean(Session pSession) {
         super(pSession);
     }
