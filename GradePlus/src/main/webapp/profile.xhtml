@@ -110,7 +110,7 @@
 
                         <!-- BUTTONS -->
                         <b:row>
-                            <b:column span="2">
+                            <b:column span="1">
                                 <b:commandButton rendered="#{!profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionEditData']}" action="#{profileBean.setEditChecker()}"/>
                                 <b:commandButton rendered="#{profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.saveAll}" />
                             </b:column>

@@ -15,7 +15,7 @@
         <ui:param name="title" value="#{msg['title']}"/>
 
         <ui:define name="content">
-            <f:loadBundle basename="internationalization.instanceLectures" var="msg" />
+            <f:loadBundle basename="internationalization.semester" var="msg" />
 
             <b:form>
                 <b:container class="form-group">
@@ -65,6 +65,7 @@
                         </b:column>
                     </b:row>
 
+
                     <!-- INSTANCE -->
                     <b:row>
                         <b:column span="4">
@@ -75,7 +76,7 @@
                     </b:row>
                     <b:row>
                         <b:column span="2">
-                            <b:button class="btn" value="#{msg['actionCreateNewSemester']}" outcome="instancelecturecreate" />
+                            <b:button class="btn" value="#{msg['actionCreateNewSemester']}" outcome="semestercreate" />
                         </b:column>
                     </b:row>
                     <b:row class="space50px" />
@@ -91,11 +92,9 @@
 
                                 <b:dataTableColumn label="#{msg['outputSemester']}" value="#{l.semester}" />
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
-                                <b:dataTableColumn label="#{msg['outputExaminee']}" value="#{l.examiners}" />
 
-                                <!-- TODO: Function for Action Edit -->
-                                <b:dataTableColumn label="#{msg['actionEdit']}" rendered="#{true}">
-                                    <b:commandButton value="#{msg['actionEdit']}" action="#{instanceLecturesBean.setLecture(l)}" />
+                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{true}">
+                                    <b:commandButton value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setLecture(l)}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{true}">
