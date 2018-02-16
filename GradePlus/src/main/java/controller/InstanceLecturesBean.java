@@ -120,11 +120,11 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *
      * @param pLecture
      *            Die Lehrveranstaltung der ILV.
-     * @return "instancelecturecreate.xhtml", um auf entsprechendes Facelet umzuleiten.
+     * @return "semestercreate.xhtml", um auf entsprechendes Facelet umzuleiten.
      */
     public String setLecture(final Lecture pLecture) {
         instanceLecture.setLecture(assertNotNull(pLecture));
-        return "instancelectures.xhtml";
+        return "semester.xhtml";
     }
 
     /**
@@ -180,7 +180,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * Fügt die aktuell angezeigte ILV der Liste aller innerhalb der Applikation bekannten
      * ILVs hinzu.
      *
-     * @return "instancelectures.xhtml", um auf das Facelet der Übersicht der ILVs zu
+     * @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu
      *         leiten.
      */
     public String save() {
@@ -197,7 +197,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         } catch (final Exception e) {
         }
         init();
-        return "instancelectures.xhtml";
+        return "semester.xhtml";
     }
 
     /**

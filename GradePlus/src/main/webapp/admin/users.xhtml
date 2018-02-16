@@ -50,7 +50,10 @@
                     </b:column>
                 </b:row>
 
-                <b:dataTable span="8" value="#{usersBean.allUsers}" var="u"
+                    <b:messages globalOnly="true"/>
+
+
+                    <b:dataTable span="8" value="#{usersBean.allUsers}" var="u"
                              excel="false"
                              csv="false"
                              pdf="false"
@@ -80,7 +83,6 @@
                 </b:container>
             </b:form>
 
-            <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
         </ui:define>
     </ui:composition>
 </h:body>
