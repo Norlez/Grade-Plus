@@ -18,9 +18,9 @@
             <h:form>
             <b:navBar>
                 <b:navbarLinks>
-                    <b:navLink id="dashboardLink" value="#{templateMsg['actionLinkDashboard']}" outcome="/dashboard" />
+                    <b:navLink id="dashboardLink" rendered="#{usersBean.isStudent(profileBean.thisUser)}" value="#{templateMsg['actionLinkDashboard']}" outcome="/dashboard" />
                     <b:navLink id="gradesLink" value="#{templateMsg['actionLinkGrades']}" outcome="/grades" />
-                    <b:navLink id="backupLink" value="#{templateMsg['actionLinkBackup']}" outcome="/admin/backup" />
+                    <b:navLink id="backupLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkBackup']}" outcome="/admin/backup" />
                     <b:navLink id="UserLink" rendered="#{true}" value="#{templateMsg['actionLinkUser']}" outcome="/admin/users" />
                     <b:navLink id="LectureLink" value="#{templateMsg['actionLinkLecture']}" outcome="/lectures" />
                     <b:navLink id="messageLink" value="#{templateMsg['actionLinkMessage']}" outcome="/message" />

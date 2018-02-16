@@ -39,15 +39,15 @@
                         </b:column>
                     </b:row>
 
+                    <b:row class="space50px"/>
+
                     <!-- SEMESTER -->
                     <b:row>
-                        <b:column>
+                        <b:column span="1">
                             <h:outputLabel value="#{msg['inputSemester']}*" />
                         </b:column>
-                        <b:column span="12" colSm="12" colMd="12" colXs="12">
-
-                            <b:inputText id="semester" value="#{instanceLecturesBean.instanceLecture.semester}" span="2" required="true" requiredMessage="#{msg['errorSemesterRequired']}"/>
-
+                        <b:column span="2" colSm="12" colMd="12" colXs="12">
+                            <b:inputText id="semester" value="#{instanceLecturesBean.instanceLecture.semester}" required="true" requiredMessage="#{msg['errorSemesterRequired']}"/>
                         </b:column>
                         <b:column span="4">
                             <b:message for="semester"/>
@@ -56,7 +56,7 @@
 
                     <!-- YEAR -->
                     <b:row>
-                        <b:column>
+                        <b:column span="1">
                             <h:outputLabel value="#{msg['inputYear']}*" />
                         </b:column>
                         <b:column span="2" colSm="12" colMd="12" colXs="12">
@@ -89,7 +89,7 @@
 
             </b:form>
 
-            <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
+            <b:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
         </ui:define>
     </ui:composition>
 </h:body>
