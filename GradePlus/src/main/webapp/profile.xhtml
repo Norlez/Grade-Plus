@@ -30,49 +30,51 @@
 
                         <!-- USER DATA -->
                         <b:row>
-                            <b:column span="3">
+                            <b:column span="2">
                                 <h2>
                                     <h:outputText class="title" value="#{msg['subtitleUserData']}" />
                                 </h2>
                             </b:column>
                         </b:row>
 
+                        <b:row class="space50px"/>
+
                         <!-- USERNAME -->
                         <b:row>
-                            <b:column span="4">
+                            <b:column span="2">
                                 <h:outputLabel value="#{msg['outputUsername']}" />
                             </b:column>
                             <b:column span="2">
-                                <b:inputText renderered="#{true}" value="#{usersBean.user.username}" id="username" />
-                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.username}" />
+                                <h:outputText renderered="#{!profileBean.getEditChecker()}" value="hello#{usersBean.user.username}" />
+                                <b:inputText renderered="#{profileBean.getEditChecker()}" value="#{usersBean.user.username}" id="username" />
                             </b:column>
                         </b:row>
 
                         <!-- NAME -->
                         <b:row>
-                            <b:column span="4">
+                            <b:column span="2">
                                 <h:outputLabel value="#{msg['outputName']}" />
                             </b:column>
                             <b:column span="2">
-                                <b:inputText renderered="#{true}" value="#{usersBean.user.givenName}" id="givenname" />
-                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.givenName}" />
+                                <h:outputText renderered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.givenName}" />
+                                <b:inputText renderered="#{profileBean.getEditChecker()}" value="#{usersBean.user.givenName}" id="givenname" />
                             </b:column>
                         </b:row>
 
                         <!-- SURNAME -->
                         <b:row>
-                            <b:column span="4">
+                            <b:column span="2">
                                 <h:outputLabel value="#{msg['outputSurname']}" />
                             </b:column>
                             <b:column span="2">
-                                <b:inputText renderered="#{true}" value="#{usersBean.user.surname}" id="surname" />
-                                <h:outputText renderered="#{true}" value="#{profileBean.thisUser.surname}" />
+                                <h:outputText renderered="#{!profileBean.getEditChecker()}" value="#{profileBean.thisUser.surname}" />
+                                <b:inputText renderered="#{profileBean.getEditChecker()}" value="#{usersBean.user.surname}" id="surname" />
                             </b:column>
                         </b:row>
 
                         <!-- MATRIKELNUMMER -->
                         <b:row>
-                            <b:column span="4">
+                            <b:column span="2">
                                 <h:outputLabel value="#{msg['outputMatriculationNumber']}" />
                             </b:column>
                             <b:column span="2">
@@ -82,79 +84,42 @@
 
                         <!-- MAIL-ADRESS -->
                         <b:row>
-                            <b:column span="4">
+                            <b:column span="2">
                                 <h:outputLabel value="#{msg['outputEmail']}" />
                             </b:column>
                             <b:column span="2">
-                                <b:inputText renderered="#{true}" value="#{usersBean.user.email}" id="email" />
                                 <h:outputText renderered="#{true}" value="#{profileBean.thisUser.email}" />
+                                <b:inputText renderered="#{true}" value="#{usersBean.user.email}" id="email" />
                             </b:column>
                         </b:row>
 
                         <!-- LANGUAGE -->
                         <b:row>
-                            <b:column span="1">
+                            <b:column span="2">
                                 <h:outputLabel value="#{msg['inputLanguage']}" />
                             </b:column>
                         </b:row>
                         <b:row>
                             <b:column span="2">
-                                <h:outputText rendered="#{true}" value="#{profileBean.languageName}" />
                                 <b:selectOneMenu rendered="#{true}" class="form-control" value="#{profileBean.languageName}">
                                     <f:selectItems value="#{profileBean.countries}" />
                                 </b:selectOneMenu>
                             </b:column>
                         </b:row>
+
+                        <b:row class="space50px"/>
+
+                        <!-- BUTTONS -->
                         <b:row>
                             <b:column span="2">
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionEditData']}" />
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.save}" />
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionEditData']}" action="#{profileBean.setEditChecker()}"/>
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.setEditChecker()}" />
                             </b:column>
                             <b:column span="2">
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionChangePassword']}" />
+                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionChangePassword']}" href="https://oracle-web.zfn.uni-bremen.de/secure/passwort_vergessen"/>
                                 <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionCancel']}" outcome="profile" />
                             </b:column>
                         </b:row>
-                    </b:formGroup>
-
-                    <!-- CHANGE PASSWORD -->
-                    <b:formGroup rendered="#{true}">
-                            <b:row>
-                                <b:column span="3">
-                                    <h2>
-                                        <h:outputText class="title" value="#{msg['subtitleChangePassword']}" />
-                                    </h2>
-                                </b:column>
-                            </b:row>
-
-                            <!-- OLD PASSWORD -->
-                            <b:row>
-                                <b:column span="2">
-                                    <h:outputLabel value="#{msg['outputOldPassword']}"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputSecret value="#{loginBean.password}"/>
-                                </b:column>
-                            </b:row>
-
-                            <!-- NEW PASSWORD -->
-                            <b:row>
-                                <b:column span="2">
-                                    <h:outputLabel value="#{msg['outputNewPassword']}"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputSecret value="#{loginBean.password}"/>
-                                </b:column>
-                            </b:row>
-
-                            <b:row>
-                                <b:column span="2">
-                                    <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.save}" />
-                                </b:column>
-                                <b:column span="2">
-                                    <b:commandButton class="btn-green" value="#{msg['actionCancel']}"/>
-                                </b:column>
-                            </b:row>
                     </b:formGroup>
                 </b:container>
             </b:form>

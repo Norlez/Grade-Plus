@@ -137,15 +137,16 @@ public class ProfileBean extends AbstractBean implements Serializable {
      * Prüft, ob die Checkbox gesetzt ist.
      * @return
      */
-    public boolean isEditChecker() {
+    public boolean getEditChecker() {
         return editChecker;
     }
 
     /**
      * Ändern den Wert auf das Gegenteil.
      */
-    public void setEditChecker() {
+    public String setEditChecker() {
         editChecker = !editChecker;
+        return "profile.xhtml";
     }
 
     /**
