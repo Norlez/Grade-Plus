@@ -101,7 +101,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Die Liste aller Prüfungstermine.
      */
     public List<Exam> getAllExams() {
-        throw new UnsupportedOperationException();
+        return allExams;
     }
 
     /**

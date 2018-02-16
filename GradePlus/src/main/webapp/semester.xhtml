@@ -94,7 +94,8 @@
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
 
                                 <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{true}">
-                                    <b:commandButton value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setLecture(l)}" />
+                                    <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setLecture(l)}" />
+                                    <b:button value="#{msg['actionSelect']}" outcome="exams"/>
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{true}">

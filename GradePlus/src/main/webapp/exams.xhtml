@@ -14,17 +14,145 @@
     <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
-        <f:loadBundle basename="internationalization.dashboard" var="msg" />
+        <f:loadBundle basename="internationalization.exams" var="msg" />
 
         <b:form>
             <b:container class="form-group">
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                         <h1>
-                            <h:outputText value="#{msg['title']}" />
+                            <h:outputText value="Lecture #{lecturesBean.lecture.name}" />
                         </h1>
                     </b:column>
                 </b:row>
+
+                <b:row>
+                    <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                        <h2>
+                            <h:outputText value="Semester: #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
+                        </h2>
+                    </b:column>
+                </b:row>
+
+                <b:tabView>
+                    <b:tab title="#{msg['tabtitleExaminers']}">
+                        <!-- EXAM -->
+                        <b:row>
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleExaminers']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2">
+                                <b:button class="btn" value="#{msg['actionAddExaminer']}" outcome="examcreate" />
+                            </b:column>
+                        </b:row>
+                        <b:row class="space50px" />
+                        <b:row>
+                            <b:column span="12">
+                                <b:dataTable span="8" value="#{usersBean.allUsers}" var="e"
+                                             excel="false"
+                                             csv="false"
+                                             pdf="false"
+                                             columnVisibility="false"
+                                             copy="false"
+                                             print="false">
+
+                                    <b:dataTableColumn label="#{msg['outputId']}" value="#{e.id}"/>
+                                    <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{e.givenName}"/>
+                                    <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}"/>
+                                    <b:dataTableColumn label="#{msg['outputRole']}" value="#{e.role}"/>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}"/>
+                                </b:dataTable>
+                            </b:column>
+                        </b:row>
+                    </b:tab>
+                    <b:tab title="#{msg['tabtitleStudents']}">
+                        <!-- EXAM -->
+                        <b:row>
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleStudents']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2">
+                                <b:button class="btn" value="#{msg['actionAddStudent']}" outcome="examcreate" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:button class="btn" value="#{msg['actionUpload']}" outcome="examcreate" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:button class="btn" value="#{msg['actionImportPabo']}" outcome="examcreate" />
+                            </b:column>
+                        </b:row>
+                        <b:row class="space50px" />
+                        <b:row>
+                            <b:column span="12">
+                                <b:dataTable span="8" value="#{usersBean.allUsers}" var="e"
+                                             excel="false"
+                                             csv="true"
+                                             pdf="false"
+                                             columnVisibility="false"
+                                             copy="false"
+                                             print="false">
+
+                                    <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{e.matrNr}"/>
+                                    <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{e.givenName}"/>
+                                    <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}"/>
+                                    <b:dataTableColumn label="#{msg['outputState']}"/>
+                                    <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
+                                    <b:dataTableColumn label="#{msg['outputGrade']}"/>
+                                    <b:dataTableColumn label="#{msg['outputNote']}"/>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}"/>
+                                </b:dataTable>
+                            </b:column>
+                        </b:row>
+                    </b:tab>
+                    <b:tab title="#{msg['tabtitleExams']}">
+                        <!-- EXAM -->
+                        <b:row>
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleExams']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2">
+                                <b:button class="btn" value="#{msg['actionCreateNewExam']}" outcome="examcreate" />
+                            </b:column>
+                        </b:row>
+                        <b:row class="space50px" />
+                        <b:row>
+                            <b:column span="12">
+                                <b:dataTable span="8" value="#{examsBean.allExams}" var="e"
+                                             excel="false"
+                                             csv="false"
+                                             pdf="false"
+                                             columnVisibility="false"
+                                             copy="false"
+                                             print="false">
+
+                                    <b:dataTableColumn label="#{msg['outputId']}" value="#{e.id}"/>
+                                    <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.date}"/>
+                                    <b:dataTableColumn label="#{msg['outputTime']}"/>
+                                    <b:dataTableColumn label="#{msg['outputExaminer']}"/>
+                                    <b:dataTableColumn label="#{msg['outputLength']}"/>
+                                    <b:dataTableColumn label="#{msg['outputState']}"/>
+                                    <b:dataTableColumn label="#{msg['actionEdit']}"/>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}"/>
+                                </b:dataTable>
+                            </b:column>
+                        </b:row>
+                    </b:tab>
+                </b:tabView>
+
+
+
             </b:container>
         </b:form>
 
