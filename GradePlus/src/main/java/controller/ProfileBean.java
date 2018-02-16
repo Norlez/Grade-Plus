@@ -182,6 +182,11 @@ public class ProfileBean extends AbstractBean implements Serializable {
         languageName = Assertion.assertNotEmpty(pLanguage);
     }
 
+    /**
+     * Speichert die Daten und setzt den Checker zurueck.
+     *
+     * @return setEditChecker()
+     */
     public String saveAll() {
         save();
         return setEditChecker();
