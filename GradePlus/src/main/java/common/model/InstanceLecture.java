@@ -92,16 +92,6 @@ public class InstanceLecture extends JPAEntity {
     }
 
     /**
-     * Setzt die Prüfer der ILV auf den gegebenen Wert.
-     *
-     * @param pExaminers
-     *            Die neuen Prüfer der ILV als Liste.
-     */
-    public void setExaminers(final List<User> pExaminers) {
-        examiners = assertNotNull(pExaminers);
-    }
-
-    /**
      * Fügt den gegebenen {@link User} als Prüfer zur ILV hinzu.
      *
      * @param pExaminer
@@ -122,16 +112,6 @@ public class InstanceLecture extends JPAEntity {
     }
 
     // Prüfling
-
-    /**
-     * Setzt die Prüflinge für die ILV auf den gegebenen Wert.
-     *
-     * @param pExaminers
-     *            Die neuen Prüflinge der ILV.
-     */
-    public void setExaminees(final List<User> pExaminers) {
-        examinees = assertNotNull(pExaminers);
-    }
 
     /**
      * Gibt die Prüflinge der ILV als Liste zurück.
@@ -171,16 +151,6 @@ public class InstanceLecture extends JPAEntity {
      */
     public List<Exam> getExams() {
         return exams;
-    }
-
-    /**
-     * Setzt die Prüfungen der ILV auf den gegebenen Wert.
-     *
-     * @param pExams
-     *            Die neuen Prüfungen der ILV.
-     */
-    public void setExams(final List<Exam> pExams) {
-        exams = assertNotNull(pExams);
     }
 
     /**
