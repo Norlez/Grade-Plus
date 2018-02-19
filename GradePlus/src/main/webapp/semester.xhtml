@@ -7,7 +7,7 @@
       xml:lang="en" lang="en">
 <h:head>
     <!-- InstanceLectures -->
-    <title>Title</title>
+    <title>#{msg['title']}</title>
 </h:head>
 
 <h:body>
@@ -65,7 +65,6 @@
                         </b:column>
                     </b:row>
 
-
                     <!-- INSTANCE -->
                     <b:row>
                         <b:column span="4">
@@ -93,16 +92,16 @@
                                 <b:dataTableColumn label="#{msg['outputSemester']}" value="#{l.semester}" />
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
 
-                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{true}">
+                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{true}" orderable="false">
                                     <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setLecture(l)}" />
                                     <b:button value="#{msg['actionSelect']}" outcome="exams"/>
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{true}">
+                                <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{true}" orderable="false">
                                     <b:commandButton value="#{msg['actionDelete']}" action="#{instanceLecturesBean.remove(l)}" />
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{true}">
+                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{true}" orderable="false">
                                     <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}" />
                                 </b:dataTableColumn>
 

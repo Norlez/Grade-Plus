@@ -54,8 +54,9 @@
                         >
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{g.subject}" />
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputDateTime']}" value="#{g.mark}" />
-                            <b:dataTableColumn class="col" orderable="false" label="Optionen">
-                                <b:commandButton value="#{msg['actionRestore']}" action="#{gradesBean.remove(g)}" />
+
+                            <b:dataTableColumn class="col" orderable="false" label="#{msg['actionRestore']}">
+                                <b:commandButton value="#{msg['actionRestore']}" action="#{gradesBean.remove(g)}"/>
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:row>

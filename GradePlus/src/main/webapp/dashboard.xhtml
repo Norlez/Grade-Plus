@@ -36,7 +36,7 @@
                 </b:container>
             </b:form>
 
-            <h:panelGroup rendered="#{! empty gradesBean.getAllGrades()}">
+            <h:panelGroup rendered="#{! empty instanceLecturesBean.allInstanceLectures}">
 
             <b:form id="courses">
 
@@ -50,15 +50,35 @@
                             </h2>
                         </b:column>
                     </b:row>
+
                     <b:row>
-                        <b:dataTable class="table" span="8" value="#{gradesBean.getAllGrades()}" var="g"
+                        <b:column span="2">
+                            <b:button value="#{msg['linkSearchForLecture']}" />
+                        </b:column>
+                    </b:row>
+
+                    <b:row class="space50px"/>
+
+                    <b:row>
+                        <b:dataTable class="table" span="8" value="#{instanceLecturesBean.allInstanceLectures}" var="g"
                                      excel="false" csv="false" pdf="false" columnVisibility="true"
                                      copy="false" print="false" searching="false" paginated="false"
                                      >
-                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSubject']}" value="#{g.subject}" />
-                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputGrade']}" value="#{g.mark}" />
-                            <b:dataTableColumn class="col" orderable="false" label="Optionen">
-                                <b:commandButton value="#{msg['actionRemove']}" action="#{gradesBean.remove(g)}" />
+                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSubject']}" value="#{g.lecture.name}" />
+                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.lecture.vak}" />
+                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.lecture.ects}" />
+                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputStatus']}" />
+
+                            <b:dataTableColumn class="col" orderable="false" label="actionDetail">
+                                <b:commandButton value="#{msg['actionDetail']}" />
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn class="col" orderable="false" label="actionReportSick">
+                                <b:commandButton value="#{msg['actionReportSick']}" />
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn class="col" orderable="false" label="actionQuit">
+                                <b:commandButton value="#{msg['actionQuit']}" />
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:row>

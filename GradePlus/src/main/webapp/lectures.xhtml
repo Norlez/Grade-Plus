@@ -65,11 +65,11 @@
                             <b:dataTableColumn label="#{msg['outputVak']}" value="#{l.vak}" />
                             <b:dataTableColumn label="#{msg['outputEcts']}" value="#{l.ects}" />
 
-                            <b:dataTableColumn label="#{msg['outputChoose']}" >
+                            <b:dataTableColumn label="#{msg['outputChoose']}" orderable="false">
                                 <b:commandButton value="#{msg['actionChooseLectureInstance']}"
                                                  action="#{instanceLecturesBean.setLecture(l)}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputDelete']}">
+                            <b:dataTableColumn label="#{msg['outputDelete']}" orderable="false">
 
                                 <b:commandButton value="#{msg['actionRemove']}"
                                                  action="#{lecturesBean.remove(l)}" />

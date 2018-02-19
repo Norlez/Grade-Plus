@@ -67,13 +67,13 @@
                     <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}" />
                     <b:dataTableColumn label="#{msg['outputStatus']}" value="#{u.active}" />
 
-                    <b:dataTableColumn label="#{msg['actionSelect']}">
+                    <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
                         <!-- TODO: Mit Set Funktion verbinden -->
                         <b:button value="#{msg['actionSelect']}" outcome="user"/>
                         <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{usersBean.remove(u)}" />
                     </b:dataTableColumn>
 
-                    <b:dataTableColumn label="#{msg['actionRemove']}">
+                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
                         <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
                     </b:dataTableColumn>
 
