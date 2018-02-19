@@ -180,14 +180,17 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * Fügt die aktuell angezeigte ILV der Liste aller innerhalb der Applikation bekannten
      * ILVs hinzu.
      *
-     * @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu
-     *         leiten.
+     * @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu leiten.
      */
     public String save() {
         try {
             user.setAsProf(instanceLecture);
             userDao.update(user);
             instanceLectureDao.save(instanceLecture);
+            // Der Fehler liegt in jedem Fall beim save
+            // nachdem gesaved wurde, wird vor dem init die anzahl der ilv ermittelt und gibt 2 wieder
+            // obwohl es nur einer sein soll-> auf jeden fall save methode überprüfen.
+
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInstanceLectureDataIncomplete"));
@@ -196,6 +199,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
                     Level.DEBUG, "errorInstanceLectureAlreadyExists");
         } catch (final Exception e) {
         }
+        //dient hier zum testen wo der fehler ist.
+        allInstanceLectures = instanceLectureDao.getAllInstanceLectures();
         init();
         return "semester.xhtml";
     }

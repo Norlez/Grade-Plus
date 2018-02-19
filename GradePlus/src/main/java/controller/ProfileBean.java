@@ -98,15 +98,11 @@ public class ProfileBean extends AbstractBean implements Serializable {
      */
     private User thisUser;
 
-
-
     /**
      *
      * Überprüft, ob die Checkbox ausgewählt wurde, um die Nutzerangaben zu bearbeiten.
      */
     private boolean editChecker = false;
-
-
 
     /**
      * Erzeugt eine neue ProfileBean.
@@ -135,6 +131,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Prüft, ob die Checkbox gesetzt ist.
+     * 
      * @return
      */
     public boolean getEditChecker() {
