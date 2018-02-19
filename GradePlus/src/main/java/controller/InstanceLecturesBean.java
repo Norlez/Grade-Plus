@@ -24,7 +24,7 @@ import static common.util.Assertion.assertNotNull;
  * Dieses Bean verwaltet Instanzen von Lehrveranstaltungen.
  *
  * @author Torben Groß
- * @version 2018-02-10
+ * @version 2018-02-19
  */
 @Named
 @RequestScoped
