@@ -53,7 +53,7 @@
 
                     <b:row>
                         <b:column span="2">
-                            <b:button value="#{msg['linkSearchForLecture']}" />
+                            <b:button value="#{msg['linkSearchForLecture']}" outcome="lecturesearch"/>
                         </b:column>
                     </b:row>
 
@@ -78,7 +78,7 @@
                             </b:dataTableColumn>
 
                             <b:dataTableColumn class="col" orderable="false" label="actionQuit">
-                                <b:commandButton value="#{msg['actionQuit']}" />
+                                <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}"/>
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:row>

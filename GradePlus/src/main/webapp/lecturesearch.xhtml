@@ -9,21 +9,21 @@
     <!-- Hier werden die vorhandenen LVs angezeigt und es kann gesucht werden.
             Hier kann auch einen LV ausgewaehlt werden.
     -->
-    <title>Title</title>
+    <title>#{msg['title']}</title>
 </head>
 <body>
 <ui:composition template="WEB-INF/template.xhtml">
     <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
-        <f:loadBundle basename="internationalization.dashboard" var="msg" />
+        <f:loadBundle basename="internationalization.lectures" var="msg" />
 
         <b:form>
             <b:container class="form-group">
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                         <h1>
-                            <h:outputText value="??? Lectures ???" />
+                            <h:outputText value="#{msg['titleLectures']}" />
                         </h1>
                     </b:column>
                 </b:row>
@@ -32,15 +32,33 @@
                 <b:row>
                     <b:column>
                         <h2>
-                            <h:outputText rendered="#{true}" value="??? Search ???" />
+                            <h:outputText rendered="#{true}" value="#{msg['subtitleSearchForLecture']}" />
                         </h2>
                     </b:column>
                 </b:row>
 
+                <b:row class="space50px"/>
+
                 <!-- DATA TABLE -->
                 <b:row>
-                    <b:column>
-                        Hier kommt die Datentabelle hin!
+                    <b:column span="12" colSm="12" colMd="12" colXs="12">
+                        <b:dataTable span="8" value="#{lecturesBean.allLectures}" var="l"
+                                     excel="false"
+                                     csv="false"
+                                     pdf="false"
+                                     columnVisibility="false"
+                                     copy="false"
+                                     print="false">
+
+                            <b:dataTableColumn label="#{msg['outputName']}" value="#{l.name}" />
+                            <b:dataTableColumn label="#{msg['outputVak']}" value="#{l.vak}" />
+                            <b:dataTableColumn label="#{msg['outputEcts']}" value="#{l.ects}" />
+                            <b:dataTableColumn label="#{msg['outputExaminer']}" />
+                            <b:dataTableColumn label="#{msg['outputChoose']}" orderable="false">
+                                <b:commandButton value="#{msg['actionChooseLectureInstance']}"
+                                                 action="#{instanceLecturesBean.setLecture(l)}" />
+                            </b:dataTableColumn>
+                        </b:dataTable>
                     </b:column>
                 </b:row>
 
