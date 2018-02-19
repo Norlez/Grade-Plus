@@ -134,16 +134,6 @@ public class User extends JPAEntity implements Serializable {
     @Column(nullable = false)
     private boolean isActive = true;
 
-    @ManyToOne
-    // (optional = true)
-    public Exam myExamAsProf;
-
-    /**
-     * Die Historie der bestimmter Vorgänge eines Prüflings.
-     */
-    // TODO: Problem mit History
-    // private History history;
-
     /**
      * Temporäres Passwort, das für die Authenfizierung der eingegebenen Email und
      * Password bei der Registrierung benötigt wird
@@ -434,12 +424,4 @@ public class User extends JPAEntity implements Serializable {
     public void setAsStudent(InstanceLecture asStudent) {
         this.asStudent = asStudent;
     }
-
-    // public void setMyExamAsProf(Exam myExamAsProf) {
-    // this.myExamAsProf = myExamAsProf;
-    // }
-
-    // public Exam getMyExamAsProf() {
-    // return myExamAsProf;
-    // }
 }

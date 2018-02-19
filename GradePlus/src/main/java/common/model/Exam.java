@@ -68,13 +68,6 @@ public class Exam extends JPAEntity {
     private boolean groupExam;
 
     /**
-     * Die Liste der Prüfer.
-     */
-    @OneToMany
-    // (mappedBy = "myExamAsProf")
-    private List<User> examiners;
-
-    /**
      * Die Bemerkung zur Prüfung.
      */
     @Column
@@ -217,47 +210,4 @@ public class Exam extends JPAEntity {
     }
 
     // Prüfer
-
-    /**
-     * Gibt die Prüfer als Liste zurück.
-     *
-     * @return Die Prüfer als Liste.
-     */
-    // public List<User> getExaminers() {
-    // return examiners;
-    // }
-
-    /**
-     * Fügt den gegebenen Benutzer den Prüfern hinzu.
-     *
-     * @param theExaminer
-     *            Der hinzuzufügende Prüfer.
-     */
-    // public void addExaminer(User theExaminer) {
-    // if (theExaminer != null) {
-    // examiners.add(theExaminer);
-    // }
-    // }
-
-    /**
-     * Setzt die Prüfer auf den gegebenen Benutzer.
-     *
-     * @param pExaminer
-     *            Der neue Prüfer.
-     */
-    // public void setExaminer(List<User> pExaminer) {
-    // examiners = Assertion.assertNotNull(pExaminer);
-    // }
-
-    /**
-     * Entfernt den gegebenen Benutzer als Prüfer.
-     *
-     * @param pExaminer
-     *            Der zu entfernende Prüfer.
-     */
-    // public void removeExaminer(User pExaminer) {
-    // if (pExaminer != null) {
-    // examiners.remove(pExaminer);
-    // }
-    // }
 }
