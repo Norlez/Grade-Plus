@@ -184,11 +184,10 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
-            user.setAsProf(instanceLecture);
-            userDao.update(user);
             instanceLectureDao.save(instanceLecture);
             // Der Fehler liegt in jedem Fall beim save
-            // nachdem gesaved wurde, wird vor dem init die anzahl der ilv ermittelt und gibt 2 wieder
+            // nachdem gesaved wurde, wird vor dem init die anzahl der ilv ermittelt und
+            // gibt 2 wieder
             // obwohl es nur einer sein soll-> auf jeden fall save methode überprüfen.
 
         } catch (final IllegalArgumentException e) {
@@ -199,7 +198,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
                     Level.DEBUG, "errorInstanceLectureAlreadyExists");
         } catch (final Exception e) {
         }
-        //dient hier zum testen wo der fehler ist.
+        // dient hier zum testen wo der fehler ist.
         allInstanceLectures = instanceLectureDao.getAllInstanceLectures();
         init();
         return "semester.xhtml";
