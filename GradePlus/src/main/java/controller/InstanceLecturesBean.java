@@ -166,6 +166,16 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     }
 
     /**
+     * Setzt den Student in die InstanceLecture.
+     * @param pUser Student
+     * @return Dashboard.xhtml
+     */
+    public String setInstanceLecturesOfExaminee(User pUser) {
+        instanceLecture.addExaminee(pUser);
+        return "dashboard.xhtml";
+    }
+
+    /**
      * Gibt alle ILVs zurück, in denen der gegebene {@link User} als Prüfer angemeldet
      * ist.
      *

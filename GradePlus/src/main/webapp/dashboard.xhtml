@@ -36,7 +36,7 @@
                 </b:container>
             </b:form>
 
-            <h:panelGroup rendered="#{! empty instanceLecturesBean.allInstanceLectures}">
+            <h:panelGroup>
 
             <b:form id="courses">
 
@@ -60,10 +60,10 @@
                     <b:row class="space50px"/>
 
                     <b:row>
-                        <b:dataTable class="table" span="8" value="#{instanceLecturesBean.allInstanceLectures}" var="g"
+                        <b:dataTable class="table" span="8" value="#{instanceLecturesBean.instanceLecturesOfExaminee}" var="g"
                                      excel="false" csv="false" pdf="false" columnVisibility="true"
                                      copy="false" print="false" searching="false" paginated="false"
-                                     >
+                                     rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminee}">
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSubject']}" value="#{g.lecture.name}" />
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.lecture.vak}" />
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.lecture.ects}" />

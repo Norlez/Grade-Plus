@@ -3,6 +3,9 @@ package controller;
 import common.model.Session;
 import common.model.User;
 
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.List;
  * @author Andreas Estenfelder, Torben Groß
  * @version 2017-12-22
  */
+@Named
+@RequestScoped
 public class LectureInstanceStudentBean extends AbstractBean implements Serializable {
 
     /**
@@ -24,6 +29,7 @@ public class LectureInstanceStudentBean extends AbstractBean implements Serializ
      * @throws IllegalArgumentException
      *             Falls {@code pSession} {@code null} ist.
      */
+    @Inject
     public LectureInstanceStudentBean(Session pSession) {
         super(pSession);
     }

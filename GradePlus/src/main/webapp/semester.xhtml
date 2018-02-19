@@ -92,16 +92,21 @@
                                 <b:dataTableColumn label="#{msg['outputSemester']}" value="#{l.semester}" />
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
 
-                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{true}" orderable="false">
+                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
                                     <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setLecture(l)}" />
                                     <b:button value="#{msg['actionSelect']}" outcome="exams"/>
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{true}" orderable="false">
+                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">
+                                    <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{lectureInstanceStudentBean.addExaminee(l)}" />
+                                    <b:button value="#{msg['actionSelect']}" outcome="dashboard"/>
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
                                     <b:commandButton value="#{msg['actionDelete']}" action="#{instanceLecturesBean.remove(l)}" />
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{true}" orderable="false">
+                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{false}" orderable="false">
                                     <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}" />
                                 </b:dataTableColumn>
 
