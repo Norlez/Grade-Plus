@@ -1,6 +1,8 @@
 package common.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 //import com.sun.xml.internal.bind.v2.TODO;
@@ -38,10 +40,16 @@ public class Exam extends JPAEntity {
     private InstanceLecture ilv;
 
     /**
-     * Der Startzeitpunkt der Prüfung.
+     * Das Datum der Prüfung.
      */
     @Column
-    private LocalDateTime date;
+    private LocalDate date;
+
+    /**
+     * Der Startzeitpunkt der Prüfung
+     */
+    @Column
+    private LocalTime time;
 
     /**
      * Die Prüfungsdauer.
@@ -112,22 +120,41 @@ public class Exam extends JPAEntity {
     }
 
     /**
+     * Gibt den Termin der Prüfung zurück.
+     * 
+     * @return Das Datum der Prüfung
+     */
+    public LocalDate getDate() {
+        return date;
+    }
+
+    /**
+     * Setzt den Termin für die Prüfung.
+     * 
+     * @param date
+     *            : Termin für die Prüfung.
+     */
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    /**
      * Gibt den Startzeitpunkt der Prüfung zurück.
      *
      * @return Den Startzeitpunkt der Prüfung.
      */
-    public LocalDateTime getDate() {
-        return date;
+    public LocalTime getTime() {
+        return time;
     }
 
     /**
      * Setzt den Startzeitpunkt der Prüfung auf die gegebene Zeit.
      *
-     * @param pDate
+     * @param time
      *            Der neue Startzeitpunkt der Prüfung.
      */
-    public void setDate(LocalDateTime pDate) {
-        date = Assertion.assertNotNull(pDate);
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     /**

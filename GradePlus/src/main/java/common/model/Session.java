@@ -80,6 +80,16 @@ public class Session implements Serializable {
     private LocalDateTime loginTime;
 
     /**
+     * Speichert eine Vorlesung
+     */
+    private Lecture selectedLecture;
+
+    /**
+     * Speichert eine Instanz der Vorlesung.
+     */
+    private InstanceLecture selectedILV;
+
+    /**
      * Die Id des innerhalb dieser Session eingeloggten {@link User}s. Falls in dieser
      * Session noch niemand eingeloggt ist, ist der Wert {@code null}.
      *
@@ -164,4 +174,41 @@ public class Session implements Serializable {
         return userId != null;
     }
 
+    /**
+     * Gibt die Lehrveranstaltung zurück
+     * 
+     * @return Lehrveranstaltung
+     */
+    public Lecture getSelectedLecture() {
+        return selectedLecture;
+    }
+
+    /**
+     * Setzt eine Lehrveranstaltung.
+     * 
+     * @param selectedLecture
+     *            , die gesetzt werden soll.
+     */
+    public void setSelectedLecture(Lecture selectedLecture) {
+        this.selectedLecture = selectedLecture;
+    }
+
+    /**
+     * Erhält die gespeicherte Instanz der Lehrveranstaltung.
+     * 
+     * @return ILV
+     */
+    public InstanceLecture getSelectedILV() {
+        return selectedILV;
+    }
+
+    /**
+     * Speichert eine Instanz der Lehrveranstalung
+     * 
+     * @param selectedILV
+     *            , die gespeichert werden soll
+     */
+    public void setSelectedILV(InstanceLecture selectedILV) {
+        this.selectedILV = selectedILV;
+    }
 }

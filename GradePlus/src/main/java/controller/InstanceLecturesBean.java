@@ -123,6 +123,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * @return "semestercreate.xhtml", um auf entsprechendes Facelet umzuleiten.
      */
     public String setLecture(final Lecture pLecture) {
+        getSession().setSelectedLecture(pLecture);
         instanceLecture.setLecture(assertNotNull(pLecture));
         return "semester.xhtml";
     }
@@ -167,7 +168,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den Student in die InstanceLecture.
-     * @param pUser Student
+     * 
+     * @param pUser
+     *            Student
      * @return Dashboard.xhtml
      */
     public String setInstanceLecturesOfExaminee(User pUser) {
@@ -194,6 +197,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
+
             instanceLectureDao.save(instanceLecture);
             // Der Fehler liegt in jedem Fall beim save
             // nachdem gesaved wurde, wird vor dem init die anzahl der ilv ermittelt und

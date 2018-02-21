@@ -4,12 +4,16 @@ import common.model.Exam;
 import common.model.Lecture;
 import common.model.Session;
 import common.util.Assertion;
+import persistence.ExamDAO;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static common.util.Assertion.assertNotNull;
@@ -24,6 +28,11 @@ import static common.util.Assertion.assertNotNull;
 @Named
 @ViewScoped
 public class ExamsBean extends AbstractBean implements Serializable {
+
+    /**
+     * Die eindeutige SerialisierungsID.
+     */
+    private static final long serialVersionUID = -1789862409211220952L;
 
     /**
      * Die aktuell angezeigte Lehrveranstaltung.
@@ -46,6 +55,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private List<Exam> allExams;
 
     /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
+     * Prüfungsveranstaltung-Objekte übernimmt.
+     */
+    private final ExamDAO examDAO;
+
+    /**
      * Erzeugt eine neue ExamsBean.
      *
      * @param pSession
@@ -54,8 +69,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *             Falls {@code pSession} {@code null} ist.
      */
     @Inject
-    public ExamsBean(Session pSession) {
+    public ExamsBean(final Session pSession, final ExamDAO pExamDao) {
         super(pSession);
+        examDAO = assertNotNull(pExamDao);
     }
 
     /**
@@ -63,8 +79,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * and {@link #allExams}, sodass {@link #lecture}, einen leeren Eintrag repräsentieren
      * und die Liste {@link #allExams} keine Attribute enthällt.
      */
+    @PostConstruct
     public void init() {
-        throw new UnsupportedOperationException();
+        exam = new Exam();
+        allExams = getAllExams();
     }
 
     /**
@@ -146,4 +164,70 @@ public class ExamsBean extends AbstractBean implements Serializable {
         throw new UnsupportedOperationException();
     }
 
+    public void conflictSolution(LocalTime upperBound, LocalTime lowerBound,
+            LocalTime cLT, LocalDate cLD, Exam pExam) {
+        while (isValidDate(cLD, cLT, pExam) != true) {
+            // TODO: Wie lang soll die Pause sein.
+        }
+    }
+
+    /**
+     * Prüft den Prüfungstermin.
+     * 
+     * @param ld
+     *            , das zu prüfende Datum.
+     * @param lt
+     *            , der zu prüfende Zeitslot.
+     * @param pExam
+     *            , eine vorhandene Prüfung.
+     * @return true, falls der Zeitpunkt für eine Prüfung gültig ist.
+     */
+    public boolean isValidDate(LocalDate ld, LocalTime lt, Exam pExam) {
+        if (isDateUsed(ld, pExam) == true) {
+            if (isTimeUsed(lt, pExam.getExamLength(), pExam) == true) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * TODO nicht geprüft Prüft, ob das Datum bereits belegt ist von einer Prüfung.
+     * 
+     * @param pDate
+     *            Das Datum der Prüfung
+     * @param pExam
+     *            Erhält das Datum der Prüfung, um sie mit dem Termin abzugleichen.
+     * @return true, falls die Termine übereinstimmen
+     */
+    public boolean isDateUsed(LocalDate pDate, Exam pExam) {
+        return pDate.equals(pExam.getDate()) ? true : false;
+    }
+
+    /**
+     * TODO: nciht geprüft Prüft, ob der Zeitslot besetzt ist oder nicht.
+     *
+     * @param pTime
+     *            , der zu prüfende Slot.
+     * @param length
+     *            , die Länge des zu prüfenden Slots
+     * @param pExam
+     *            , die Prüfung, die auf den Slot geprüft wird.
+     *
+     * @return true, falls der Zeitslot besetzt ist.
+     */
+    public boolean isTimeUsed(final LocalTime pTime, final int length, final Exam pExam) {
+        LocalTime t = pTime.plusMinutes(length);
+        LocalTime o = pExam.getTime().plusMinutes(pExam.getExamLength());
+        if (t.isBefore(pExam.getTime()) == false) {
+            return true;
+        } else if (pTime.isAfter(o) == false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

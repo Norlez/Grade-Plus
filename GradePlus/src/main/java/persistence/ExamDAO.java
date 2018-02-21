@@ -8,6 +8,9 @@ import common.exception.UnexpectedUniqueViolationException;
 import common.model.Exam;
 import common.model.Lecture;
 import common.model.User;
+
+import javax.ejb.Stateless;
+
 import static common.util.Assertion.assertNotNull;
 
 /**
@@ -15,6 +18,7 @@ import static common.util.Assertion.assertNotNull;
  *
  * @author Torben Groß
  */
+@Stateless
 public class ExamDAO extends JPADAO<Exam> {
 
     @Override

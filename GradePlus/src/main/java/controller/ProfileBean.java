@@ -47,6 +47,7 @@ import javax.inject.Named;
 
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
+import common.model.Role;
 import common.model.Session;
 import common.model.User;
 import persistence.UserDAO;
@@ -75,6 +76,16 @@ public class ProfileBean extends AbstractBean implements Serializable {
      * {@code UnsupportedOperationException}.
      */
     private static final Map<String, Locale> countries = calculateCountriesMap();
+
+    /**
+     * //TODO
+     */
+    private static Map<String, Role> roles;
+
+    /**
+     * //TODO
+     */
+    private String roleName;
 
     /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
@@ -119,6 +130,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
         super(pSession);
         dao = Assertion.assertNotNull(pUserDAO);
         thisUser = getSession().getUser();
+        roles = calculateRoleMap();
     }
 
     public User getThisUser() {
@@ -259,6 +271,19 @@ public class ProfileBean extends AbstractBean implements Serializable {
         languages.forEach(language -> countriesMap.put(
                 getTranslation(language, "propertyDisplayedLanguageName"), language));
         return Collections.unmodifiableMap(countriesMap);
+    }
+
+    /**
+     * TODO
+     */
+    public static Map<String, Role> calculateRoleMap() {
+        final Map<String, Role> rolesMap = new LinkedHashMap<>();
+        final List<Role> roleList = new ArrayList<>();
+        roleList.add(Role.ADMIN); // Könnte zu einem Anzeigefehler führen, da kein Default
+        roleList.add(Role.EXAMINER);
+        roleList.add(Role.STUDENT);
+        roleList.forEach(role -> rolesMap.put("a", role)); // Könnte Fehlerhaft sein
+        return Collections.unmodifiableMap(rolesMap);
     }
 
     /**
