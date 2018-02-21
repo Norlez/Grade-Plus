@@ -92,14 +92,22 @@ public class DBInit {
             @Observes @Initialized(ApplicationScoped.class) ServletContext context) {
         if (userDAO.getAllUsers().isEmpty()) {
             final User user = new User();
+            final User pUser = new User();
             user.setUsername(DEFAULT_USER_NAME);
             user.setEmail(DEFAULT_USER_EMAIL);
             user.setPassword(DEFAULT_USER_PASSWORD);
             user.setGivenName("Putin");
             user.setSurname("Vladi");
             user.setRole(Role.ADMIN);
+            pUser.setUsername("user");
+            pUser.setEmail("user@offline.de");
+            pUser.setPassword("123");
+            pUser.setGivenName("Boris");
+            pUser.setSurname("Jelzin");
+            pUser.setRole(Role.EXAMINER);
             try {
                 userDAO.save(user);
+                userDAO.save(pUser);
             } catch (final DuplicateUsernameException ex) {
                 logger.fatal(
                         String.format(
