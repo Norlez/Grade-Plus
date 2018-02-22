@@ -100,6 +100,13 @@ public class UsersBean extends AbstractBean implements Serializable {
     private List<User> allUsers;
 
     /**
+     * //TODO
+     */
+    private static Map<String, Role> roles;
+
+
+
+    /**
      * Die zu erstellende Mail.
      */
     private RegisterMailBean sender;
@@ -124,6 +131,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
         sender = new RegisterMailBean();
+        roles = ProfileBean.calculateRoleMap();
 
     }
 
@@ -235,6 +243,31 @@ public class UsersBean extends AbstractBean implements Serializable {
                     "errorEmailAlreadyInUse", user.getEmail());
         }
         init();
+    }
+
+    /**
+     * Liefert die unveränderbare Map mit den unterstützten Rollen zurück.
+     * Änderungsversuche auf der Map führen zu einer {@code UnsupportedOperationException}
+     * .
+     *
+     * @return Map der unterstützen Rollen.
+     */
+    public Map<String, Role> getRoles() {
+        return roles;
+    }
+
+    /**
+     * Setzt den Namen der anzuzeigenden Rolle.
+     *
+     * @param pRole
+     *            Der Name der anzuzeigenden Rolle.
+     * @throws IllegalArgumentException
+     *             Falls der Name der anzuzeigenden Rolle den Wert {@code null} hat oder
+     *             leer ist.
+     */
+    public void setRoleName(final String pRole) {
+        //TODO: Rolle setzen
+        //user.setRole(Assertion.assertNotEmpty(pRole));
     }
 
     // TODO: Rollenänderung ist nicht getestet

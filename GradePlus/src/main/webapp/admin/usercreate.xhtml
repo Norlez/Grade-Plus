@@ -85,6 +85,20 @@
             </b:column>
         </b:row>
 
+        <!-- ROLE -->
+        <b:row>
+            <b:column>
+                <h:outputLabel value="#{msg['outputRole']}"/>
+            </b:column>
+            <b:column span="2">
+                <b:selectOneMenu class="form-control" value="#{profileBean.languageName}">
+                    <f:selectItems value="#{usersBean.roles}" />
+                </b:selectOneMenu>
+            </b:column>
+        </b:row>
+
+        <b:row styleClass="space50px"/>
+
         <!-- SAVE AND BACK BUTTON-->
         <b:row>
             <b:column span="1" colSm="3" colMd="3" colXs="12">
