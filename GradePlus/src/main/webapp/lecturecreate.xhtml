@@ -32,7 +32,7 @@
                 <b:row>
                     <b:column>
                         <h2>
-                            <h:outputText rendered="#{false}" value="#{msg['subtitleEditLecture']}" />
+                            <h:outputText rendered="#{true}" value="#{msg['subtitleEditLecture']}" />
                             <h:outputText rendered="#{true}" value="#{msg['subtitleCreateLecture']}" />
                         </h2>
                     </b:column>
@@ -92,8 +92,11 @@
 
                 <!-- BUTTONS SAVE AND BACK -->
                 <b:row>
-                    <b:column span="1" colSm="12" colMd="12" colXs="12">
-                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionCreate']}" action="#{lecturesBean.save}"/>
+                    <b:column span="1" colSm="12" colMd="12" colXs="12" rendered="#{true}">
+                        <b:commandButton class="btn" id="createButton" value="#{msg['actionCreate']}" action="#{lecturesBean.save}"/>
+                    </b:column>
+                    <b:column span="2" colSm="12" colMd="12" colXs="12" rendered="#{true}">
+                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionSave']}" action="#{lecturesBean.update}"/>
                     </b:column>
                     <b:column span="1" colSm="12" colMd="12" colXs="12">
                         <b:button class="btn" id="back" value="#{msg['linkCancel']}" outcome="lectures"/>

@@ -64,7 +64,9 @@
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{e.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{e.role}"/>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false"/>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(e)}"/>
+                                    </b:dataTableColumn>
                                 </b:dataTable>
                             </b:column>
                         </b:row>
@@ -144,7 +146,9 @@
                                     <b:dataTableColumn label="#{msg['outputLength']}"/>
                                     <b:dataTableColumn label="#{msg['outputState']}" orderable="false"/>
                                     <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false"/>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false"/>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(e)}"/>
+                                    </b:dataTableColumn>
                                 </b:dataTable>
                             </b:column>
                         </b:row>
