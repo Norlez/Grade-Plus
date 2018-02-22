@@ -82,7 +82,7 @@
                         </b:row>
                         <b:row>
                             <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionAddStudent']}" outcome="examcreate" />
+                                <b:button class="btn" value="#{msg['actionAddStudent']}" outcome="students" />
                             </b:column>
                             <b:column span="2">
                                 <b:button class="btn" value="#{msg['actionUpload']}" outcome="examcreate" />
@@ -91,6 +91,59 @@
                                 <b:button class="btn" value="#{msg['actionImportPabo']}" outcome="examcreate" />
                             </b:column>
                         </b:row>
+
+                        <!-- UPLOAD STUDENT LIST -->
+                        <b:formGroup id="uploadStudents" rendered="#{true}">
+                            <b:row styleClass="space50px"/>
+                            <b:row>
+                                <b:column>
+                                    <h:outputLabel value="#{msg['inputPath']}" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
+                                    <b:inputText placeholder="#{msg['inputPath']}" />
+                                </b:column>
+                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
+                                    <b:commandButton value="#{msg['actionChoosePath']}" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  span="2" colSm="4" colMd="6" colXs="12">
+                                    <b:commandButton value="#{msg['actionUpload']}" />
+                                </b:column>
+                                <b:column  span="1" colSm="4" colMd="6" colXs="12">
+                                    <b:button value="#{msg['linkCancel']}" outcome="exams"/>
+                                </b:column>
+                            </b:row>
+                        </b:formGroup>
+
+                        <!-- UPLOAD PABO LIST -->
+                        <b:formGroup id="uploadPabo" rendered="#{true}">
+                            <b:row styleClass="space50px"/>
+                            <b:row>
+                                <b:column>
+                                    <h:outputLabel value="#{msg['inputPath']}" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
+                                    <b:inputText placeholder="#{msg['inputPath']}" />
+                                </b:column>
+                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
+                                    <b:commandButton value="#{msg['actionChoosePath']}" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  span="2" colSm="4" colMd="6" colXs="12">
+                                    <b:commandButton value="#{msg['actionUpload']}" />
+                                </b:column>
+                                <b:column  span="1" colSm="4" colMd="6" colXs="12">
+                                    <b:button value="#{msg['linkCancel']}" outcome="exams"/>
+                                </b:column>
+                            </b:row>
+                        </b:formGroup>
+
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
@@ -144,8 +197,11 @@
                                     <b:dataTableColumn label="#{msg['outputTime']}"/>
                                     <b:dataTableColumn label="#{msg['outputExaminer']}"/>
                                     <b:dataTableColumn label="#{msg['outputLength']}"/>
-                                    <b:dataTableColumn label="#{msg['outputState']}" orderable="false"/>
-                                    <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false"/>
+                                    <b:dataTableColumn label="#{msg['outputState']}" orderable="true"/>
+                                    <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
+                                        <b:button value="#{msg['actionEdit']}" outcome="students"/>
+                                        <b:commandButton value="#{msg['actionEdit']}" action="#{usersBean.remove(e)}"/>
+                                    </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
                                         <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(e)}"/>
                                     </b:dataTableColumn>
