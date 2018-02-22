@@ -124,7 +124,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String setLecture(final Lecture pLecture) {
         getSession().setSelectedLecture(pLecture);
-        instanceLecture.setLecture(assertNotNull(pLecture));
         return "semester.xhtml";
     }
 
@@ -197,7 +196,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
-
+            instanceLecture.setLecture(getSession().getSelectedLecture());
             instanceLectureDao.save(instanceLecture);
             // Der Fehler liegt in jedem Fall beim save
             // nachdem gesaved wurde, wird vor dem init die anzahl der ilv ermittelt und

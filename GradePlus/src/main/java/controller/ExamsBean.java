@@ -8,6 +8,7 @@ import persistence.ExamDAO;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Default;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -222,9 +223,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public boolean isTimeUsed(final LocalTime pTime, final int length, final Exam pExam) {
         LocalTime t = pTime.plusMinutes(length);
         LocalTime o = pExam.getTime().plusMinutes(pExam.getExamLength());
-        if (t.isBefore(pExam.getTime()) == false) {
+        if (t.isBefore(pExam.getTime()) == true) {
             return true;
-        } else if (pTime.isAfter(o) == false) {
+        } else if (pTime.isAfter(o) == true) {
             return true;
         } else {
             return false;
