@@ -1,5 +1,7 @@
 package controller;
 
+import common.exception.DuplicateEmailException;
+import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
 import org.apache.log4j.Level;
@@ -41,9 +43,30 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private static final Logger logger = Logger.getLogger(UsersBean.class);
 
     /**
-     * Der aktuell ausgewählte Prüfungstermin.
+     * Der aktuell ausgewählte Prüfungstermin. Wird verwendet, um Informationen
+     * ausgewählter Prüfungen anzuzeigen, eine neue Prüfungs zu erstellen oder
+     * mittels {@link #createExamsForTimePeriod()} mehrere Prüfungen auf einmal
+     * zu erstellen.
      */
     private Exam exam;
+
+    /**
+     * Wird von {@link #createExamsForTimePeriod()} verwendet, um den Startpunkt
+     * der Prüfungen festzulegen.
+     */
+    private LocalDateTime startOfTimeSlot;
+
+    /**
+     * Wird von {@link #createExamsForTimePeriod()} verwendet, um den Endpunkt
+     * der Prüfungen festzulegen.
+     */
+    private LocalDateTime endOfTimeSlot;
+
+    /**
+     * Wird von {@link #createExamsForTimePeriod()} verwendet, um die Länge der
+     * Pausen zwischen Prüfungsterminen zu bestimmen.
+     */
+    private int lengthOfBreaks;
 
     /**
      * Eine Liste mit allen bekannten Prüfungsterminen.
@@ -149,13 +172,26 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *         leiten.
      */
     public String save() {
+        User user = getSession().getUser();
         try {
+            exam.addExaminer(user);
             examDao.save(exam);
+            exam.getIlv().addExam(exam);
+            instanceLectureDao.update(exam.getIlv());
+            user.addExamAsProf(exam);
+            userDao.update(user);
+            // TODO Examiner als JoinExam hinzufügen? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorExamdataIncomplete"));
         } catch (final UnexpectedUniqueViolationException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG, getTranslation("error"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", user.getEmail());
         }
         init();
         return "lectureinstance.xhtml";
@@ -171,9 +207,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String update() {
         try {
             Exam oldExam = examDao.getById(exam.getId());
-            List<JoinExam> students = oldExam.getParticipants(); // TODO Participants ist
-                                                                 // eine JoinExam, darin
-                                                                 // sind die Prüflinge
+            List<JoinExam> joinExams = oldExam.getParticipants();
+            List<User> students = new ArrayList<>();
+            for (JoinExam joinExam : joinExams) {
+                // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+
             examDao.update(exam);
             String message = String
                     .format("Die Daten des Prüfungstermins für %s am %s um %s Uhr, wurden angepasst.\n\nNeue Daten:\nDatum: %s\nUhrzeit: %s Uhr\nDauer: %i Minuten",
@@ -182,8 +221,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
                                     .getDate().toString(), exam.getTime().toString(),
                             exam.getExamLength());
             for (int i = 0; i < students.size(); i++) {
-                // notify(students.get(i), message); TODO
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                notify(students.get(i), message);
             }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
@@ -205,20 +243,19 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return {code null} damit nicht zu einem anderen Facelet navigiert wird.
      */
     public String remove(final Exam pExam) {
-        List<JoinExam> students = assertNotNull(pExam).getParticipants(); // TODO
-                                                                          // Participants
-                                                                          // ist eine
-                                                                          // JoinExam,
-                                                                          // darin sind
-                                                                          // die Prüflinge
+        List<JoinExam> joinExams = assertNotNull(pExam).getParticipants();
+        List<User> students = new ArrayList<>();
+        for (JoinExam joinExam : joinExams) {
+            // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
+
         examDao.remove(pExam);
         String message = String
                 .format("Der Prüfungstermin für %s am %s um %s Uhr wurde gelöscht. Bitte melden Sie sich bei Bedarf zu einem neuen Termin an.",
                         pExam.getIlv().getLecture().getName(),
                         pExam.getDate().toString(), pExam.getTime().toString());
         for (int i = 0; i < students.size(); i++) {
-            // notify(students.get(i), message); TODO
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            notify(students.get(i), message);
         }
         init();
         return null;
@@ -246,70 +283,32 @@ public class ExamsBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Erzeugt {@link Exam}-Objekte mit gegebenen Stammdaten innerhalb des angegebenen
-     * Zeitraums mit entsprechenden Pausen zwischen Prüfungen.
+     * Erzeugt {@link Exam}-Objekte mit gegebenen Stammdaten innerhalb des
+     * angegebenen Zeitraums mit entsprechenden Pausen zwischen Prüfungen.
      *
-     * @param instanceLecture
-     *            Die ILV, der die Prüfung angehören.
-     * @param lowerBound
-     *            Der frühste Zeitpunkt einer Prüfung.
-     * @param upperBound
-     *            Der späteste Zeitpunkt, zu der eine Prüfung noch laufen kann. Keine
-     *            Prüfung darf nach diesem Zeitpunkt beendet werden.
-     * @param lengthOfExams
-     *            Die Länge einer Prüfung.
-     * @param lengthOfBreaksBetweenExams
-     *            Die Länge der Pausen zwischen Prüfungen.
-     * @param location
-     *            Der Ort der Prüfungen.
-     * @param type
-     *            Die Art der Prüfungen (z.B. Fachgespräche)
-     * @param isGroupExam
-     *            Gibt an, ob es sich um eine Gruppenprüfung handelt.
-     * @param examRegulations
-     *            Die Prüfungsordnung der Prüfung.
+     * Diese Methode verwendet die Angaben innerhalb von {@link #exam}, um die
+     * Stammdaten aller zu erstellenden Prüfungen zu bestimmen. Der Start- und
+     * Endpunkt der Prüfungen sowie die Länge der Pausen zwischen den Prüfungen
+     * wird aus {@link #startOfTimeSlot}, {@link #endOfTimeSlot} und
+     * {@link #lengthOfBreaks} entnommen. Entsprechend müssen alle Attribute
+     * über das Facelet bei Aufruf dieser Methode bereits gesetzt sein.
      *
-     * @return Alle Prüfungen als Liste, die aufgrund von Terminkonflikten nicht
+     * @return Die Prüfungen als Liste, die aufgrund von Terminkonflikten nicht
      *         hinzugefügt werden konnten.
      */
-    public List<Exam> createExamsForTimePeriod(final InstanceLecture instanceLecture,
-            final LocalDateTime lowerBound, final LocalDateTime upperBound,
-            final int lengthOfExams, final int lengthOfBreaksBetweenExams,
-            final String location, final String type, final boolean isGroupExam,
-            final String examRegulations) {
+    public List<Exam> createExamsForTimePeriod() {
         List<Exam> conflictingExams = new ArrayList<>();
-        LocalDateTime startOfExam = lowerBound;
-        LocalDateTime endOfExam = startOfExam.plusMinutes(lengthOfExams);
-
-        while (endOfExam.compareTo(upperBound) <= 0) {
-
-            init();
-
-            exam.setDate(startOfExam.toLocalDate());
-            // exam.addExaminer(getSession().getUser()); TODO
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            exam.setExamLength(lengthOfExams);
-            exam.setExamRegulations(examRegulations);
-            exam.setGroupExam(isGroupExam);
-            exam.setIlv(instanceLecture);
-            exam.setLocation(location);
-            exam.setTime(startOfExam.toLocalTime());
-            exam.setType(type);
-
-            if (!isTimeSlotEmpty(startOfExam, endOfExam)) {
+        exam.setDate(startOfTimeSlot.toLocalDate());
+        exam.setTime(startOfTimeSlot.toLocalTime());
+        exam.addExaminer(getSession().getUser());
+        while (exam.getLocalDateTime().plusMinutes(exam.getExamLength()).compareTo(endOfTimeSlot) <= 0) {
+            if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime().plusMinutes(exam.getExamLength()))) {
                 conflictingExams.add(exam);
                 continue;
             }
-
             save();
-            instanceLecture.addExam(exam);
-            instanceLectureDao.update(instanceLecture);
-
-            startOfExam = startOfExam.plusMinutes(lengthOfExams
-                    + lengthOfBreaksBetweenExams);
-            endOfExam = startOfExam.plusMinutes(lengthOfExams);
+            exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(exam.getExamLength() + lengthOfBreaks));
         }
-
         init();
         return conflictingExams;
     }

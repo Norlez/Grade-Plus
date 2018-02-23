@@ -1,6 +1,7 @@
 package common.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -51,6 +52,10 @@ public class Exam extends JPAEntity {
      */
     @Column
     private LocalTime time; // Muss vielleicht geändert werden
+
+    private LocalDateTime localDateTime = LocalDateTime.of(date, time);
+    public LocalDateTime getLocalDateTime() { return localDateTime; }
+    public void setLocalDateTime(LocalDateTime pLocalDateTime) { localDateTime = pLocalDateTime; }
 
     /**
      * Die Prüfungsdauer.
