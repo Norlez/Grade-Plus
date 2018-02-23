@@ -141,6 +141,9 @@ public class User extends JPAEntity implements Serializable {
     @Column(nullable = false)
     private boolean isActive = true;
 
+    @OneToMany(mappedBy = "pruefling")
+    private List<JoinExam> participation;
+
     /**
      * Temporäres Passwort, das für die Authenfizierung der eingegebenen Email und
      * Password bei der Registrierung benötigt wird
@@ -462,5 +465,21 @@ public class User extends JPAEntity implements Serializable {
 
     public void removeExamAsProf(final Exam e) {
         ExamAsProf.remove(e);
+    }
+
+    public List<JoinExam> getParticipation() {
+        return participation;
+    }
+
+    public void setParticipation(List<JoinExam> participation) {
+        this.participation = participation;
+    }
+
+    public void addToParticipation(final JoinExam p) {
+        participation.add(p);
+    }
+
+    public void removeParticipation(final JoinExam p) {
+        participation.remove(p);
     }
 }
