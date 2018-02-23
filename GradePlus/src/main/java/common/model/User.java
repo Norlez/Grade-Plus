@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 import businesslogic.Crypt;
 import common.util.Assertion;
@@ -110,14 +111,17 @@ public class User extends JPAEntity implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Grade> grades;
 
-    @ManyToOne(optional = false)
-    private InstanceLecture asProf;
+    @ManyToMany
+    @JoinTable(name = "Prof_ILV", joinColumns = @JoinColumn(name = "Prof_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ILV_ID", referencedColumnName = "id"))
+    private List<InstanceLecture> asProf;
 
-    @ManyToOne(optional = true)
-    private InstanceLecture asStudent;
+    @ManyToMany
+    @JoinTable(name = "Student_ILV", joinColumns = @JoinColumn(name = "User_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ILV_ID", referencedColumnName = "id"))
+    private List<InstanceLecture> asStudent;
 
-    @ManyToOne(optional = true)
-    private Teilnehmen ExamAsProf;
+    @ManyToMany
+    @JoinTable(name = "User_Exam", joinColumns = @JoinColumn(name = "User_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "Exam_ID", referencedColumnName = "id"))
+    private List<Exam> ExamAsProf;
 
     /**
      * Die Matrikelnummer eines Studenten.
@@ -412,27 +416,51 @@ public class User extends JPAEntity implements Serializable {
         return DEFAULT_LANGUAGE;
     }
 
-    public InstanceLecture getAsProf() {
-        return asProf;
-    }
-
-    public void setAsProf(InstanceLecture asProf) {
+    public void setAsProf(List<InstanceLecture> asProf) {
         this.asProf = asProf;
     }
 
-    public InstanceLecture getAsStudent() {
-        return asStudent;
+    public List<InstanceLecture> getAsProf() {
+        return asProf;
     }
 
-    public void setAsStudent(InstanceLecture asStudent) {
+    public void addAsProfToIlv(final InstanceLecture i) {
+        asProf.add(i);
+    }
+
+    public void removeProfFromIlv(final InstanceLecture i) {
+        asProf.remove(i);
+    }
+
+    public void setAsStudent(List<InstanceLecture> asStudent) {
         this.asStudent = asStudent;
     }
 
-    public Teilnehmen getExamAsProf() {
+    public List<InstanceLecture> getAsStudent() {
+        return asStudent;
+    }
+
+    public void addAsStudentToIlv(final InstanceLecture i) {
+        asStudent.add(i);
+    }
+
+    public void removeStudentFromIlv(final InstanceLecture i) {
+        asStudent.remove(i);
+    }
+
+    public void setExamAsProf(List<Exam> examAsProf) {
+        ExamAsProf = examAsProf;
+    }
+
+    public List<Exam> getExamAsProf() {
         return ExamAsProf;
     }
 
-    public void setExamAsProf(Teilnehmen examAsProf) {
-        ExamAsProf = examAsProf;
+    public void addExamAsProf(final Exam e) {
+        ExamAsProf.add(e);
+    }
+
+    public void removeExamAsProf(final Exam e) {
+        ExamAsProf.remove(e);
     }
 }

@@ -27,6 +27,8 @@ import javax.persistence.*;
         @NamedQuery(name = "Exam.findByDate", query = "SELECT e FROM Exam e WHERE e.date = :date") })
 public class Exam extends JPAEntity {
 
+    @OneToMany(mappedBy = "exam")
+    private List<JoinExam> participants;
     /**
      * Die Prüfungsordnung der Prüfung.
      */
@@ -43,13 +45,17 @@ public class Exam extends JPAEntity {
      * Das Datum der Prüfung.
      */
     @Column
-    private LocalDate date;
+    private LocalDate date; // Muss vielleicht geändert werden
 
     /**
      * Der Startzeitpunkt der Prüfung
      */
     @Column
-    private LocalTime time;
+    private LocalTime time; // Muss vielleicht geändert werden
+
+    private LocalDateTime localDateTime = LocalDateTime.of(date, time);
+    public LocalDateTime getLocalDateTime() { return localDateTime; }
+    public void setLocalDateTime(LocalDateTime pLocalDateTime) { localDateTime = pLocalDateTime; }
 
     /**
      * Die Prüfungsdauer.
@@ -75,11 +81,36 @@ public class Exam extends JPAEntity {
     @Column
     private boolean groupExam;
 
+    @ManyToMany(mappedBy = "ExamAsProf")
+    private List<User> examiners;
     /**
      * Die Bemerkung zur Prüfung.
      */
     @Column
     private String comment;
+
+    @Column(nullable = true)
+    private int groupSize;
+
+    public List<JoinExam> getParticipants() {
+        return participants;
+    }
+
+    public List<User> getExaminers() {
+        return examiners;
+    }
+
+    public void setExaminers(List<User> examiners) {
+        this.examiners = examiners;
+    }
+
+    public void addExaminer(final User u) {
+        examiners.add(u);
+    }
+
+    public void removeExaminer(final User u) {
+        examiners.remove(u);
+    }
 
     /**
      * Gibt die Prüfungsordnung der Prüfung zurück.
@@ -236,5 +267,23 @@ public class Exam extends JPAEntity {
         this.groupExam = groupExam;
     }
 
-    // Prüfer
+    public void setParticipants(List<JoinExam> students) {
+        this.participants = students;
+    }
+
+    public void addParticipant(final JoinExam j) {
+        participants.add(j);
+    }
+
+    public void removeParticipant(final JoinExam j) {
+        participants.remove(j);
+    }
+
+    public int getGroupSize() {
+        return groupSize;
+    }
+
+    public void setGroupSize(int groupSize) {
+        this.groupSize = groupSize;
+    }
 }
