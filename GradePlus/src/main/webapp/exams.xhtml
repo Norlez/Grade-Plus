@@ -21,16 +21,8 @@
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                         <h1>
-                            <h:outputText value="Lecture #{lecturesBean.lecture.name}" />
+                            <h:outputText value="Lecture #{lecturesBean.lecture.name} #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
                         </h1>
-                    </b:column>
-                </b:row>
-
-                <b:row>
-                    <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                        <h2>
-                            <h:outputText value="Semester: #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
-                        </h2>
                     </b:column>
                 </b:row>
 
@@ -46,7 +38,7 @@
                         </b:row>
                         <b:row>
                             <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionAddExaminer']}" outcome="examcreate" />
+                                <b:button class="btn" value="#{msg['actionAddExaminer']}" outcome="examiners" />
                             </b:column>
                         </b:row>
                         <b:row class="space50px" />
@@ -84,65 +76,74 @@
                             <b:column span="2">
                                 <b:button class="btn" value="#{msg['actionAddStudent']}" outcome="students" />
                             </b:column>
-                            <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionUpload']}" outcome="examcreate" />
-                            </b:column>
-                            <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionImportPabo']}" outcome="examcreate" />
+
+                        </b:row>
+
+                        <b:row class="space50px"/>
+
+                        <!-- UPLOAD STUDENT LIST -->
+                        <b:row>
+                            <b:column span="6">
+                                <b:panel collapsed="true">
+                                    <f:facet name="heading">
+                                        <h:outputText value="#{msg['actionUpload']}" />
+                                    </f:facet>
+                                    <b:row>
+                                        <b:column>
+                                            <h:outputLabel value="#{msg['inputPath']}" />
+                                        </b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                            <b:inputText placeholder="#{msg['inputPath']}" />
+                                        </b:column>
+                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                            <b:commandButton value="#{msg['actionChoosePath']}" />
+                                        </b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <b:column  span="6" colSm="4" colMd="6" colXs="12">
+                                            <b:commandButton value="#{msg['actionUpload']}" />
+                                        </b:column>
+                                        <b:column  span="2" colSm="4" colMd="6" colXs="12">
+                                            <b:button value="#{msg['linkCancel']}" outcome="exams"/>
+                                        </b:column>
+                                    </b:row>
+                                </b:panel>
                             </b:column>
                         </b:row>
 
-                        <!-- UPLOAD STUDENT LIST -->
-                        <b:formGroup id="uploadStudents" rendered="#{true}">
-                            <b:row styleClass="space50px"/>
-                            <b:row>
-                                <b:column>
-                                    <h:outputLabel value="#{msg['inputPath']}" />
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
-                                    <b:inputText placeholder="#{msg['inputPath']}" />
-                                </b:column>
-                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
-                                    <b:commandButton value="#{msg['actionChoosePath']}" />
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column  span="2" colSm="4" colMd="6" colXs="12">
-                                    <b:commandButton value="#{msg['actionUpload']}" />
-                                </b:column>
-                                <b:column  span="1" colSm="4" colMd="6" colXs="12">
-                                    <b:button value="#{msg['linkCancel']}" outcome="exams"/>
-                                </b:column>
-                            </b:row>
-                        </b:formGroup>
-
                         <!-- UPLOAD PABO LIST -->
-                        <b:formGroup id="uploadPabo" rendered="#{true}">
-                            <b:row styleClass="space50px"/>
-                            <b:row>
-                                <b:column>
-                                    <h:outputLabel value="#{msg['inputPath']}" />
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
-                                    <b:inputText placeholder="#{msg['inputPath']}" />
-                                </b:column>
-                                <b:column  span="3" colSm="4" colMd="6" colXs="12">
-                                    <b:commandButton value="#{msg['actionChoosePath']}" />
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column  span="2" colSm="4" colMd="6" colXs="12">
-                                    <b:commandButton value="#{msg['actionUpload']}" />
-                                </b:column>
-                                <b:column  span="1" colSm="4" colMd="6" colXs="12">
-                                    <b:button value="#{msg['linkCancel']}" outcome="exams"/>
-                                </b:column>
-                            </b:row>
-                        </b:formGroup>
+                        <b:row>
+                            <b:column span="6">
+                                <b:panel collapsed="true">
+                                    <f:facet name="heading">
+                                        <h:outputText value="#{msg['actionImportPabo']}" />
+                                    </f:facet>
+                                    <b:row>
+                                        <b:column>
+                                            <h:outputLabel value="#{msg['inputPath']}" />
+                                        </b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                            <b:inputText placeholder="#{msg['inputPath']}" />
+                                        </b:column>
+                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                            <b:commandButton value="#{msg['actionChoosePath']}" />
+                                        </b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <b:column  span="6" colSm="4" colMd="6" colXs="12">
+                                            <b:commandButton value="#{msg['actionUpload']}" />
+                                        </b:column>
+                                        <b:column  span="2" colSm="4" colMd="6" colXs="12">
+                                            <b:button value="#{msg['linkCancel']}" outcome="exams"/>
+                                        </b:column>
+                                    </b:row>
+                                </b:panel>
+                            </b:column>
+                        </b:row>
 
                         <b:row class="space50px" />
                         <b:row>
@@ -162,7 +163,9 @@
                                     <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
                                     <b:dataTableColumn label="#{msg['outputGrade']}"/>
                                     <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false"/>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRemove']}"/>
+                                    </b:dataTableColumn>
                                 </b:dataTable>
                             </b:column>
                         </b:row>
@@ -181,12 +184,46 @@
                                 <b:button class="btn" value="#{msg['actionCreateNewExam']}" outcome="examcreate" />
                             </b:column>
                         </b:row>
+
+                        <b:row class="space50px" />
+
+                        <!-- UPLOAD GRADES LIST -->
+                        <b:row>
+                            <b:column span="6">
+                                <b:panel collapsed="true">
+                                    <f:facet name="heading">
+                                        <h:outputText value="#{msg['actionImportGrades']}" />
+                                    </f:facet>
+                                    <b:row>
+                                        <b:column>
+                                            <h:outputLabel value="#{msg['inputPath']}" />
+                                        </b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                            <b:inputText placeholder="#{msg['inputPath']}" />
+                                        </b:column>
+                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                            <b:commandButton value="#{msg['actionChoosePath']}" />
+                                        </b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <b:column  span="6" colSm="4" colMd="6" colXs="12">
+                                            <b:commandButton value="#{msg['actionUpload']}" />
+                                        </b:column>
+                                        <b:column  span="2" colSm="4" colMd="6" colXs="12">
+                                            <b:button value="#{msg['linkCancel']}" outcome="exams"/>
+                                        </b:column>
+                                    </b:row>
+                                </b:panel>
+                            </b:column>
+                        </b:row>
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
                                 <b:dataTable span="8" value="#{examsBean.allExams}" var="e"
-                                             excel="false"
-                                             csv="false"
+                                             excel="true"
+                                             csv="true"
                                              pdf="false"
                                              columnVisibility="false"
                                              copy="false"
@@ -198,6 +235,12 @@
                                     <b:dataTableColumn label="#{msg['outputExaminer']}"/>
                                     <b:dataTableColumn label="#{msg['outputLength']}"/>
                                     <b:dataTableColumn label="#{msg['outputState']}" orderable="true"/>
+                                    <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRelease']}" action="#{usersBean.remove(e)}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['actionManage']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionManage']}" action="#{usersBean.remove(e)}"/>
+                                    </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
                                         <b:button value="#{msg['actionEdit']}" outcome="students"/>
                                         <b:commandButton value="#{msg['actionEdit']}" action="#{usersBean.remove(e)}"/>

@@ -28,55 +28,23 @@
                 <b:row>
                     <b:column span="4">
                         <h2>
-                            <h:outputText value="#{msg['subtitleCreateExam']}"/>
+                            <h:outputText value="#{msg['outputEditExam']}"/>
                         </h2>
                     </b:column>
                 </b:row>
 
                 <b:row class="space50px"/>
                 <b:formGroup rendered="#{true}">
-                    <!-- PERIOD START -->
+                    <!-- DATE -->
                     <b:row>
                         <b:column span="2">
-                            <h:outputLabel value="#{msg['outputDateStart']}"/>
+                            <h:outputLabel value="#{msg['outputDate']}"/>
                         </b:column>
                         <b:column span="2">
-                            <b:datepicker id="dateStart" mode="popup" value="#{msg['inputSelectDate']}"/>
+                            <b:datepicker id="date" mode="popup" value="#{msg['inputSelectDate']}"/>
                         </b:column>
                         <b:column span="2">
-                            <b:message for="dateStart"/>
-                        </b:column>
-                    </b:row>
-
-                    <!-- PERIOD END -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputDateEnd']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:datepicker id="dateEnd" mode="popup" value="#{msg['inputSelectDate']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:message for="dateEnd"/>
-                        </b:column>
-                    </b:row>
-
-                    <!-- DAYS -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputDays']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:selectBooleanCheckbox value="" caption="#{msg['outputMonday']}" />
-                            <b:selectBooleanCheckbox value="" caption="#{msg['outputTuesday']}" />
-                            <b:selectBooleanCheckbox value="" caption="#{msg['outputWednesday']}" />
-                            <b:selectBooleanCheckbox value="" caption="#{msg['outputThursday']}" />
-                            <b:selectBooleanCheckbox value="" caption="#{msg['outputFriday']}" />
-                            <b:selectBooleanCheckbox value="" caption="#{msg['outputSaturday']}" />
-                            <b:selectBooleanCheckbox value="" caption="#{msg['outputSunday']}" />
-                        </b:column>
-                        <b:column span="2">
-                            <b:message for="dateEnd"/>
+                            <b:message for="date"/>
                         </b:column>
                     </b:row>
 
@@ -117,20 +85,10 @@
                         </b:column>
                     </b:row>
 
-                    <!-- TIME START -->
+                    <!-- TIME -->
                     <b:row class="btn-paragraph">
                         <b:column span="2">
-                            <h:outputLabel value="#{msg['outputTimeStart']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:dateTimePicker value="08:00" format="HH:mm" mode="popup" />
-                        </b:column>
-                    </b:row>
-
-                    <!-- TIME END -->
-                    <b:row class="btn-paragraph">
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputTimeEnd']}"/>
+                            <h:outputLabel value="#{msg['outputTime']}"/>
                         </b:column>
                         <b:column span="2">
                             <b:dateTimePicker value="08:00" format="HH:mm" mode="popup" />
@@ -141,16 +99,6 @@
                     <b:row class="btn-paragraph">
                         <b:column span="2">
                             <h:outputLabel value="#{msg['outputDuration']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:inputText mask="integer" value="" />
-                        </b:column>
-                    </b:row>
-
-                    <!-- BREAK -->
-                    <b:row class="btn-paragraph">
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputBreak']}"/>
                         </b:column>
                         <b:column span="2">
                             <b:inputText mask="integer" value="" />
@@ -174,47 +122,10 @@
                     <!-- BUTTON SAVE CANCEL -->
                     <b:row class="btn-paragraph">
                         <b:column span="1">
-                            <b:commandButton value="#{msg['actionCreate']}"/>
+                            <b:commandButton value="#{msg['actionSave']}"/>
                         </b:column>
                         <b:column span="1">
-                            <b:button value="#{msg['linkCancel']}" outcome="exams"/>
-                        </b:column>
-                    </b:row>
-                </b:formGroup>
-
-                <b:formGroup rendered="#{true}">
-                    <b:row>
-                        <b:column>
-                            <b:dataTable span="8" value="#{examsBean.allExams}" var="e"
-                                         excel="false"
-                                         csv="false"
-                                         pdf="false"
-                                         columnVisibility="false"
-                                         copy="false"
-                                         print="false">
-
-                                <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.date}"/>
-                                <b:dataTableColumn label="#{msg['outputTime']}"/>
-                                <b:dataTableColumn label="#{msg['outputExaminer']}"/>
-                                <b:dataTableColumn label="#{msg['outputLength']}"/>
-                                <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
-                                    <b:button value="#{msg['actionEdit']}" outcome="students"/>
-                                    <b:commandButton value="#{msg['actionEdit']}"/>
-                                </b:dataTableColumn>
-                                <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                    <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(e)}"/>
-                                </b:dataTableColumn>
-                            </b:dataTable>
-                        </b:column>
-                    </b:row>
-
-                    <!-- BUTTON SAVE CANCEL -->
-                    <b:row class="btn-paragraph">
-                        <b:column span="1">
-                            <b:commandButton value="#{msg['actionCreate']}"/>
-                        </b:column>
-                        <b:column span="1">
-                            <b:button value="#{msg['linkCancel']}" outcome="exams"/>
+                            <b:button value="#{msg['linkBack']}" outcome="examcreate"/>
                         </b:column>
                     </b:row>
                 </b:formGroup>

@@ -85,7 +85,7 @@
                                          excel="false"
                                          csv="false"
                                          pdf="false"
-                                         columnVisibility="true"
+                                         columnVisibility="false"
                                          copy="false"
                                          print="false">
 
@@ -97,9 +97,18 @@
                                     <b:button value="#{msg['actionSelect']}" outcome="exams"/>
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">
-                                    <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{lectureInstanceStudentBean.addExaminee(l)}" />
-                                    <b:button value="#{msg['actionSelect']}" outcome="dashboard"/>
+                                <b:dataTableColumn label="#{msg['actionRegister']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">
+                                    <b:commandButton rendered="#{true}" value="#{msg['actionRegister']}" action="#{lectureInstanceStudentBean.addExaminee(l)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionEdit']}" orderable="false">
+                                    <b:commandButton value="#{msg['actionEdit']}"
+                                                     action="#{instanceLecturesBean.setLecture(l)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">
+                                <b:commandButton value="#{msg['actionDuplicate']}"
+                                                 action="#{instanceLecturesBean.setLecture(l)}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
