@@ -34,13 +34,13 @@ public class InstanceLecture extends JPAEntity {
     /**
      * Die Prüfer der ILV.
      */
-    @OneToMany(mappedBy = "asProf")
+    @ManyToMany(mappedBy = "asProf")
     private List<User> examiners = new ArrayList<User>();
 
     /**
      * Die Prüflinge der ILV.
      */
-    @OneToMany(mappedBy = "asStudent")
+    @ManyToMany(mappedBy = "asStudent")
     private List<User> examinees;
 
     /**

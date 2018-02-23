@@ -43,13 +43,13 @@ public class Exam extends JPAEntity {
      * Das Datum der Prüfung.
      */
     @Column
-    private LocalDate date;
+    private LocalDate date; // Muss vielleicht geändert werden
 
     /**
      * Der Startzeitpunkt der Prüfung
      */
     @Column
-    private LocalTime time;
+    private LocalTime time; // Muss vielleicht geändert werden
 
     /**
      * Die Prüfungsdauer.
