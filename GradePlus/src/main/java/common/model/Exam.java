@@ -81,6 +81,14 @@ public class Exam extends JPAEntity {
     @Column
     private String comment;
 
+    public List<User> getStudents() {
+        throw new UnsupportedOperationException();
+    }
+
+    public List<User> getExaminers() {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * Gibt die Prüfungsordnung der Prüfung zurück.
      *
