@@ -1,15 +1,22 @@
 package common.model;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
-public class Teilnehmen {
+@Entity
+public class Teilnehmen extends JPAEntity {
 
+    @OneToOne
     private Exam exam;
 
+    @OneToOne
     private User pruefling;
+
+    @OneToOne
+    private Grade grade;
+
+    @OneToMany(mappedBy = "ExamAsProf")
+    private List<User> examiner;
 
     @Column
     private boolean krank = false;
@@ -47,5 +54,21 @@ public class Teilnehmen {
 
     public void setKrank(boolean krank) {
         this.krank = krank;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public List<User> getExaminer() {
+        return examiner;
+    }
+
+    public void setExaminer(List<User> examiner) {
+        this.examiner = examiner;
     }
 }

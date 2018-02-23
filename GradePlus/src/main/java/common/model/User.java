@@ -116,6 +116,9 @@ public class User extends JPAEntity implements Serializable {
     @ManyToOne(optional = true)
     private InstanceLecture asStudent;
 
+    @ManyToOne(optional = true)
+    private Teilnehmen ExamAsProf;
+
     /**
      * Die Matrikelnummer eines Studenten.
      */
@@ -423,5 +426,13 @@ public class User extends JPAEntity implements Serializable {
 
     public void setAsStudent(InstanceLecture asStudent) {
         this.asStudent = asStudent;
+    }
+
+    public Teilnehmen getExamAsProf() {
+        return ExamAsProf;
+    }
+
+    public void setExamAsProf(Teilnehmen examAsProf) {
+        ExamAsProf = examAsProf;
     }
 }
