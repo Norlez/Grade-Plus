@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 public class JoinExam extends JPAEntity {
 
-    @OneToOne
+    @ManyToOne(optional = false)
     private Exam exam;
 
     @OneToOne

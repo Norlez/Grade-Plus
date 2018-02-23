@@ -1,7 +1,6 @@
 package common.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -27,6 +26,8 @@ import javax.persistence.*;
         @NamedQuery(name = "Exam.findByDate", query = "SELECT e FROM Exam e WHERE e.date = :date") })
 public class Exam extends JPAEntity {
 
+    @OneToMany(mappedBy = "exam")
+    private List<JoinExam> participants;
     /**
      * Die Prüfungsordnung der Prüfung.
      */
@@ -75,18 +76,35 @@ public class Exam extends JPAEntity {
     @Column
     private boolean groupExam;
 
+    @ManyToMany(mappedBy = "ExamAsProf")
+    private List<User> examiners;
     /**
      * Die Bemerkung zur Prüfung.
      */
     @Column
     private String comment;
 
-    public List<User> getStudents() {
-        throw new UnsupportedOperationException();
+    @Column(nullable = true)
+    private int groupSize;
+
+    public List<JoinExam> getParticipants() {
+        return participants;
     }
 
     public List<User> getExaminers() {
-        throw new UnsupportedOperationException();
+        return examiners;
+    }
+
+    public void setExaminers(List<User> examiners) {
+        this.examiners = examiners;
+    }
+
+    public void addExaminer(final User u) {
+        examiners.add(u);
+    }
+
+    public void removeExaminer(final User u) {
+        examiners.remove(u);
     }
 
     /**
@@ -244,5 +262,23 @@ public class Exam extends JPAEntity {
         this.groupExam = groupExam;
     }
 
-    // Prüfer
+    public void setParticipants(List<JoinExam> students) {
+        this.participants = students;
+    }
+
+    public void addParticipant(final JoinExam j) {
+        participants.add(j);
+    }
+
+    public void removeParticipant(final JoinExam j) {
+        participants.remove(j);
+    }
+
+    public int getGroupSize() {
+        return groupSize;
+    }
+
+    public void setGroupSize(int groupSize) {
+        this.groupSize = groupSize;
+    }
 }
