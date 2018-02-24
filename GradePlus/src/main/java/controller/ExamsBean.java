@@ -339,14 +339,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Die zu sendende Nachricht.
      */
     private void notify(final User pUser, final String pMessage) {
-        MailBean sender = new MailBean(getSession(), userDao);
+        MailBean sender = new MailBean(getSession());
         sender.setTopic("Änderungen an einem Prüfungstermin");
         sender.setContent(assertNotNull(pMessage));
-        sender.setSenderEmail("gradeplusbremen@gmail.com");
-        // sender.setSenderPassword("Koschke123"); TODO
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         sender.setRecipient(pUser.getEmail());
-        sender.sendMailTo();
+        sender.sendSystemMail();
     }
 
     /**

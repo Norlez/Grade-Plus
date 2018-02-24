@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -15,22 +14,20 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import javax.swing.*;
 
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import common.model.Session;
 import common.util.Assertion;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+//import org.primefaces.event.FileUploadEvent;
+//import org.primefaces.model.UploadedFile;
 import persistence.GradeDAO;
 import persistence.UserDAO;
 
 @Named
 @RequestScoped
 public class FileChooser extends AbstractBean {
-
 
     public InputStream getInputStream() {
         return inputStream;
@@ -62,26 +59,24 @@ public class FileChooser extends AbstractBean {
 
     private String fileName;
 
-
-
     private GradeDAO gradeDAO;
     private UserDAO userDAO;
 
     @Inject
     public FileChooser(final Session pSession, final GradeDAO pGradeDAO,
-                      final UserDAO pUserDAO) {
+            final UserDAO pUserDAO) {
         super(pSession);
         gradeDAO = Assertion.assertNotNull(pGradeDAO);
         userDAO = Assertion.assertNotNull(pUserDAO);
     }
 
-    public void fileToInputstream() throws IOException{
+    public void fileToInputstream() throws IOException {
         fileName = file.getName();
         System.out.println("AAAAAAAAAAAAAA" + fileName);
 
-        //if(file != null) {
-          //  inputStream = file.getInputStream();
-         //   fileName = file.getName();
-        //}
+        // if(file != null) {
+        // inputStream = file.getInputStream();
+        // fileName = file.getName();
+        // }
     }
 }

@@ -44,7 +44,7 @@
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
                         <b:inputText placeholder="Topic" id="topic" required="true"
-                                     value="#{mailBean.topic}"/>
+                                     value="#{mailBean.message.subject}"/>
                     </b:column>
                 </b:row>
 
@@ -70,7 +70,7 @@
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
                         <b:commandButton id="sendMessage"
                                          value="send"
-                                         action="#{mailBean.sendMailTo}"/>
+                                         action="#{mailBean.sendMail}"/>
                     </b:column>
                 </b:row>
 

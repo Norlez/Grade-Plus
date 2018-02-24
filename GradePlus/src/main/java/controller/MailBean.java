@@ -28,6 +28,7 @@ package controller;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,8 +37,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import common.model.User;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import persistence.UserDAO;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -57,193 +58,178 @@ public class MailBean extends AbstractBean {
     private static final Logger logger = Logger.getLogger(MailBean.class);
 
     /**
-     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
-     * übernimmt.
+     * Die Adresse des verwendeten Smtp-Servers.
      */
-    private final UserDAO userDao;
+    private static final String smtp = "smtp.gmail.com";
 
     /**
-     * Der User, der eine Mail versendet.
+     * Die Nachricht, die versendet wird. Um den Titel zu setzen, wird auf
+     * {@code subject} zugegriffen.
      */
-    private User user;
+    private Message message;
 
     /**
-     * Der Empfänger der Email.
+     * Die Properties für die Mailversendung.
+     */
+    private Properties props;
+
+    /**
+     * Die Session der Mailversendung.
+     */
+    private javax.mail.Session session;
+
+    /**
+     * Der Absender der Nachricht.
+     */
+    private User sender;
+
+    /**
+     * Die Email-Adresse des Empfängers der Nachricht.
      */
     private String recipient;
-    /**
-     * Das Password des Senders zu seiner zugehörigen Email.
-     */
-    // private String password;
 
     /**
-     * Der Betreff der Email.
+     * Der Titel der Nachricht.
      */
     private String topic;
 
     /**
-     * Die Nachricht der Email.
+     * Der Inhalt der Nachricht.
      */
     private String content;
 
     /**
-     * Die Email des Senders.
-     */
-    private String senderEmail;
-
-    /**
-     * Erzeugt eine neue RegistrationBean.
+     * Erzeugt eine neue MailBean.
      *
      * @param pSession
-     *            Die Session der zu erzeugenden RegistrationBean.
-     * @param pUserDAO
-     *            Die UserDAO der zu erzeugenden RegistrationBean.
+     *            Die Session der zu erzeugenden MailBean.
      */
     @Inject
-    public MailBean(common.model.Session pSession, UserDAO pUserDAO) {
+    public MailBean(final common.model.Session pSession) {
         super(assertNotNull(pSession));
-        userDao = assertNotNull(pUserDAO);
-        user = assertNotNull(pSession.getUser());
     }
 
     /**
-     * Setzt das Passwort für die Emailversundung zum zugehörigen EmailAccount
-     *
-     * 
-     * public void setPassword(final String pPassword){ password =
-     * assertNotNull(pPassword); }
+     * Setzt die {@link Message} auf eine neue Nachricht und die Daten der
+     * Nachricht auf {@code null}.
      */
+    @PostConstruct
+    public void init() {
+        sender = getSession().getUser();
+        recipient = null;
+        content = null;
 
-    /**
-     * gibt das Passwort zurück
-     *
-     * public String getPassword(){ return password; }
-     */
+        props = new Properties();
+        props.put("mail.smtp.host", smtp);
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
 
-    /**
-     * Setzt das Passwort für die Emailversundung zum zugehörigen EmailAccount
-     *
-     */
-    public void setTopic(final String pTopic) {
-        topic = assertNotNull(pTopic);
+        session = javax.mail.Session.getInstance(props, null);
+        session.setDebug(true);
+
+        message = new MimeMessage(session);
     }
 
     /**
-     * gibt den Betreff zurück.
+     * Gibt das {@link Message}-Objekt zurück.
      *
+     * @return Das {@link Message}-Objekt.
      */
-    public String getTopic() {
-        return topic;
+    public Message getMessage() {
+        return message;
     }
 
     /**
-     * Setzt das Passwort für die Emailversundung zum zugehörigen EmailAccount
+     * Gibt die Email-Adresse des Empfängers zurück.
      *
-     */
-    public void setContent(final String pContent) {
-        content = assertNotNull(pContent);
-    }
-
-    /**
-     * Gibt das Textfeld zurück.
-     *
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * Setzt das Passwort für die Emailversundung zum zugehörigen EmailAccount
-     *
-     */
-    public void setRecipient(final String pRecipient) {
-        recipient = assertNotNull(pRecipient);
-    }
-
-    /**
-     * gibt das Passwort zurück
-     *
+     * @return Die Email-Adresse des Empfängers.
      */
     public String getRecipient() {
         return recipient;
     }
 
     /**
-     * setzt den user, der eine Email sendet.
+     * Setzt die Email-Adresse des Empfängers auf den gegebenen Wert.
+     *
+     * @param pRecipient Die neue Email-Adresse des Empfängers.
      */
-    public void setSenderEmail(final String pUser) {
-        senderEmail = assertNotNull(pUser);
+    public void setRecipient(final String pRecipient) {
+        recipient = assertNotNull(pRecipient);
     }
 
     /**
-     * gibt den senderEmail zurück.
+     * Gibt den Titel der Nachricht zurück.
      *
+     * @return Den Titel der Nachricht.
      */
-    public String getSenderEmail() {
-
-        return senderEmail;
+    public String getTopic() {
+        return topic;
     }
 
     /**
-     * Versendet eine Nachricht, an eine beliebige Email-Adresse.
+     * Setzt den Titel der Nachricht auf den gegebenen Wert.
      *
-     * @return Die Xhtml auf die der User nach der Versendung der Mail weitergeleitet
-     *         wird.
-     * 
-     * 
-     *         public String sendMailTo(){ Properties props = new Properties();
-     *         props.put("mail.smtp.host", "smtp.uni-bremen.de");
-     *         props.put("mail.smtp.socketFactory.port", "465");
-     *         props.put("mail.smtp.socketFactory.class",
-     *         "javax.net.ssl.SSLSocketFactory"); props.put("mail.smtp.auth", "true");
-     *         props.put("mail.smtp.port", "465");
-     * 
-     *         Session session = Session.getInstance(props, new javax.mail.Authenticator()
-     *         { protected PasswordAuthentication getPasswordAuthentication() { return new
-     *         PasswordAuthentication(user.getEmail(),user.getTmpPassword()); } }); try {
-     *         Message message = new MimeMessage(session); message.setFrom(new
-     *         InternetAddress(user.getEmail()));
-     *         message.setRecipients(Message.RecipientType.TO,
-     *         InternetAddress.parse(recipient)); message.setSubject(topic);
-     *         message.setText(content); message.setSentDate(new Date());
-     *         Transport.send(message);
-     * 
-     *         } catch (MessagingException e) { throw new RuntimeException(e); } return
-     *         "dashboard.xhtml"; }
+     * @param pTopic Der neue Titel der Nachricht.
      */
+    public void setTopic(final String pTopic) {
+        topic = assertNotNull(pTopic);
+    }
 
-    public String sendMailTo() {
+    /**
+     * Gibt den Inhalt der Nachricht zurück.
+     *
+     * @return Den Inhalt der Nachricht.
+     */
+    public String getContent() {
+        return content;
+    }
 
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.uni-bremen.de");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
+    /**
+     * Setzt den Inhalt der Nachricht auf den gegebenen Wert.
+     *
+     * @param pContent Der Inhalt der Nachricht.
+     */
+    public void setContent(final String pContent) {
+        content = assertNotNull(pContent);
+    }
 
-        Session session = Session.getInstance(props, null);
-        session.setDebug(true);
-
+    /**
+     * Sendet eine Nachricht eines Benutzer an einen anderen Benutzer.
+     *
+     * @return
+     */
+    public String sendMail() {
         try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(user.getEmail()));
+            message.setFrom(new InternetAddress(sender.getEmail()));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipient));
-            message.setSubject(topic);
-            message.setText(user.getEmail() + user.getTmpPassword());
             message.setSentDate(new Date());
+            message.setSubject(topic);
+            message.setText(content);
 
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.uni-bremen.de", "arbnor@uni-bremen.de",
-                    "Angelosaskia07");
+            transport.connect(smtp, sender.getEmail(), sender.getTmpPassword());
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorTransmitOfMessage", sender.getEmail());
         }
+        init();
         return "dashboard.xhtml";
+    }
 
+    /**
+     * Versendet eine Systemnachricht an einen gewählten Benutzer.
+     */
+    public void sendSystemMail() {
+        sender = new User();
+        sender.setEmail("gradeplusbremen@gmail.com");
+        sender.setTmpPassword("Koschke123");
+        sendMail();
+        sender = getSession().getUser();
     }
 
 }
