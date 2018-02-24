@@ -9,7 +9,7 @@ public class JoinExam extends JPAEntity {
     @ManyToOne(optional = false)
     private Exam exam;
 
-    @OneToOne
+    @ManyToOne
     private User pruefling;
 
     @OneToOne
