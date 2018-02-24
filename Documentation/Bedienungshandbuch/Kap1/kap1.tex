@@ -1,0 +1,77 @@
+
+\section{Einnführung} \label{sec:einführung}
+
+\textbf{Autor: Andreas}\\
+\subsection{Was ist Gradeplus?} %ReviewReady
+
+
+{  In diesem Dokument wird die Architektur des Prüfungsverwaltungssystem \glqq{}Grade+\grqq{} 
+beschrieben. Das Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  wird im Rahmen der Veranstaltung Software-Projekt 2 2017/18 entwickelt. Es handelt sich bei dem Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  um eine Weblösung in der Prüfungstermine organisiert und verwaltet werden können.  \\
+}
+
+\subsection{Rollen}
+%
+% Definitionen, Akronyme und Abkürzungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Definitionen, Akronyme und Abkürzungen}
+{ 
+\textbf{Pabo:}  Das Prüfungsamt Bremen Online ist für die elektronische Erfassung der Prüfungsnoten an der Universität Bremen zuständig.\\
+\textbf{Responsive-Design:}  gestalterisches und technische Denkweise zur Erstellung von Websites, so dass diese auf Eigenschaften des jeweils benutzten Endgeräts, vor allem Smartphones reagieren können.\\
+\textbf{Prüfer:} erstellt und leitet Lehrveranstaltungen und Prüfungstermine in dem Softwaresystem. \\ 
+\textbf{Prüfling:} nimmt an Prüfungsterminen teil und wird in der gewählten ILV geprüft und benotet. \\ 
+\textbf{Admin:} verwaltet den Nutzer- und Datenbestand. Ist für das Anlegen von Back-Ups und Prüfern verantwortlich. \\
+\textbf{Lehrveranstaltung:} ein grobes Schema für eine angebotene Lehrveranstaltung, die als Vorlage für konkrete Ausprägungen genutzt werden kann. Ist editierbar und erstellbar durch den Prüfer. \\
+\textbf{ILV:} eine konkrete Ausprägung (Instanz) einer Lehrveranstaltung. Prüflinge können sich für die ILV anmelden und ihren Prüfungstermin auswählen. Prüfer können Prüfungstermine anlegen und verwalten in einer ILV. \\
+\textbf{Scope:} Die Lebenszeit eines Objekts kann in JSF durch Scopes angegeben werden, z.B. Session, falls alle Objekte der View nach einer Session zerstört werden sollen.\\
+\textbf{JPA:} Die Java Persistence API (JPA) ist eine Schnittstelle für Java-Anwendungen, die die Datenbankzugriffe und die objektrelationale Zuordnung vereinfacht.
+}
+
+% Dokumentenübersicht
+\subsection{Übersicht über das Dokument}
+Dieses Dokument ist folgendermaßen gegliedert:\\
+\\
+% Kapitel 1
+\textbf{Kapitel \ref{sec:einführung}: Einführung} %ReviewReady
+\\
+\\
+{  Das erste Kapitel erläutert den Zweck dieser Architekturbeschreibung und an wen sie sich richtet. Zum besseren Verständnis des Dokuments und der Anwenderdomäne werden genutzte Definitionen, Akronyme und Abkürzungen erörtert und aufgelistet. 
+Ebenso werden in diesem Kapitel die Refernzen genannt. Der Abschluss des Kapitels stellt eine Übersicht über alle Kapitel der Architekturbeschreibung dar.}
+\\
+\\
+
+% Kapitel 2
+\textbf{Kapitel \ref{sec:globale_analyse}: Installation und Registrierung} %ReviewReady
+\\
+\\
+{ Dieses Kapitel widmet sich den verschiedenen Einflussfaktoren (organisatorisch, technisch, produktspezifisch) und welchen Einfluss sie auf die Architektur ausüben. Dazu werden zuerst die einzelnen Einflussfaktoren ermittelt und in ihrer
+Flexibilität und Veränderlichkeit charakterisiert. Daraus lassen sich konkrete Auswirkungen und weitere Einflussfaktoren ableiten. Aus der Menge der Einflussfaktoren werden mögliche Gefahren und Probleme für das System identifiziert und auf Problemkarten aufgeschrieben. Die Einflussfaktoren werden dabei global betrachtet, d.h. kein Einflussfaktor wird für sich alleine betrachtet. Zur Eindämmung der negativen Auswirkungen  der Einflussfaktoren werden für jede Problemkarte Lösungstrategien entwickelt. Die daraus ausgewählten Lösungsstrategien spiegeln sich im Architekturentwurf wieder.}
+\\
+\\
+
+% Kapitel 3
+\textbf{Kapitel \ref{sec:konzeptionell}: Admin} %ReviewReady
+\\
+\\
+{In dem dritten Kapitel wird das System auf einer hohen (der Anwendungsdomäne nahen) Abstraktionsebene beschrieben.
+Die grobe Struktur des Systems und deren Systemfunktionalität wird dabei in Form von UML-Komponentendiagrammen beschrieben.
+Es werden keine technologischen Detailentscheidungen (z.B. Nutzung von bestimmten Sortieralgorithmen) abgebildet.
+Die Grobstruktur aus der konzeptionellen Sicht wird in den nachfolgenden Kapiteln 4 bis 6 konkretisiert.}
+\\
+\\
+
+% Kapitel 4
+\textbf{Kapitel \ref{sec:modulsicht}: Prüfling} %ReviewReady
+{Die Modulsicht betrachtet den statischen Aufbau des Systems und wird in Form von UML-Paket- und Klassendiagramme visuallisiert.
+In Kapitel 4 wird die zuvor entwickelte Architektur konkretisiert. Die Zerlegung in konkrete Module endet bei Modulen, die ein klar umrissenes Arbeitspaket darstellen. Bei der Konkretisierung der einzelnen Module werden die zuvor entwickelten Lösungsstrategien berücksichtigt.
+Die Schnittstellen der Module werden in diesem Abschnitt ebenfalls behandelt und falls notwendig mit entsprechenden UML-Diagrammen unterstützt. Die Beschreibung der Schnittstellen und Methoden erfolgt per Javadoc im Quelltext.}
+
+
+% Kapitel 5
+\textbf{Kapitel \ref{sec:datensicht}: Prüfer} %ReviewReady
+\\
+\\
+{ In diesem Abschnitt wird das zugrundeliegende Datenmodell der Anwendung beschrieben.
+Das in der Anforderungsspezifikation erhobene Datemodell wird dabei übernommen und um implementierungsspezifische Details verändert.  Die Darstellung erfolgt über erläuternde Texte und UML-Klassendiagramme.}
+\\
+\\

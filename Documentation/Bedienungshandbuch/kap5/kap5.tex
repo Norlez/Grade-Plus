@@ -1,0 +1,33 @@
+\textbf{Autor:}
+
+\glqq{}Grade+\grqq{} ist ein Terminplanungssystem für mündliche Prüfungen. In das System können sich Personen anmelden, wobei es vier unterschiedliche vordefinierte Rollen (Prüfer, Student, StudentExaminer und Admin) gibt. 
+
+
+
+
+Admin, Examiner und Student sind verschiedene User, die alle von der Oberklasse User erben.
+Die verschiedenen Rollen sind in der Klasse Role definiert. Ein Student, der in Prüfungen (Exam) als Prüfer teilnimmt, bekommt zusätzlich zur Rolle „Student“ noch die Rolle
+StudentExaminer.
+Alle User werden durch ihre e-mail eindeutig bestimmt. 
+In der Datentabelle wird der Unterschied der User durch die unterschiedliche Rollenverteilung deutlich. Dabei kann ein User mehrere Rollen übernehmen.
+Das Attribut isActive gibt an, ob das Konto gibt an, ob das Konto des Users aktiv ist oder deaktiviert wurde.
+Wenn ein User die Rolle Student hat der User zusätzlich noch eine Martrikelnummer und eine Liste von Noten.
+
+
+Nur der Examiner (Prüfer) kann eine Lehrveranstaltung (Lecture) erzeugen. 
+Examiner und StudentExaminer können an einer Lehrveranstaltung teilnehmen.
+Eine Lehrveranstaltung kann mehrere Exam (Prüfungstermine) erhalten.
+Durch das Startdatum und die zugehörige Lehrveranstaltung kann ein Exam eindeutig bestimmt werden.
+
+
+Ein Student kann in einer Lehrveranstaltung eingeschrieben sein. Durch die Teilnahme an der Lehrveranstaltung erhält der Student eine Note und Prüfungsversuche für die Lehrveranstaltung. Ein Student kann immer einzeln oder als Gruppe an einer Klausur teilnehmen.
+\subsection{Dashboard}
+\subsection{ILVs}
+\subsubsection{Suchen nach einer ILV}
+\subsubsection{Eintragen in eine ILV}
+\subsubsection{Austragen aus einer ILV}
+\subsection{Prüfungstermine}
+\subsubsection{Suchen nach Prüfungsterminen}
+\subsubsection{Eintragen in Prüfungsterminen}
+\subsubsection{Krankmelden für Prüfungstermin}
+\subsubsection{Austragen aus Prüfungstermin}
