@@ -36,6 +36,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import common.model.Mail;
 import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -45,8 +46,8 @@ import static common.util.Assertion.assertNotNull;
 /**
  * Dieses Bean ist der Controller für die Versendung von Emails..
  *
- * @author Arbnor Miftari
- * @version 2018-01-2018
+ * @author Arbnor Miftari, Torben Groß
+ * @version 2018-02-24
  */
 @Named
 @RequestScoped
@@ -63,8 +64,18 @@ public class MailBean extends AbstractBean {
     private static final String smtp = "smtp.gmail.com";
 
     /**
-     * Die Nachricht, die versendet wird. Um den Titel zu setzen, wird auf
-     * {@code subject} zugegriffen.
+     * Der Absender der Nachricht.
+     */
+    private User sender;
+
+    /**
+     * Das {@link Mail}-Objekt der Nachricht, das entsprechende Informationen
+     * enthält.
+     */
+    private Mail mail;
+
+    /**
+     * Die Nachricht, die versendet wird.
      */
     private Message message;
 
@@ -79,26 +90,6 @@ public class MailBean extends AbstractBean {
     private javax.mail.Session session;
 
     /**
-     * Der Absender der Nachricht.
-     */
-    private User sender;
-
-    /**
-     * Die Email-Adresse des Empfängers der Nachricht.
-     */
-    private String recipient;
-
-    /**
-     * Der Titel der Nachricht.
-     */
-    private String topic;
-
-    /**
-     * Der Inhalt der Nachricht.
-     */
-    private String content;
-
-    /**
      * Erzeugt eine neue MailBean.
      *
      * @param pSession
@@ -110,14 +101,13 @@ public class MailBean extends AbstractBean {
     }
 
     /**
-     * Setzt die {@link Message} auf eine neue Nachricht und die Daten der
-     * Nachricht auf {@code null}.
+     * Setzt die {@link Message} auf eine neue Nachricht und die Daten der Nachricht auf
+     * {@code null}.
      */
     @PostConstruct
     public void init() {
         sender = getSession().getUser();
-        recipient = null;
-        content = null;
+        mail = new Mail();
 
         props = new Properties();
         props.put("mail.smtp.host", smtp);
@@ -133,66 +123,12 @@ public class MailBean extends AbstractBean {
     }
 
     /**
-     * Gibt das {@link Message}-Objekt zurück.
+     * Gibt das {@link Mail}-Objekt zurück.
      *
-     * @return Das {@link Message}-Objekt.
+     * @return Das {@link Mail}-Objekt.
      */
-    public Message getMessage() {
-        return message;
-    }
-
-    /**
-     * Gibt die Email-Adresse des Empfängers zurück.
-     *
-     * @return Die Email-Adresse des Empfängers.
-     */
-    public String getRecipient() {
-        return recipient;
-    }
-
-    /**
-     * Setzt die Email-Adresse des Empfängers auf den gegebenen Wert.
-     *
-     * @param pRecipient Die neue Email-Adresse des Empfängers.
-     */
-    public void setRecipient(final String pRecipient) {
-        recipient = assertNotNull(pRecipient);
-    }
-
-    /**
-     * Gibt den Titel der Nachricht zurück.
-     *
-     * @return Den Titel der Nachricht.
-     */
-    public String getTopic() {
-        return topic;
-    }
-
-    /**
-     * Setzt den Titel der Nachricht auf den gegebenen Wert.
-     *
-     * @param pTopic Der neue Titel der Nachricht.
-     */
-    public void setTopic(final String pTopic) {
-        topic = assertNotNull(pTopic);
-    }
-
-    /**
-     * Gibt den Inhalt der Nachricht zurück.
-     *
-     * @return Den Inhalt der Nachricht.
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * Setzt den Inhalt der Nachricht auf den gegebenen Wert.
-     *
-     * @param pContent Der Inhalt der Nachricht.
-     */
-    public void setContent(final String pContent) {
-        content = assertNotNull(pContent);
+    public Mail getMail() {
+        return mail;
     }
 
     /**
@@ -202,12 +138,14 @@ public class MailBean extends AbstractBean {
      */
     public String sendMail() {
         try {
+            sender.setEmail("gradeplusbremen@gmail.com");
+            sender.setTmpPassword("Koschke123");
             message.setFrom(new InternetAddress(sender.getEmail()));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(recipient));
+                    InternetAddress.parse(mail.getRecipient()));
             message.setSentDate(new Date());
-            message.setSubject(topic);
-            message.setText(content);
+            message.setSubject(mail.getTopic());
+            message.setText(mail.getContent());
 
             Transport transport = session.getTransport("smtp");
             transport.connect(smtp, sender.getEmail(), sender.getTmpPassword());

@@ -340,9 +340,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     private void notify(final User pUser, final String pMessage) {
         MailBean sender = new MailBean(getSession());
-        sender.setTopic("Änderungen an einem Prüfungstermin");
-        sender.setContent(assertNotNull(pMessage));
-        sender.setRecipient(pUser.getEmail());
+        sender.getMail().setTopic("Änderungen an einem Prüfungstermin");
+        sender.getMail().setContent(assertNotNull(pMessage));
+        sender.getMail().setRecipient(pUser.getEmail());
         sender.sendSystemMail();
     }
 
