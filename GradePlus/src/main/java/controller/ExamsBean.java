@@ -22,11 +22,14 @@ import java.util.List;
 import static common.util.Assertion.assertNotNull;
 
 /**
- * Diese Bean ist dafür verantwortlich, die die vom Prüfer zu gebenden Prüfungen
- * anzuzeigen. Dort kann der Prüfer Termine verschieben oder Absagen.
+ * Diese Bean ist für die Anzeige der {@link Exam}-Objekte für sowohl Prüfer, Prüfling als
+ * auch Admin verantwortlich. Außerdem können Prüfungen erstellt, verändert oder gelöscht
+ * werden. Mittels {@link #createExamsForTimeFrame()} ist es möglich, Prüfungen innerhalb
+ * eines gegebenen Zeitrahmens mit vorbestimmter Pausenlänge zwischen Prüfungen zu
+ * erstellen.
  *
  * @author Andreas Estenfelder, Torben Groß
- * @version 2017-12-21
+ * @version 2018-02-24
  */
 @Named
 @ViewScoped
@@ -44,29 +47,34 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
      * Der aktuell ausgewählte Prüfungstermin. Wird verwendet, um Informationen
-     * ausgewählter Prüfungen anzuzeigen, eine neue Prüfungs zu erstellen oder
-     * mittels {@link #createExamsForTimePeriod()} mehrere Prüfungen auf einmal
-     * zu erstellen.
+     * ausgewählter Prüfungen anzuzeigen, eine neue Prüfungs zu erstellen oder mittels
+     * {@link #createExamsForTimeFrame()} mehrere Prüfungen auf einmal zu erstellen.
      */
     private Exam exam;
 
     /**
-     * Wird von {@link #createExamsForTimePeriod()} verwendet, um den Startpunkt
-     * der Prüfungen festzulegen.
+     * Wird von {@link #createExamsForTimeFrame()} verwendet, um Prüfungen zu speichern,
+     * die aufgrund von Zeitkonflikten nicht gespeichert werden konnten.
+     */
+    private List<Exam> conflictingExams;
+
+    /**
+     * Wird von {@link #createExamsForTimeFrame()} verwendet, um den Startpunkt der
+     * Prüfungen festzulegen.
      */
     private LocalDateTime startOfTimeSlot;
 
     /**
-     * Wird von {@link #createExamsForTimePeriod()} verwendet, um den Endpunkt
-     * der Prüfungen festzulegen.
+     * Wird von {@link #createExamsForTimeFrame()} verwendet, um den Endpunkt der
+     * Prüfungen festzulegen.
      */
     private LocalDateTime endOfTimeSlot;
 
     /**
-     * Wird von {@link #createExamsForTimePeriod()} verwendet, um die Länge der
-     * Pausen zwischen Prüfungsterminen zu bestimmen.
+     * Wird von {@link #createExamsForTimeFrame()} verwendet, um die Länge der Pausen
+     * zwischen Prüfungsterminen zu bestimmen.
      */
-    private int lengthOfBreaks;
+    private Integer lengthOfBreaks;
 
     /**
      * Eine Liste mit allen bekannten Prüfungsterminen.
@@ -134,6 +142,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .getExamsForExaminee(getSession().getUser()));
         examsOfExaminer = assertNotNull(examDao.getExamsForExaminee(getSession()
                 .getUser()));
+        startOfTimeSlot = null;
+        endOfTimeSlot = null;
+        lengthOfBreaks = null;
     }
 
     /**
@@ -180,10 +191,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
             instanceLectureDao.update(exam.getIlv());
             user.addExamAsProf(exam);
             userDao.update(user);
-            // TODO Examiner als JoinExam hinzufügen? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // TODO Examiner als JoinExam hinzufügen?
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // User und Exam haben JoinExam
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
-                    getTranslation("errorExamdataIncomplete"));
+                    getTranslation("errorInputdataIncomplete"));
         } catch (final UnexpectedUniqueViolationException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG, getTranslation("error"));
         } catch (final DuplicateUsernameException e) {
@@ -201,8 +214,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * Aktualisiert die aktuell angezeigte Prüfung in der Liste aller innerhalb der
      * Applikation bekannten Prüfungen.
      *
-     * @return "lectureinstance.xhtml", um auf das Facelet der Übersicht der Prüfungen zu
-     *         leiten.
+     * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
      */
     public String update() {
         try {
@@ -210,7 +222,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
             List<JoinExam> joinExams = oldExam.getParticipants();
             List<User> students = new ArrayList<>();
             for (JoinExam joinExam : joinExams) {
-                // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch
+                // nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
 
             examDao.update(exam);
@@ -225,12 +238,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
             }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
-                    getTranslation("errorExamdataIncomplete"));
+                    getTranslation("errorInputdataIncomplete"));
         } catch (final UnexpectedUniqueViolationException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG, getTranslation("error"));
         }
         init();
-        return "lectureinstance.xhtml";
+        return "exams.xhtml";
     }
 
     /**
@@ -246,7 +259,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
         List<JoinExam> joinExams = assertNotNull(pExam).getParticipants();
         List<User> students = new ArrayList<>();
         for (JoinExam joinExam : joinExams) {
-            // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch
+            // nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
 
         examDao.remove(pExam);
@@ -259,6 +273,59 @@ public class ExamsBean extends AbstractBean implements Serializable {
         }
         init();
         return null;
+    }
+
+    /**
+     * Erzeugt {@link Exam}-Objekte mit gegebenen Stammdaten innerhalb des angegebenen
+     * Zeitraums mit entsprechenden Pausen zwischen Prüfungen.
+     *
+     * Diese Methode verwendet die Angaben innerhalb von {@link #exam}, um die Stammdaten
+     * aller zu erstellenden Prüfungen zu bestimmen. Der Start- und Endpunkt der Prüfungen
+     * sowie die Länge der Pausen zwischen den Prüfungen wird aus {@link #startOfTimeSlot}
+     * , {@link #endOfTimeSlot} und {@link #lengthOfBreaks} entnommen. Entsprechend müssen
+     * alle Attribute über das Facelet bei Aufruf dieser Methode bereits gesetzt sein.
+     *
+     * Können Prüfungen aufgrund von Zeitkonflikten nicht gespeichert werden, werden diese
+     * in {@link #conflictingExams} gespeichert und können dort ausgelesen werden, bis
+     * {@link #createExamsForTimeFrame()} erneut aufgerufen wird.
+     *
+     * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
+     */
+    public String createExamsForTimeFrame() {
+        if (startOfTimeSlot == null || endOfTimeSlot == null || lengthOfBreaks == null) {
+            addErrorMessageWithLogging(new IllegalArgumentException(
+                    "startOfTimeSlot, endOfTimeSlot or lengthOfBreaks is NULL."), logger,
+                    Level.DEBUG, getTranslation("errorInputdataIncomplete"));
+            return "exams.xhtml";
+        }
+        conflictingExams = new ArrayList<>();
+        exam.setDate(startOfTimeSlot.toLocalDate());
+        exam.setTime(startOfTimeSlot.toLocalTime());
+        exam.addExaminer(getSession().getUser());
+        while (exam.getLocalDateTime().plusMinutes(exam.getExamLength())
+                .compareTo(endOfTimeSlot) <= 0) {
+            if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
+                    .plusMinutes(exam.getExamLength()))) {
+                conflictingExams.add(exam);
+                continue;
+            }
+            save();
+            exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(
+                    exam.getExamLength() + lengthOfBreaks));
+        }
+        init();
+        return "exams.xhtml";
+    }
+
+    /**
+     * Gibt alle Prüfungen als Liste zurück, die beim Aufruf von
+     * {@link #createExamsForTimeFrame()} aufgrund von Zeitkonflikten nicht gespeichert
+     * werden konnten.
+     *
+     * @return Alle Prüfungen als Liste, die nicht gespeichert wurden.
+     */
+    public List<Exam> getConflictingExams() {
+        return conflictingExams;
     }
 
     /**
@@ -280,37 +347,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         sender.setRecipient(pUser.getEmail());
         sender.sendMailTo();
-    }
-
-    /**
-     * Erzeugt {@link Exam}-Objekte mit gegebenen Stammdaten innerhalb des
-     * angegebenen Zeitraums mit entsprechenden Pausen zwischen Prüfungen.
-     *
-     * Diese Methode verwendet die Angaben innerhalb von {@link #exam}, um die
-     * Stammdaten aller zu erstellenden Prüfungen zu bestimmen. Der Start- und
-     * Endpunkt der Prüfungen sowie die Länge der Pausen zwischen den Prüfungen
-     * wird aus {@link #startOfTimeSlot}, {@link #endOfTimeSlot} und
-     * {@link #lengthOfBreaks} entnommen. Entsprechend müssen alle Attribute
-     * über das Facelet bei Aufruf dieser Methode bereits gesetzt sein.
-     *
-     * @return Die Prüfungen als Liste, die aufgrund von Terminkonflikten nicht
-     *         hinzugefügt werden konnten.
-     */
-    public List<Exam> createExamsForTimePeriod() {
-        List<Exam> conflictingExams = new ArrayList<>();
-        exam.setDate(startOfTimeSlot.toLocalDate());
-        exam.setTime(startOfTimeSlot.toLocalTime());
-        exam.addExaminer(getSession().getUser());
-        while (exam.getLocalDateTime().plusMinutes(exam.getExamLength()).compareTo(endOfTimeSlot) <= 0) {
-            if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime().plusMinutes(exam.getExamLength()))) {
-                conflictingExams.add(exam);
-                continue;
-            }
-            save();
-            exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(exam.getExamLength() + lengthOfBreaks));
-        }
-        init();
-        return conflictingExams;
     }
 
     /**
