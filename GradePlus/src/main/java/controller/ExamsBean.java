@@ -137,11 +137,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         exam = new Exam();
-        allExams = assertNotNull(examDao.getAllExams());
-        examsOfStudent = assertNotNull(examDao
-                .getExamsForExaminee(getSession().getUser()));
-        examsOfExaminer = assertNotNull(examDao.getExamsForExaminee(getSession()
-                .getUser()));
+        // allExams = assertNotNull(examDao.getAllExams());
+        // examsOfStudent = assertNotNull(examDao
+        // .getExamsForExaminee(getSession().getUser()));
+        // examsOfExaminer = assertNotNull(examDao.getExamsForExaminee(getSession()
+        // .getUser()));
         startOfTimeSlot = null;
         endOfTimeSlot = null;
         lengthOfBreaks = null;
