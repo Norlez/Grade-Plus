@@ -1,0 +1,74 @@
+\documentclass[fontsize=12pt,paper=a4,twoside]{scrartcl}
+
+\usepackage{booktabs}
+\usepackage{float}
+
+
+\input{../swp-preamble.tex}
+
+%
+% Und jetzt geht das Dokument los....
+%
+\begin{document}
+\renewcommand\documentTitle{Testprotokoll}
+\renewcommand\groupName{Grapelog}
+
+\swpdocument{Hui Shi}{11. März 2018}{1.0}%
+            {Andreas Estenfelder & aestenfe@uni-bremen.de}%
+            {Torben Groß & grosst@uni-bremen.de}%
+            {Marvin Kampen & mkampen@uni-bremen.de}%
+            {Tugce Karakus & karakus@uni-bremen.de}%
+            {Arbnor Miftari & arbnor@uni-bremen.de}%
+            {Anil Olgun & olgun@uni-bremen.de}%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Version und Änderungsgeschichte}
+\begin{tabular}{ccl}
+Version & Datum & Änderungen \\
+\hline
+0.1 & 19.10.2017 & Latex-Vorlage als initiale Fassung kopiert \\
+0.2 & 21.10.2017 & Anpassung der Latex-Struktur \\
+
+\end{tabular}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{kap1/kap1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Common} \label{sec:globale_analyse}
+\input{kap2/kap2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\raggedright	\section{Controller} \label{sec:konzeptionell}
+	\input{kap3/kap3}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Anwendungsfälle} \label{sec:modulsicht}
+\input{kap4/kap4}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Code-Abdeckung} \label{sec:datensicht}
+\input{kap5/kap5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% mode: reftex
+%%% mode: flyspell
+%%% ispell-local-dictionary: "de_DE"
+%%% TeX-master: t
+%%% End: 
