@@ -172,4 +172,35 @@ public class MailBean extends AbstractBean {
         sender = getSession().getUser();
     }
 
+    /**
+     * Prüft, ob die Kombination der eingegebene Email mit dem dazugehörigem Passwort eine
+     * Verbindung zum smpt Server aufbauen und damit gültig sind.
+     *
+     * @boolean Gibt zurück, ob die Verbindung erfolgreich war oder nicht.
+     */
+    public static boolean isEmailPassCombiValid(String pEmail, String pPassword) {
+        // Properties für den SMTP Uni Bremen Server.
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.uni-bremen.de");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        try {
+            javax.mail.Session session = javax.mail.Session.getInstance(props);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(pEmail, pPassword);
+
+            if (transport.isConnected()) {
+                transport.close();
+                return true;
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }

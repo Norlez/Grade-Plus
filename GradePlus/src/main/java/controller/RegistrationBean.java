@@ -88,7 +88,7 @@ public class RegistrationBean extends LoginIndependentBean {
     public String register() {
         try {
             // Prüft, ob die eingegebenen Daten gültig sind.
-            // if (sender.isEmailPassCombiValid(user.getEmail(), user.getTmpPassword())) {
+            // if (MailBean.isEmailPassCombiValid(user.getEmail(), user.getTmpPassword())) {
             // Überschreibt, das kurz benötigte Passwort mit einem leeren
             // String(Sicherheit)
             user.setTmpPassword("");

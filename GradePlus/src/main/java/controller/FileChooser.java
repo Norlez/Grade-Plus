@@ -1,82 +1,112 @@
 package controller;
 
-import java.awt.*;
-import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
+
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import javax.swing.*;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 
 import common.model.Session;
 import common.util.Assertion;
-//import org.primefaces.event.FileUploadEvent;
-//import org.primefaces.model.UploadedFile;
 import persistence.GradeDAO;
 import persistence.UserDAO;
 
+
+
+/**
+ * Dieses Bean ist der Controller für das auswählen von Dateien über dem Client.
+ *
+ * @author Arbnor Miftari
+ * @version 2018-02-24
+ */
 @Named
 @RequestScoped
 public class FileChooser extends AbstractBean {
 
-    public InputStream getInputStream() {
-        return inputStream;
-    }
-
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
-    }
-
+    /**
+     * Gibt den Namen der Datei zurück.
+     * @return
+     */
     public String getFileName() {
         return fileName = file.getName();
     }
 
+    /**
+     * Setzt den Namen der Datei.
+     * @param fileName
+     *            Der Name der Datei
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+
+    /**
+     * Gibt das Part-Objekt zurück.
+     * @return
+     *       Das Part-Objekt.
+     */
     public Part getFile() {
         return file;
     }
+
+    /**
+     * Setzt das übergebene Part-Objekt
+     * @param file
+     *          Das Part-Object, dass gesetzt werden soll.
+     */
 
     public void setFile(Part file) {
         this.file = file;
     }
 
+    /**
+     * Das Part-Objekt, dass die hochgeladene Datei vom User repräsentiert.
+     */
     private Part file;
 
-    private InputStream inputStream;
-
+    /**
+     * Das String-Objekt, dass den Namen der hochgeladenen Datei repräsentiert.
+     */
     private String fileName;
 
-    private GradeDAO gradeDAO;
+
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
+     * user-Objekte übernimmt.
+     */
     private UserDAO userDAO;
 
+
+    /**
+     *
+     * @param pSession
+     *            Die Session der zu erzeugenden UsersBean.
+     * @param pUserDAO
+     *            Die UserDAO der zu erzeugenden UsersBean.
+     *            Die SessionDAO der zu erzeugenden UsersBean.
+     * @throws IllegalArgumentException
+     *             Falls {@code pSession} oder {@code pUserDAO} }
+     *             {@code null} ist.
+     */
     @Inject
     public FileChooser(final Session pSession, final GradeDAO pGradeDAO,
             final UserDAO pUserDAO) {
         super(pSession);
-        gradeDAO = Assertion.assertNotNull(pGradeDAO);
         userDAO = Assertion.assertNotNull(pUserDAO);
     }
 
-    public void fileToInputstream() throws IOException {
+    public void fileToInputstream() throws IOException{
         fileName = file.getName();
-        System.out.println("AAAAAAAAAAAAAA" + fileName);
+        InputStream inputStream = file.getInputStream();
 
-        // if(file != null) {
-        // inputStream = file.getInputStream();
-        // fileName = file.getName();
-        // }
+        String result = org.apache.commons.io.IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+
+        System.out.println(result);
     }
 }
