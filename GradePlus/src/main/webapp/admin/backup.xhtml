@@ -25,14 +25,6 @@
                         </h1>
                     </b:column>
                 </b:row>
-                <!-- SUBTITLE -->
-                <b:row>
-                    <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
-                        <h2>
-                            <h:outputText value="#{msg['subtitleCreateBackup']}" />
-                        </h2>
-                    </b:column>
-                </b:row>
                 <b:row>
                     <b:column>
                         <b:button value="#{msg['linkNewBackup']}" outcome="backupcreate"/>
@@ -41,7 +33,7 @@
             </b:container>
         </b:form>
 
-        <h:panelGroup rendered="#{true}">
+        <h:panelGroup rendered="#{! empty gradesBean.getAllGrades()}">
 
             <b:form id="courses">
 
@@ -56,27 +48,8 @@
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column>
-                            <h:outputLabel value="#{msg['inputPath']}" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column  span="3" colSm="4" colMd="6" colXs="12">
-                            <b:inputText placeholder="#{msg['inputPath']}" />
-                        </b:column>
-                        <b:column  span="3" colSm="4" colMd="6" colXs="12">
-                            <b:commandButton value="#{msg['actionChoosePath']}" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column  span="1" colSm="4" colMd="6" colXs="12">
-                            <b:commandButton value="#{msg['actionUpdateList']}" />
-                        </b:column>
-                    </b:row>
-                    <b:row styleClass="space50px"/>
-                    <b:row>
                         <b:dataTable class="table" span="8" value="#{gradesBean.getAllGrades()}" var="g"
-                                     excel="false" csv="false" pdf="false" columnVisibility="false"
+                                     excel="false" csv="false" pdf="false" columnVisibility="true"
                                      copy="false" print="false" searching="false" paginated="false"
                         >
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{g.subject}" />
