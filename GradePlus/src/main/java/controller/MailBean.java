@@ -61,7 +61,7 @@ public class MailBean extends AbstractBean {
     /**
      * Die Adresse des verwendeten Smtp-Servers.
      */
-    private static final String smtp = "smtp.gmail.com";
+    private String smtp;
 
     /**
      * Der Absender der Nachricht.
@@ -69,8 +69,7 @@ public class MailBean extends AbstractBean {
     private User sender;
 
     /**
-     * Das {@link Mail}-Objekt der Nachricht, das entsprechende Informationen
-     * enthält.
+     * Das {@link Mail}-Objekt der Nachricht, das entsprechende Informationen enthält.
      */
     private Mail mail;
 
@@ -107,6 +106,10 @@ public class MailBean extends AbstractBean {
     @PostConstruct
     public void init() {
         sender = getSession().getUser();
+        sender.setEmail("gradeplusbremen@gmail.com"); //TODO: ENTFERNEN
+        sender.setTmpPassword("Koschke123"); //TODO: ENTFERNEN
+        smtp = "smtp."
+                + sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1);
         mail = new Mail();
 
         props = new Properties();
@@ -138,8 +141,6 @@ public class MailBean extends AbstractBean {
      */
     public String sendMail() {
         try {
-            sender.setEmail("gradeplusbremen@gmail.com");
-            sender.setTmpPassword("Koschke123");
             message.setFrom(new InternetAddress(sender.getEmail()));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(mail.getRecipient()));
@@ -166,6 +167,7 @@ public class MailBean extends AbstractBean {
         sender = new User();
         sender.setEmail("gradeplusbremen@gmail.com");
         sender.setTmpPassword("Koschke123");
+        smtp = "smtp.gmail.com";
         sendMail();
         sender = getSession().getUser();
     }
