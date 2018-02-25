@@ -56,6 +56,13 @@
             </b:container>
         </b:form>
 
+        <!-- FILE UPLOAD  -->
+        <h:form enctype="multipart/form-data">
+            <b:container class="form-group" >
+                <h:inputFile value="#{fileChooser.file}"  />
+                <h:commandButton action="#{fileChooser.saveFromCSV}" value="convert" />
+            </b:container>
+        </h:form>
 
     </ui:define>
 </ui:composition>

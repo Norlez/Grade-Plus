@@ -26,7 +26,8 @@ package controller;
 
 import static common.util.Assertion.assertNotNull;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -49,6 +50,7 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import javax.servlet.http.Part;
 
 /**
  * Dieses Bean ist für die Benutzerverwaltung zuständig. Backing Bean (und damit
@@ -165,6 +167,36 @@ public class UsersBean extends AbstractBean implements Serializable {
     public List<User> getAllUsers() {
         return allUsers;
     }
+
+
+    /**
+     * Läuft genau wie UsersBean.save(), allerdings wird eine Menge von Benutzern hinzugefügt.
+     * Die Menge wird erlangt, über den Inputstreams einer CSV Datei.
+     *
+     */
+    public void saveFromCSV(Part file) throws IOException {
+        InputStream inputStream = file.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder sb = new StringBuilder();
+        String newLine;
+        ArrayList<String> lines = new ArrayList<String>();
+        while ((newLine = br.readLine()) != null) {
+            System.out.println(newLine);
+            lines.add(newLine);
+        }
+
+        for(int i = 0; i < lines.size(); i++){
+            String[] dataString = new String[10];
+            String tmpString = lines.get(i);
+            dataString = tmpString.split("-");
+            save();
+        }
+
+        String result = org.apache.commons.io.IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+
+        System.out.println(result);
+    }
+
 
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation

@@ -17,6 +17,13 @@ import persistence.GradeDAO;
 import persistence.UserDAO;
 
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 
 /**
  * Dieses Bean ist der Controller für das auswählen von Dateien über dem Client.
@@ -83,6 +90,7 @@ public class FileChooser extends AbstractBean {
     private UserDAO userDAO;
 
 
+
     /**
      *
      * @param pSession
@@ -101,12 +109,28 @@ public class FileChooser extends AbstractBean {
         userDAO = Assertion.assertNotNull(pUserDAO);
     }
 
-    public void fileToInputstream() throws IOException{
-        fileName = file.getName();
+
+    public void saveFromCSV() throws IOException {
         InputStream inputStream = file.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder sb = new StringBuilder();
+        String newLine;
+        ArrayList<String> lines = new ArrayList<String>();
+        while ((newLine = br.readLine()) != null) {
+            System.out.println(newLine);
+            lines.add(newLine);
+        }
+
+        for(int i = 0; i < lines.size(); i++){
+            String[] dataString = new String[10];
+            String tmpString = lines.get(i);
+            dataString = tmpString.split("-");
+            System.out.println(dataString.toString());
+        }
 
         String result = org.apache.commons.io.IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 
         System.out.println(result);
     }
+
 }

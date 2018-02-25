@@ -37,51 +37,58 @@
             </b:column>
         </b:row>
 
-        <!-- USERNAME -->
-        <b:row>
-            <b:column span="2">
-                <h:outputLabel value="#{msg['inputUsername']}*" />
-            </b:column>
-        </b:row>
+        <!-- INPUT EMAIL -->
         <b:row>
             <b:column span="3" colSm="4" colMd="6" colXs="12">
-                <b:inputText class="form-control" id="username" value="#{usersBean.user.username}" required="true"
-                             requiredMessage="#{msg['errorUsernameRequired']}" />
-            </b:column>
-            <b:column>
-                <b:message for="username" />
-            </b:column>
-        </b:row>
-
-        <!-- PASSWORD -->
-        <b:row>
-            <b:column span="3">
-                <h:outputLabel value="#{msg['inputPassword']}*" />
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="3" colSm="4" colMd="6" colXs="12">
-                <b:inputSecret class="form-control" id="password" value="#{usersBean.user.password}" required="true"
-                               requiredMessage="#{msg['errorPasswordRequired']}" />
-            </b:column>
-            <b:column>
-                <b:message for="password" />
-            </b:column>
-        </b:row>
-
-        <!-- MAIL -->
-        <b:row>
-            <b:column>
-                <h:outputLabel value="#{msg['inputEmail']}*" />
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="3" colSm="4" colMd="6" colXs="12">
-                <b:inputText class="form-control" id="email" value="#{usersBean.user.email}" required="true"
-                             requiredMessage="#{msg['errorEmailRequired']}" />
+                <b:inputText class="form-control" id="email" placeholder="#{msg['inputEmail']}"
+                             value="#{registrationBean.user.email}" required="true" requiredMessage="#{msg['errorEmailRequired']}" />
             </b:column>
             <b:column>
                 <b:message for="email" />
+            </b:column>
+        </b:row>
+
+        <!-- INPUT SURNAME -->
+        <b:row>
+            <b:column span="3" colSm="4" colMd="6" colXs="12">
+                <b:inputText class="form-control" id="surname" placeholder="#{msg['inputSurname']}"
+                             value="#{registrationBean.user.surname}" required="true" requiredMessage="#{msg['errorSurnameRequired']}" />
+            </b:column>
+            <b:column>
+                <b:message for="surname" />
+            </b:column>
+        </b:row>
+
+        <!-- INPUT GIVEN NAME -->
+        <b:row>
+            <b:column span="3" colSm="4" colMd="6" colXs="12">
+                <b:inputText class="form-control" id="givenName" placeholder="#{msg['inputGivenName']}"
+                             value="#{registrationBean.user.givenName}" required="true" requiredMessage="#{msg['errorGivenNameRequired']}" />
+            </b:column>
+            <b:column>
+                <b:message for="givenName" />
+            </b:column>
+        </b:row>
+
+        <!-- INPUT MATR NR -->
+        <b:row>
+            <b:column span="3" colSm="4" colMd="6" colXs="12">
+                <b:inputText class="form-control" id="matrNr" placeholder="#{msg['inputMatrNr']}"
+                             value="#{registrationBean.user.matrNr}" required="true" requiredMessage="#{msg['errorMatrNrRequired']}" />
+            </b:column>
+            <b:column>
+                <b:message for="matrNr" />
+            </b:column>
+        </b:row>
+
+        <!-- INPUT PASSWORD -->
+        <b:row>
+            <b:column span="3" colSm="4" colMd="6" colXs="12">
+                <b:inputSecret class="form-control" id="password" placeholder="#{msg['inputPassword']}"
+                               value="#{registrationBean.user.password}" required="true" requiredMessage="#{msg['errorPasswordRequired']}" />
+            </b:column>
+            <b:column>
+                <b:message for="password" />
             </b:column>
         </b:row>
 
@@ -113,6 +120,17 @@
         </b:row>
     </b:container>
 </b:form>
+
+
+
+    <!-- FILE UPLOAD  -->
+    <h:form enctype="multipart/form-data">
+        <b:container class="form-group" >
+            <h:inputFile value="#{fileChooser.file}"  />
+            <h:commandButton action="#{fileChooser.fileToInputstream}" value="convert" />
+        </b:container>
+    </h:form>
+
 
 </ui:define>
 </ui:composition>
