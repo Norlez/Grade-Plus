@@ -9,6 +9,12 @@ import javax.ejb.Stateless;
 
 import static common.util.Assertion.assertNotNull;
 
+/**
+ * Dieses DAO verwaltet Objekte der Klasse {@link JoinExam}.
+ *
+ * @author Marvin Kampen, Anil Olgun, Tugce Karakus
+ * @version 2018-02-20
+ */
 @Stateless
 public class JoinExamDAO extends JPADAO<JoinExam> {
 
@@ -36,5 +42,15 @@ public class JoinExamDAO extends JPADAO<JoinExam> {
         } catch (DuplicateUniqueFieldException e) {
             throw new UnexpectedUniqueViolationException(e);
         }
+    }
+
+    // TODO: SQL Queries fehlen noch. Brauchen wir JoinExams.getKrank?
+
+    /**
+     * Gibt alle bekannten {@link JoinExam}-Objekte zurück.
+     *
+     * @return Alle bekannten JoinExam.
+     */
+    public List<JoinExam> getAllJoinExams() { return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
     }
 }
