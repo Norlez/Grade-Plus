@@ -67,17 +67,7 @@
 
                             <b:dataTableColumn label="#{msg['outputChoose']}" orderable="false">
                                 <b:commandButton value="#{msg['actionChooseLectureInstance']}"
-                                                 action="#{instanceLecturesBean.setLecture(l)}" />
-                            </b:dataTableColumn>
-
-                            <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
-                                <b:commandButton value="#{msg['actionEdit']}"
-                                                 action="#{instanceLecturesBean.setLecture(l)}" />
-                            </b:dataTableColumn>
-
-                            <b:dataTableColumn label="#{msg['actionDuplicate']}" orderable="false">
-                                <b:commandButton value="#{msg['actionDuplicate']}"
-                                                 action="#{instanceLecturesBean.setLecture(l)}" />
+                                                 action="#{lecturesBean.setLecture(l)}" />
                             </b:dataTableColumn>
 
                             <b:dataTableColumn label="#{msg['outputDelete']}" orderable="false">
