@@ -88,13 +88,24 @@ public class LecturesBean extends AbstractBean implements Serializable {
     /**
      * Setzt die anzuzeigende Lehrveranstaltung auf den gegebenen Wert.
      *
-     * @param pLecture Die anzuzeigende Levrveranstaltung.
+     * @param pLecture
+     *            Die anzuzeigende Levrveranstaltung.
      */
     public String setLecture(final Lecture pLecture) {
         lecture = assertNotNull(pLecture);
         return "semester.xhtml";
     }
 
+    /**
+     * Hart gefuschte Methode für Andi <3.
+     *
+     * @param pLecture
+     *            Die anzuzeigende Levrveranstaltung.
+     */
+    public String setLectureEdit(final Lecture pLecture) {
+        lecture = assertNotNull(pLecture);
+        return "lecturecreate.xhtml";
+    }
     /**
      * Gibt alle innerhalb der Applikation bekannten Lehrveranstaltung zurück.
      * 
