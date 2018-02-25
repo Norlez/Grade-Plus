@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -64,7 +65,7 @@ import javax.servlet.http.Part;
  * @version 2017-06-28
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class UsersBean extends AbstractBean implements Serializable {
 
     /**
@@ -169,32 +170,82 @@ public class UsersBean extends AbstractBean implements Serializable {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////TEST/////////////////////////////////////////////
+    /**
+     * Gibt das Part-Objekt zurück.
+     * @return
+     *       Das Part-Objekt.
+     */
+    public Part getFile() {
+        return file;
+    }
+
+    /**
+     * Setzt das übergebene Part-Objekt
+     * @param file
+     *          Das Part-Object, dass gesetzt werden soll.
+     */
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
+
+    /**
+     * Das Part-Objekt, dass die hochgeladene Datei vom User repräsentiert.
+     */
+    private Part file;
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+
     /**
      * Läuft genau wie UsersBean.save(), allerdings wird eine Menge von Benutzern hinzugefügt.
      * Die Menge wird erlangt, über den Inputstreams einer CSV Datei.
      *
      */
-    public void saveFromCSV(Part file) throws IOException {
+    public String saveFromCSV() throws IOException {
         InputStream inputStream = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder sb = new StringBuilder();
         String newLine;
         ArrayList<String> lines = new ArrayList<String>();
         while ((newLine = br.readLine()) != null) {
             System.out.println(newLine);
             lines.add(newLine);
         }
-
-        for(int i = 0; i < lines.size(); i++){
-            String[] dataString = new String[10];
-            String tmpString = lines.get(i);
-            dataString = tmpString.split("-");
-            save();
+        try {
+            for(int i = 0; i < lines.size(); i++) {
+                String[] dataString = new String[10];
+                String tmpString = lines.get(i);
+                dataString = tmpString.split(",");
+                User tmpUser = new User();
+                for (int j = 0; j < dataString.length ; j++) {
+                    if (j == 0){
+                        tmpUser.setEmail(dataString[0]);
+                        tmpUser.setUsernameForUserMail();
+                    }else if(j == 1){
+                        tmpUser.setSurname(dataString[1]);
+                    }else if(j == 2){
+                        tmpUser.setGivenName(dataString[2]);
+                    }else if (j == 3) {
+                        tmpUser.setMatrNr(dataString[3]);
+                    }else{
+                        tmpUser.setPassword(dataString[4]);
+                    }
+                }
+                userDao.save(tmpUser);
+            }
+        }catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", user.getEmail());
         }
-
-        String result = org.apache.commons.io.IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-
-        System.out.println(result);
+        return "users.xhtml";
     }
 
 
