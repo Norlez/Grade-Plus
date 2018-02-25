@@ -3,7 +3,17 @@ package common.model;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Für die Speicherung der jeweiligen Einzelnoten und Gesundheitszustände der Studenten.
+ *
+ * @author Marvin Kampen, Torben Groß, Anil Olgun, Tugce Karakus
+ * @version 2018-02-20
+ */
 @Entity
+@Table(name = "JoinExams")
+@NamedQueries({
+        @NamedQuery(name = "JoinExams.getAll", query = "SELECT j FROM JoinExam j"),
+        @NamedQuery(name = "JoinExams.getKrank", query = "SELECT j FROM JoinExam j WHERE j.krank = TRUE") })
 public class JoinExam extends JPAEntity {
 
     @ManyToOne(optional = false)
@@ -15,9 +25,15 @@ public class JoinExam extends JPAEntity {
     @OneToOne
     private Grade grade;
 
+    /**
+     * Der Gesundheitszustand des Studenten.
+     */
     @Column
     private boolean krank = false;
 
+    /**
+     * Die Anmeldeart des Studenten.
+     */
     @Column(nullable = true)
     private Anmeldeart kind;
 
