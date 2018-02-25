@@ -40,8 +40,10 @@ import java.util.NoSuchElementException;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.NoneScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -62,7 +64,7 @@ import org.apache.log4j.Logger;
  * @version 2017-06-28
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class ProfileBean extends AbstractBean implements Serializable {
 
     /**

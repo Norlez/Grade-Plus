@@ -70,6 +70,11 @@
                                                  action="#{lecturesBean.setLecture(l)}" />
                             </b:dataTableColumn>
 
+                            <b:dataTableColumn label="#{msg['outputChoose']}" orderable="false">
+                                <b:commandButton value="#{msg['actionChooseLectureInstance']}"
+                                                 action="#{lecturesBean.setLectureEdit(l)}" />
+                            </b:dataTableColumn>
+
                             <b:dataTableColumn label="#{msg['outputDelete']}" orderable="false">
                                 <b:commandButton value="#{msg['actionRemove']}"
                                                  action="#{lecturesBean.remove(l)}" />
