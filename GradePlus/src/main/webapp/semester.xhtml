@@ -24,7 +24,7 @@
                     <b:row>
                         <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                             <h1>
-                                <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name}" />
+                                <h:outputText value="#{lecturesBean.lecture.name}" />
                             </h1>
                         </b:column>
                     </b:row>
@@ -44,7 +44,7 @@
                             <h:outputLabel value="#{msg['outputVAK']}" />
                         </b:column>
                         <b:column span="2">
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.vak}" />
+                            <h:outputText value="#{lecturesBean.lecture.vak}" />
                         </b:column>
                     </b:row>
 
@@ -54,14 +54,14 @@
                             <h:outputLabel value="#{msg['outputECTS']}" />
                         </b:column>
                         <b:column span="2">
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.ects}" />
+                            <h:outputText value="#{lecturesBean.lecture.ects}" />
                         </b:column>
                     </b:row>
 
                     <!-- DESCRIPTION -->
                     <b:row>
                         <b:column span="4">
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.description}" />
+                            <h:outputText value="#{lecturesBean.lecture.description}" />
                         </b:column>
                     </b:row>
 
