@@ -54,6 +54,9 @@ import javax.mail.internet.*;
 import javax.activation.*;
 import javax.servlet.http.Part;
 
+import com.opencsv.*;
+import java.io.BufferedWriter;
+
 /**
  * Dieses Bean ist für die Benutzerverwaltung zuständig. Backing Bean (und damit
  * Controller im MVC-Muster) für das Facelet {@code admin/users.xhtml}.
@@ -491,4 +494,23 @@ public class UsersBean extends AbstractBean implements Serializable {
         this.selectedRole = role;
     }
 
+    public void createBackup(){
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter("User.csv"));
+            CSVWriter csvWriter = new CSVWriter(out);
+            List<User> u = allUsers;
+            String [] s = new String[100];
+            for(User us: u)
+            {
+                String item = u.toString();
+                s[1] = item;
+                csvWriter.writeNext(s);
+            }
+            csvWriter.close();
+        }
+        catch (java.io.IOException e)
+        {
+            System.out.print("Ein Fehler beim Schreiben der Datei.");
+        }
+    }
 }

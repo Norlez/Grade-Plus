@@ -7,6 +7,7 @@ import common.util.Assertion;
 
 import java.io.Serializable;
 import java.util.List;
+import com.opencsv.*;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -95,8 +96,8 @@ public class BackupBean extends AbstractBean implements Serializable {
      *
      * @return {@code true}, falls das Backup erstellt wurde, sonst {@code false}.
      */
-    public boolean create() {
-        throw new UnsupportedOperationException();
+    public void create() {
+
     }
 
     /**
