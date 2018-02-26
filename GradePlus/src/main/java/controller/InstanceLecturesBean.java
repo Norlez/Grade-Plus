@@ -1,10 +1,7 @@
 package controller;
 
 import common.exception.DuplicateInstanceLectureException;
-import common.model.InstanceLecture;
-import common.model.Lecture;
-import common.model.Session;
-import common.model.User;
+import common.model.*;
 import persistence.InstanceLectureDAO;
 
 import org.apache.log4j.Level;
@@ -16,7 +13,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -74,6 +74,15 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     private List<InstanceLecture> instanceLecturesOfExaminer;
 
+
+    private Map<String, SemesterTime> times;
+
+    private SemesterTime selectedTimes;
+
+    private Map<String, Years> years;
+
+    private Years selectedYear;
+
     /**
      * Erzeugt eine neue InstanceLecturesBean.
      *
@@ -87,11 +96,14 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     @Inject
     public InstanceLecturesBean(final Session pSession,
-            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
+                                final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
         user = assertNotNull(getSession().getUser());
+
+        times = calculateSemesterMap();
+        years = calculateYearMap();
     }
 
     /**
@@ -207,13 +219,10 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
+            // instanceLecture.setSemester(selectedTimes.toString());
+            // instanceLecture.setYear(selectedYear.toString());
             instanceLecture.setLecture(getSession().getSelectedLecture());
             instanceLectureDao.save(instanceLecture);
-            // Der Fehler liegt in jedem Fall beim save
-            // nachdem gesaved wurde, wird vor dem init die anzahl der ilv ermittelt und
-            // gibt 2 wieder
-            // obwohl es nur einer sein soll-> auf jeden fall save methode überprüfen.
-
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInstanceLectureDataIncomplete"));
@@ -245,4 +254,69 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         init();
         return null;
     }
+
+
+    public Map<String, SemesterTime> getTimes() {
+        return times;
+    }
+
+    public void setTimes(Map<String, SemesterTime> times) {
+        this.times = times;
+    }
+
+    public SemesterTime getSelectedTimes() {
+        return selectedTimes;
+    }
+
+    public void setSelectedTimes(SemesterTime selectedTimes) {
+        this.selectedTimes = selectedTimes;
+    }
+
+
+    public Map<String, Years> getYears() {
+        return years;
+    }
+
+    public void setYears(Map<String, Years> years) {
+        this.years = years;
+    }
+
+    public Years getSelectedYear() {
+        return selectedYear;
+    }
+
+    public void setSelectedYear(Years selectedYear) {
+        this.selectedYear = selectedYear;
+    }
+
+
+    /**
+     * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück.
+     * Diese werden als Auswahl im Drop-Down Menu bei der erstellung einer ILV verfügbar sein.
+     *
+     * @return Eine einfache Map mit verfügbaren Rollen.
+     */
+    private  Map<String, Years> calculateYearMap(){
+
+        final Map<String, Years> tmp = new LinkedHashMap<>();
+        Years[] years = Years.values();
+
+        for(int i = 0; i<years.length; i++){
+            tmp.put(years[i].toString(), years[i]);
+        }
+        return Collections.unmodifiableMap(tmp);
+    }
+
+    /**
+     * Liefert eine einfache Map mit den verfügbaren Semestern im System zurück.
+     *
+     * @return Eine einfache Map mit verfügbaren Semestern.
+     */
+    private  Map<String, SemesterTime> calculateSemesterMap(){
+        final Map<String, SemesterTime> tmp = new LinkedHashMap<>();
+        tmp.put("WiSe", SemesterTime.WINTER);
+        tmp.put("SoSe", SemesterTime.SOMMER);
+        return Collections.unmodifiableMap(tmp);
+    }
+
 }

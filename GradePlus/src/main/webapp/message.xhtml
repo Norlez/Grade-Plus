@@ -56,15 +56,27 @@
                     </b:column>
                 </b:row>
 
-                <!-- UPLOAD -->
+            </b:container>
+        </b:form>
+
+        <!-- REGISTER USER FROM A FILE  -->
+        <b:form enctype="multipart/form-data">
+            <b:container class="form-group" >
                 <b:row>
-                    <b:column span="4" colSm="12" colMd="12" colXs="12">
-                        <b:commandButton id="uploadButton"
-                                         value="Upload Data"
-                                         action="#{mailBean.setRecipient}"/>
+                    <b:column span="6">
+                        <b:panel collapsed="true">
+                            <f:facet name="heading">
+                                <h:outputText value="Datei auswählen" />
+                            </f:facet>
+                            <h:inputFile value="#{usersBean.file}" />
+                        </b:panel>
                     </b:column>
                 </b:row>
+            </b:container>
+        </b:form>
 
+        <b:form>
+            <b:container class="form-group">
                 <!-- SEND BUTTON -->
                 <b:row>
                     <b:column span="4" colSm="12" colMd="12" colXs="12">
@@ -73,10 +85,8 @@
                                          action="#{mailBean.sendMail}"/>
                     </b:column>
                 </b:row>
-
             </b:container>
         </b:form>
-
 
     </ui:define>
 </ui:composition>
