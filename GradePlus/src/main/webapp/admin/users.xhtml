@@ -174,7 +174,7 @@
 
                     <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
 
-                        <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{usersBean.getUserDetails(u)}" />
+                        <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{userEditBean.setSelectedUser(u)}" />
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
