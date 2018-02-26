@@ -286,8 +286,9 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
-            sender.registerMail(user);
+            user.setUsernameForUserMail();
             userDao.save(user);
+            sender.registerMail(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));
