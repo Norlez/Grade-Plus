@@ -32,6 +32,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -273,22 +274,6 @@ public class UsersBean extends AbstractBean implements Serializable {
     private User profileUser;
 
     /**
-<<<<<<< HEAD
-=======
-     * Setzt den ausgewählten User, durch den erlangten Usernamen.
-     * 
-     * @param pUsername
-     *            der User, dessen Profil betrachtet werden soll
-     * @return die user.xhtml.
-     */
-    public String getUserDetails(String pUsername) {
-        profileUser = userDao.getUserForUsername(pUsername);
-
-        return "users.xhtml";
-    }
-
-    /**
->>>>>>> 0b73e54afd73c1e811f11598950f97351075aa55
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
      * bekannten Benutzer hinzu (unter Verwendung des Data-Access-Objektes) und setzt den
      * angezeigten Benutzer auf einen neuen Benutzer mit leeren Attributwerten. Die Liste
