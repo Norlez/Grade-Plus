@@ -192,13 +192,12 @@ public class UsersBean extends AbstractBean implements Serializable {
         return allUsers;
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////TEST/////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////TEST/////////////////////////////////////////////
     /**
      * Gibt das Part-Objekt zurück.
-     * @return
-     *       Das Part-Objekt.
+     * 
+     * @return Das Part-Objekt.
      */
     public Part getFile() {
         return file;
@@ -206,8 +205,9 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt das übergebene Part-Objekt
+     * 
      * @param file
-     *          Das Part-Object, dass gesetzt werden soll.
+     *            Das Part-Object, dass gesetzt werden soll.
      */
 
     public void setFile(Part file) {
@@ -219,70 +219,62 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     private Part file;
 
-    ///////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Läuft genau wie UsersBean.save(), allerdings wird eine Menge von Benutzern hinzugefügt.
-     * Die Menge wird erlangt, über den Inputstreams einer CSV Datei.
+     * Läuft genau wie UsersBean.save(), allerdings wird eine Menge von Benutzern
+     * hinzugefügt. Die Menge wird erlangt, über den Inputstreams einer CSV Datei.
      *
      */
     public String saveFromCSV() throws IOException {
-        InputStream inputStream = file.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-        String newLine;
-        ArrayList<String> lines = new ArrayList<String>();
-        while ((newLine = br.readLine()) != null) {
-            System.out.println(newLine);
-            lines.add(newLine);
+        InputStream is = file.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        ArrayList<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
         }
-        try {
-            for(int i = 0; i < lines.size(); i++) {
-                String[] dataString = new String[10];
-                String tmpString = lines.get(i);
-                dataString = tmpString.split(",");
-                User tmpUser = new User();
-                for (int j = 0; j < dataString.length ; j++) {
-                    if (j == 0){
-                        tmpUser.setEmail(dataString[0]);
-                        tmpUser.setUsernameForUserMail();
-                    }else if(j == 1){
-                        tmpUser.setSurname(dataString[1]);
-                    }else if(j == 2){
-                        tmpUser.setGivenName(dataString[2]);
-                    }else if (j == 3) {
-                        tmpUser.setMatrNr(dataString[3]);
-                    }else{
-                        tmpUser.setPassword(dataString[4]);
-                    }
-                }
-                userDao.save(tmpUser);
+        for (String theLine : lines) {
+            String[] data = theLine.split(",");
+            User theUser = new User();
+            theUser.setEmail(data[0]);
+            theUser.setUsernameForUserMail();
+            theUser.setSurname(data[1]);
+            theUser.setGivenName(data[2]);
+            theUser.setMatrNr(data[3]);
+            theUser.setPassword(data[4]);
+            try {
+                userDao.save(theUser);
+            } catch (final IllegalArgumentException e) {
+                addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                        getTranslation("errorUserdataIncomplete"));
+            } catch (final DuplicateUsernameException e) {
+                addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                        Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+            } catch (final DuplicateEmailException e) {
+                addErrorMessageWithLogging("registerUserForm:email", e, logger,
+                        Level.DEBUG, "errorEmailAlreadyInUse", user.getEmail());
             }
-        }catch (final IllegalArgumentException e) {
-            addErrorMessageWithLogging(e, logger, Level.DEBUG,
-                    getTranslation("errorUserdataIncomplete"));
-        } catch (final DuplicateUsernameException e) {
-            addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
-        } catch (final DuplicateEmailException e) {
-            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse", user.getEmail());
         }
-        return "users.xhtml"; }
+        return "users.xhtml";
+    }
 
     /**
-     * Der User den der Admin durch Auswahl auswählen und betrachtet und wenn verlangt auch
-     * ändern kann.
+     * Der User den der Admin durch Auswahl auswählen und betrachtet und wenn verlangt
+     * auch ändern kann.
      */
     private User profileUser;
 
     /**
      * Setzt den ausgewählten User, durch den erlangten Usernamen.
-     * @param pUsername der User, dessen Profil betrachtet werden soll
+     * 
+     * @param pUsername
+     *            der User, dessen Profil betrachtet werden soll
      * @return die user.xhtml.
      */
-    public String getUserDetails(String pUsername){
-       profileUser =  userDao.getUserForUsername(pUsername);
+    public String getUserDetails(String pUsername) {
+        profileUser = userDao.getUserForUsername(pUsername);
 
         return "users.xhtml";
     }
@@ -387,8 +379,8 @@ public class UsersBean extends AbstractBean implements Serializable {
      *             leer ist.
      */
     public void setRoleName(final String pRole) {
-        //TODO: Rolle setzen
-        //user.setRole(Assertion.assertNotEmpty(pRole));
+        // TODO: Rolle setzen
+        // user.setRole(Assertion.assertNotEmpty(pRole));
     }
 
     // TODO: Rollenänderung ist nicht getestet
