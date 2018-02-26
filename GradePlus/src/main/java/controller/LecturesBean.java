@@ -93,6 +93,7 @@ public class LecturesBean extends AbstractBean implements Serializable {
      */
     public String setLecture(final Lecture pLecture) {
         lecture = assertNotNull(pLecture);
+        getSession().setSelectedLecture(pLecture);
         return "semester.xhtml";
     }
 
