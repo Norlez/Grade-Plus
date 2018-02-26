@@ -6,6 +6,7 @@ import java.util.List;
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.Exam;
+import common.model.InstanceLecture;
 import common.model.Lecture;
 import common.model.User;
 
@@ -83,11 +84,11 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Gibt alle Prüfungen des gegebenen Semesters zurück.
      *
-     * @param pSemester
+     * @param pInstanceLecture
      *            Das Semester der gesuchten Prüfungen.
      * @return Die Prüfungen des gegebenen Semesters als Liste.
      */
-    public List<Exam> getExamsForSemester(String pSemester) {
+    public List<Exam> getExamsForSemester(InstanceLecture pInstanceLecture) {
         throw new UnsupportedOperationException();
     }
 

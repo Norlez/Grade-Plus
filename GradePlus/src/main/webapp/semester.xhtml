@@ -93,8 +93,7 @@
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
 
                                 <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
-                                    <b:commandButton rendered="#{false}" value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setLecture(l)}" />
-                                    <b:button value="#{msg['actionSelect']}" outcome="exams"/>
+                                    <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setInstanceLecture(l)}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn label="#{msg['actionRegister']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">

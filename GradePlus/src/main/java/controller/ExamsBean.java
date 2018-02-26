@@ -175,6 +175,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return allExams;
     }
 
+    public List<Exam> getExamsOfInstanceLecture() {
+        return examDao.getExamsForSemester(getSession().getSelectedILV());
+    }
+
     /**
      * Fügt die aktuell angezeigte Prüfung der Liste aller innerhalb der Applikation
      * bekannten Prüfungen hinzu.

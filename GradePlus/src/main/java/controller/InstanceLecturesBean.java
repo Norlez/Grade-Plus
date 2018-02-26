@@ -154,6 +154,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return allInstanceLectures;
     }
 
+    public String setInstanceLecture(final InstanceLecture pInstanceLecture) {
+        instanceLecture = assertNotNull(pInstanceLecture);
+        getSession().setSelectedILV(pInstanceLecture);
+        return "exams.xhtml";
+    }
+
     //TODO
     public List<InstanceLecture> getInstanceLecturesForLecture() {
         return instanceLectureDao.getInstanceLecturesForLecture(getSession().getSelectedLecture());
