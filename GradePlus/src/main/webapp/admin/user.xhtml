@@ -54,8 +54,8 @@
                             <h:outputLabel value="#{msg['outputUsername']}"/>
                         </b:column>
                         <b:column span="2">
-                            <h:outputText rendered="#{true}" value="#{usersBean.user.username}"/>
-                            <b:inputText rendered="#{true}" value="#{usersBean.user.username}"/>
+                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.username}"/>
+                            <b:inputText rendered="#{usersBean.editChecker}" value="#{usersBean.user.username}"/>
                         </b:column>
                     </b:row>
 
@@ -65,8 +65,8 @@
                             <h:outputLabel value="#{msg['outputPasswordHash']}"/>
                         </b:column>
                         <b:column span="2">
-                            <h:outputText rendered="#{true}" value="#{usersBean.user.password}"/>
-                            <b:inputText rendered="#{true}" value="#{usersBean.user.password}"/>
+                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.password}"/>
+                            <b:inputText rendered="#{usersBean.editChecker}" value="#{usersBean.user.password}"/>
 
                         </b:column>
                     </b:row>
@@ -77,9 +77,9 @@
                             <h:outputLabel value="#{msg['outputRole']}"/>
                         </b:column>
                         <b:column span="2">
-                            <h:outputText rendered="#{true}" value="#{usersBean.user.role}"/>
-                            <!-- TODO: Auf User Role umstellen -->
-                            <b:selectOneMenu rendered="#{true}" class="form-control" value="#{profileBean.languageName}">
+                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.role}"/>
+
+                            <b:selectOneMenu rendered="#{usersBean.editChecker}" class="form-control" value="#{profileBean.languageName}">
                                 <f:selectItems value="#{profileBean.countries}" />
                             </b:selectOneMenu>
                         </b:column>
@@ -91,8 +91,8 @@
                             <h:outputLabel value="#{msg['outputMatricalNumber']}"/>
                         </b:column>
                         <b:column span="2">
-                            <h:outputText rendered="#{true}" value="#{usersBean.user.matrNr}"/>
-                            <b:inputText rendered="#{true}" value="#{usersBean.user.matrNr}"/>
+                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.matrNr}"/>
+                            <b:inputText rendered="#{usersBean.editChecker}" value="#{usersBean.user.matrNr}"/>
                         </b:column>
                     </b:row>
 
@@ -102,8 +102,8 @@
                             <h:outputLabel value="#{msg['outputEmail']}"/>
                         </b:column>
                         <b:column span="2">
-                            <h:outputText rendered="#{true}" value="#{usersBean.user.email}"/>
-                            <b:inputText rendered="#{true}" value="#{usersBean.user.email}"/>
+                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.email}"/>
+                            <b:inputText rendered="#{usersBean.editChecker}" value="#{usersBean.user.email}"/>
                         </b:column>
                     </b:row>
 
@@ -113,9 +113,8 @@
                             <h:outputLabel value="#{msg['outputStatus']}"/>
                         </b:column>
                         <b:column span="2">
-                            <h:outputText rendered="#{true}" value="#{usersBean.user.active}"/>
-                            <!-- TODO: Auf User Status umstellen -->
-                            <b:selectOneMenu rendered="#{true}" class="form-control" value="#{profileBean.languageName}">
+                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.active}"/>
+                            <b:selectOneMenu rendered="#{usersBean.editChecker}" class="form-control" value="#{profileBean.languageName}">
                                 <f:selectItems value="#{profileBean.countries}" />
                             </b:selectOneMenu>
                         </b:column>
@@ -124,16 +123,16 @@
                     <!-- BUTTON EDIT SAVE DELETE -->
                     <b:row>
                         <b:column span="1">
-                            <b:commandButton value="#{msg['actionEdit']}" action="#{usersBean.remove(u)}" />
+                            <b:commandButton rendered="#{!usersBean.editChecker}" value="#{msg['actionEdit']}" action="#{usersBean.editChecker}" />
                         </b:column>
                         <b:column span="1">
-                            <b:commandButton value="#{msg['actionSave']}" action="#{usersBean.remove(u)}" />
+                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionSave']}" action="#{usersBean.remove(u)}" />
                         </b:column>
                         <b:column span="1">
-                            <b:commandButton value="#{msg['actionCancel']}" action="#{usersBean.remove(u)}" />
+                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionCancel']}" action="#{usersBean.editChecker}" />
                         </b:column>
                         <b:column span="1">
-                            <b:commandButton rendered="#{true}" value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
+                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
                         </b:column>
                     </b:row>
 

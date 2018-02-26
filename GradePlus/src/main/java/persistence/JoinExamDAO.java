@@ -51,6 +51,6 @@ public class JoinExamDAO extends JPADAO<JoinExam> {
      *
      * @return Alle bekannten JoinExam.
      */
-    public List<JoinExam> getAllJoinExams() { return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
-    }
+    //public List<JoinExam> getAllJoinExams() { return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
+    //}
 }

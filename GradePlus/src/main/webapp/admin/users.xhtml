@@ -35,6 +35,38 @@
                         </b:column>
                     </b:row>
 
+                    <!-- UPLOAD USER LIST -->
+                    <b:row>
+                        <b:column span="6">
+                            <b:panel collapsed="true">
+                                <f:facet name="heading">
+                                    <h:outputText value="#{msg['actionImportUser']}" />
+                                </f:facet>
+                                <b:row>
+                                    <b:column>
+                                        <h:outputLabel value="#{msg['inputPath']}" />
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                        <b:inputText placeholder="#{msg['inputPath']}" />
+                                    </b:column>
+                                    <b:column  span="6" colSm="12" colMd="12" colXs="12">
+                                        <b:commandButton value="#{msg['actionChoosePath']}" />
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column  span="6" colSm="4" colMd="6" colXs="12">
+                                        <b:commandButton value="#{msg['actionUpload']}" />
+                                    </b:column>
+                                    <b:column  span="2" colSm="4" colMd="6" colXs="12">
+                                        <b:button value="#{msg['linkCancel']}" outcome="users"/>
+                                    </b:column>
+                                </b:row>
+                            </b:panel>
+                        </b:column>
+                    </b:row>
+
                 </b:container>
             </b:form>
 
@@ -69,7 +101,7 @@
 
                     <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
 
-                        <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{usersBean.userDAO(u)}" />
+                        <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{usersBean.getUserDetails(u)}" />
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">

@@ -107,7 +107,10 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     private static Map<String, Role> roles;
 
-
+    /**
+     * TODO
+     */
+    private boolean editChecker;
 
     /**
      * Die zu erstellende Mail.
@@ -156,6 +159,26 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     public User getUser() {
         return user;
+    }
+
+    /**
+     * Setzt den ausgewählten User, durch den erlangten Usernamen.
+     * @param pUser der User, dessen Profil betrachtet werden soll
+     * @return die user.xhtml.
+     */
+    public String getUserDetails(User pUser ){
+        user =  pUser;
+
+        return "user.xhtml";
+    }
+
+    public boolean getEditChecker() {
+        return editChecker;
+    }
+
+    public String setEditChecker() {
+        this.editChecker = !editChecker;
+        return "user.xhtml";
     }
 
     /**
