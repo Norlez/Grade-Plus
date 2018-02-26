@@ -114,9 +114,8 @@
                         </b:column>
                         <b:column span="2">
                             <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.active}"/>
-                            <b:selectOneMenu rendered="#{usersBean.editChecker}" class="form-control" value="#{profileBean.languageName}">
-                                <f:selectItems value="#{profileBean.countries}" />
-                            </b:selectOneMenu>
+                            <b:commandButton rendered="#{!usersBean.editChecker}" value="#{msg['actionDeactivate']}" action="#{usersBean.user.active}"/>
+                            <b:commandButton rendered="#{!usersBean.editChecker}" value="#{msg['actionActivate']}" action="#{usersBean.user.active}"/>
                         </b:column>
                     </b:row>
 
