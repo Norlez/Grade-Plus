@@ -62,7 +62,7 @@
                                 <b:row>
                                     <b:column span="6" colSm="12" colMd="12" colXs="24">
                                         <b:inputText class="form-control" id="email" placeholder="#{msg['inputEmail']}"
-                                                     value="#{registrationBean.user.email}" required="true" requiredMessage="#{msg['errorEmailRequired']}" />
+                                                     value="#{usersBean.user.email}" required="true" requiredMessage="#{msg['errorEmailRequired']}" />
                                     </b:column>
                                     <b:column>
                                         <b:message for="email" />
@@ -73,7 +73,7 @@
                                 <b:row>
                                     <b:column span="6" colSm="12" colMd="12" colXs="12">
                                         <b:inputText class="form-control" id="surname" placeholder="#{msg['inputSurname']}"
-                                                     value="#{registrationBean.user.surname}" required="true" requiredMessage="#{msg['errorSurnameRequired']}" />
+                                                     value="#{usersBean.user.surname}" required="true" requiredMessage="#{msg['errorSurnameRequired']}" />
                                     </b:column>
                                     <b:column>
                                         <b:message for="surname" />
@@ -84,7 +84,7 @@
                                 <b:row>
                                     <b:column span="6" colSm="4" colMd="6" colXs="12">
                                         <b:inputText class="form-control" id="givenName" placeholder="#{msg['inputGivenName']}"
-                                                     value="#{registrationBean.user.givenName}" required="true" requiredMessage="#{msg['errorGivenNameRequired']}" />
+                                                     value="#{usersBean.user.givenName}" required="true" requiredMessage="#{msg['errorGivenNameRequired']}" />
                                     </b:column>
                                     <b:column>
                                         <b:message for="givenName" />
@@ -95,7 +95,7 @@
                                 <b:row>
                                     <b:column span="6" colSm="4" colMd="6" colXs="12">
                                         <b:inputText class="form-control" id="matrNr" placeholder="#{msg['inputMatrNr']}"
-                                                     value="#{registrationBean.user.matrNr}" required="true" requiredMessage="#{msg['errorMatrNrRequired']}" />
+                                                     value="#{usersBean.user.matrNr}" required="true" requiredMessage="#{msg['errorMatrNrRequired']}" />
                                     </b:column>
                                     <b:column>
                                         <b:message for="matrNr" />
@@ -106,7 +106,7 @@
                                 <b:row>
                                     <b:column span="6" colSm="4" colMd="6" colXs="12">
                                         <b:inputSecret class="form-control" id="password" placeholder="#{msg['inputPassword']}"
-                                                       value="#{registrationBean.user.password}" required="true" requiredMessage="#{msg['errorPasswordRequired']}" />
+                                                       value="#{usersBean.user.password}" required="true" requiredMessage="#{msg['errorPasswordRequired']}" />
                                     </b:column>
                                     <b:column>
                                         <b:message for="password" />
