@@ -7,6 +7,8 @@ import jdk.nashorn.internal.scripts.JO;
 
 import javax.ejb.Stateless;
 
+import java.util.List;
+
 import static common.util.Assertion.assertNotNull;
 
 /**
