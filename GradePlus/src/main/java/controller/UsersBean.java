@@ -104,14 +104,19 @@ public class UsersBean extends AbstractBean implements Serializable {
     private List<User> allUsers;
 
     /**
-     * //TODO
+     * Die Map aller im System verfügbaren Rollen von Usern.
      */
     private static Map<String, Role> roles;
 
     /**
-     * TODO
+     * Prüft, ob der User bearbeitet werden kann.
      */
     private boolean editChecker;
+
+    /**
+     *Die Ausgewählte Rolle des Users.
+     */
+    private Role selectedRole;
 
     /**
      * Die zu erstellende Mail.
@@ -287,6 +292,7 @@ public class UsersBean extends AbstractBean implements Serializable {
     public String save() {
         try {
             user.setUsernameForUserMail();
+            user.setRole(selectedRole);
             userDao.save(user);
             sender.registerMail(user);
         } catch (final IllegalArgumentException e) {
@@ -466,6 +472,23 @@ public class UsersBean extends AbstractBean implements Serializable {
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * Gibt die Rolle des Users zurück.
+     * @return die Rolle des Users.
+     */
+    public Role getSelectedRole() {
+        return selectedRole;
+    }
+
+    /**
+     * Setzt de Rolle des Users.
+     * @param role die Rolle des Users.
+     */
+    public void setSelectedRole(Role role) {
+        this.selectedRole = role;
     }
 
 }

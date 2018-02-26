@@ -59,18 +59,6 @@
                         </b:column>
                     </b:row>
 
-                    <!-- PASSWORD HASH -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputPasswordHash']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{usersBean.user.password}"/>
-                            <b:inputText rendered="#{usersBean.editChecker}" value="#{usersBean.user.password}"/>
-
-                        </b:column>
-                    </b:row>
-
                     <!-- ROLE -->
                     <b:row>
                         <b:column span="2">

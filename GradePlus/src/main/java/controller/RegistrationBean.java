@@ -4,6 +4,7 @@ package controller;
 
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
+import common.model.Role;
 import common.model.Session;
 import common.model.User;
 import org.apache.log4j.Level;
@@ -92,9 +93,11 @@ public class RegistrationBean extends LoginIndependentBean {
             // Überschreibt, das kurz benötigte Passwort mit einem leeren
             // String(Sicherheit)
             user.setTmpPassword("");
+            user.setRole(Role.STUDENT);
             user.setUsernameForUserMail();
             userDao.save(user);
             sender.registerMail(user);
+
             // }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
