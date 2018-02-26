@@ -268,9 +268,24 @@ public class UsersBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", user.getEmail());
         }
+        return "users.xhtml"; }
+
+    /**
+     * Der User den der Admin durch Auswahl auswählen und betrachtet und wenn verlangt auch
+     * ändern kann.
+     */
+    private User profileUser;
+
+    /**
+     * Setzt den ausgewählten User, durch den erlangten Usernamen.
+     * @param pUsername der User, dessen Profil betrachtet werden soll
+     * @return die user.xhtml.
+     */
+    public String getUserDetails(String pUsername){
+       profileUser =  userDao.getUserForUsername(pUsername);
+
         return "users.xhtml";
     }
-
 
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
