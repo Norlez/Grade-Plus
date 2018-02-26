@@ -156,9 +156,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     //TODO
     public List<InstanceLecture> getInstanceLecturesForLecture() {
-
-        return null;
-    }
+        return instanceLectureDao.getInstanceLecturesForLecture(getSession().getSelectedLecture());
+        }
 
     /**
      * Gibt alle ILVs zurück, in denen der gegebene {@link User} als Prüfling angemeldet
