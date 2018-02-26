@@ -199,6 +199,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         return allUsers;
     }
 
+
     // /////////////////////////////////////////////////////////////////////////////
     // ///////////////////////////TEST/////////////////////////////////////////////
     /**
@@ -376,6 +377,9 @@ public class UsersBean extends AbstractBean implements Serializable {
         // TODO: Rolle setzen
         // user.setRole(Assertion.assertNotEmpty(pRole));
     }
+
+
+
 
     // TODO: Rollenänderung ist nicht getestet
 

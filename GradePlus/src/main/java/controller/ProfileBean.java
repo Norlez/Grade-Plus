@@ -279,13 +279,11 @@ public class ProfileBean extends AbstractBean implements Serializable {
      * TODO
      */
     public static Map<String, Role> calculateRoleMap() {
-        final Map<String, Role> rolesMap = new LinkedHashMap<>();
-        final List<Role> roleList = new ArrayList<>();
-        roleList.add(Role.ADMIN); // Könnte zu einem Anzeigefehler führen, da kein Default
-        roleList.add(Role.EXAMINER);
-        roleList.add(Role.STUDENT);
-        roleList.forEach(role -> rolesMap.put("a", role)); // Könnte Fehlerhaft sein
-        return Collections.unmodifiableMap(rolesMap);
+        final Map<String, Role> tmp = new LinkedHashMap<>();
+        tmp.put("ADMIN", Role.ADMIN);
+        tmp.put("EXAMINER", Role.EXAMINER);
+        tmp.put("STUDENT", Role.STUDENT);
+        return Collections.unmodifiableMap(tmp);
     }
 
     /**
