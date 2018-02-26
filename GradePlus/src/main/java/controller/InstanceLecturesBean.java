@@ -154,6 +154,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return allInstanceLectures;
     }
 
+    //TODO
+    public List<InstanceLecture> getInstanceLecturesForLecture() {
+
+        return null;
+    }
+
     /**
      * Gibt alle ILVs zurück, in denen der gegebene {@link User} als Prüfling angemeldet
      * ist.

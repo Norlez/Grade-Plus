@@ -104,7 +104,7 @@ public class LecturesBean extends AbstractBean implements Serializable {
      */
     public String setLectureEdit(final Lecture pLecture) {
         lecture = assertNotNull(pLecture);
-        return "lecturecreate.xhtml";
+        return "lectureedit.xhtml";
     }
     /**
      * Gibt alle innerhalb der Applikation bekannten Lehrveranstaltung zurück.

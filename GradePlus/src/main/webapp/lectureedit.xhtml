@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://bootsfaces.net/ui" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xml:lang="en" lang="en">
+<head>
+    <!-- Hier werden die Daten fuer eine neue LV eingetragen -->
+    <title>Title</title>
+</head>
+<body>
+<ui:composition template="WEB-INF/template.xhtml">
+    <ui:param name="title" value="#{msg['title']}"/>
+
+    <ui:define name="content">
+        <f:loadBundle basename="internationalization.lectures" var="msg" />
+
+        <b:form>
+            <b:container class="form-group">
+
+                <!-- TITLE -->
+                <b:row>
+                    <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                        <h1>
+                            <h:outputText value="#{msg['title']}" />
+                        </h1>
+                    </b:column>
+                </b:row>
+
+                <!-- SUBTITLE -->
+                <b:row>
+                    <b:column>
+                        <h2>
+                            <h:outputText value="#{msg['subtitleEditLecture']}" />
+                        </h2>
+                    </b:column>
+                </b:row>
+
+                <!-- NAME -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputName']}*" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText id="lectureName" placeholder="#{msg['inputName']}"
+                                     value="#{lecturesBean.lecture.name}" required="true"
+                                     requiredMessage="#{msg['errorNameRequired']}" />
+                    </b:column>
+                </b:row>
+
+                <!-- VAK -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputVak']}*" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText id="vak" placeholder="#{msg['inputVak']}"
+                                     value="#{lecturesBean.lecture.vak}" required="true"
+                                     requiredMessage="#{msg['errorVakRequired']}" />
+                    </b:column>
+                </b:row>
+
+                <!-- ECTS -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputEcts']}*" />
+                    </b:column>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputText id="ects" placeholder="#{msg['inputEcts']}" value="#{lecturesBean.lecture.ects}" required="true" requiredMessage="#{msg['errorEctsRequired']}" />
+                    </b:column>
+                </b:row>
+
+                <!-- DESCRIPTION -->
+                <b:row>
+                    <b:column>
+                        <h:outputLabel value="#{msg['inputDescription']}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="4" colSm="12" colMd="12" colXs="12">
+                        <b:inputTextarea placeholder="#{msg['inputDescription']}" value="#{lecturesBean.lecture.description}"/>
+                    </b:column>
+                </b:row>
+
+                <!-- BUTTONS SAVE AND BACK -->
+                <b:row>
+                    <b:column span="2" colSm="12" colMd="12" colXs="12">
+                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionSave']}" action="#{lecturesBean.update}"/>
+                    </b:column>
+                    <b:column span="1" colSm="12" colMd="12" colXs="12">
+                        <b:button class="btn" id="back" value="#{msg['linkCancel']}" outcome="lectures"/>
+                    </b:column>
+                    <b:column>
+                        <b:message for="saveButton" />
+                    </b:column>
+                </b:row>
+            </b:container>
+        </b:form>
+
+    </ui:define>
+</ui:composition>
+</body>
+</html>
