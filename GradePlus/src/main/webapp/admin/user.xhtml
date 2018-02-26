@@ -123,16 +123,16 @@
                     <!-- BUTTON EDIT SAVE DELETE -->
                     <b:row>
                         <b:column span="1">
-                            <b:commandButton rendered="#{!usersBean.editChecker}" value="#{msg['actionEdit']}" action="#{usersBean.editChecker}" />
+                            <b:commandButton rendered="#{!usersBean.editChecker}" value="#{msg['actionEdit']}" action="#{usersBean.setEditChecker(usersBean.user)}" />
                         </b:column>
                         <b:column span="1">
-                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionSave']}" action="#{usersBean.remove(u)}" />
+                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionSave']}" action="#{usersBean.update(usersBean.user)}" />
                         </b:column>
                         <b:column span="1">
-                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionCancel']}" action="#{usersBean.editChecker}" />
+                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionCancel']}" action="#{usersBean.setEditChecker(usersBean.user)}" />
                         </b:column>
                         <b:column span="1">
-                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
+                            <b:commandButton rendered="#{usersBean.editChecker}" value="#{msg['actionRemove']}" action="#{usersBean.remove(usersBean.user)}" />
                         </b:column>
                     </b:row>
 

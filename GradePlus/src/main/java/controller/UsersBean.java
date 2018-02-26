@@ -176,9 +176,15 @@ public class UsersBean extends AbstractBean implements Serializable {
         return editChecker;
     }
 
-    public String setEditChecker() {
-        this.editChecker = !editChecker;
+    public String setEditChecker(final User pUser) {
+        editChecker = !editChecker;
+        setUser(pUser);
         return "user.xhtml";
+    }
+
+    @Override
+    public void setUser(final User pUser) {
+        user = assertNotNull(pUser);
     }
 
     /**
@@ -275,17 +281,6 @@ public class UsersBean extends AbstractBean implements Serializable {
      * ändern kann.
      */
     private User profileUser;
-
-    /**
-     * Setzt den ausgewählten User, durch den erlangten Usernamen.
-     * @param pUsername der User, dessen Profil betrachtet werden soll
-     * @return die user.xhtml.
-     */
-    public String getUserDetails(String pUsername){
-       profileUser =  userDao.getUserForUsername(pUsername);
-
-        return "users.xhtml";
-    }
 
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
