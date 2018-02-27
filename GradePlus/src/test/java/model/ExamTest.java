@@ -18,8 +18,5 @@ public class ExamTest {
     // @Test
     public void createExam() {
         Exam e = new Exam();
-        e.setTime(LocalTime.of(12, 15));
-        e.setDate(LocalDate.of(2018, 2, 21));
-        System.out.print(e.getDate() + " " + e.getTime());
     }
 }
