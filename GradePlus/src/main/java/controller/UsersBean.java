@@ -254,13 +254,22 @@ public class UsersBean extends AbstractBean implements Serializable {
         for (String theLine : lines) {
             String[] data = theLine.split(",");
             User theUser = new User();
-            theUser.setEmail(data[0]);
+            theUser.setEmail(data[0].trim());
             theUser.setUsernameForUserMail();
-            theUser.setSurname(data[1]);
-            theUser.setGivenName(data[2]);
-            theUser.setMatrNr(data[3]);
-            theUser.setPassword(data[4]);
+            theUser.setSurname(data[1].trim());
+            theUser.setGivenName(data[2].trim());
+            theUser.setMatrNr(data[3].trim());
+            theUser.setPassword(data[4].trim());
+            String tmp = data[5].trim().toUpperCase();
+            if(tmp.equals("ADMIN")){
+                selectedRole = Role.ADMIN;
+            }else if(tmp.equals("EXAMINER")){
+                selectedRole = Role.EXAMINER;
+            }else  {
+                selectedRole = Role.STUDENT;
+            }
             try {
+                theUser.setRole(selectedRole);
                 userDao.save(theUser);
             } catch (final IllegalArgumentException e) {
                 addErrorMessageWithLogging(e, logger, Level.DEBUG,
@@ -275,6 +284,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         }
         return "users.xhtml";
     }
+
 
     /**
      * Der User den der Admin durch Auswahl auswählen und betrachtet und wenn verlangt
