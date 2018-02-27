@@ -21,7 +21,7 @@
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                         <h1>
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name} #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.name} #{instanceLectureEditBean.instanceLecture.semester} #{instanceLectureEditBean.instanceLecture.year}" />
                         </h1>
                     </b:column>
                 </b:row>
@@ -44,7 +44,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecture.examiners}" var="e"
+                                <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.examiners}" var="e"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -57,7 +57,7 @@
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{e.role}"/>
                                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(e)}"/>
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLecturesBean.instanceLecture.removeExaminer(e)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:column>
