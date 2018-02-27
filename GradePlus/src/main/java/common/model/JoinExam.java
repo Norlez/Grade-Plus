@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "JoinExams")
 @NamedQueries({
         @NamedQuery(name = "JoinExams.getAll", query = "SELECT j FROM JoinExam j"),
-        @NamedQuery(name = "JoinExams.findByStudent", query = "SELECT j FROM JoinExam j WHERE j.pruefling = :pruefling"),
         @NamedQuery(name = "JoinExams.getKrank", query = "SELECT j FROM JoinExam j WHERE j.krank = TRUE") })
 public class JoinExam extends JPAEntity {
 

@@ -93,11 +93,16 @@
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
 
                                 <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
-                                    <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{instanceLectureEditBean.setInstanceLecture(l)}" />
+                                    <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{instanceLecturesBean.setInstanceLecture(l)}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn label="#{msg['actionRegister']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">
                                     <b:commandButton rendered="#{true}" value="#{msg['actionRegister']}" action="#{instanceLecturesBean.instanceLecture.addExaminee(profileBean.thisUser)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionEdit']}" orderable="false">
+                                    <b:commandButton value="#{msg['actionEdit']}"
+                                                     action="#{instanceLecturesBean.setLecture(l)}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">

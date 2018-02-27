@@ -61,6 +61,25 @@
                         </b:column>
                     </b:row>
 
+                    <!-- DAYS -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputDays']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <b:selectBooleanCheckbox value="" caption="#{msg['outputMonday']}" />
+                            <b:selectBooleanCheckbox value="" caption="#{msg['outputTuesday']}" />
+                            <b:selectBooleanCheckbox value="" caption="#{msg['outputWednesday']}" />
+                            <b:selectBooleanCheckbox value="" caption="#{msg['outputThursday']}" />
+                            <b:selectBooleanCheckbox value="" caption="#{msg['outputFriday']}" />
+                            <b:selectBooleanCheckbox value="" caption="#{msg['outputSaturday']}" />
+                            <b:selectBooleanCheckbox value="" caption="#{msg['outputSunday']}" />
+                        </b:column>
+                        <b:column span="2">
+                            <b:message for="dateEnd"/>
+                        </b:column>
+                    </b:row>
+
                     <!-- EXAMINER -->
                     <b:row class="btn-paragraph">
                         <b:column span="2">
@@ -138,11 +157,24 @@
                         </b:column>
                     </b:row>
 
+                    <!-- SINGLE OR GROUPE -->
+                    <b:row class="btn-paragraph">
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputGroup']}"/>
+                        </b:column>
+                        <b:column span="2">
+                            <b:radiobutton value="#{examsBean.loggedIn}">
+                                <f:selectItem itemValue="false"   itemLabel="#{msg['outputNo']}" />
+                                <f:selectItem itemValue="true" itemLabel="#{msg['outputYes']}" />
+                            </b:radiobutton>
+                        </b:column>
+                    </b:row>
+
                     <b:row class="space50px"/>
                     <!-- BUTTON SAVE CANCEL -->
                     <b:row class="btn-paragraph">
                         <b:column span="1">
-                            <b:commandButton value="#{msg['actionCreate']}" action="#{examsBean.createExamsForTimeFrame}"/>
+                            <b:commandButton value="#{msg['actionCreate']}"/>
                         </b:column>
                         <b:column span="1">
                             <b:button value="#{msg['linkCancel']}" outcome="exams"/>

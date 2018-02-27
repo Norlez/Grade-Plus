@@ -71,11 +71,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     private List<InstanceLecture> instanceLecturesOfExaminer;
 
+
     private Map<String, SemesterTime> times;
 
     private SemesterTime selectedTimes;
 
-    private List<String> years;
+    private  List<String> years;
 
     private String selectedYear;
 
@@ -92,7 +93,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     @Inject
     public InstanceLecturesBean(final Session pSession,
-            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
+                                final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
@@ -168,11 +169,10 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return "exams.xhtml";
     }
 
-    // TODO
+    //TODO
     public List<InstanceLecture> getInstanceLecturesForLecture() {
-        return instanceLectureDao.getInstanceLecturesForLecture(getSession()
-                .getSelectedLecture());
-    }
+        return instanceLectureDao.getInstanceLecturesForLecture(getSession().getSelectedLecture());
+        }
 
     /**
      * Gibt alle ILVs zurück, in denen der gegebene {@link User} als Prüfling angemeldet
@@ -252,6 +252,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return null;
     }
 
+
     public Map<String, SemesterTime> getTimes() {
         return times;
     }
@@ -267,6 +268,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     public void setSelectedTimes(SemesterTime selectedTimes) {
         this.selectedTimes = selectedTimes;
     }
+
 
     public List<String> getYears() {
         return years;
@@ -284,17 +286,18 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         this.selectedYear = selectedYear;
     }
 
+
     /**
-     * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück. Diese werden
-     * als Auswahl im Drop-Down Menu bei der erstellung einer ILV verfügbar sein.
+     * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück.
+     * Diese werden als Auswahl im Drop-Down Menu bei der erstellung einer ILV verfügbar sein.
      *
      * @return Eine einfache Map mit verfügbaren Rollen.
      */
-    private List<String> calculateYearList() {
+    private List<String> calculateYearList(){
 
         final List<String> tmp = new ArrayList<String>();
 
-        for (int i = 2018; i < 2080; i++) {
+        for(int i = 2018; i< 2080; i++){
             tmp.add(Integer.toString(i));
         }
         return Collections.unmodifiableList(tmp);
@@ -305,24 +308,11 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *
      * @return Eine einfache Map mit verfügbaren Semestern.
      */
-    private Map<String, SemesterTime> calculateSemesterMap() {
+    private  Map<String, SemesterTime> calculateSemesterMap(){
         final Map<String, SemesterTime> tmp = new LinkedHashMap<>();
         tmp.put("WiSe", SemesterTime.WINTER);
         tmp.put("SoSe", SemesterTime.SOMMER);
         return Collections.unmodifiableMap(tmp);
     }
 
-    public void changeIlvReleaseStatus(final InstanceLecture pInstanceLecture){
-        assertNotNull(pInstanceLecture);
-        if(pInstanceLecture.isReleased() == false)
-        {
-            pInstanceLecture.setReleased(true);
-            instanceLectureDao.update(pInstanceLecture);
-        }
-        else
-        {
-            pInstanceLecture.setReleased(false);
-            instanceLectureDao.update(pInstanceLecture);
-        }
-    }
 }
