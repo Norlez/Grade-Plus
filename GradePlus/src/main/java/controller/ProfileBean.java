@@ -64,7 +64,7 @@ import org.apache.log4j.Logger;
  * @version 2017-06-28
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
@@ -93,7 +93,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
      * übernimmt.
      */
-    private final UserDAO dao;
+    private final UserDAO userDao;
 
     /**
      * Der Name des angezeigten Sprache-Objekts, dessen Attribute durch die UIKomponenten
@@ -130,7 +130,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
     @Inject
     public ProfileBean(final Session pSession, final UserDAO pUserDAO) {
         super(pSession);
-        dao = Assertion.assertNotNull(pUserDAO);
+        userDao = Assertion.assertNotNull(pUserDAO);
         thisUser = getSession().getUser();
         roles = calculateRoleMap();
     }
@@ -145,7 +145,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Prüft, ob die Checkbox gesetzt ist.
-     * 
+     *
      * @return
      */
     public boolean getEditChecker() {
@@ -164,7 +164,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
      * Liefert die unveränderbare Map mit den unterstützten Sprachen zurück.
      * Änderungsversuche auf der Map führen zu einer {@code UnsupportedOperationException}
      * .
-     * 
+     *
      * @return Map der unterstützen Sprachen.
      */
     public Map<String, Locale> getCountries() {
@@ -173,7 +173,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt den Namen der anzuzeigenden Sprache zurück.
-     * 
+     *
      * @return Der Name der anzuzeigenden Sprache.
      */
     public String getLanguageName() {
@@ -182,7 +182,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den Namen der anzuzeigenden Sprache.
-     * 
+     *
      * @param pLanguage
      *            Der Name der anzuzeigende Sprache.
      * @throws IllegalArgumentException
@@ -193,20 +193,12 @@ public class ProfileBean extends AbstractBean implements Serializable {
         languageName = Assertion.assertNotEmpty(pLanguage);
     }
 
-    /**
-     * Speichert die Daten und setzt den Checker zurueck.
-     *
-     * @return setEditChecker()
-     */
-    public String saveAll() {
-        save();
-        return setEditChecker();
-    }
+
 
     /**
      * Speichert die Einstellungen aus der GUI im Nutzerprofil. Aktuell ist lediglich die
      * Sprache einstellbar.
-     * 
+     *
      * @throws UnexpectedUniqueViolationException
      *             Falls beim Aktualisieren des {@link User}-Objektes eine
      *             {@link DuplicateUniqueFieldException} ausgelöst wurde.
@@ -219,10 +211,16 @@ public class ProfileBean extends AbstractBean implements Serializable {
         try {
             final Locale newLanguage = getLanguageByName(languageName);
             FacesContext.getCurrentInstance().getViewRoot().setLocale(newLanguage);
-            final User user = getSession().getUser();
+            final User user = thisUser;
             user.setLanguage(newLanguage);
             try {
-                dao.update(user);
+                //user.setEmail(thisUser.getEmail());
+                //user.setGivenName(thisUser.getGivenName());
+                //user.setSurname(thisUser.getSurname());
+                //user.setUsername(thisUser.getUsername());
+                userDao.update(user);
+                setEditChecker();
+
             } catch (final DuplicateUniqueFieldException e) {
                 throw new UnexpectedUniqueViolationException(e);
             }
@@ -235,7 +233,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Liefert zu dem gegebenen Namen die passende Sprache zurück.
-     * 
+     *
      * @param pLanguageName
      *            Name der gesuchten Sprache.
      * @return Die Sprache zu dem gegebenen Namen.
@@ -256,7 +254,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Liefert eine einfache Map mit den unterstützen Sprachen zurück.
-     * 
+     *
      * @return Eine einfache Map mit unterstützten Sprachen.
      */
     private static Map<String, Locale> calculateCountriesMap() {
@@ -303,3 +301,4 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     }
 }
+

@@ -1,5 +1,5 @@
-package controller;
 
+package controller;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.model.Session;
@@ -41,6 +41,21 @@ public class UserEditBean extends AbstractBean implements Serializable {
      */
     private User selectedUser;
 
+
+    public boolean getEditChecker() {
+        return editChecker;
+    }
+
+    public String setEditChecker(final User pUser) {
+        editChecker = !editChecker;
+        setUser(pUser);
+        return "user.xhtml";
+    }
+
+    private boolean editChecker = false;
+
+
+
     /**
      * Erzeugt eine neue {@link UserEditBean}.
      *
@@ -77,6 +92,10 @@ public class UserEditBean extends AbstractBean implements Serializable {
         return "user.xhtml";
     }
 
+    public void setEditCheckerWithoutUser(){
+        editChecker = !editChecker;
+    }
+
     /**
      * Aktualisiert den aktuell ausgewählten Benutzer in der Liste aller bekannten
      * Benutzer unter Verwendung des entsprechenden Data-Access-Objekts.
@@ -85,7 +104,9 @@ public class UserEditBean extends AbstractBean implements Serializable {
      */
     public String update() {
         try {
-            userDao.update(selectedUser);
+            final User user = selectedUser;
+            userDao.update(user);
+            setEditCheckerWithoutUser();
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));
@@ -100,3 +121,4 @@ public class UserEditBean extends AbstractBean implements Serializable {
     }
 
 }
+

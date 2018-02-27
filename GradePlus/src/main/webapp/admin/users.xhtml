@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
@@ -13,7 +13,7 @@
 <h:body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:param name="title" value="#{msg['title']}"/>
-        
+
         <ui:define name="content">
             <f:loadBundle basename="internationalization.admin.users" var="msg" />
 
@@ -147,43 +147,41 @@
                 <b:container class="form-group">
 
                     <!-- SUBTITLE -->
-                <b:row>
-                    <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
-                        <h2>
-                            <h:outputText value="#{msg['subtitleAllUsers']}" />
-                        </h2>
-                    </b:column>
-                </b:row>
+                    <b:row>
+                        <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleAllUsers']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
 
                     <b:messages globalOnly="true"/>
 
 
                     <b:dataTable span="8" value="#{usersBean.allUsers}" var="u"
-                             excel="false"
-                             csv="false"
-                             pdf="false"
-                             columnVisibility="false"
-                             copy="false"
-                             print="false">
+                                 excel="false"
+                                 csv="false"
+                                 pdf="false"
+                                 columnVisibility="false"
+                                 copy="false"
+                                 print="false">
+                        <b:dataTableColumn label="#{msg['outputId']}" value="#{u.id}" />
+                        <b:dataTableColumn label="#{msg['outputUsername']}" value="#{u.username}" />
+                        <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}" />
+                        <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}" />
+                        <b:dataTableColumn label="#{msg['outputStatus']}" value="#{u.active}" />
 
-                    <b:dataTableColumn label="#{msg['outputId']}" value="#{u.id}" />
-                    <b:dataTableColumn label="#{msg['outputUsername']}" value="#{u.username}" />
-                    <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}" />
-                    <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}" />
-                    <b:dataTableColumn label="#{msg['outputStatus']}" value="#{u.active}" />
+                        <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
+                            <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{userEditBean.setSelectedUser(u)}" />
+                        </b:dataTableColumn>
 
-                    <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
-
-                        <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{userEditBean.setSelectedUser(u)}" />
-                    </b:dataTableColumn>
-
-                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                        <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
-                    </b:dataTableColumn>
+                        <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                            <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
+                        </b:dataTableColumn>
 
 
 
-                </b:dataTable>
+                    </b:dataTable>
                 </b:container>
             </b:form>
 

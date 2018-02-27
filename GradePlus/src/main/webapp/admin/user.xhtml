@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
@@ -11,126 +11,98 @@
 </head>
 
 <body>
-    <ui:composition template="/WEB-INF/template.xhtml">
-        <ui:param name="title" value="#{msg['title']}"/>
-        
-        <ui:define name="content">
-            <f:loadBundle basename="internationalization.admin.users" var="msg" />
+<ui:composition template="/WEB-INF/template.xhtml">
+    <ui:param name="title" value="#{msg['title']}"/>
 
-            <b:form id="registerUser">
-                <b:container class="form-group">
+    <ui:define name="content">
+        <f:loadBundle basename="internationalization.admin.users" var="msg" />
 
-                    <!-- TITLE -->
-                    <b:row>
-                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                            <h1>
-                                <h:outputText value="#{msg['title']}" />
-                            </h1>
-                        </b:column>
-                    </b:row>
+        <b:form id="registerUser">
+            <b:container class="form-group">
 
-                    <!-- SUBTITLE -->
-                    <b:row>
-                        <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
-                            <h2>
-                                <h:outputText value="#{msg['subtitleEditUser']}" />
-                            </h2>
-                        </b:column>
-                    </b:row>
+                <!-- USER DATA -->
+                <b:row>
+                    <b:column span="2">
+                        <h2>
+                            <h:outputText class="title" value="#{msg['subtitleUserData']}" />
+                        </h2>
+                    </b:column>
+                </b:row>
 
-                    <!-- ID -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputId']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText value="#{userEditBean.selectedUser.id}"/>
-                        </b:column>
-                    </b:row>
+                <b:row class="space50px"/>
 
-                    <!-- USERNAME -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputUsername']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{userEditBean.selectedUser.username}"/>
-                            <b:inputText class="form-control" id="username" value="#{userEditBean.selectedUser.username}"/>
-                        </b:column>
-                    </b:row>
+                <!-- USERNAME -->
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputUsername']}" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText rendered="#{!userEditBean.getEditChecker()}" value="#{userEditBean.selectedUser.username}" />
+                        <b:inputText rendered="#{userEditBean.getEditChecker()}" value="#{userEditBean.selectedUser.username}" id="username" />
+                    </b:column>
+                </b:row>
 
-                    <!-- ROLE -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputRole']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{userEditBean.selectedUser.role}"/>
+                <!-- NAME -->
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputName']}" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText rendered="#{!userEditBean.getEditChecker()}" value="#{userEditBean.selectedUser.givenName}" />
+                        <b:inputText rendered="#{userEditBean.getEditChecker()}" value="#{userEditBean.selectedUser.givenName}" id="givenname" />
+                    </b:column>
+                </b:row>
 
-                            <b:selectOneMenu rendered="#{usersBean.editChecker}" class="form-control" value="#{profileBean.languageName}">
-                                <f:selectItems value="#{profileBean.countries}" />
-                            </b:selectOneMenu>
-                        </b:column>
-                    </b:row>
+                <!-- SURNAME -->
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputSurname']}" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText rendered="#{!userEditBean.getEditChecker()}" value="#{userEditBean.selectedUser.surname}" />
+                        <b:inputText rendered="#{userEditBean.editChecker}" value="#{userEditBean.selectedUser.surname}" id="surname" />
+                    </b:column>
+                </b:row>
 
-                    <!-- MATRICAL NUMBER -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputMatricalNumber']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{userEditBean.selectedUser.matrNr}"/>
-                            <b:inputText rendered="#{usersBean.editChecker}" value="#{userEditBean.selectedUser.matrNr}"/>
-                        </b:column>
-                    </b:row>
+                <!-- MATRIKELNUMMER -->
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputMatriculationNumber']}" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText rendered="#{true}" value="#{userEditBean.selectedUser.matrNr}" />
+                    </b:column>
+                </b:row>
 
-                    <!-- EMAIL -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputEmail']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{userEditBean.selectedUser.email}"/>
-                            <b:inputText rendered="#{usersBean.editChecker}" value="#{userEditBean.selectedUser.email}"/>
-                        </b:column>
-                    </b:row>
+                <!-- MAIL-ADRESS -->
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputEmail']}" />
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText rendered="#{!userEditBean.getEditChecker()}" value="#{userEditBean.selectedUser.email}" />
+                        <b:inputText rendered="#{userEditBean.editChecker}" value="#{userEditBean.selectedUser.email}" id="email" />
+                    </b:column>
+                </b:row>
 
-                    <!-- ACTIVITY STATUS -->
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputStatus']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText rendered="#{!usersBean.editChecker}" value="#{userEditBean.selectedUser.active}"/>
-                            <b:commandButton rendered="#{!usersBean.editChecker}" value="#{msg['actionDeactivate']}" action="#{userEditBean.selectedUser.active}"/>
-                            <b:commandButton rendered="#{!usersBean.editChecker}" value="#{msg['actionActivate']}" action="#{userEditBean.selectedUser.active}"/>
-                        </b:column>
-                    </b:row>
+                <!-- BUTTON EDIT SAVE DELETE -->
+                <b:row>
+                    <b:column span="1" colSm="3" colMd="3" colXs="12">
+                        <b:commandButton rendered="#{!userEditBean.editChecker}" class="btn" id="editButton" value="#{msg['actionEdit']}" action="#{userEditBean.setEditChecker(userEditBean.selectedUser)}" />
+                    </b:column>
+                    <b:column span="1" colSm="3" colMd="3" colXs="12">
+                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionSave']}" action="#{userEditBean.update}" />
+                    </b:column>
+                    <b:column>
+                        <b:message for="saveButton" />
+                    </b:column>
+                </b:row>
 
-                    <!-- BUTTON EDIT SAVE DELETE -->
-                    <b:row>
-                        <b:column span="1" colSm="3" colMd="3" colXs="12">
-                            <b:commandButton rendered="#{!usersBean.editChecker}" class="btn" id="editButton" value="#{msg['actionEdit']}" action="#{usersBean.setEditChecker(usersBean.user)}" />
-                        </b:column>
-                        <b:column span="1" colSm="3" colMd="3" colXs="12">
-                            <b:commandButton class="btn" id="saveButton" value="#{msg['actionSave']}" action="#{userEditBean.update}" />
-                        </b:column>
-                        <b:column span="1" colSm="3" colMd="3" colXs="12">
-                            <b:commandButton rendered="#{usersBean.editChecker}" class="btn" id="cancelButton" value="#{msg['actionCancel']}" action="#{usersBean.setEditChecker(usersBean.user)}" />
-                        </b:column>
-                        <b:column span="1" colSm="3" colMd="3" colXs="12">
-                            <b:commandButton rendered="#{usersBean.editChecker}" class="btn" id="removeButton" value="#{msg['actionRemove']}" action="#{usersBean.remove(usersBean.user)}" />
-                        </b:column>
-                        <b:column>
-                            <b:message for="saveButton" />
-                        </b:column>
-                    </b:row>
+            </b:container>
+        </b:form>
 
-                </b:container>
-            </b:form>
-
-            <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
-        </ui:define>
-    </ui:composition>
+        <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
+    </ui:define>
+</ui:composition>
 </body>
 </html>

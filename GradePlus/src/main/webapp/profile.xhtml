@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
@@ -112,7 +112,7 @@
                         <b:row>
                             <b:column span="1">
                                 <b:commandButton rendered="#{!profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionEditData']}" action="#{profileBean.setEditChecker()}"/>
-                                <b:commandButton rendered="#{profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.saveAll}" />
+                                <b:commandButton rendered="#{profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionSave']}" action="#{profileBean.save}" />
                             </b:column>
                             <b:column span="2">
                                 <b:commandButton rendered="#{profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionCancel']}" action="#{profileBean.setEditChecker()}" />
