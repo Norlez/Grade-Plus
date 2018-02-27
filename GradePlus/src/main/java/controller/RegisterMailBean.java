@@ -114,6 +114,12 @@ public class RegisterMailBean {
 
     }
 
+    /**
+     * Sendet eine Mail von der Systemmail, an den User, der in einer IlV angemeldet war und informiert ihn darüber,
+     * dass die Veranstaltung von Ersteller aus dem System entfernt wurde.
+     * @param pUser Der User, der in Kenntniss gesetzt wird.
+     * @param pIlvName Die ILV die aus dem System entfernt wurde.
+     */
 
     public static void ilvRemovedMail(User pUser, String pIlvName) {
 
@@ -154,6 +160,12 @@ public class RegisterMailBean {
     }
 
 
+    /**
+     * Sendet eine Mail von der Systemmail an den User und informiert ihn darüber, dass er einer Lehrveranstaltung
+     * hinzugefügt wurde.
+     * @param pUser Der User, der in Kenntniss gesetzt wird.
+     * @param pIlvName Die Lehrveranstaltung, in der der User eingetragen wurde.
+     */
 
     public static void userJoinIlvRegisterMail(User pUser, String pIlvName) {
 
@@ -194,6 +206,12 @@ public class RegisterMailBean {
     }
 
 
+    /**
+     * Sendet eine Mail von der Systemmail an den User und informiert ihn darüber, dass dieser sich erfolgreich
+     * für eine Prüfung in der Lehrveranstaltung angemeldet hat.
+     * @param pUser Der User, der informiert wird.
+     * @param pIlvName Die Lehrveranstaltung, in die sich der User eingetragen hat
+     */
     public static void joinExamMail(User pUser, String pIlvName) {
 
         try {
@@ -229,6 +247,53 @@ public class RegisterMailBean {
             throw new RuntimeException(e);
 
         }
+    }
+
+    /**
+     * Sendet eine Mail von der Systemmail, an den übergebenen Empfänger und informiert darüber,
+     * dass der User sich für eine Prüfung  Krankgemeldet hat.
+     * @param pUser Der User, der sich krank meldet.
+     * @param pRecipient Der Empfänger, der über die Krankmeldung in Kentniss gesetzt werden soll
+     */
+
+    public static void reportIllness(User pUser, User pRecipient) {
+
+        try {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
+
+            Session session = Session.getInstance(props, null);
+            session.setDebug(true);
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(pRecipient.getEmail()));
+            message.setSubject("Systemnachricht: Krankmeldung vom Nutzer" + pUser.getGivenName() + " " + pUser.getSurname());
+            message.setText("Hallo"
+                    + pRecipient.getSurname()
+                    + ","
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sich der Prüfungling für seine Prüfung in "
+                    + "\n\n der  Lehrveranstaltung krank gemeldet hat.");
+
+            Transport transport = session.getTransport("smtp");
+            transport
+                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
+
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+
+        }
+
+
+
 
     }
 
