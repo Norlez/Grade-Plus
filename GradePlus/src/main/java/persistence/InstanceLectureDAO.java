@@ -8,6 +8,7 @@ import common.model.Lecture;
 import common.model.User;
 
 import javax.ejb.Stateless;
+import java.io.Serializable;
 import java.util.List;
 
 import static common.util.Assertion.assertNotNegative;
@@ -20,7 +21,7 @@ import static common.util.Assertion.assertNotNull;
  * @version 2018-02-10
  */
 @Stateless
-public class InstanceLectureDAO extends JPADAO<InstanceLecture> {
+public class InstanceLectureDAO extends JPADAO<InstanceLecture> implements Serializable {
 
     @Override
     Class<InstanceLecture> getClazz() {
