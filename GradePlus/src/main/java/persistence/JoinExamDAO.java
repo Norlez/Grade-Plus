@@ -3,6 +3,7 @@ package persistence;
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.JoinExam;
+import common.model.User;
 import jdk.nashorn.internal.scripts.JO;
 
 import javax.ejb.Stateless;
@@ -26,8 +27,7 @@ public class JoinExamDAO extends JPADAO<JoinExam> {
     }
 
     @Override
-    public synchronized void save(final JoinExam pJoinExam)
-             {
+    public synchronized void save(final JoinExam pJoinExam) {
         assertNotNull(pJoinExam);
         try {
             super.save(pJoinExam);
@@ -46,13 +46,26 @@ public class JoinExamDAO extends JPADAO<JoinExam> {
         }
     }
 
-    // TODO: SQL Queries fehlen noch. Brauchen wir JoinExams.getKrank?
+    // TODO: SQL Queries fehlen noch und sind ungetestet
 
     /**
      * Gibt alle bekannten {@link JoinExam}-Objekte zurück.
      *
      * @return Alle bekannten JoinExam.
      */
-    //public List<JoinExam> getAllJoinExams() { return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
-    //}
+    public List<JoinExam> getAllJoinExams() {
+        return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
+    }
+
+    /**
+     * Gibt alle Prüfungen des gegebenen Prüflings zurück.
+     *
+     * @param pStudent
+     *            Der Prüfling der gesuchten Prüfungen.
+     * @return Die Prüfungen des gegebenen Prüflings als Liste.
+     */
+    public List<JoinExam> getExamsForStudent(User pStudent) {
+        return getEm().createNamedQuery("JoinExams.findByStudent", getClazz())
+                .setParameter("pruefling", pStudent).getResultList();
+    }
 }
