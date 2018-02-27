@@ -39,6 +39,7 @@ import common.exception.DuplicateUniqueFieldException;
 import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.JPAEntity;
+import common.model.Role;
 import common.model.User;
 import common.util.Assertion;
 
@@ -214,4 +215,33 @@ public class UserDAO extends JPADAO<User> implements Serializable {
         return users.isEmpty() ? null : users.get(0);
     }
 
+    /**
+     * Gibt eine Liste von Usern mit allen Studenten zurück.
+     *
+     * @return Studentenliste
+     */
+    public List<User> getAllStudents() {
+        return getEm().createNamedQuery("User.findByRole", getClazz())
+                .setParameter("role", Role.STUDENT).getResultList();
+    }
+
+    /**
+     * Gibt eine Liste von Usern mit allen Admins zurück.
+     *
+     * @return Adminliste
+     */
+    public List<User> getAllAdmins() {
+        return getEm().createNamedQuery("User.findByRole", getClazz())
+                .setParameter("role", Role.ADMIN).getResultList();
+    }
+
+    /**
+     * Gibt eine Liste von Usern mit allen Prüfern zurück.
+     *
+     * @return Prüferliste
+     */
+    public List<User> getAllExaminer() {
+        return getEm().createNamedQuery("User.findByRole", getClazz())
+                .setParameter("role", Role.EXAMINER).getResultList();
+    }
 }

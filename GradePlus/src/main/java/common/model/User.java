@@ -55,7 +55,8 @@ import common.util.Assertion;
         // keine Auswirkung auf den verwendeten Namen im Query.
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email") })
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+        @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role") })
 public class User extends JPAEntity implements Serializable {
 
     /**
