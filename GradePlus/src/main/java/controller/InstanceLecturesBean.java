@@ -13,10 +13,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -79,9 +76,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     private SemesterTime selectedTimes;
 
-    private Map<String, Years> years;
+    private  List<String> years;
 
-    private Years selectedYear;
+    private String selectedYear;
 
     /**
      * Erzeugt eine neue InstanceLecturesBean.
@@ -103,7 +100,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         user = assertNotNull(getSession().getUser());
 
         times = calculateSemesterMap();
-        years = calculateYearMap();
+        years = calculateYearList();
     }
 
     /**
@@ -219,8 +216,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String save() {
         try {
-            // instanceLecture.setSemester(selectedTimes.toString());
-            // instanceLecture.setYear(selectedYear.toString());
+            instanceLecture.setSemester(selectedTimes.toString());
+            instanceLecture.setYear(selectedYear);
             instanceLecture.setLecture(getSession().getSelectedLecture());
             instanceLectureDao.save(instanceLecture);
         } catch (final IllegalArgumentException e) {
@@ -273,19 +270,19 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     }
 
 
-    public Map<String, Years> getYears() {
+    public List<String> getYears() {
         return years;
     }
 
-    public void setYears(Map<String, Years> years) {
+    public void setYears(List<String> pYears) {
         this.years = years;
     }
 
-    public Years getSelectedYear() {
+    public String getSelectedYear() {
         return selectedYear;
     }
 
-    public void setSelectedYear(Years selectedYear) {
+    public void setSelectedYear(String selectedYear) {
         this.selectedYear = selectedYear;
     }
 
@@ -296,15 +293,14 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *
      * @return Eine einfache Map mit verfügbaren Rollen.
      */
-    private  Map<String, Years> calculateYearMap(){
+    private List<String> calculateYearList(){
 
-        final Map<String, Years> tmp = new LinkedHashMap<>();
-        Years[] years = Years.values();
+        final List<String> tmp = new ArrayList<String>();
 
-        for(int i = 0; i<years.length; i++){
-            tmp.put(years[i].toString(), years[i]);
+        for(int i = 2018; i< 2080; i++){
+            tmp.add(Integer.toString(i));
         }
-        return Collections.unmodifiableMap(tmp);
+        return Collections.unmodifiableList(tmp);
     }
 
     /**
