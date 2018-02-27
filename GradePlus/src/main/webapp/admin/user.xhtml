@@ -88,13 +88,15 @@
                 <!-- BUTTON EDIT SAVE DELETE -->
                 <b:row>
                     <b:column span="1" colSm="3" colMd="3" colXs="12">
-                        <b:commandButton rendered="#{!userEditBean.editChecker}" class="btn" id="editButton" value="#{msg['actionEdit']}" action="#{userEditBean.setEditChecker(userEditBean.selectedUser)}" />
+                        <b:commandButton rendered="#{!userEditBean.editChecker}" class="btn-green" id="editButton" value="#{msg['actionEdit']}" action="#{userEditBean.setEditChecker(userEditBean.selectedUser)}" />
                     </b:column>
+                </b:row>
+                <b:row>
                     <b:column span="1" colSm="3" colMd="3" colXs="12">
-                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionSave']}" action="#{userEditBean.update}" />
+                        <b:commandButton rendered="#{userEditBean.editChecker}" class="btn-green" id="saveButton" value="#{msg['actionSave']}" action="#{userEditBean.update}" />
                     </b:column>
-                    <b:column>
-                        <b:message for="saveButton" />
+                    <b:column span="2">
+                        <b:commandButton rendered="#{userEditBean.editChecker}" class="btn-green" value="#{msg['actionCancel']}" action="#{userEditBean.setEditCheckerWithoutUser()}" />
                     </b:column>
                 </b:row>
 

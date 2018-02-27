@@ -46,6 +46,11 @@ public class FileBean extends AbstractBean implements Serializable {
     private Part file;
 
     /**
+     * Die zu erstellende Mail.
+     */
+    private RegisterMailBean sender;
+
+    /**
      * Erzeugt eine neue FileBean.
      *
      * @param pSession
@@ -98,6 +103,7 @@ public class FileBean extends AbstractBean implements Serializable {
             theUser.setRole(Role.fromString(data[5]));
             try {
                 userDao.save(theUser);
+                RegisterMailBean.registerMail(theUser);
             } catch (final IllegalArgumentException e) {
                 addErrorMessageWithLogging(e, logger, Level.DEBUG,
                         getTranslation("errorUserdataIncomplete"));

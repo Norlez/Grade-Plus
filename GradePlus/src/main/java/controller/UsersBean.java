@@ -122,11 +122,6 @@ public class UsersBean extends AbstractBean implements Serializable {
     private Role selectedRole;
 
     /**
-     * Die zu erstellende Mail.
-     */
-    private RegisterMailBean sender;
-
-    /**
      * Erzeugt eine neue UsersBean.
      *
      * @param pSession
@@ -145,9 +140,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         super(pSession);
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
-        sender = new RegisterMailBean();
         roles = ProfileBean.calculateRoleMap();
-
     }
 
     /**
@@ -161,136 +154,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         allUsers = userDao.getAllUsers();
     }
 
-    /**
-     * Gibt den anzuzeigenden Benutzer zurück.
-     *
-     * @return Den anzuzeigenden Benutzer.
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Setzt den ausgewählten User, durch den erlangten Usernamen.
-     * @param pUser der User, dessen Profil betrachtet werden soll
-     * @return die user.xhtml.
-     */
-    public String getUserDetails(User pUser ){
-        user =  pUser;
-
-        return "user.xhtml";
-    }
-
-    public boolean getEditChecker() {
-        return editChecker;
-    }
-
-    public String setEditChecker(final User pUser) {
-        editChecker = !editChecker;
-        setUser(pUser);
-        return "user.xhtml";
-    }
-
-    @Override
-    public void setUser(final User pUser) {
-        user = assertNotNull(pUser);
-    }
-
-    /**
-     * Gibt eine anzuzeigende Liste mit allen innerhalb der Applikation bekannten
-     * Benutzern zurück. Diese Liste ist keine Kopie, sondern Teil des internen Zustands
-     * der Bean (siehe README.md, Abschnitt 'Beans und Ressourcenallokation').
-     *
-     * @return Die anzuzeigende Liste aller innerhalb der Applikation bekannten Benutzern.
-     */
-    public List<User> getAllUsers() {
-        return allUsers;
-    }
-
-
-    // /////////////////////////////////////////////////////////////////////////////
-    // ///////////////////////////TEST/////////////////////////////////////////////
-    /**
-     * Gibt das Part-Objekt zurück.
-     * 
-     * @return Das Part-Objekt.
-     */
-    public Part getFile() {
-        return file;
-    }
-
-    /**
-     * Setzt das übergebene Part-Objekt
-     * 
-     * @param file
-     *            Das Part-Object, dass gesetzt werden soll.
-     */
-
-    public void setFile(Part file) {
-        this.file = file;
-    }
-
-    /**
-     * Das Part-Objekt, dass die hochgeladene Datei vom User repräsentiert.
-     */
-    private Part file;
-
-    // /////////////////////////////////////////////////////////////////////////////
-    // /////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Läuft genau wie UsersBean.save(), allerdings wird eine Menge von Benutzern
-     * hinzugefügt. Die Menge wird erlangt, über den Inputstreams einer CSV Datei.
-     *
-     */
-    public String saveFromCSV() throws IOException {
-        InputStream is = file.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        ArrayList<String> lines = new ArrayList<>();
-        String line;
-        while ((line = br.readLine()) != null) {
-            lines.add(line);
-        }
-        for (String theLine : lines) {
-            String[] data = theLine.split(",");
-            User theUser = new User();
-            theUser.setEmail(data[0].trim());
-            theUser.setUsernameForUserMail();
-            theUser.setSurname(data[1].trim());
-            theUser.setGivenName(data[2].trim());
-            theUser.setMatrNr(data[3].trim());
-            theUser.setPassword(data[4].trim());
-            String tmp = data[5].trim().toUpperCase();
-            if(tmp.equals("ADMIN")){
-                selectedRole = Role.ADMIN;
-            }else if(tmp.equals("EXAMINER")){
-                selectedRole = Role.EXAMINER;
-            }else  {
-                selectedRole = Role.STUDENT;
-            }
-            try {
-                theUser.setRole(selectedRole);
-                userDao.save(theUser);
-            } catch (final IllegalArgumentException e) {
-                addErrorMessageWithLogging(e, logger, Level.DEBUG,
-                        getTranslation("errorUserdataIncomplete"));
-            } catch (final DuplicateUsernameException e) {
-                addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                        Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
-            } catch (final DuplicateEmailException e) {
-                addErrorMessageWithLogging("registerUserForm:email", e, logger,
-                        Level.DEBUG, "errorEmailAlreadyInUse", user.getEmail());
-            }
-        }
-        return "users.xhtml";
-    }
-
-
-    /**
-     * Der User den der Admin durch Auswahl auswählen und betrachtet und wenn verlangt
-     * auch ändern kann.
-     */
-    private User profileUser;
 
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
@@ -307,7 +170,7 @@ public class UsersBean extends AbstractBean implements Serializable {
             user.setUsernameForUserMail();
             user.setRole(selectedRole);
             userDao.save(user);
-            sender.registerMail(user);
+            RegisterMailBean.registerMail(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));
@@ -353,8 +216,6 @@ public class UsersBean extends AbstractBean implements Serializable {
     /**
      * Aktualisiert den aktuell angezeigten Benutzer in der Liste aller bekannten Benutzer
      * unter Verwendung des entsprechenden Data-Access-Objekts.
-     *
-     *
      */
     public void update(final User pUser) { // TODO: Nicht Getestet
         assertNotNull(pUser);
@@ -397,8 +258,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         // TODO: Rolle setzen
         // user.setRole(Assertion.assertNotEmpty(pRole));
     }
-
-
 
 
     // TODO: Rollenänderung ist nicht getestet
@@ -487,7 +346,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         return false;
     }
 
-
     /**
      * Gibt die Rolle des Users zurück.
      * @return die Rolle des Users.
@@ -504,6 +362,62 @@ public class UsersBean extends AbstractBean implements Serializable {
         this.selectedRole = role;
     }
 
+
+    /**
+     * Gibt den anzuzeigenden Benutzer zurück.
+     *
+     * @return Den anzuzeigenden Benutzer.
+     */
+    public User getUser() {
+        return user;
+    }
+
+
+    /**
+     * Gibt zurück, ob der Editchecker true oder false ist.
+     * @return den EditChecker
+     */
+    public boolean getEditChecker() {
+        return editChecker;
+    }
+
+    /**
+     * Setzt den EditCecker auf das Gegenteil.
+     * @param pUser Der user, der gesetzt werden soll.
+     * @return die user.xhtml
+     */
+    public String setEditChecker(final User pUser) {
+        editChecker = !editChecker;
+        setUser(pUser);
+        return "user.xhtml";
+    }
+
+    /**
+     * Setzt den übergebenen User.
+     * @param pUser
+     *            Der neu eingeloggte Benutzer für die zu {@link #getSession()} zugehörige
+     *            Session.
+     */
+    @Override
+    public void setUser(final User pUser) {
+        user = assertNotNull(pUser);
+    }
+
+    /**
+     * Gibt eine anzuzeigende Liste mit allen innerhalb der Applikation bekannten
+     * Benutzern zurück. Diese Liste ist keine Kopie, sondern Teil des internen Zustands
+     * der Bean (siehe README.md, Abschnitt 'Beans und Ressourcenallokation').
+     *
+     * @return Die anzuzeigende Liste aller innerhalb der Applikation bekannten Benutzern.
+     */
+    public List<User> getAllUsers() {
+        return allUsers;
+    }
+
+
+    /**
+     * Setzt mal JavaDoc hier, alla
+     */
     public void createBackup(){
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter("User.csv"));

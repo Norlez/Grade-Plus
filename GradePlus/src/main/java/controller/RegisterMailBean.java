@@ -58,14 +58,14 @@ public class RegisterMailBean {
 
     /**
      * Eine Loginunabhängige Funktion, die dem sich registrierenden Benutzer, nach der
-     * Registrierung eine Bestätigungsmail zusendet, in der alle relevanten Daten vermerkt
+     * Registrierung eine Bestätigungsmail zusendet und  in der alle relevanten Daten vermerkt
      * sind.
      * 
      * @param pUser
      *            Der Empfänger der Registrierungsmail.
      */
 
-    public void registerMail(User pUser) {
+    public static void registerMail(User pUser) {
 
         try {
             Properties props = new Properties();
