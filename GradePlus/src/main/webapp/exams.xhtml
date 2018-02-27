@@ -21,7 +21,7 @@
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                         <h1>
-                            <h:outputText value="Lecture #{lecturesBean.lecture.name} #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
+                            <h:outputText value="#{lecturesBean.lecture.name} #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
                         </h1>
                     </b:column>
                 </b:row>
@@ -148,7 +148,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{instanceLecturesBean.}" var="e"
+                                <b:dataTable span="8" value="#{examsBean.allExams}" var="e"
                                              excel="false"
                                              csv="true"
                                              pdf="false"

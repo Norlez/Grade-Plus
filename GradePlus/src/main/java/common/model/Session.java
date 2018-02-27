@@ -205,10 +205,10 @@ public class Session implements Serializable {
     /**
      * Speichert eine Instanz der Lehrveranstalung
      * 
-     * @param selectedILV
+     * @param pSelectedILV
      *            , die gespeichert werden soll
      */
-    public void setSelectedILV(InstanceLecture selectedILV) {
-        this.selectedILV = selectedILV;
+    public void setSelectedILV(InstanceLecture pSelectedILV) {
+        selectedILV = pSelectedILV;
     }
 }
