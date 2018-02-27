@@ -368,6 +368,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String registerAsStudent(final Exam pExam) {
         assertNotNull(pExam);
         User user = getSession().getUser();
+        if (!user.getAsStudent().contains(exam.getInstanceLecture())) {
+            return "exams.xhtml";
+        }
         JoinExam joinExam = new JoinExam();
         joinExam.setExam(pExam);
         joinExam.setPruefling(user);
