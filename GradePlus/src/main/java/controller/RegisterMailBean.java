@@ -83,7 +83,140 @@ public class RegisterMailBean {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
             message.setSubject("Ihre Registrierung bei GradePlus");
-            message.setText("was geht");
+            message.setText("Hallo"
+                    + pUser.getGivenName()
+                    + ","
+                    + "\n\n Hiermit bestätigen wir ihre Registrierung bei Gradeplus mit folgenden Daten"
+                    + "\n\n Nutzername: "
+                    + pUser.getUsername()
+                    + "\n\n Nachname: "
+                    + pUser.getSurname()
+                    + "\n\n Vorname: "
+                    + pUser.getGivenName()
+                    + "\n\n Matrikelnummer: "
+                    + pUser.getMatrNr()
+                    + "\n\n E-mail Adresse: "
+                    + pUser.getEmail()
+                    + "\n\n\n Bei weiteren Fragen stehen wir Ihnen unter dieser Email zur Verfügung");
+
+
+            Transport transport = session.getTransport("smtp");
+            transport
+                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
+
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
+
+    public static void ilvRemovedMail(User pUser, String pIlvName) {
+
+        try {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
+
+            Session session = Session.getInstance(props, null);
+            session.setDebug(true);
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(pUser.getEmail()));
+            message.setSubject("Systemnachricht: Lehrveranstaltung " + pIlvName + " entfernt" );
+            message.setText("Hallo"
+                    + pUser.getGivenName()
+                    + ","
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Lehrveranstaltung " + pIlvName
+                    + "\n\n vom Prüfer gelöscht wurde und sie damit entfernt wurden.");
+
+            Transport transport = session.getTransport("smtp");
+            transport
+                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
+
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
+
+
+    public static void userJoinIlvRegisterMail(User pUser, String pIlvName) {
+
+        try {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
+
+            Session session = Session.getInstance(props, null);
+            session.setDebug(true);
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(pUser.getEmail()));
+            message.setSubject("Systemnachricht: Eintragung in die Lehrveranstaltung " + pIlvName  );
+            message.setText("Hallo"
+                    + pUser.getGivenName()
+                    + ","
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie für die Lehrveranstaltung " + pIlvName
+                    + "\n\n vom Prüfer hinzugefügt wurden.");
+
+            Transport transport = session.getTransport("smtp");
+            transport
+                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
+
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
+
+    public static void joinExamMail(User pUser, String pIlvName) {
+
+        try {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
+
+            Session session = Session.getInstance(props, null);
+            session.setDebug(true);
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(pUser.getEmail()));
+            message.setSubject("Systemnachricht: Anmeldung zur Prüfung für die Lehrveranstaltung " + pIlvName  );
+            message.setText("Hallo"
+                    + pUser.getGivenName()
+                    + ","
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie zur Prüfung für die  Lehrveranstaltung " + pIlvName
+                    + "\n\n am 01.01.1995 hinzugefügt wurden.");
 
             Transport transport = session.getTransport("smtp");
             transport
