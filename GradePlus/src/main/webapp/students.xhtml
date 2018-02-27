@@ -54,7 +54,7 @@
 
                     <b:messages globalOnly="true"/>
 
-                    <b:dataTable span="8" value="#{usersBean.allUsers}" var="u"
+                    <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecture.examinees}" var="u"
                                  excel="false"
                                  csv="false"
                                  pdf="false"
@@ -66,7 +66,7 @@
                         <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}"/>
 
                         <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
-                            <b:commandButton value="#{msg['actionAdd']}" action="#{usersBean.remove(u)}" />
+                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLecturesBean.instanceLecture.removeExaminee(u)}" />
                         </b:dataTableColumn>
                     </b:dataTable>
                 </b:container>

@@ -97,7 +97,7 @@
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn label="#{msg['actionRegister']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">
-                                    <b:commandButton rendered="#{true}" value="#{msg['actionRegister']}" action="#{lectureInstanceStudentBean.addExaminee(l)}" />
+                                    <b:commandButton rendered="#{true}" value="#{msg['actionRegister']}" action="#{instanceLecturesBean.instanceLecture.addExaminee(profileBean.thisUser)}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionEdit']}" orderable="false">

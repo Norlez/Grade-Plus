@@ -148,7 +148,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{examsBean.allExams}" var="e"
+                                <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecture.examinees}" var="e"
                                              excel="false"
                                              csv="true"
                                              pdf="false"
@@ -164,7 +164,7 @@
                                     <b:dataTableColumn label="#{msg['outputGrade']}"/>
                                     <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
                                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}"/>
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLecturesBean.instanceLecture.removeExaminee(e)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:column>
@@ -221,7 +221,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{examsBean.allExams}" var="e"
+                                <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecture.exams}" var="e"
                                              excel="true"
                                              csv="true"
                                              pdf="false"
@@ -236,7 +236,7 @@
                                     <b:dataTableColumn label="#{msg['outputLength']}"/>
                                     <b:dataTableColumn label="#{msg['outputState']}" orderable="true"/>
                                     <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRelease']}" action="#{usersBean.remove(e)}"/>
+                                        <b:commandButton value="#{msg['actionRelease']}"/>
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['actionManage']}" orderable="false">
                                         <b:commandButton value="#{msg['actionManage']}" action="#{usersBean.remove(e)}"/>
