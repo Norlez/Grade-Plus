@@ -70,7 +70,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     public String setInstanceLecture(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(pInstanceLecture);
-        return "semesteredit.xhtml";
+        return "exams.xhtml";
     }
 
     /**
