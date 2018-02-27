@@ -70,7 +70,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     public String setInstanceLecture(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(pInstanceLecture);
-        return "semestercreate.xhtml";
+        return "semesteredit.xhtml";
     }
 
     /**
@@ -89,7 +89,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("someError"));
         }
-        return "semestercreate.xhtml";
+        return "semester.xhtml";
     }
 
 }
