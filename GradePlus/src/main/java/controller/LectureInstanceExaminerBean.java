@@ -4,6 +4,9 @@ import common.model.Session;
 import common.model.User;
 import persistence.LectureDAO;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +17,8 @@ import java.util.List;
  * @author Andreas Estenfelder, Torben Groß
  * @version 2017-12-22
  */
+@Named
+@RequestScoped
 public class LectureInstanceExaminerBean extends AbstractBean implements Serializable {
 
     /**
@@ -24,6 +29,7 @@ public class LectureInstanceExaminerBean extends AbstractBean implements Seriali
      * @throws IllegalArgumentException
      *             Falls {@code pSession} oder {@link pLectureDAO} {@code null} ist.
      */
+    @Inject
     public LectureInstanceExaminerBean(Session pSession, LectureDAO pLectureDAO) {
         super(pSession);
     }

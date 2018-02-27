@@ -97,8 +97,9 @@ public class InstanceLecture extends JPAEntity {
      * @param pExaminer
      *            Der neue Prüfer der ILV.
      */
-    public void addExaminer(final User pExaminer) {
+    public String addExaminer(final User pExaminer) {
         examiners.add(assertNotNull(pExaminer));
+        return "exams.xhtml";
     }
 
     /**
