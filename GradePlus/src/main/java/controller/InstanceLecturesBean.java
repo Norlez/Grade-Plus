@@ -82,17 +82,14 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     /**
      * Erzeugt eine neue InstanceLecturesBean.
      *
-     * @param pSession
-     *            Die Session der zu erzeugenden InstanceLecturesBean.
-     * @param pInstanceLectureDao
-     *            Die InstanceLectureDAO der zu erzeugenden InstanceLecturesBean.
-     * @throws IllegalArgumentException
-     *             Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
-     *             sind.
+     * @param pSession            Die Session der zu erzeugenden InstanceLecturesBean.
+     * @param pInstanceLectureDao Die InstanceLectureDAO der zu erzeugenden InstanceLecturesBean.
+     * @throws IllegalArgumentException Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
+     *                                  sind.
      */
     @Inject
     public InstanceLecturesBean(final Session pSession,
-            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
+                                final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
@@ -126,8 +123,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * aufgerufen, falls eine Instanz einer bestimmten Lehrveranstaltung erstellt werden
      * soll.
      *
-     * @param pLecture
-     *            Die Lehrveranstaltung der ILV.
+     * @param pLecture Die Lehrveranstaltung der ILV.
      * @return "semestercreate.xhtml", um auf entsprechendes Facelet umzuleiten.
      */
     public String setLecture(final Lecture pLecture) {
@@ -179,7 +175,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * ist.
      *
      * @return Alle ILVs zurück, in denen der gegebene {@link User} als Prüfling
-     *         angemeldet ist.
+     * angemeldet ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminee() {
         return instanceLecturesOfExaminee;
@@ -187,9 +183,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den Student in die InstanceLecture.
-     * 
-     * @param pUser
-     *            Student
+     *
+     * @param pUser Student
      * @return Dashboard.xhtml
      */
     public String setInstanceLecturesOfExaminee(User pUser) {
@@ -202,7 +197,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * ist.
      *
      * @return Alle ILVs zurück, in denen der gegebene {@link User} als Prüfer angemeldet
-     *         ist.
+     * ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminer() {
         return instanceLecturesOfExaminer;
@@ -239,11 +234,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * entsprechenden Data-Access-Objekts. Sollte die zu entfernende ILV nicht in der
      * Liste der ILVs vorhanden sein, passiert nichts.
      *
-     * @param pInstanceLecture
-     *            Die zu entfernende ILV.
+     * @param pInstanceLecture Die zu entfernende ILV.
      * @return {@code null}, famit nicht zu einem anderen Facelet navigiert wird.
-     * @throws IllegalArgumentException
-     *             Falls die übergebene Lehrveranstaltung den Wert {@code null} hat.
+     * @throws IllegalArgumentException Falls die übergebene Lehrveranstaltung den Wert {@code null} hat.
      */
     public String remove(final InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
@@ -314,17 +307,11 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den Freigabestatus einer ILV
-     * 
-     * @param pInstanceLecture
-     *            , die ILV die verändert wird
+     *
+     * @param pInstanceLecture , die ILV die verändert wird
      */
     public void changeReleaseStatus(InstanceLecture pInstanceLecture) {
-        if (pInstanceLecture.isReleased() == true) {
-            pInstanceLecture.setReleased(false);
-            instanceLectureDao.update(pInstanceLecture);
-        } else {
-            pInstanceLecture.setReleased(true);
-            instanceLectureDao.update(pInstanceLecture);
-        }
+        pInstanceLecture.setReleased();
+        instanceLectureDao.update(pInstanceLecture);
     }
 }

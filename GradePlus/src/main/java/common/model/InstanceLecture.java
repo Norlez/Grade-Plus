@@ -223,17 +223,14 @@ public class InstanceLecture extends JPAEntity {
      *
      * @return true, wenn die ILV freigegeben wurde.
      */
-    public boolean isReleased() {
+    public boolean getReleased() {
         return isReleased;
     }
 
     /**
-     * Setzt den Freigabestatus
-     *
-     * @param released
-     *            als Freigabewert
+     * Setzt den Freigabestatus auf das Gegenteil.
      */
-    public void setReleased(boolean released) {
-        isReleased = released;
+    public void setReleased() {
+        isReleased = !isReleased;
     }
 }
