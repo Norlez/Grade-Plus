@@ -8,6 +8,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import persistence.ExamDAO;
 import persistence.InstanceLectureDAO;
+import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.annotation.PostConstruct;
@@ -46,6 +47,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private static final Logger logger = Logger.getLogger(UsersBean.class);
 
     /**
+     * Die gewählte ILV.
+     */
+    private InstanceLecture instanceLecture;
+
+    /**
      * Der aktuell ausgewählte Prüfungstermin. Wird verwendet, um Informationen
      * ausgewählter Prüfungen anzuzeigen, eine neue Prüfungs zu erstellen oder mittels
      * {@link #createExamsForTimeFrame()} mehrere Prüfungen auf einmal zu erstellen.
@@ -82,6 +88,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private List<Exam> allExams;
 
     /**
+     * Eine Liste mit allen Prüfungen der gewählten ILV, falls diese nicht
+     * {@code null} ist.
+     */
+    private List<Exam> examsOfInstanceLecture;
+
+    /**
      * Eine Liste mit allen Prüfungsterminen eines Prüflings.
      */
     private List<Exam> examsOfStudent;
@@ -104,6 +116,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private final UserDAO userDao;
 
     /**
+     * Wird benötigt, um beim Löschen einer Prüfung die zugehörigen
+     * {@link JoinExam}-Objekte zu löschen.
+     */
+    private final JoinExamDAO joinExamDao;
+
+    /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
      * {@link InstanceLecture}-Objekte übernimmt.
      */
@@ -112,19 +130,18 @@ public class ExamsBean extends AbstractBean implements Serializable {
     /**
      * Erzeugt eine neue ExamsBean.
      *
-     * @param pSession
-     *            Die Session der zu erzeugenden ExamsBean.
-     * @throws IllegalArgumentException
-     *             Falls {@code pSession} {@code null} ist.
+     * @param pSession Die Session der zu erzeugenden ExamsBean.
+     *
+     * @throws IllegalArgumentException Falls {@code pSession} {@code null} ist.
      */
     @Inject
     public ExamsBean(final Session pSession, final ExamDAO pExamDao,
-            final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDao) {
+                     final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDao, final JoinExamDAO pJoinExamDao) {
         super(pSession);
         examDao = assertNotNull(pExamDao);
         userDao = assertNotNull(pUserDao);
+        joinExamDao = assertNotNull(pJoinExamDao);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
-
     }
 
     /**
@@ -137,14 +154,31 @@ public class ExamsBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         exam = new Exam();
-        // allExams = assertNotNull(examDao.getAllExams());
-        // examsOfStudent = assertNotNull(examDao
-        // .getExamsForExaminee(getSession().getUser()));
-        // examsOfExaminer = assertNotNull(examDao.getExamsForExaminee(getSession()
-        // .getUser()));
-        startOfTimeSlot = null;
-        endOfTimeSlot = null;
-        lengthOfBreaks = null;
+        allExams = assertNotNull(examDao.getAllExams());
+        examsOfStudent = assertNotNull(examDao
+                .getExamsForStudent(getSession().getUser()));
+        examsOfExaminer = assertNotNull(examDao
+                .getExamsForExaminer(getSession().getUser()));
+    }
+
+    /**
+     * Gibt die aktuell gewählte ILV zurück oder {@code null}, falls keine ILV
+     * gewählt ist.
+     *
+     * @return Die aktuell gewählte ILV oder {@code null}, falls keine ILV
+     * gewählt ist
+     */
+    public InstanceLecture getInstanceLecture() {
+        return instanceLecture;
+    }
+
+    /**
+     * Setzt die aktuell gewählte ILV auf den gegebenen Wert.
+     *
+     * @param pInstanceLecture Die neue aktuell geählte ILV.
+     */
+    public void setInstanceLecture(final InstanceLecture pInstanceLecture) {
+        instanceLecture = assertNotNull(pInstanceLecture);
     }
 
     /**
@@ -159,8 +193,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
     /**
      * Setzt den ausgewählten Termin in der Bean.
      *
-     * @param pExam
-     *            Der vom Püfer ausgewählte Termin.
+     * @param pExam Der vom Püfer ausgewählte Termin.
      */
     public void setExam(final Exam pExam) {
         exam = assertNotNull(pExam);
@@ -175,8 +208,30 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return allExams;
     }
 
+    /**
+     * Gibt die Liste aller Prüfungen der gewählten ILV zurück oder
+     * {@code null}, falls {@link #instanceLecture} {@code null} ist.
+     *
+     * @return Die Liste aller Prüfungen der gewählten ILV oder {@code null},
+     * falls {@link #instanceLecture} {@code null} ist.
+     */
     public List<Exam> getExamsOfInstanceLecture() {
-        return examDao.getExamsForSemester(getSession().getSelectedILV());
+        return instanceLecture == null ? null : examDao.getExamsForInstanceLecture(instanceLecture);
+    }
+
+    /**
+     * Gibt alle Prüflinge der Prüfung als Liste zurück.
+     *
+     * @return Alle Prüflinge der Prüfung als Liste.
+     */
+    public List<User> getStudents(final Exam pExam) {
+        assertNotNull(pExam);
+        List<User> students = new ArrayList<>();
+        List<JoinExam> joinExams = pExam.getParticipants();
+        for (JoinExam joinExam : joinExams) {
+            students.add(joinExam.getPruefling());
+        }
+        return students;
     }
 
     /**
@@ -188,21 +243,18 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     public String save() {
         User user = getSession().getUser();
+        exam.addExaminer(user);
+        exam.getInstanceLecture().addExam(exam);
+        user.addExamAsProf(exam);
         try {
-            exam.addExaminer(user);
             examDao.save(exam);
-            exam.getIlv().addExam(exam);
-            instanceLectureDao.update(exam.getIlv());
-            user.addExamAsProf(exam);
+            instanceLectureDao.update(exam.getInstanceLecture());
             userDao.update(user);
-            // TODO Examiner als JoinExam hinzufügen?
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // User und Exam haben JoinExam
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInputdataIncomplete"));
         } catch (final UnexpectedUniqueViolationException e) {
-            addErrorMessageWithLogging(e, logger, Level.DEBUG, getTranslation("error"));
+            addErrorMessageWithLogging(e, logger, Level.DEBUG, getTranslation("someError"));
         } catch (final DuplicateUsernameException e) {
             addErrorMessageWithLogging("registerUserForm:username", e, logger,
                     Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
@@ -223,28 +275,24 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String update() {
         try {
             Exam oldExam = examDao.getById(exam.getId());
-            List<JoinExam> joinExams = oldExam.getParticipants();
-            List<User> students = new ArrayList<>();
-            for (JoinExam joinExam : joinExams) {
-                // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch
-                // nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            }
-
+            List<User> students = getStudents(oldExam);
             examDao.update(exam);
             String message = String
                     .format("Die Daten des Prüfungstermins für %s am %s um %s Uhr, wurden angepasst.\n\nNeue Daten:\nDatum: %s\nUhrzeit: %s Uhr\nDauer: %i Minuten",
-                            oldExam.getIlv().getLecture().getName(), oldExam.getDate()
-                                    .toString(), oldExam.getTime().toString(), exam
-                                    .getDate().toString(), exam.getTime().toString(),
+                            oldExam.getInstanceLecture().getLecture().getName(),
+                            oldExam.getLocalDateTime().toLocalDate().toString(),
+                            oldExam.getLocalDateTime().toLocalTime().toString(),
+                            exam.getLocalDateTime().toLocalDate().toString(),
+                            exam.getLocalDateTime().toLocalTime().toString(),
                             exam.getExamLength());
-            for (int i = 0; i < students.size(); i++) {
-                notify(students.get(i), message);
+            for (User student : students) {
+                notify(student, message);
             }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInputdataIncomplete"));
         } catch (final UnexpectedUniqueViolationException e) {
-            addErrorMessageWithLogging(e, logger, Level.DEBUG, getTranslation("error"));
+            addErrorMessageWithLogging(e, logger, Level.DEBUG, getTranslation("someError"));
         }
         init();
         return "exams.xhtml";
@@ -255,28 +303,188 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * Verwendung des entsprechenden Data-Access-Objekts. Sollte die zu entfernende
      * Prüfung nicht in der Liste der Prüfungen vorhanden sein, passiert nichts.
      *
-     * @param pExam
-     *            Die zu entfernende Prüfung.
+     * Ablauf: {@link Exam}-Objekt wird gelöscht. Die entsprechenden
+     * {@link JoinExam}-Objekte der Prüflinge werden daraufhin gelöscht. Bei den
+     * Prüfern wird nun jeweils das entsprechende {@link Exam}-Objekt aus der
+     * Prüferliste entfernt, woraufhin Prüflinge und Prüfer geupdated werden.
+     * Zum Schluss wird die Prüfung aus der entsprechenden
+     * {@link InstanceLecture} gelöscht und diese geupdated.
+     *
+     * @param pExam Die zu entfernende Prüfung.
+     *
      * @return {code null} damit nicht zu einem anderen Facelet navigiert wird.
      */
     public String remove(final Exam pExam) {
-        List<JoinExam> joinExams = assertNotNull(pExam).getParticipants();
-        List<User> students = new ArrayList<>();
-        for (JoinExam joinExam : joinExams) {
-            // students.addAll(joinExam.getStudents()); TODO getStudents() gibts noch
-            // nicht!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        }
-
+        List<User> examiners = exam.getExaminers();
+        List<User> students = getStudents(pExam);
+        List<User> updatedUsers = new ArrayList<>();
         examDao.remove(pExam);
         String message = String
                 .format("Der Prüfungstermin für %s am %s um %s Uhr wurde gelöscht. Bitte melden Sie sich bei Bedarf zu einem neuen Termin an.",
-                        pExam.getIlv().getLecture().getName(),
-                        pExam.getDate().toString(), pExam.getTime().toString());
-        for (int i = 0; i < students.size(); i++) {
-            notify(students.get(i), message);
+                        pExam.getInstanceLecture().getLecture().getName(),
+                        pExam.getLocalDateTime().toLocalDate().toString(),
+                        pExam.getLocalDateTime().toLocalTime().toString());
+        for (User student : students) {
+            List<JoinExam> joinExams = student.getParticipation();
+            for (JoinExam joinExam : joinExams) {
+                if (joinExam.getExam() == pExam) {
+                    joinExams.remove(joinExam);
+                    joinExamDao.remove(joinExam);
+                    break;
+                }
+            }
+            updatedUsers.add(student);
+            notify(student, message);
         }
+        for (User examiner : examiners) {
+            examiner.removeExamAsProf(pExam);
+            updatedUsers.add(examiner);
+        }
+        for (User updatedUser : updatedUsers) {
+            try {
+                userDao.update(updatedUser);
+            } catch (final DuplicateUsernameException e) {
+                addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                        Level.DEBUG, "errorUsernameAlreadyInUse", updatedUser.getUsername());
+            } catch (final DuplicateEmailException e) {
+                addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                        "errorEmailAlreadyInUse", updatedUser.getEmail());
+            }
+        }
+        instanceLecture.removeExam(pExam);
+        instanceLectureDao.update(instanceLecture);
         init();
         return null;
+    }
+
+    /**
+     * Meldet den eingeloggten Benutzer an der gegebenen Prüfung an.
+     *
+     * @param pExam Die Prüfung.
+     *
+     * @return "exams.xhtml", um auf das Facelet der Übersicht über die Prüfungen
+     * umzuleiten.
+     */
+    public String registerAsStudent(final Exam pExam) {
+        assertNotNull(pExam);
+        User user = getSession().getUser();
+        JoinExam joinExam = new JoinExam();
+        joinExam.setExam(pExam);
+        joinExam.setPruefling(user);
+        joinExam.setKind(Anmeldeart.SELBER);
+        pExam.addParticipant(joinExam);
+        try {
+            userDao.update(user);
+            joinExamDao.save(joinExam);
+            examDao.update(pExam);
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", user.getEmail());
+        }
+        return "exams.xhtml";
+    }
+
+    /**
+     * Meldet den eingeloggten Benutzer von der gegebenen Prüfung ab.
+     *
+     * @param pExam Die Prüfung.
+     *
+     * @return "exams.xhtml", um auf das Facelet der Übersicht über die Prüfungen
+     * umzuleiten.
+     */
+    public String deregisterAsStudent(final Exam pExam) {
+        assertNotNull(pExam);
+        User user = getSession().getUser();
+        List<JoinExam> joinExams = user.getParticipation();
+        JoinExam joinExam = null;
+        for (JoinExam theJoinExam : joinExams) {
+            if (theJoinExam.getExam() == pExam) {
+                joinExam = theJoinExam;
+                user.removeParticipation(joinExam);
+                pExam.removeParticipant(joinExam);
+                break;
+            }
+        }
+        if (joinExam == null) {
+            addErrorMessageWithLogging(new IllegalArgumentException("An error has occurred."), logger,
+                    Level.DEBUG, getTranslation("errorUserdataIncomplete"));
+            return null;
+        }
+        try {
+            userDao.update(user);
+            joinExamDao.remove(joinExam);
+            examDao.update(pExam);
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", user.getEmail());
+        }
+        return "exams.xhtml";
+    }
+
+    /**
+     * Fügt den gegebenen Benutzer der aktuell ausgewählten Prüfung hinzu. Vor
+     * dem Hinzufügen des Prüfers muss {@link #exam} auf eine bereits in der
+     * Datenbank existierende Prüfung gesetzt sein.
+     *
+     * @param pUser Der der Prüfung als Prüfer hinzuzufügende Benutzer.
+     *
+     * @return "exams.xhtml", um auf das Facelet der Übersicht über die Prüfungen
+     * umzuleiten.
+     *
+     * @throws IllegalArgumentException Falls {@link #exam} nicht in der
+     * Datenbank existiert.
+     */
+    public String addExaminer(final User pUser) {
+        assertNotNull(pUser);
+        pUser.addExamAsProf(exam);
+        exam.addExaminer(pUser);
+        try {
+            userDao.update(pUser);
+            examDao.update(exam);
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", pUser.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", pUser.getEmail());
+        }
+        return "exams.xhtml";
+    }
+
+    /**
+     * Entfernt den gegebenen Benutzer der aktuell ausgewählten Prüfung. Vor
+     * dem Entfernen des Prüfers muss {@link #exam} auf eine bereits in der
+     * Datenbank existierende Prüfung gesetzt sein.
+     *
+     * @param pUser Der der Prüfung als Prüfer zu entfernende Benutzer.
+     *
+     * @return "exams.xhtml", um auf das Facelet der Übersicht über die Prüfungen
+     * umzuleiten.
+     *
+     * @throws IllegalArgumentException Falls {@link #exam} nicht in der
+     * Datenbank existiert.
+     */
+    public String removeExaminer(final User pUser) {
+        assertNotNull(pUser);
+        pUser.removeExamAsProf(exam);
+        exam.removeExaminer(pUser);
+        try {
+            userDao.update(pUser);
+            examDao.update(exam);
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse", pUser.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse", pUser.getEmail());
+        }
+        return "exams.xhtml";
     }
 
     /**
@@ -303,8 +511,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
             return "exams.xhtml";
         }
         conflictingExams = new ArrayList<>();
-        exam.setDate(startOfTimeSlot.toLocalDate());
-        exam.setTime(startOfTimeSlot.toLocalTime());
+        exam.setLocalDateTime(startOfTimeSlot);
         exam.addExaminer(getSession().getUser());
         while (exam.getLocalDateTime().plusMinutes(exam.getExamLength())
                 .compareTo(endOfTimeSlot) <= 0) {
@@ -336,11 +543,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * Sendet eine Nachricht an den Prüfling, um ihm über Änderungen eines Prüfungstermins
      * zu informieren.
      *
-     * @param pUser
-     *            Der {@link User}, der über Änderungen einer Prüfung benachrichtigt
-     *            werden soll.
-     * @param pMessage
-     *            Die zu sendende Nachricht.
+     * @param pUser Der {@link User}, der über Änderungen einer Prüfung
+     *              benachrichtigt werden soll.
+     * @param pMessage Die zu sendende Nachricht.
      */
     private void notify(final User pUser, final String pMessage) {
         MailBean sender = new MailBean(getSession());
@@ -353,10 +558,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
     /**
      * Prüft, ob bereits eine Prüfung am angegebenen Zeitslot stattfindet.
      *
-     * @param lowerBound
-     *            Die untere Grenze des zu prüfenden Zeitslots.
-     * @param upperBound
-     *            Die obere Grenze des zu Prüfenden Zeitslots.
+     * @param lowerBound Die untere Grenze des zu prüfenden Zeitslots.
+     * @param upperBound Die obere Grenze des zu Prüfenden Zeitslots.
      *
      * @return {@code true} Falls im gegebenen Zeitraum bereits eine Prüfung stattfindet,
      *         sonst {@code false}.
@@ -366,8 +569,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
         for (Exam currExam : examsOfExaminer) {
 
-            LocalDateTime currLowerBound = LocalDateTime.of(currExam.getDate(),
-                    currExam.getTime());
+            LocalDateTime currLowerBound = currExam.getLocalDateTime();
             LocalDateTime currUpperBound = currLowerBound.plusMinutes(currExam
                     .getExamLength());
 

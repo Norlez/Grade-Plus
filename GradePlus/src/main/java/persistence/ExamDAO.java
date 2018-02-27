@@ -1,13 +1,11 @@
 package persistence;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.Exam;
 import common.model.InstanceLecture;
-import common.model.Lecture;
 import common.model.User;
 
 import javax.ejb.Stateless;
@@ -18,6 +16,7 @@ import static common.util.Assertion.assertNotNull;
  * Dieses DAO verwaltet die Objekte der Klasse {@link Exam}.
  *
  * @author Torben Groß
+ * @version 2018-02-27
  */
 @Stateless
 public class ExamDAO extends JPADAO<Exam> {
@@ -30,8 +29,7 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Fügt {@code theExam} der Datenbank hinzu.
      *
-     * @param pExam
-     *            Das zu speichernde {@code Exam}-Objekt.
+     * @param pExam Das zu speichernde {@code Exam}-Objekt.
      */
     @Override
     public synchronized void save(Exam pExam) {
@@ -46,8 +44,7 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Aktualisiert den Eintrag von {@code theExam} im Datenbestand.
      *
-     * @param pExam
-     *            Das zu aktualisierende {@link Exam}-Objekt.
+     * @param pExam Das zu aktualisierende {@link Exam}-Objekt.
      */
     @Override
     public synchronized void update(Exam pExam) {
@@ -57,7 +54,6 @@ public class ExamDAO extends JPADAO<Exam> {
         } catch (DuplicateUniqueFieldException e) {
             throw new UnexpectedUniqueViolationException(e);
         }
-
     }
 
     /**
@@ -70,62 +66,36 @@ public class ExamDAO extends JPADAO<Exam> {
     }
 
     /**
-     * Gibt alle Prüfungen der gegebenen Lehrveranstaltung zurück.
+     * Gibt alle Prüfungen der gegebenen ILV zurück.
      *
-     * @param pLecture
-     *            Die Lehrveranstaltung der gesuchten Prüfungen.
-     * @return Die Prüfungen der gegebenen Lehrveranstaltung als Liste.
+     * @param pInstanceLecture Die ILV der gesuchten Prüfungen.
+     * @return Die Prüfungen der gegebenen ILV als Liste.
      */
-    public List<Exam> getExamsForLecture(Lecture pLecture) {
-        return getEm().createNamedQuery("Exam.findByLecture", getClazz())
-                .setParameter("ilv", pLecture).getResultList();
-    }
-
-    /**
-     * Gibt alle Prüfungen des gegebenen Semesters zurück.
-     *
-     * @param pInstanceLecture
-     *            Das Semester der gesuchten Prüfungen.
-     * @return Die Prüfungen des gegebenen Semesters als Liste.
-     */
-    public List<Exam> getExamsForSemester(InstanceLecture pInstanceLecture) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt alle Prüfungen des gegebenen Prüflings zurück.
-     *
-     * @param pExaminee
-     *            Der Prüfling der gesuchten Prüfungen.
-     * @return Die Prüfungen des gegebenen Prüflings als Liste.
-     */
-    // public List<Exam> getExamsForExaminee(User pExaminee) {
-    // return getEm().createNamedQuery("Exam.findByExaminees", getClazz())
-    // .setParameter("examinees", pExaminee).getResultList();
-    // }
-
-    /**
-     * Gibt alle Prüfungen des gegebenen Prüflings zurück.
-     *
-     * @param pDate
-     *            Das Datum der gesuchten Prüfungen.
-     * @return Die Prüfungen am gegebenen Datum als Liste.
-     */
-    public List<Exam> getExamForDate(LocalDateTime pDate) {
-        return getEm().createNamedQuery("Exam.findByDate", getClazz())
-                .setParameter("date", pDate).getResultList();
+    public List<Exam> getExamsForInstanceLecture(InstanceLecture pInstanceLecture) {
+        return getEm().createNamedQuery("Exam.findByInstanceLecture", getClazz())
+                .setParameter("instanceLecture", pInstanceLecture).getResultList();
     }
 
     /**
      * Gibt alle Prüfungen des gegebenen Prüfers zurück.
      *
-     * @param pExaminer
-     *            Der Prüfer der gesuchten Prüfungen.
+     * @param pExaminer Der Prüfer der gesuchten Prüfungen.
      * @return Die Prüfungen des gegebenen Prüfers als Liste.
      */
-    // public List<Exam> getExamsForExaminer(User pExaminer) {
-    // return getEm().createNamedQuery("Exam.findByExaminer", getClazz())
-    // .setParameter("examiners", pExaminer).getResultList();
-    // }
+    public List<Exam> getExamsForExaminer(User pExaminer) {
+        return getEm().createNamedQuery("Exam.findByExaminer", getClazz())
+                .setParameter("examiner", pExaminer).getResultList();
+    }
+
+    /**
+     * Gibt alle Prüfungen des gegebenen Prüflings zurück.
+     *
+     * @param pStudent Der Prüfling der gesuchten Prüfungen.
+     * @return Die Prüfungen des gegebenen Prüflings als Liste.
+     */
+    public List<Exam> getExamsForStudent(User pStudent) {
+        return getEm().createNamedQuery("Exam.findByStudent", getClazz())
+                .setParameter("student", pStudent).getResultList();
+    }
 
 }

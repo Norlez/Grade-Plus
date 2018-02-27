@@ -10,6 +10,9 @@ import common.util.Assertion;
 
 import javax.persistence.*;
 
+import static common.util.Assertion.assertNotNegative;
+import static common.util.Assertion.assertNotNull;
+
 /**
  * Repräsentiert eine Prüfung. Eine Prüfung enthält ein Datum, eine Lehrveranstaltung,
  * Prüfer, Prüflinge sowie die Information, ob es sich bei der Prüfung um eine Einzel-
@@ -23,12 +26,11 @@ import javax.persistence.*;
 @Table(name = "Exams")
 @NamedQueries({
         @NamedQuery(name = "Exam.findAll", query = "SELECT e FROM Exam e"),
-        @NamedQuery(name = "Exam.findByLecture", query = "SELECT e FROM Exam e WHERE e.ilv = :ilv"),
-        @NamedQuery(name = "Exam.findByDate", query = "SELECT e FROM Exam e WHERE e.date = :date") })
+        @NamedQuery(name = "Exam.findByInstanceLecture", query = "SELECT e FROM Exam e WHERE e.instanceLecture = :instanceLecture"),
+        @NamedQuery(name = "Exam.findByExaminer", query = "SELECT e FROM Exam e WHERE :examiner MEMBER OF e.examiners"),
+        @NamedQuery(name = "Exam.findByStudent", query = "SELECT e FROM Exam e, e.participants p WHERE :student = p.pruefling") })
 public class Exam extends JPAEntity {
 
-    @OneToMany(mappedBy = "exam")
-    private List<JoinExam> participants;
     /**
      * Die Prüfungsordnung der Prüfung.
      */
@@ -36,32 +38,28 @@ public class Exam extends JPAEntity {
     private String examRegulations;
 
     /**
-     * Die Lehrveranstaltung der Prüfung.
+     * Die ILV der Prüfung.
      */
     @ManyToOne(optional = false)
-    private InstanceLecture ilv;
+    private InstanceLecture instanceLecture;
 
     /**
-     * Das Datum der Prüfung.
+     * Die Prüflinge einer Prüfung als {@link JoinExam}-Objekt.
      */
-    @Column
-    private LocalDate date; // Muss vielleicht geändert werden
+    @OneToMany(mappedBy = "exam")
+    private List<JoinExam> participants;
 
     /**
-     * Der Startzeitpunkt der Prüfung
+     * Die Prüfer einer Prüfung.
+     */
+    @ManyToMany(mappedBy = "ExamAsProf")
+    private List<User> examiners;
+
+    /**
+     * Der Startpunkt der Prüfung.
      */
     @Column
-    private LocalTime time; // Muss vielleicht geändert werden
-
     private LocalDateTime localDateTime;
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime(LocalDateTime pLocalDateTime) {
-        localDateTime = pLocalDateTime;
-    }
 
     /**
      * Die Prüfungsdauer.
@@ -82,59 +80,27 @@ public class Exam extends JPAEntity {
     private String type;
 
     /**
-     * Gibt an, ob es sich bei der Prüfung um eine Gruppenprüfung handelt.
-     */
-    @Column
-    private boolean groupExam;
-
-    @ManyToMany(mappedBy = "ExamAsProf")
-    private List<User> examiners;
-    /**
      * Die Bemerkung zur Prüfung.
      */
     @Column
     private String comment;
 
-    @Column(nullable = true)
-    private int groupSize;
-
-    public List<JoinExam> getParticipants() {
-        return participants;
-    }
-
-    public List<User> getExaminers() {
-        return examiners;
-    }
-
-    public void setExaminers(List<User> examiners) {
-        this.examiners = examiners;
-    }
-
-    public void addExaminer(final User u) {
-        examiners.add(u);
-    }
-
-    public void removeExaminer(final User u) {
-        examiners.remove(u);
-    }
-
     /**
      * Gibt die Prüfungsordnung der Prüfung zurück.
      *
-     * @return Die Prüfungsordnung der Prüfung.
+     * @return Die neue Prüfungsordnung der Prüfung.
      */
     public String getExamRegulations() {
         return examRegulations;
     }
 
     /**
-     * Setzt die Prüfungsordnung der Prüfung auf die gegebene Prüfungsordnung.
+     * Setzt die Prüfungsordnung der Prüfung auf den gegebenen Wert.
      *
      * @param pExamRegulations
-     *            Die neue Prüfungsordnung.
      */
-    public void setExamRegulations(String pExamRegulations) {
-        examRegulations = Assertion.assertNotNull(pExamRegulations);
+    public void setExamRegulations(final String pExamRegulations) {
+        examRegulations = assertNotNull(pExamRegulations);
     }
 
     /**
@@ -142,154 +108,179 @@ public class Exam extends JPAEntity {
      *
      * @return Die ILV der Prüfung.
      */
-    public InstanceLecture getIlv() {
-        return ilv;
+    public InstanceLecture getInstanceLecture() {
+        return instanceLecture;
     }
 
     /**
-     * Setzt die ILV der Prüfung auf die gegebene Lehrveranstaltung.
+     * Setzt die ILV der Prüfung auf den gegebenen Wert.
      *
-     * @param pILV
-     *            Die neue ILV der Prüfung.
+     * @param pInstanceLecture Die neue ILV der Prüfung.
      */
-    public void setIlv(InstanceLecture pILV) {
-        ilv = Assertion.assertNotNull(pILV);
+    public void setInstanceLecture(final InstanceLecture pInstanceLecture) {
+        instanceLecture = assertNotNull(instanceLecture);
     }
 
     /**
-     * Gibt den Termin der Prüfung zurück.
-     * 
-     * @return Das Datum der Prüfung
-     */
-    public LocalDate getDate() {
-        return date;
-    }
-
-    /**
-     * Setzt den Termin für die Prüfung.
-     * 
-     * @param date
-     *            : Termin für die Prüfung.
-     */
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    /**
-     * Gibt den Startzeitpunkt der Prüfung zurück.
+     * Gibt die JoinExams der Prüfung zurück.
      *
-     * @return Den Startzeitpunkt der Prüfung.
+     * @return Die JoinExams der Prüfung.
      */
-    public LocalTime getTime() {
-        return time;
+    public List<JoinExam> getParticipants() {
+        return participants;
     }
 
     /**
-     * Setzt den Startzeitpunkt der Prüfung auf die gegebene Zeit.
+     * Fügt die gegebene JoinExam der Liste der JoinExams hinzu.
      *
-     * @param time
-     *            Der neue Startzeitpunkt der Prüfung.
+     * @param pJoinExam Die hinzuzufügende JoinExam.
      */
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void addParticipant(final JoinExam pJoinExam) {
+        participants.add(assertNotNull(pJoinExam));
     }
 
     /**
-     * Gibt die Prüfungsdauer in Minuten zurück.
+     * Setzt die JoinExams der Prüfung auf den gegebenen Wert.
      *
-     * @return Die Prüfungsdauer in Minuten.
+     * @param pParticipants Die neuen JoinExams der Prüfung.
+     */
+    public void setParticipants(final List<JoinExam> pParticipants) {
+        participants = assertNotNull(participants);
+    }
+
+    /**
+     * Entfernt die gegebene JoinExam aus der Prüfung.
+     *
+     * @param pParticipant Die zu entfernende JoinExam.
+     */
+    public void removeParticipant(final JoinExam pParticipant) {
+        participants.remove(assertNotNull(pParticipant));
+    }
+
+    /**
+     * Gibt die Prüfer der Prüfung zurück.
+     *
+     * @return Die Prüfer der Prüfung.
+     */
+    public List<User> getExaminers() {
+        return examiners;
+    }
+
+    /**
+     * Fügt den gegebenen Benutzer der Liste aller Prüfer der Prüfung hinzu.
+     *
+     * @param pExaminer Der zur Prüfung als Prüfer einzutragende Benutzer.
+     */
+    public void addExaminer(final User pExaminer) {
+        examiners.add(assertNotNull(pExaminer));
+    }
+
+    /**
+     * Setzt die Prüfer der Prüfung auf den gegebenen Wert.
+     *
+     * @param pExaminers Die neuen Prüfer der Prüfung.
+     */
+    public void setExaminers(final List<User> pExaminers) {
+        examiners = assertNotNull(pExaminers);
+    }
+
+    /**
+     * Entfernt den gegebenen Benutzer als Prüfer der Prüfung.
+     *
+     * @param pExaminer Der aus der Prüfung als Prüfer zu entfernende Benutzer.
+     */
+    public void removeExaminer(final User pExaminer) {
+        examiners.remove(pExaminer);
+    }
+
+    /**
+     * Gibt den Startpunkt der Prüfung zurück.
+     *
+     * @return Den Startpuntk der Prüfung.
+     */
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    /**
+     * Setzt den Startpunkt der Prüfung auf den gegebenen Wert.
+     *
+     * @param pLocalDateTime Der neue Startpunkt der Prüfung.
+     */
+    public void setLocalDateTime(final LocalDateTime pLocalDateTime) {
+        localDateTime = assertNotNull(pLocalDateTime);
+    }
+
+    /**
+     * Gibt die Länge der Prüfung zurück.
+     *
+     * @return Die Länge der Prüfung.
      */
     public int getExamLength() {
         return examLength;
     }
 
     /**
-     * Setzt die Prüfungsdauer auf die gegebene Dauer in Minuten.
+     * Setzt die Länge der Prüfung auf den gegebenen Wert.
      *
-     * @param pExamLength
-     *            Die neue Prüfungsdauer in Minuten.
+     * @param pExamLength Die neue Länge der Prüfung.
      */
-    public void setExamLength(int pExamLength) {
-        examLength = pExamLength;
+    public void setExamLength(final int pExamLength) {
+        examLength = assertNotNegative(pExamLength);
     }
 
     /**
-     * Gibt den Prüfungsort zurück.
+     * Gibt den Ort der Prüfung zurück.
      *
-     * @return Den Prüfungsort.
+     * @return Den Ort der Prüfung.
      */
     public String getLocation() {
         return location;
     }
 
     /**
-     * Setzt den Prüfungsort auf den gegebenen Wert.
+     * Setzt den Ort der Prüfung auf den gegebenen Wert.
      *
-     * @param pLocation
-     *            Der neue Prüfungsort.
+     * @param pLocation Der neue Ort der Prüfung.
      */
-    public void setLocation(String pLocation) {
-        location = Assertion.assertNotNull(pLocation);
+    public void setLocation(final String pLocation) {
+        location = assertNotNull(pLocation);
     }
 
     /**
-     * Gibt die Art der Prüfung als String zurück.
+     * Gibt den Typen der Prüfung (bspw. Fachgespräch) zurück.
      *
-     * Bei einer Gruppenprüfung wird beispielsweise "Gruppe" zurückgegeben.
-     *
-     * @return Die Art der Prüfung als String.
+     * @return Den Typen der Prüfung.
      */
     public String getType() {
         return type;
     }
 
     /**
-     * Setzt die Art der Prüfung auf die gegebene Prüfungsart.
+     * Setzt den Typen der Prüfung (bspw. Fachgespräch) auf den gegebenen Wert.
      *
-     * @param pType
-     *            Die neue Prüfungsart.
+     * @param pType Der neue Typ der Prüfung.
      */
-    public void setType(String pType) {
-        type = Assertion.assertNotEmpty(pType);
+    public void setType(final String pType) {
+        type = assertNotNull(pType);
     }
 
     /**
-     * Gibt zurück, ob es sich bei der Prüfung um eine Gruppenprüfung hantelt.
+     * Gibt die Bemerkung der Prüfung zurück.
      *
-     * @return {@code true} Falls es sich bei der Prüfung um eine Gruppenprüfung handelt,
-     *         sonst {@code false}.
+     * @return Die Bemerkung der Prüfung.
      */
-    public boolean isGroupExam() {
-        return groupExam;
+    public String getComment() {
+        return comment;
     }
 
     /**
-     * Gibt an ob eine Gruppenprüfung vorliegt
+     * Setzt die Bemerkung der Prüfung auf den gegebenen Wert.
      *
-     * @param groupExam
-     *            setzt die Prüfung auf den gegebenen Wert.
+     * @param pComment Die neue Bemerkung der Prüfung.
      */
-    public void setGroupExam(boolean groupExam) {
-        this.groupExam = groupExam;
+    public void setComment(final String pComment) {
+        comment = assertNotNull(pComment);
     }
 
-    public void setParticipants(List<JoinExam> students) {
-        this.participants = students;
-    }
-
-    public void addParticipant(final JoinExam j) {
-        participants.add(j);
-    }
-
-    public void removeParticipant(final JoinExam j) {
-        participants.remove(j);
-    }
-
-    public int getGroupSize() {
-        return groupSize;
-    }
-
-    public void setGroupSize(int groupSize) {
-        this.groupSize = groupSize;
-    }
 }
