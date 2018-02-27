@@ -84,25 +84,13 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Gibt alle Prüfungen des gegebenen Semesters zurück.
      *
-     * @param pInstanceLecture
+     * @param pSemester
      *            Das Semester der gesuchten Prüfungen.
      * @return Die Prüfungen des gegebenen Semesters als Liste.
      */
-    public List<Exam> getExamsForSemester(InstanceLecture pInstanceLecture) {
+    public List<Exam> getExamsForSemester(String pSemester) {
         throw new UnsupportedOperationException();
     }
-
-    /**
-     * Gibt alle Prüfungen des gegebenen Prüflings zurück.
-     *
-     * @param pExaminee
-     *            Der Prüfling der gesuchten Prüfungen.
-     * @return Die Prüfungen des gegebenen Prüflings als Liste.
-     */
-    // public List<Exam> getExamsForExaminee(User pExaminee) {
-    // return getEm().createNamedQuery("Exam.findByExaminees", getClazz())
-    // .setParameter("examinees", pExaminee).getResultList();
-    // }
 
     /**
      * Gibt alle Prüfungen des gegebenen Prüflings zurück.
@@ -123,9 +111,9 @@ public class ExamDAO extends JPADAO<Exam> {
      *            Der Prüfer der gesuchten Prüfungen.
      * @return Die Prüfungen des gegebenen Prüfers als Liste.
      */
-    // public List<Exam> getExamsForExaminer(User pExaminer) {
-    // return getEm().createNamedQuery("Exam.findByExaminer", getClazz())
-    // .setParameter("examiners", pExaminer).getResultList();
-    // }
+     public List<Exam> getExamsForExaminer(User pExaminer) {
+     return getEm().createNamedQuery("Exam.findByExaminer", getClazz())
+     .setParameter("examiners", pExaminer).getResultList();
+     }
 
 }

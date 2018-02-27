@@ -24,6 +24,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "Exam.findAll", query = "SELECT e FROM Exam e"),
         @NamedQuery(name = "Exam.findByLecture", query = "SELECT e FROM Exam e WHERE e.ilv = :ilv"),
+        @NamedQuery(name = "Exam.findByExaminer", query = "SELECT e FROM Exam e WHERE e.examiners = :examiners"),
         @NamedQuery(name = "Exam.findByDate", query = "SELECT e FROM Exam e WHERE e.date = :date") })
 public class Exam extends JPAEntity {
 

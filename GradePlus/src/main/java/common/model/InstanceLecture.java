@@ -62,6 +62,11 @@ public class InstanceLecture extends JPAEntity {
     private List<Exam> exams = new ArrayList<>();
 
     /**
+     * Sagt, ob eine ILV freigegeben ist für Anmeldungen.
+     */
+    @Column(nullable = false)
+    private boolean isReleased = false;
+    /**
      * Gibt die LV der ILV zurück.
      *
      * @return Die LV der ILV.
@@ -210,5 +215,21 @@ public class InstanceLecture extends JPAEntity {
      */
     public void setSemester(final String pSemester) {
         semester = assertNotNull(pSemester);
+    }
+
+    /**
+     * Setzt den Status der Freigabe
+     * @param released
+     */
+    public void setReleased(boolean released) {
+        isReleased = released;
+    }
+
+    /**
+     * Gibt den Status der Freigabe zurück.
+     * @return true, falls die ILV freigegeben ist.
+     */
+    public boolean isReleased() {
+        return isReleased;
     }
 }
