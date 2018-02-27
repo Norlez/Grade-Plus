@@ -59,7 +59,7 @@ public class InstanceLecture extends JPAEntity {
      * Die Prüfungen der ILV.
      */
     @OneToMany(mappedBy = "ilv", cascade = CascadeType.REMOVE)
-    private List<Exam> exams;
+    private List<Exam> exams = new ArrayList<>();
 
     /**
      * Gibt die LV der ILV zurück.
