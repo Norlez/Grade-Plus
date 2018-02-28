@@ -9,9 +9,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import persistence.LectureDAO;
 
-
-
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -52,9 +49,13 @@ public class LectureEditBean extends AbstractBean implements Serializable {
     /**
      * Erzeugt eine neue InstanceLectureEditBean.
      *
-     * @param pSession Die Session der zu erzeugenden LectureEditBean.
-     * @param pLectureDao Die LectureDAO der zu erzeugenden LectureEditBean.
-     * @throws IllegalArgumentException Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null} sind.
+     * @param pSession
+     *            Die Session der zu erzeugenden LectureEditBean.
+     * @param pLectureDao
+     *            Die LectureDAO der zu erzeugenden LectureEditBean.
+     * @throws IllegalArgumentException
+     *             Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
+     *             sind.
      */
     @Inject
     public LectureEditBean(final Session pSession, final LectureDAO pLectureDao) {
@@ -64,6 +65,7 @@ public class LectureEditBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt den Zustand des Editcheckers zurück.
+     * 
      * @return der Zustand des Editcheckers.
      */
     public boolean getEditChecker() {
@@ -72,7 +74,9 @@ public class LectureEditBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den Editchecker auf das Gegenteil und setzt den übergebenen User.
-     * @param pUser der zu setztende User
+     * 
+     * @param pUser
+     *            der zu setztende User
      * @return die user.xhtml um auf das Facelet zu wechseln.
      */
     public String setEditChecker(final User pUser) {
@@ -80,7 +84,6 @@ public class LectureEditBean extends AbstractBean implements Serializable {
         setUser(pUser);
         return "user.xhtml";
     }
-
 
     /**
      * Gibt die aktuell zu bearbeitenden Lecture zurück.
@@ -94,8 +97,8 @@ public class LectureEditBean extends AbstractBean implements Serializable {
     /**
      * Setzt die aktuell zu bearbeitenden Lecture auf den gegebenen Wert.
      *
-     * @param pLecture die zu setzende Lecture
-     *            Der neue aktuell zu bearbeitende Benutzer.
+     * @param pLecture
+     *            die zu setzende Lecture Der neue aktuell zu bearbeitende Benutzer.
      * @return "user.xhtml", um auf das Facelet der Benutzerbearbeitung weiterzuleiten.
      */
     public String setSelectedLecture(final Lecture pLecture) {
@@ -103,7 +106,7 @@ public class LectureEditBean extends AbstractBean implements Serializable {
         return "user.xhtml";
     }
 
-    public void setEditCheckerWithoutLecture(){
+    public void setEditCheckerWithoutLecture() {
         editChecker = !editChecker;
     }
 
@@ -124,6 +127,5 @@ public class LectureEditBean extends AbstractBean implements Serializable {
         }
         return "user.xhtml";
     }
-
 
 }

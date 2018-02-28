@@ -95,14 +95,17 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     /**
      * Erzeugt eine neue InstanceLecturesBean.
      *
-     * @param pSession            Die Session der zu erzeugenden InstanceLecturesBean.
-     * @param pInstanceLectureDao Die InstanceLectureDAO der zu erzeugenden InstanceLecturesBean.
-     * @throws IllegalArgumentException Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
-     *                                  sind.
+     * @param pSession
+     *            Die Session der zu erzeugenden InstanceLecturesBean.
+     * @param pInstanceLectureDao
+     *            Die InstanceLectureDAO der zu erzeugenden InstanceLecturesBean.
+     * @throws IllegalArgumentException
+     *             Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
+     *             sind.
      */
     @Inject
     public InstanceLecturesBean(final Session pSession,
-                                final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
+            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
@@ -135,7 +138,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * aufgerufen, falls eine Instanz einer bestimmten Lehrveranstaltung erstellt werden
      * soll.
      *
-     * @param pLecture Die Lehrveranstaltung der ILV.
+     * @param pLecture
+     *            Die Lehrveranstaltung der ILV.
      * @return "semestercreate.xhtml", um auf entsprechendes Facelet umzuleiten.
      */
     public String setLecture(final Lecture pLecture) {
@@ -172,8 +176,11 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt die Instanz einer Lehrveranstaltung
-     * @param pInstanceLecture die ILV die gesetzt werden soll.
-     * @return @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu leiten.
+     * 
+     * @param pInstanceLecture
+     *            die ILV die gesetzt werden soll.
+     * @return @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu
+     *         leiten.
      */
     public String setInstanceLecture(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(pInstanceLecture);
@@ -182,8 +189,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Gibt eine Liste von InstanceLectures zurück, die in einer Lecture innderhalb
-     * der Applikation gespeichert sind.
+     * Gibt eine Liste von InstanceLectures zurück, die in einer Lecture innderhalb der
+     * Applikation gespeichert sind.
+     * 
      * @return Die Liste von InstanceLectures
      */
     // TODO
@@ -197,7 +205,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * ist.
      *
      * @return Alle ILVs zurück, in denen der gegebene {@link User} als Prüfling
-     * angemeldet ist.
+     *         angemeldet ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminee() {
         return instanceLecturesOfExaminee;
@@ -206,7 +214,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     /**
      * Setzt den Student in die InstanceLecture.
      *
-     * @param pUser Student
+     * @param pUser
+     *            Student
      * @return Dashboard.xhtml
      */
     public String setInstanceLecturesOfExaminee(User pUser) {
@@ -219,7 +228,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * ist.
      *
      * @return Alle ILVs zurück, in denen der gegebene {@link User} als Prüfer angemeldet
-     * ist.
+     *         ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminer() {
         return instanceLecturesOfExaminer;
@@ -254,9 +263,11 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * entsprechenden Data-Access-Objekts. Sollte die zu entfernende ILV nicht in der
      * Liste der ILVs vorhanden sein, passiert nichts.
      *
-     * @param pInstanceLecture Die zu entfernende ILV.
+     * @param pInstanceLecture
+     *            Die zu entfernende ILV.
      * @return {@code null}, famit nicht zu einem anderen Facelet navigiert wird.
-     * @throws IllegalArgumentException Falls die übergebene Lehrveranstaltung den Wert {@code null} hat.
+     * @throws IllegalArgumentException
+     *             Falls die übergebene Lehrveranstaltung den Wert {@code null} hat.
      */
     public String remove(final InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
@@ -267,6 +278,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt die Map von Semesterzeiten zurück, die innerhalb der Applikation bekannt sind.
+     * 
      * @return Die Map von Semesterzeiten.
      */
     public Map<String, SemesterTime> getTimes() {
@@ -275,7 +287,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt die Map von Semesterzeiten anhand des übergebenen Parameters.
-     * @param times Die Map von Semesterzeiten.
+     * 
+     * @param times
+     *            Die Map von Semesterzeiten.
      */
     public void setTimes(Map<String, SemesterTime> times) {
         this.times = times;
@@ -283,6 +297,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Gib die ausgewählte Semesterzeit zurück.
+     * 
      * @return die ausgewählte Semesterzeit.
      */
     public SemesterTime getSelectedTimes() {
@@ -291,7 +306,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt das ausgewählte Jahr durch den übergebenen Parameter.
-     * @param selectedTimes Die zu auswählende Semesterzeit.
+     * 
+     * @param selectedTimes
+     *            Die zu auswählende Semesterzeit.
      */
     public void setSelectedTimes(SemesterTime selectedTimes) {
         this.selectedTimes = selectedTimes;
@@ -299,6 +316,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt die Liste der Jahren zurück, die in der Applikation bekannt sind.
+     * 
      * @return Die Liste von Jahren.
      */
     public List<String> getYears() {
@@ -307,7 +325,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt die Liste von Jahren anhand des Parameters.
-     * @param pYears Die Liste von Jahren.
+     * 
+     * @param pYears
+     *            Die Liste von Jahren.
      */
     public void setYears(List<String> pYears) {
         this.years = years;
@@ -315,6 +335,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt das ausgewählte Jahr zurück.
+     * 
      * @return Das ausgewählte Jahr.
      */
     public String getSelectedYear() {
@@ -323,15 +344,15 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt das ausgewählte Jahr durch den übergebenen Parameter.
-     * @param selectedYear Das zu auswählende Jahr.
+     * 
+     * @param selectedYear
+     *            Das zu auswählende Jahr.
      */
     public void setSelectedYear(String selectedYear) {
         this.selectedYear = selectedYear;
     }
 
-
-
-    //////Wird versucht auf businesslogic.Math zu verschieben ///////////////////
+    // ////Wird versucht auf businesslogic.Math zu verschieben ///////////////////
     /**
      * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück. Diese werden
      * als Auswahl im Drop-Down Menu bei der erstellung einer ILV verfügbar sein.
@@ -348,6 +369,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Liefert eine einfache Map mit den verfügbaren Semestern im System zurück.
+     * 
      * @return Eine einfache Map mit verfügbaren Semestern.
      */
     private Map<String, SemesterTime> calculateSemesterMap() {
@@ -356,11 +378,14 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         tmp.put("SoSe", SemesterTime.SOMMER);
         return Collections.unmodifiableMap(tmp);
     }
-    //////Wird versucht auf businesslogic.Math zu verschieben ///////////////////
+
+    // ////Wird versucht auf businesslogic.Math zu verschieben ///////////////////
 
     /**
      * Setzt den Freigabestatus einer ILV
-     * @param pInstanceLecture , die ILV die verändert wird
+     * 
+     * @param pInstanceLecture
+     *            , die ILV die verändert wird
      */
     public void changeReleaseStatus(InstanceLecture pInstanceLecture) {
         pInstanceLecture.setReleased();

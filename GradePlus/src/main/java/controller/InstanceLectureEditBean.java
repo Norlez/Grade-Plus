@@ -16,7 +16,8 @@ import java.io.Serializable;
 import static common.util.Assertion.assertNotNull;
 
 /**
- * Diese Bean ist für das Bearbeiten bestimmter {@link InstanceLecture}-Objekte verantwortlich.
+ * Diese Bean ist für das Bearbeiten bestimmter {@link InstanceLecture}-Objekte
+ * verantwortlich.
  *
  * @author Torben Groß
  * @version 2018-02-27
@@ -49,12 +50,17 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     /**
      * Erzeugt eine neue InstanceLectureEditBean.
      *
-     * @param pSession Die Session der zu erzeugenden InstanceLectureEditBean.
-     * @param pInstanceLectureDao Die InstanceLectureDAO der zu erzeugenden InstanceLectureEditBean.
-     * @throws IllegalArgumentException Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null} sind.
+     * @param pSession
+     *            Die Session der zu erzeugenden InstanceLectureEditBean.
+     * @param pInstanceLectureDao
+     *            Die InstanceLectureDAO der zu erzeugenden InstanceLectureEditBean.
+     * @throws IllegalArgumentException
+     *             Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
+     *             sind.
      */
     @Inject
-    public InstanceLectureEditBean(final Session pSession, final InstanceLectureDAO pInstanceLectureDao) {
+    public InstanceLectureEditBean(final Session pSession,
+            final InstanceLectureDAO pInstanceLectureDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
     }
@@ -71,20 +77,22 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     /**
      * Setzt die aktuell zu bearbeitende ILV auf den gegebenen Wert.
      *
-     * @param pInstanceLecture Die aktuell zu bearbeitende ILV.
-     * @return "semestercreate.xhtml", um auf das Facelet der Bearbeitung einer ILV umzuleiten.
+     * @param pInstanceLecture
+     *            Die aktuell zu bearbeitende ILV.
+     * @return "semestercreate.xhtml", um auf das Facelet der Bearbeitung einer ILV
+     *         umzuleiten.
      */
     public String setInstanceLecture(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(pInstanceLecture);
         return "exams.xhtml";
     }
 
-
     /**
-     * Aktualisiert die aktuell ausgewählte ILV in der Liste aller bekannten ILVs unter Verwendung des entsprechenden
-     * Data-Access-Objekts.
+     * Aktualisiert die aktuell ausgewählte ILV in der Liste aller bekannten ILVs unter
+     * Verwendung des entsprechenden Data-Access-Objekts.
      *
-     * @return "semestercreate.xhtml", um auf das Facelet der Bearbeitung einer ILV umzuleiten.
+     * @return "semestercreate.xhtml", um auf das Facelet der Bearbeitung einer ILV
+     *         umzuleiten.
      */
     public String update() {
         try {
@@ -98,7 +106,5 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         }
         return "semester.xhtml";
     }
-
-
 
 }
