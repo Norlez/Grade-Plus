@@ -185,8 +185,20 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @param pInstanceLecture
      *            Die neue aktuell geählte ILV.
      */
-    public void setInstanceLecture(final InstanceLecture pInstanceLecture) {
+    public String setInstanceLectureForExam(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(pInstanceLecture);
+        return "examcreate.xhtml";
+    }
+
+    /**
+     * Setzt die aktuell gewählte ILV auf den gegebenen Wert.
+     *
+     * @param pInstanceLecture
+     *            Die neue aktuell geählte ILV.
+     */
+    public String setInstanceLectureForExams(final InstanceLecture pInstanceLecture) {
+        instanceLecture = assertNotNull(pInstanceLecture);
+        return "examscreate.xhtml";
     }
 
     /**
@@ -253,6 +265,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     public String save() {
         User user = getSession().getUser();
+        exam.setInstanceLecture(instanceLecture);
         exam.addExaminer(user);
         exam.getInstanceLecture().addExam(exam);
         user.addExamAsProf(exam);

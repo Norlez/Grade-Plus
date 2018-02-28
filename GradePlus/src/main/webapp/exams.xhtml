@@ -181,12 +181,14 @@
                         </b:row>
                         <b:row>
                             <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionCreateNewExam']}" outcome="examcreate" />
+                                <h:commandButton class="btn" value="#{msg['actionCreateNewExam']}" action="#{examsBean.setInstanceLectureForExam(instanceLectureEditBean.getInstanceLecture())}">
+                                </h:commandButton>
                             </b:column>
                         </b:row>
                         <b:row>
                             <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionCreateNewExams']}" outcome="examscreate" />
+                                <h:commandButton class="btn" value="#{msg['actionCreateNewExams']}" action="#{examsBean.setInstanceLectureForExams(instanceLectureEditBean.getInstanceLecture())}">
+                                </h:commandButton>
                             </b:column>
                         </b:row>
 
