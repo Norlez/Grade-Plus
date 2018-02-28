@@ -44,11 +44,6 @@ public class RegistrationBean extends LoginIndependentBean {
     private User user;
 
     /**
-     * Die zu erstellende Mail.
-     */
-    private RegisterMailBean sender;
-
-    /**
      * Erzeugt eine neue RegistrationBean.
      *
      * @param pSession
@@ -60,7 +55,6 @@ public class RegistrationBean extends LoginIndependentBean {
     public RegistrationBean(Session pSession, UserDAO pUserDAO) {
         super(assertNotNull(pSession));
         userDao = assertNotNull(pUserDAO);
-        sender = new RegisterMailBean();
         user = new User();
     }
 
@@ -96,7 +90,7 @@ public class RegistrationBean extends LoginIndependentBean {
             user.setRole(Role.STUDENT);
             user.setUsernameForUserMail();
             userDao.save(user);
-            sender.registerMail(user);
+            SystemMailBean.registerMail(user);
 
             // }
         } catch (final IllegalArgumentException e) {

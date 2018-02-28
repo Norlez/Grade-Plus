@@ -136,10 +136,18 @@ public class ProfileBean extends AbstractBean implements Serializable {
         roles = Math.calculateRoleMap();
     }
 
+    /**
+     * Gibt den ausgewählten User zurück.
+     * @return der ausgewählte User.
+     */
     public User getThisUser() {
         return thisUser;
     }
 
+    /**
+     * Setzt den ausgewählten User durch den übergebenen Parameter
+     * @param thisUser der zu setztende User
+     */
     public void setThisUser(User thisUser) {
         this.thisUser = Assertion.assertNotNull(thisUser);
     }
@@ -147,7 +155,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
     /**
      * Prüft, ob die Checkbox gesetzt ist.
      *
-     * @return
+     * @return den Zustand des Editcheckers.
      */
     public boolean getEditChecker() {
         return editChecker;

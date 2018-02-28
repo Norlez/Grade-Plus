@@ -28,8 +28,6 @@ package controller;
 import java.util.Properties;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -37,24 +35,23 @@ import javax.mail.internet.MimeMessage;
 
 import common.model.User;
 import org.apache.log4j.Logger;
-import persistence.UserDAO;
 
 import static common.util.Assertion.assertNotNull;
 
 /**
- * Dieses Bean ist der Controller für die Registrierungs-Mail.
+ * Dieses Bean ist der Controller für die System-Mail.
  *
  * @author Arbnor Miftari
  * @version 2018-01-2018
  */
 @Named
 @RequestScoped
-public class RegisterMailBean {
+public class SystemMailBean {
 
     /**
      * Der Logger für diese Klasse.
      */
-    private static final Logger logger = Logger.getLogger(RegisterMailBean.class);
+    private static final Logger logger = Logger.getLogger(SystemMailBean.class);
 
 
     /**
