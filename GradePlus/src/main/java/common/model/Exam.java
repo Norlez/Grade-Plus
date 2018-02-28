@@ -87,6 +87,31 @@ public class Exam extends JPAEntity {
     private String comment;
 
     /**
+     * Erzeugt ein neues {@link Exam}-Objekt mit leeren Daten.
+     */
+    public Exam() {
+    }
+
+    /**
+     * Erzeugt ein neues {@link Exam}-Objekt mit allen Daten der gegebenen Prüfung.
+     *
+     * @param pExam
+     *            Die Daten der zu erzeugenden Prüfung.
+     */
+    public Exam(final Exam pExam) {
+        assertNotNull(pExam);
+        examRegulations = pExam.getExamRegulations();
+        instanceLecture = pExam.getInstanceLecture();
+        participants = pExam.getParticipants();
+        examiners = pExam.getExaminers();
+        localDateTime = pExam.getLocalDateTime();
+        examLength = pExam.getExamLength();
+        location = pExam.getLocation();
+        type = pExam.getType();
+        comment = pExam.getComment();
+    }
+
+    /**
      * Gibt die Prüfungsordnung der Prüfung zurück.
      *
      * @return Die neue Prüfungsordnung der Prüfung.

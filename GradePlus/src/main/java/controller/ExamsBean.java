@@ -533,7 +533,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
         }
         conflictingExams = new ArrayList<>();
         exam.setLocalDateTime(startOfTimeSlot);
-        exam.addExaminer(getSession().getUser());
         while (exam.getLocalDateTime().plusMinutes(exam.getExamLength())
                 .compareTo(endOfTimeSlot) <= 0) {
             if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
@@ -542,6 +541,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
             } else {
                 save();
             }
+            exam = new Exam(exam);
             exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(
                     exam.getExamLength() + lengthOfBreaks));
         }
@@ -669,10 +669,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
                     .isAfter(currLowerBound))
                     || (currLowerBound.isBefore(lowerBound) && currUpperBound
                             .isAfter(lowerBound)) || lowerBound.equals(currLowerBound)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
 }
