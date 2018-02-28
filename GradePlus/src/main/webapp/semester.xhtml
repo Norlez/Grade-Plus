@@ -102,7 +102,7 @@
 
                                 <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">
                                 <b:commandButton value="#{msg['actionDuplicate']}"
-                                                 action="#{instanceLecturesBean.setLecture(l)}" />
+                                                 action="#{instanceLecturesBean.duplicateInstanceLecture(l)}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
