@@ -161,8 +161,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         exam = new Exam();
-        startOfTimeSlot = LocalDateTime.now();
-        endOfTimeSlot = LocalDateTime.now();
         allExams = assertNotNull(examDao.getAllExams());
         examsOfStudent = assertNotNull(examDao.getExamsForStudent(getSession().getUser()));
         examsOfExaminer = assertNotNull(examDao.getExamsForExaminer(getSession()
@@ -287,7 +285,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
                     "errorEmailAlreadyInUse", user.getEmail());
         }
         init();
-        return "lectureinstance.xhtml";
+        return "exams.xhtml";
     }
 
     /**
@@ -548,13 +546,14 @@ public class ExamsBean extends AbstractBean implements Serializable {
         exam.setLocalDateTime(startOfTimeSlot);
         while (exam.getLocalDateTime().plusMinutes(exam.getExamLength())
                 .compareTo(endOfTimeSlot) <= 0) {
+            Exam theExam = exam;
             if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                     .plusMinutes(exam.getExamLength()))) {
                 conflictingExams.add(exam);
             } else {
                 save();
             }
-            exam = new Exam(exam);
+            exam = new Exam(theExam);
             exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(
                     exam.getExamLength() + lengthOfBreaks));
         }
@@ -571,6 +570,30 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     public List<Exam> getConflictingExams() {
         return conflictingExams;
+    }
+
+    /**
+     * Gibt den Startpunkt der zu erstellenden Prüfung zurück.
+     *
+     * @return Den Startpunkt der zu erstellenden Prüfung.
+     */
+    public java.util.Date getLocalDateTime() {
+        if (exam.getLocalDateTime() == null) {
+            return null;
+        }
+        return Date.from(exam.getLocalDateTime().atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
+
+    /**
+     * Setzt den Startpunkt der Prüfung auf den gegebenen Wert.
+     *
+     * @param pDate
+     *            Der neue Startpunkt der Prüfung.
+     */
+    public void setLocalDateTime(final java.util.Date pDate) {
+        exam.setLocalDateTime(LocalDateTime.ofInstant(pDate.toInstant(),
+                ZoneId.systemDefault()));
     }
 
     /**

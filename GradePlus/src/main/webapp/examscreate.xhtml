@@ -39,7 +39,8 @@
                     <!-- START OF TIME SLOT PICKER -->
                     <b:row>
                         <b:column span="2">
-                            <h:outputLabel id="startOfTimeSlot" value="#{msg['outputDateStart']}"/>
+                            <h:outputLabel id="startOfTimeSlot"
+                                           value="#{msg['outputDateStart']}"/>
                         </b:column>
                         <b:column span="4">
                             <b:dateTimePicker value="#{examsBean.startOfTimeSlot}" />
@@ -52,7 +53,8 @@
                     <!-- END OF TIME SLOT PICKER -->
                     <b:row>
                         <b:column span="2">
-                            <h:outputLabel id="endOfTimeSlot" value="#{msg['outputDateStart']}"/>
+                            <h:outputLabel id="endOfTimeSlot"
+                                           value="#{msg['outputDateStart']}"/>
                         </b:column>
                         <b:column span="4">
                             <b:dateTimePicker value="#{examsBean.endOfTimeSlot}" />
@@ -105,6 +107,7 @@
                     </b:row>
 
                     <b:row class="space50px"/>
+
                     <!-- BUTTON SAVE CANCEL -->
                     <b:row class="btn-paragraph">
                         <b:column span="1">
