@@ -1,46 +1,66 @@
-
 package controller;
+
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
+import common.model.Lecture;
 import common.model.Session;
 import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import persistence.UserDAO;
+import persistence.LectureDAO;
+
+
+
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import java.io.Serializable;
 
 import static common.util.Assertion.assertNotNull;
 
-/**
- * Diese Bean verwaltet das Bearbeiten eines Benutzers.
- *
- * @author Torben Groß
- * @version 2018-02-2018
- */
 @Named
 @SessionScoped
-public class UserEditBean extends AbstractBean implements Serializable {
-
+public class LectureEditBean extends AbstractBean implements Serializable {
     /**
      * Der Logger für diese Klasse.
      */
     private static final Logger logger = Logger.getLogger(UsersBean.class);
 
     /**
-     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für ILV-Objekte
      * übernimmt.
      */
-    private final UserDAO userDao;
+    private final LectureDAO LectureDao;
+
+    /**
+     * Die aktuell zu bearbeitende ILV.
+     */
+    private Lecture lecture;
 
     /**
      * Der zu bearbeitende {@link User}.
      */
-    private User selectedUser;
+    private Lecture selectedLecture;
 
+    /**
+     * Prüft, ob die Attribute in dieser Klasse verändert werden dürfen.
+     */
+    private boolean editChecker = false;
+
+    /**
+     * Erzeugt eine neue InstanceLectureEditBean.
+     *
+     * @param pSession Die Session der zu erzeugenden LectureEditBean.
+     * @param pLectureDao Die LectureDAO der zu erzeugenden LectureEditBean.
+     * @throws IllegalArgumentException Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null} sind.
+     */
+    @Inject
+    public LectureEditBean(final Session pSession, final LectureDAO pLectureDao) {
+        super(pSession);
+        LectureDao = assertNotNull(pLectureDao);
+    }
 
     /**
      * Gibt den Zustand des Editcheckers zurück.
@@ -61,50 +81,29 @@ public class UserEditBean extends AbstractBean implements Serializable {
         return "user.xhtml";
     }
 
-    /**
-     * Prüft, ob die Attribute in dieser Klasse verändert werden dürfen.
-     */
-    private boolean editChecker = false;
-
-
 
     /**
-     * Erzeugt eine neue {@link UserEditBean}.
-     *
-     * @param pSession
-     *            Die Session der zu erzeugenden UserEditBean.
-     * @param pUserDao
-     *            Die UserDAO der zu erzeugenden UserEditBean.
-     */
-    @Inject
-    public UserEditBean(final Session pSession, final UserDAO pUserDao) {
-        super(pSession);
-        userDao = assertNotNull(pUserDao);
-        selectedUser = new User();
-    }
-
-    /**
-     * Gibt den aktuell zu bearbeitenden Benutzer zurück.
+     * Gibt die aktuell zu bearbeitenden Lecture zurück.
      *
      * @return Den aktuell zu bearbeitenden Benutzer.
      */
-    public User getSelectedUser() {
-        return selectedUser;
+    public Lecture getSelectedLecture() {
+        return selectedLecture;
     }
 
     /**
-     * Setzt den aktuell zu bearbeitenden Benutzer auf den gegebenen Wert.
+     * Setzt die aktuell zu bearbeitenden Lecture auf den gegebenen Wert.
      *
-     * @param pUser
+     * @param pLecture die zu setzende Lecture
      *            Der neue aktuell zu bearbeitende Benutzer.
      * @return "user.xhtml", um auf das Facelet der Benutzerbearbeitung weiterzuleiten.
      */
-    public String setSelectedUser(final User pUser) {
-        selectedUser = assertNotNull(pUser);
+    public String setSelectedLecture(final Lecture pLecture) {
+        Lecture lecture = assertNotNull(pLecture);
         return "user.xhtml";
     }
 
-    public void setEditCheckerWithoutUser(){
+    public void setEditCheckerWithoutLecture(){
         editChecker = !editChecker;
     }
 
@@ -116,21 +115,15 @@ public class UserEditBean extends AbstractBean implements Serializable {
      */
     public String update() {
         try {
-            final User user = selectedUser;
-            userDao.update(user);
-            setEditCheckerWithoutUser();
+            final Lecture pLecture = selectedLecture;
+            LectureDao.update(pLecture);
+            setEditCheckerWithoutLecture();
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));
-        } catch (final DuplicateUsernameException e) {
-            addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse", selectedUser.getUsername());
-        } catch (final DuplicateEmailException e) {
-            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse", selectedUser.getEmail());
         }
         return "user.xhtml";
     }
 
-}
 
+}

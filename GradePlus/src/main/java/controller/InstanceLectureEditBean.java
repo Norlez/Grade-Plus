@@ -3,6 +3,7 @@ package controller;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.InstanceLecture;
 import common.model.Session;
+import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import persistence.InstanceLectureDAO;
@@ -41,6 +42,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     private InstanceLecture instanceLecture;
 
     /**
+     * Prüft, ob die Attribute in dieser Klasse verändert werden dürfen.
+     */
+    private boolean editChecker = false;
+
+    /**
      * Erzeugt eine neue InstanceLectureEditBean.
      *
      * @param pSession Die Session der zu erzeugenden InstanceLectureEditBean.
@@ -73,6 +79,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return "exams.xhtml";
     }
 
+
     /**
      * Aktualisiert die aktuell ausgewählte ILV in der Liste aller bekannten ILVs unter Verwendung des entsprechenden
      * Data-Access-Objekts.
@@ -91,5 +98,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         }
         return "semester.xhtml";
     }
+
+
 
 }

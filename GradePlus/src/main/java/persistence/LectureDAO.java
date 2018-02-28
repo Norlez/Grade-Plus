@@ -1,5 +1,6 @@
 package persistence;
 
+import java.io.Serializable;
 import java.util.List;
 
 import common.exception.DuplicateUniqueFieldException;
@@ -21,7 +22,7 @@ import static java.lang.String.format;
  * @version 2018-01-31
  */
 @Stateless
-public class LectureDAO extends JPADAO<Lecture> {
+public class LectureDAO extends JPADAO<Lecture> implements Serializable {
 
     @Override
     Class<Lecture> getClazz() {

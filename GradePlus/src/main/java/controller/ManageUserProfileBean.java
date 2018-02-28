@@ -9,7 +9,6 @@ import common.util.Assertion;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import controller.RegisterMailBean;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import persistence.UserDAO;
@@ -53,10 +52,6 @@ public class ManageUserProfileBean extends LoginIndependentBean {
      */
     private String username;
 
-    /**
-     * Die zu erstellende Mail.
-     */
-    private RegisterMailBean sender;
 
     /**
      * Erzeugt eine neue RegistrationBean.
@@ -70,7 +65,6 @@ public class ManageUserProfileBean extends LoginIndependentBean {
     public ManageUserProfileBean(Session pSession, UserDAO pUserDAO) {
         super(assertNotNull(pSession));
         userDao = assertNotNull(pUserDAO);
-        sender = new RegisterMailBean();
     }
 
     public String getPassword() {
