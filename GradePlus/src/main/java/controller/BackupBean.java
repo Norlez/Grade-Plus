@@ -1,13 +1,20 @@
 package controller;
 
-import common.model.Backup;
-import common.model.Session;
-import persistence.BackupDAO;
+import common.model.*;
 import common.util.Assertion;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.List;
 import com.opencsv.*;
+import persistence.*;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -19,24 +26,29 @@ import static common.util.Assertion.assertNotNull;
  * @author Andreas Estenfelder, Torben Groß, Arbnor Miftari, Anil Olgun
  * @version 2017-12-21
  */
-
+@Named
+@RequestScoped
 public class BackupBean extends AbstractBean implements Serializable {
 
-    /**
-     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Backup-Objekte
-     * übernimmt.
-     */
-    private BackupDAO backupDAO;
+    private final UserDAO userDAO;
 
-    /**
-     * Speichert den Dateipfad für das Backup.
-     */
-    private String dirPath = "";
+    private final LectureDAO lectureDAO;
 
-    /**
-     * Eine Liste mit allen aktuell angezeigten Backups.
-     */
-    private List<Backup> allBackups;
+    private final InstanceLectureDAO instanceLectureDAO;
+
+    private final ExamDAO examDAO;
+
+    private final JoinExamDAO joinExamDAO;
+
+    private List<User> allUsers;
+
+    private List<Lecture> allLectures;
+
+    private List<InstanceLecture> allInstanceLectures;
+
+    private List<Exam> allExams;
+
+    private List<JoinExam> allJoinExams;
 
     /**
      * Erzeugt eine neue BackupBean.
@@ -46,49 +58,30 @@ public class BackupBean extends AbstractBean implements Serializable {
      * @throws IllegalArgumentException
      *             Falls {@code pSession} oder {@code pBackupDAO} {@code null} ist.
      */
-    public BackupBean(Session pSession, BackupDAO pBackupDAO) {
+    @Inject
+    public BackupBean(Session pSession, UserDAO pUserDao, LectureDAO pLectureDao,
+            InstanceLectureDAO pInstanceLectureDao, ExamDAO pExamDao,
+            JoinExamDAO pJoinExamDao) {
         super(pSession);
+        userDAO = pUserDao;
+        lectureDAO = pLectureDao;
+        instanceLectureDAO = pInstanceLectureDao;
+        examDAO = pExamDao;
+        joinExamDAO = pJoinExamDao;
     }
 
     /**
-     * Durchsucht den gegebenen Ordner auf Backup Dateien und fügt diese in die Liste ein.
-     *
-     * @param pDirPath
-     *            Dateipfad für die Backups.
+     * Initialisiert die Attribute {@link #} und {@link #allUsers}, sodass {@link #} einen
+     * neu anzulegenden {@link User} repräsentiert und {@link #allUsers} alle bekannten
+     * Benutzer der Applikation enthält.
      */
-    public void backupSearch(String pDirPath) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Gibt die Liste der aktuell verfügbaren Backups als Liste zurück.
-     *
-     * @return Liste aller Backups.
-     */
-    public List<Backup> getAllBackups() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Setzt den Dateipfad auf den gegebenen Wert.
-     *
-     * @param pDirPath
-     *            Der Dateipfad.
-     * @throws IllegalArgumentException
-     *             Falls der Parameter den Wert {@code null} hat.
-     */
-    public void setDirPath(String pDirPath) {
-        dirPath = Assertion.assertNotNull(pDirPath);
-    }
-
-    /**
-     * Löscht das übergebene Backup.
-     *
-     * @return {@code true}, falls das Backup gelöscht wurde, sonst {@code false}.
-     *
-     */
-    public boolean delete(Backup pBackup) {
-        throw new UnsupportedOperationException();
+    @PostConstruct
+    public void init() {
+        allUsers = userDAO.getAllUsers();
+        allLectures = lectureDAO.getAllLectures();
+        allInstanceLectures = instanceLectureDAO.getAllInstanceLectures();
+        allExams = examDAO.getAllExams();
+        allJoinExams = joinExamDAO.getAllJoinExams();
     }
 
     /**
@@ -101,15 +94,40 @@ public class BackupBean extends AbstractBean implements Serializable {
     }
 
     /**
+     * Setzt mal JavaDoc hier, alla
+     */
+    public void createBackup() {
+        try {
+            Writer out = new BufferedWriter(new FileWriter("User.csv"));
+            CSVWriter csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End
+            // könnte
+            // wehtun
+            List<User> u = allUsers;
+            String[] s = new String[1];
+            for (int i = 0; i < u.size(); i++) {
+                User tmp = u.get(i);
+                s[0] = tmp.toString();
+                csvWriter.writeNext(s);
+            }
+
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (java.io.IOException e) {
+            System.out.print("Ein Fehler beim Schreiben der Datei.");
+        }
+    }
+
+    /**
      * Stellt ein aktuell ausgewähltes Backup wiederher.
+     * <p>
+     * <p>
+     * Das aktuell ausgewählte Backup.
      *
-     * @param pBackup
-     *            Das aktuell ausgewählte Backup.
      * @return {@code true}, falls das Backup wiederhergestellt wurde, sonst {@code false}
      *         .
      */
-    public boolean restore(Backup pBackup) {
+    public boolean restore() {
         throw new UnsupportedOperationException();
     }
-
 }

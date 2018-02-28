@@ -396,8 +396,8 @@ public class User extends JPAEntity implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("User {id: %d, username: %s, password: %s, email: %s}",
-                getId(), username, password, email);
+        return String.format("%d; %s; %s; %b; %s; %s; %s; %s; %s; %s", getId(), email,
+                givenName, isActive, language, matrNr, password, role, surname, username);
     }
 
     /**

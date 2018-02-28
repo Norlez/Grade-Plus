@@ -46,14 +46,12 @@ public class JoinExamDAO extends JPADAO<JoinExam> implements Serializable {
         }
     }
 
-    // TODO: SQL Queries fehlen noch. Brauchen wir JoinExams.getKrank?
-
     /**
      * Gibt alle bekannten {@link JoinExam}-Objekte zurück.
      *
      * @return Alle bekannten JoinExam.
      */
-    // public List<JoinExam> getAllJoinExams() { return
-    // getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
-    // }
+    public List<JoinExam> getAllJoinExams() {
+        return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
+    }
 }

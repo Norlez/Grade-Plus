@@ -118,7 +118,7 @@ public class UsersBean extends AbstractBean implements Serializable {
     private boolean editChecker;
 
     /**
-     *Die Ausgewählte Rolle des Users.
+     * Die Ausgewählte Rolle des Users.
      */
     private Role selectedRole;
 
@@ -258,7 +258,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         // user.setRole(Assertion.assertNotEmpty(pRole));
     }
 
-
     // TODO: Rollenänderung ist nicht getestet
 
     /**
@@ -347,6 +346,7 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt die Rolle des Users zurück.
+     * 
      * @return die Rolle des Users.
      */
     public Role getSelectedRole() {
@@ -355,12 +355,13 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt de Rolle des Users.
-     * @param role die Rolle des Users.
+     * 
+     * @param role
+     *            die Rolle des Users.
      */
     public void setSelectedRole(Role role) {
         this.selectedRole = role;
     }
-
 
     /**
      * Gibt den anzuzeigenden Benutzer zurück.
@@ -371,9 +372,9 @@ public class UsersBean extends AbstractBean implements Serializable {
         return user;
     }
 
-
     /**
      * Gibt zurück, ob der Editchecker true oder false ist.
+     * 
      * @return den EditChecker
      */
     public boolean getEditChecker() {
@@ -382,7 +383,9 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den EditCecker auf das Gegenteil.
-     * @param pUser Der user, der gesetzt werden soll.
+     * 
+     * @param pUser
+     *            Der user, der gesetzt werden soll.
      * @return die user.xhtml
      */
     public String setEditChecker(final User pUser) {
@@ -393,6 +396,7 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den übergebenen User.
+     * 
      * @param pUser
      *            Der neu eingeloggte Benutzer für die zu {@link #getSession()} zugehörige
      *            Session.
@@ -411,29 +415,5 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     public List<User> getAllUsers() {
         return allUsers;
-    }
-
-
-    /**
-     * Setzt mal JavaDoc hier, alla
-     */
-    public void createBackup(){
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter("User.csv"));
-            CSVWriter csvWriter = new CSVWriter(out);
-            List<User> u = allUsers;
-            String [] s = new String[100];
-            for(User us: u)
-            {
-                String item = u.toString();
-                s[1] = item;
-                csvWriter.writeNext(s);
-            }
-            csvWriter.close();
-        }
-        catch (java.io.IOException e)
-        {
-            System.out.print("Ein Fehler beim Schreiben der Datei.");
-        }
     }
 }
