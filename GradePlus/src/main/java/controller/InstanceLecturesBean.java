@@ -71,12 +71,24 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     private List<InstanceLecture> instanceLecturesOfExaminer;
 
+    /**
+     * Die Map aller innherhalb der Applikation bekannten Semesterzeiten.
+     */
     private Map<String, SemesterTime> times;
 
+    /**
+     * Die ausgewählte Semesterzeit.
+     */
     private SemesterTime selectedTimes;
 
+    /**
+     * Die Liste aller innherhalb der Applikation bekannten Jahre.
+     */
     private List<String> years;
 
+    /**
+     * Das ausgewählte Jahr.
+     */
     private String selectedYear;
 
     /**
@@ -158,12 +170,22 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return allInstanceLectures;
     }
 
+    /**
+     * Setzt die Instanz einer Lehrveranstaltung
+     * @param pInstanceLecture die ILV die gesetzt werden soll.
+     * @return @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu leiten.
+     */
     public String setInstanceLecture(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(pInstanceLecture);
         getSession().setSelectedILV(instanceLecture);
         return "exams.xhtml";
     }
 
+    /**
+     * Gibt eine Liste von InstanceLectures zurück, die in einer Lecture innderhalb
+     * der Applikation gespeichert sind.
+     * @return Die Liste von InstanceLectures
+     */
     // TODO
     public List<InstanceLecture> getInstanceLecturesForLecture() {
         return instanceLectureDao.getInstanceLecturesForLecture(getSession()
@@ -223,8 +245,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
                     Level.DEBUG, "errorInstanceLectureAlreadyExists");
         } catch (final Exception e) {
         }
-        // dient hier zum testen wo der fehler ist.
-        allInstanceLectures = instanceLectureDao.getAllInstanceLectures();
         init();
         return "semester.xhtml";
     }
@@ -245,34 +265,66 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return null;
     }
 
+    /**
+     * Gibt die Map von Semesterzeiten zurück, die innerhalb der Applikation bekannt sind.
+     * @return Die Map von Semesterzeiten.
+     */
     public Map<String, SemesterTime> getTimes() {
         return times;
     }
 
+    /**
+     * Setzt die Map von Semesterzeiten anhand des übergebenen Parameters.
+     * @param times Die Map von Semesterzeiten.
+     */
     public void setTimes(Map<String, SemesterTime> times) {
         this.times = times;
     }
 
+    /**
+     * Gib die ausgewählte Semesterzeit zurück.
+     * @return die ausgewählte Semesterzeit.
+     */
     public SemesterTime getSelectedTimes() {
         return selectedTimes;
     }
 
+    /**
+     * Setzt das ausgewählte Jahr durch den übergebenen Parameter.
+     * @param selectedTimes Die zu auswählende Semesterzeit.
+     */
     public void setSelectedTimes(SemesterTime selectedTimes) {
         this.selectedTimes = selectedTimes;
     }
 
+    /**
+     * Gibt die Liste der Jahren zurück, die in der Applikation bekannt sind.
+     * @return Die Liste von Jahren.
+     */
     public List<String> getYears() {
         return years;
     }
 
+    /**
+     * Setzt die Liste von Jahren anhand des Parameters.
+     * @param pYears Die Liste von Jahren.
+     */
     public void setYears(List<String> pYears) {
         this.years = years;
     }
 
+    /**
+     * Gibt das ausgewählte Jahr zurück.
+     * @return Das ausgewählte Jahr.
+     */
     public String getSelectedYear() {
         return selectedYear;
     }
 
+    /**
+     * Setzt das ausgewählte Jahr durch den übergebenen Parameter.
+     * @param selectedYear Das zu auswählende Jahr.
+     */
     public void setSelectedYear(String selectedYear) {
         this.selectedYear = selectedYear;
     }
@@ -284,9 +336,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * @return Eine einfache Map mit verfügbaren Rollen.
      */
     private List<String> calculateYearList() {
-
         final List<String> tmp = new ArrayList<String>();
-
         for (int i = 2018; i < 2080; i++) {
             tmp.add(Integer.toString(i));
         }
@@ -295,7 +345,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Liefert eine einfache Map mit den verfügbaren Semestern im System zurück.
-     *
      * @return Eine einfache Map mit verfügbaren Semestern.
      */
     private Map<String, SemesterTime> calculateSemesterMap() {
@@ -307,7 +356,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den Freigabestatus einer ILV
-     *
      * @param pInstanceLecture , die ILV die verändert wird
      */
     public void changeReleaseStatus(InstanceLecture pInstanceLecture) {
