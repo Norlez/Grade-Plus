@@ -12,6 +12,8 @@ import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,7 +37,7 @@ import static common.util.Assertion.assertNotNull;
  * @version 2018-02-24
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
@@ -159,6 +161,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         exam = new Exam();
+        startOfTimeSlot = LocalDateTime.now();
+        endOfTimeSlot = LocalDateTime.now();
         allExams = assertNotNull(examDao.getAllExams());
         examsOfStudent = assertNotNull(examDao.getExamsForStudent(getSession().getUser()));
         examsOfExaminer = assertNotNull(examDao.getExamsForExaminer(getSession()
