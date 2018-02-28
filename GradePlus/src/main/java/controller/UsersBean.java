@@ -37,6 +37,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import businesslogic.Math;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.model.Role;
@@ -140,7 +141,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         super(pSession);
         userDao = assertNotNull(pUserDAO);
         sessionDAO = assertNotNull(pSessionDAO);
-        roles = ProfileBean.calculateRoleMap();
+        roles = Math.calculateRoleMap();
     }
 
     /**
@@ -153,7 +154,6 @@ public class UsersBean extends AbstractBean implements Serializable {
         user = new User();
         allUsers = userDao.getAllUsers();
     }
-
 
     /**
      * Fügt den aktuell angezeigten Benutzer der Liste aller innerhalb der Applikation
@@ -237,7 +237,6 @@ public class UsersBean extends AbstractBean implements Serializable {
     /**
      * Liefert die unveränderbare Map mit den unterstützten Rollen zurück.
      * Änderungsversuche auf der Map führen zu einer {@code UnsupportedOperationException}
-     * .
      *
      * @return Map der unterstützen Rollen.
      */

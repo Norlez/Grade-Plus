@@ -47,6 +47,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import businesslogic.Math;
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.Role;
@@ -132,7 +133,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
         super(pSession);
         userDao = Assertion.assertNotNull(pUserDAO);
         thisUser = getSession().getUser();
-        roles = calculateRoleMap();
+        roles = Math.calculateRoleMap();
     }
 
     public User getThisUser() {
@@ -273,32 +274,6 @@ public class ProfileBean extends AbstractBean implements Serializable {
         return Collections.unmodifiableMap(countriesMap);
     }
 
-    /**
-     * TODO
-     */
-    public static Map<String, Role> calculateRoleMap() {
-        final Map<String, Role> tmp = new LinkedHashMap<>();
-        tmp.put("ADMIN", Role.ADMIN);
-        tmp.put("EXAMINER", Role.EXAMINER);
-        tmp.put("STUDENT", Role.STUDENT);
-        return Collections.unmodifiableMap(tmp);
-    }
 
-    /**
-     * Verweist auf die UniMail-Webseite um das Passwort zurückzusetzen.
-     */
-
-    public void redirect() {
-        try {
-            ExternalContext externalContext = FacesContext.getCurrentInstance()
-                    .getExternalContext();
-            externalContext
-                    .redirect("https://oracle-web.zfn.uni-bremen.de/secure/passwort_vergessen");
-
-        } catch (IOException e) {
-            System.out.println("jojo");
-        }
-
-    }
 }
 

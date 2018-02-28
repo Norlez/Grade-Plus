@@ -1,5 +1,6 @@
 package controller;
 
+import businesslogic.Math;
 import common.exception.DuplicateInstanceLectureException;
 import common.model.*;
 import persistence.InstanceLectureDAO;
@@ -106,7 +107,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
         user = assertNotNull(getSession().getUser());
-
         times = calculateSemesterMap();
         years = calculateYearList();
     }
@@ -329,6 +329,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         this.selectedYear = selectedYear;
     }
 
+
+
+    //////Wird versucht auf businesslogic.Math zu verschieben ///////////////////
     /**
      * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück. Diese werden
      * als Auswahl im Drop-Down Menu bei der erstellung einer ILV verfügbar sein.
@@ -353,6 +356,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         tmp.put("SoSe", SemesterTime.SOMMER);
         return Collections.unmodifiableMap(tmp);
     }
+    //////Wird versucht auf businesslogic.Math zu verschieben ///////////////////
 
     /**
      * Setzt den Freigabestatus einer ILV

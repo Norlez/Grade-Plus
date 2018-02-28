@@ -24,15 +24,16 @@
  */
 package businesslogic;
 
+import common.model.Role;
+import common.model.SemesterTime;
+
 import static common.util.Assertion.assertNotNegative;
 import static common.util.Assertion.assertWithoutNull;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Diese Klasse stellt einige grundlegende mathematische Funktionen bereit.
@@ -127,5 +128,46 @@ public final class Math {
      */
     public static BigDecimal standartDeviation(final List<BigDecimal> pDecimals) {
         throw new UnsupportedOperationException();
+    }
+
+
+
+    /**
+     * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück. Diese werden
+     * als Auswahl im Drop-Down Menu bei der erstellung einer ILV verfügbar sein.
+     *
+     * @return Eine einfache Map mit verfügbaren Rollen.
+     */
+    private List<String> calculateYearList() {
+        final List<String> tmp = new ArrayList<String>();
+        for (int i = 2018; i < 2080; i++) {
+            tmp.add(Integer.toString(i));
+        }
+        return Collections.unmodifiableList(tmp);
+    }
+
+
+
+
+    /**
+     * Liefert eine einfache Map mit den verfügbaren Semestern im System zurück.
+     * @return Eine einfache Map mit verfügbaren Semestern.
+     */
+    private Map<String, SemesterTime> calculateSemesterMap() {
+        final Map<String, SemesterTime> tmp = new LinkedHashMap<>();
+        tmp.put("WiSe", SemesterTime.WINTER);
+        tmp.put("SoSe", SemesterTime.SOMMER);
+        return Collections.unmodifiableMap(tmp);
+    }
+
+    /**
+     * Liefert eine einfache Map mit allen bekannten Rollen innerhalb der Applikation zurück.
+     */
+    public static Map<String, Role> calculateRoleMap() {
+        final Map<String, Role> tmp = new LinkedHashMap<>();
+        tmp.put("ADMIN", Role.ADMIN);
+        tmp.put("EXAMINER", Role.EXAMINER);
+        tmp.put("STUDENT", Role.STUDENT);
+        return Collections.unmodifiableMap(tmp);
     }
 }
