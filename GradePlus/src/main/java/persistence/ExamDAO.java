@@ -1,5 +1,6 @@
 package persistence;
 
+import java.io.Serializable;
 import java.util.List;
 
 import common.exception.DuplicateUniqueFieldException;
@@ -19,7 +20,7 @@ import static common.util.Assertion.assertNotNull;
  * @version 2018-02-27
  */
 @Stateless
-public class ExamDAO extends JPADAO<Exam> {
+public class ExamDAO extends JPADAO<Exam> implements Serializable {
 
     @Override
     Class<Exam> getClazz() {

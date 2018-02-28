@@ -37,7 +37,7 @@ import static common.util.Assertion.assertNotNull;
  * @version 2018-02-24
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
@@ -539,9 +539,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
             if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                     .plusMinutes(exam.getExamLength()))) {
                 conflictingExams.add(exam);
-                continue;
+            } else {
+                save();
             }
-            save();
             exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(
                     exam.getExamLength() + lengthOfBreaks));
         }
@@ -604,7 +604,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     public void setEndOfTimeSlot(final java.util.Date pEndOfTimeSlot) {
         assertNotNull(pEndOfTimeSlot);
-        startOfTimeSlot = LocalDateTime.ofInstant(pEndOfTimeSlot.toInstant(),
+        endOfTimeSlot = LocalDateTime.ofInstant(pEndOfTimeSlot.toInstant(),
                 ZoneId.systemDefault());
     }
 
