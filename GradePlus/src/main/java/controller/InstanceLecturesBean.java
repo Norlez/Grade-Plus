@@ -2,6 +2,7 @@ package controller;
 
 import businesslogic.Math;
 import common.exception.DuplicateInstanceLectureException;
+import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
 import persistence.InstanceLectureDAO;
 
@@ -390,5 +391,27 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     public void changeReleaseStatus(InstanceLecture pInstanceLecture) {
         pInstanceLecture.setReleased();
         instanceLectureDao.update(pInstanceLecture);
+    }
+
+    /**
+     * Dupliziert eine ILV. Dabei wird die Lecture und das Semester übernommen. Das Jahr
+     * wird um um eins erhöht.
+     * 
+     * @return Die Seite mit allen ILVs
+     */
+    public String duplicateInstanceLecture(InstanceLecture pInstanceLecture) {
+        assertNotNull(pInstanceLecture);
+        InstanceLecture ilv = new InstanceLecture();
+        ilv.setLecture(pInstanceLecture.getLecture());
+        Integer i = Integer.parseInt(pInstanceLecture.getYear());
+        i = i + 1;
+        ilv.setYear(i + "");
+        ilv.setYear(pInstanceLecture.getSemester());
+        try {
+            instanceLectureDao.save(ilv);
+        } catch (DuplicateInstanceLectureException ex) {
+            throw new UnexpectedUniqueViolationException(ex);
+        }
+        return "semester.xhtml";
     }
 }
