@@ -3,6 +3,8 @@ package common.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +147,7 @@ public class Exam extends JPAEntity {
      *            Die neue ILV der Prüfung.
      */
     public void setInstanceLecture(final InstanceLecture pInstanceLecture) {
-        instanceLecture = assertNotNull(instanceLecture);
+        instanceLecture = assertNotNull(pInstanceLecture);
     }
 
     /**
@@ -325,6 +327,14 @@ public class Exam extends JPAEntity {
      */
     public void setComment(final String pComment) {
         comment = assertNotNull(pComment);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Exam: ID: %d, Lecture: %s, Time: %s, Length: %d", getId(),
+                instanceLecture.getLecture().getName(), localDateTime
+                        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,
+                                FormatStyle.SHORT)), examLength);
     }
 
 }

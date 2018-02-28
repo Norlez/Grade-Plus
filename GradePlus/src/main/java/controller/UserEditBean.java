@@ -1,5 +1,5 @@
-
 package controller;
+
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.model.Session;
@@ -41,9 +41,9 @@ public class UserEditBean extends AbstractBean implements Serializable {
      */
     private User selectedUser;
 
-
     /**
      * Gibt den Zustand des Editcheckers zurück.
+     * 
      * @return der Zustand des Editcheckers.
      */
     public boolean getEditChecker() {
@@ -52,7 +52,9 @@ public class UserEditBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den Editchecker auf das Gegenteil und setzt den übergebenen User.
-     * @param pUser der zu setztende User
+     * 
+     * @param pUser
+     *            der zu setztende User
      * @return die user.xhtml um auf das Facelet zu wechseln.
      */
     public String setEditChecker(final User pUser) {
@@ -65,8 +67,6 @@ public class UserEditBean extends AbstractBean implements Serializable {
      * Prüft, ob die Attribute in dieser Klasse verändert werden dürfen.
      */
     private boolean editChecker = false;
-
-
 
     /**
      * Erzeugt eine neue {@link UserEditBean}.
@@ -104,7 +104,7 @@ public class UserEditBean extends AbstractBean implements Serializable {
         return "user.xhtml";
     }
 
-    public void setEditCheckerWithoutUser(){
+    public void setEditCheckerWithoutUser() {
         editChecker = !editChecker;
     }
 
@@ -133,4 +133,3 @@ public class UserEditBean extends AbstractBean implements Serializable {
     }
 
 }
-
