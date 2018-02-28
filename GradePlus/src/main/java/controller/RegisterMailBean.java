@@ -56,6 +56,61 @@ public class RegisterMailBean {
      */
     private static final Logger logger = Logger.getLogger(RegisterMailBean.class);
 
+
+    /**
+     * Die Properties für die Mailversendung.
+     */
+    private static Properties properties;
+
+    /**
+     * Die Session der Mailversendung.
+     */
+    private static javax.mail.Session session;
+
+    /**
+     * Die Nachricht, die versendet wird.
+     */
+    private static Message message;
+
+    /**
+     * Legt Properties für die Versendung einer Mail ab und erstellt ein neues Message Objekt für die Versendung
+     * der Nachricht.
+     */
+    public static void init(){
+
+        properties = new Properties();
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.socketFactory.port", "465");
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.port", "465");
+
+        session = javax.mail.Session.getInstance(properties, null);
+        session.setDebug(true);
+        try{
+            message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+        }catch (MessagingException e){
+            throw new RuntimeException();
+        }
+
+
+    }
+
+    /**
+     *Erstellt das Transporterobjekt, um die erstellte Mail zu versenden.
+     */
+    public static void postInit(){
+
+        try{
+            Transport transport = session.getTransport("smtp");
+            transport.connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        }catch (MessagingException e){
+            throw new RuntimeException();
+        }
+    }
     /**
      * Eine Loginunabhängige Funktion, die dem sich registrierenden Benutzer, nach der
      * Registrierung eine Bestätigungsmail zusendet und  in der alle relevanten Daten vermerkt
@@ -66,20 +121,8 @@ public class RegisterMailBean {
      */
 
     public static void registerMail(User pUser) {
-
         try {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-
-            Session session = Session.getInstance(props, null);
-            session.setDebug(true);
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
             message.setSubject("Ihre Registrierung bei GradePlus");
@@ -98,20 +141,10 @@ public class RegisterMailBean {
                     + "\n\n E-mail Adresse: "
                     + pUser.getEmail()
                     + "\n\n\n Bei weiteren Fragen stehen wir Ihnen unter dieser Email zur Verfügung");
-
-
-            Transport transport = session.getTransport("smtp");
-            transport
-                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
-
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-
+            postInit();
         } catch (MessagingException e) {
             throw new RuntimeException(e);
-
         }
-
     }
 
     /**
@@ -124,18 +157,7 @@ public class RegisterMailBean {
     public static void ilvRemovedMail(User pUser, String pIlvName) {
 
         try {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-
-            Session session = Session.getInstance(props, null);
-            session.setDebug(true);
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
             message.setSubject("Systemnachricht: Lehrveranstaltung " + pIlvName + " entfernt" );
@@ -145,12 +167,7 @@ public class RegisterMailBean {
                     + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Lehrveranstaltung " + pIlvName
                     + "\n\n vom Prüfer gelöscht wurde und sie damit entfernt wurden.");
 
-            Transport transport = session.getTransport("smtp");
-            transport
-                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
-
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
+            postInit();
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -170,18 +187,7 @@ public class RegisterMailBean {
     public static void userJoinIlvRegisterMail(User pUser, String pIlvName) {
 
         try {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-
-            Session session = Session.getInstance(props, null);
-            session.setDebug(true);
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
             message.setSubject("Systemnachricht: Eintragung in die Lehrveranstaltung " + pIlvName  );
@@ -190,13 +196,7 @@ public class RegisterMailBean {
                     + ","
                     + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie für die Lehrveranstaltung " + pIlvName
                     + "\n\n vom Prüfer hinzugefügt wurden.");
-
-            Transport transport = session.getTransport("smtp");
-            transport
-                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
-
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
+           postInit();
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -215,18 +215,7 @@ public class RegisterMailBean {
     public static void joinExamMail(User pUser, String pIlvName) {
 
         try {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-
-            Session session = Session.getInstance(props, null);
-            session.setDebug(true);
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
             message.setSubject("Systemnachricht: Anmeldung zur Prüfung für die Lehrveranstaltung " + pIlvName  );
@@ -235,13 +224,7 @@ public class RegisterMailBean {
                     + ","
                     + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie zur Prüfung für die  Lehrveranstaltung " + pIlvName
                     + "\n\n am 01.01.1995 hinzugefügt wurden.");
-
-            Transport transport = session.getTransport("smtp");
-            transport
-                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
-
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
+            postInit();
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -259,18 +242,7 @@ public class RegisterMailBean {
     public static void reportIllness(User pUser, User pRecipient) {
 
         try {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-
-            Session session = Session.getInstance(props, null);
-            session.setDebug(true);
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
+            init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pRecipient.getEmail()));
             message.setSubject("Systemnachricht: Krankmeldung vom Nutzer" + pUser.getGivenName() + " " + pUser.getSurname());
@@ -279,22 +251,10 @@ public class RegisterMailBean {
                     + ","
                     + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sich der Prüfungling für seine Prüfung in "
                     + "\n\n der  Lehrveranstaltung krank gemeldet hat.");
-
-            Transport transport = session.getTransport("smtp");
-            transport
-                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
-
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-
+            postInit();
         } catch (MessagingException e) {
             throw new RuntimeException(e);
-
         }
-
-
-
-
     }
 
 
