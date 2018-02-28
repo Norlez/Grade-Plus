@@ -37,7 +37,7 @@ import static common.util.Assertion.assertNotNull;
  * @version 2018-02-24
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class ExamsBean extends AbstractBean implements Serializable {
 
     /**

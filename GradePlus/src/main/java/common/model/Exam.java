@@ -3,6 +3,7 @@ package common.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 //import com.sun.xml.internal.bind.v2.TODO;
@@ -47,13 +48,13 @@ public class Exam extends JPAEntity {
      * Die Prüflinge einer Prüfung als {@link JoinExam}-Objekt.
      */
     @OneToMany(mappedBy = "exam")
-    private List<JoinExam> participants;
+    private List<JoinExam> participants = new ArrayList<>();
 
     /**
      * Die Prüfer einer Prüfung.
      */
     @ManyToMany(mappedBy = "ExamAsProf")
-    private List<User> examiners;
+    private List<User> examiners = new ArrayList<>();
 
     /**
      * Der Startpunkt der Prüfung.
