@@ -115,7 +115,8 @@ public class Exam extends JPAEntity {
     /**
      * Setzt die ILV der Prüfung auf den gegebenen Wert.
      *
-     * @param pInstanceLecture Die neue ILV der Prüfung.
+     * @param pInstanceLecture
+     *            Die neue ILV der Prüfung.
      */
     public void setInstanceLecture(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(instanceLecture);
@@ -133,16 +134,21 @@ public class Exam extends JPAEntity {
     /**
      * Fügt die gegebene JoinExam der Liste der JoinExams hinzu.
      *
-     * @param pJoinExam Die hinzuzufügende JoinExam.
+     * @param pJoinExam
+     *            Die hinzuzufügende JoinExam.
      */
     public void addParticipant(final JoinExam pJoinExam) {
-        participants.add(assertNotNull(pJoinExam));
+        if (participants.contains(assertNotNull(pJoinExam))) {
+            return;
+        }
+        participants.add(pJoinExam);
     }
 
     /**
      * Setzt die JoinExams der Prüfung auf den gegebenen Wert.
      *
-     * @param pParticipants Die neuen JoinExams der Prüfung.
+     * @param pParticipants
+     *            Die neuen JoinExams der Prüfung.
      */
     public void setParticipants(final List<JoinExam> pParticipants) {
         participants = assertNotNull(participants);
@@ -151,7 +157,8 @@ public class Exam extends JPAEntity {
     /**
      * Entfernt die gegebene JoinExam aus der Prüfung.
      *
-     * @param pParticipant Die zu entfernende JoinExam.
+     * @param pParticipant
+     *            Die zu entfernende JoinExam.
      */
     public void removeParticipant(final JoinExam pParticipant) {
         participants.remove(assertNotNull(pParticipant));
@@ -169,16 +176,21 @@ public class Exam extends JPAEntity {
     /**
      * Fügt den gegebenen Benutzer der Liste aller Prüfer der Prüfung hinzu.
      *
-     * @param pExaminer Der zur Prüfung als Prüfer einzutragende Benutzer.
+     * @param pExaminer
+     *            Der zur Prüfung als Prüfer einzutragende Benutzer.
      */
     public void addExaminer(final User pExaminer) {
-        examiners.add(assertNotNull(pExaminer));
+        if (examiners.contains(assertNotNull(pExaminer))) {
+            return;
+        }
+        examiners.add(pExaminer);
     }
 
     /**
      * Setzt die Prüfer der Prüfung auf den gegebenen Wert.
      *
-     * @param pExaminers Die neuen Prüfer der Prüfung.
+     * @param pExaminers
+     *            Die neuen Prüfer der Prüfung.
      */
     public void setExaminers(final List<User> pExaminers) {
         examiners = assertNotNull(pExaminers);
@@ -187,7 +199,8 @@ public class Exam extends JPAEntity {
     /**
      * Entfernt den gegebenen Benutzer als Prüfer der Prüfung.
      *
-     * @param pExaminer Der aus der Prüfung als Prüfer zu entfernende Benutzer.
+     * @param pExaminer
+     *            Der aus der Prüfung als Prüfer zu entfernende Benutzer.
      */
     public void removeExaminer(final User pExaminer) {
         examiners.remove(pExaminer);
@@ -205,7 +218,8 @@ public class Exam extends JPAEntity {
     /**
      * Setzt den Startpunkt der Prüfung auf den gegebenen Wert.
      *
-     * @param pLocalDateTime Der neue Startpunkt der Prüfung.
+     * @param pLocalDateTime
+     *            Der neue Startpunkt der Prüfung.
      */
     public void setLocalDateTime(final LocalDateTime pLocalDateTime) {
         localDateTime = assertNotNull(pLocalDateTime);
@@ -223,7 +237,8 @@ public class Exam extends JPAEntity {
     /**
      * Setzt die Länge der Prüfung auf den gegebenen Wert.
      *
-     * @param pExamLength Die neue Länge der Prüfung.
+     * @param pExamLength
+     *            Die neue Länge der Prüfung.
      */
     public void setExamLength(final int pExamLength) {
         examLength = assertNotNegative(pExamLength);
@@ -241,7 +256,8 @@ public class Exam extends JPAEntity {
     /**
      * Setzt den Ort der Prüfung auf den gegebenen Wert.
      *
-     * @param pLocation Der neue Ort der Prüfung.
+     * @param pLocation
+     *            Der neue Ort der Prüfung.
      */
     public void setLocation(final String pLocation) {
         location = assertNotNull(pLocation);
@@ -259,7 +275,8 @@ public class Exam extends JPAEntity {
     /**
      * Setzt den Typen der Prüfung (bspw. Fachgespräch) auf den gegebenen Wert.
      *
-     * @param pType Der neue Typ der Prüfung.
+     * @param pType
+     *            Der neue Typ der Prüfung.
      */
     public void setType(final String pType) {
         type = assertNotNull(pType);
@@ -277,7 +294,8 @@ public class Exam extends JPAEntity {
     /**
      * Setzt die Bemerkung der Prüfung auf den gegebenen Wert.
      *
-     * @param pComment Die neue Bemerkung der Prüfung.
+     * @param pComment
+     *            Die neue Bemerkung der Prüfung.
      */
     public void setComment(final String pComment) {
         comment = assertNotNull(pComment);

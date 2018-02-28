@@ -29,7 +29,8 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Fügt {@code theExam} der Datenbank hinzu.
      *
-     * @param pExam Das zu speichernde {@code Exam}-Objekt.
+     * @param pExam
+     *            Das zu speichernde {@code Exam}-Objekt.
      */
     @Override
     public synchronized void save(Exam pExam) {
@@ -44,7 +45,8 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Aktualisiert den Eintrag von {@code theExam} im Datenbestand.
      *
-     * @param pExam Das zu aktualisierende {@link Exam}-Objekt.
+     * @param pExam
+     *            Das zu aktualisierende {@link Exam}-Objekt.
      */
     @Override
     public synchronized void update(Exam pExam) {
@@ -68,7 +70,8 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Gibt alle Prüfungen der gegebenen ILV zurück.
      *
-     * @param pInstanceLecture Die ILV der gesuchten Prüfungen.
+     * @param pInstanceLecture
+     *            Die ILV der gesuchten Prüfungen.
      * @return Die Prüfungen der gegebenen ILV als Liste.
      */
     public List<Exam> getExamsForInstanceLecture(InstanceLecture pInstanceLecture) {
@@ -79,7 +82,8 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Gibt alle Prüfungen des gegebenen Prüfers zurück.
      *
-     * @param pExaminer Der Prüfer der gesuchten Prüfungen.
+     * @param pExaminer
+     *            Der Prüfer der gesuchten Prüfungen.
      * @return Die Prüfungen des gegebenen Prüfers als Liste.
      */
     public List<Exam> getExamsForExaminer(User pExaminer) {
@@ -90,7 +94,8 @@ public class ExamDAO extends JPADAO<Exam> {
     /**
      * Gibt alle Prüfungen des gegebenen Prüflings zurück.
      *
-     * @param pStudent Der Prüfling der gesuchten Prüfungen.
+     * @param pStudent
+     *            Der Prüfling der gesuchten Prüfungen.
      * @return Die Prüfungen des gegebenen Prüflings als Liste.
      */
     public List<Exam> getExamsForStudent(User pStudent) {
