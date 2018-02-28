@@ -65,22 +65,20 @@
                     <!-- EXAM LENGTH -->
                     <b:row class="btn-paragraph">
                         <b:column span="2">
-                            <h:outputLabel placeholder="#{msg['outputDuration']}"
-                                           value="#{examsBean.exam.examLength}"/>
+                            <h:outputLabel value="#{msg['outputDuration']}"/>
                         </b:column>
                         <b:column span="2">
-                            <b:inputText mask="integer" value="" />
+                            <b:inputText mask="integer" value="#{examsBean.exam.examLength}" />
                         </b:column>
                     </b:row>
 
                     <!-- BREAK LENGTH -->
                     <b:row class="btn-paragraph">
                         <b:column span="2">
-                            <h:outputLabel placeholder="#{msg['outputBreak']}"
-                                           value="#{examsBean.lengthOfBreaks}"/>
+                            <h:outputLabel value="#{msg['outputBreak']}"/>
                         </b:column>
                         <b:column span="2">
-                            <b:inputText mask="integer" value="" />
+                            <b:inputText mask="integer" value="#{examsBean.lengthOfBreaks}" />
                         </b:column>
                     </b:row>
 
