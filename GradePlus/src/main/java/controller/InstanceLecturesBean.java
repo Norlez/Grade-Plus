@@ -398,8 +398,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * wird um um eins erhöht.
      * 
      * @return Die Seite mit allen ILVs
-     */ //TODO: Bug mehrmaliges Duplizieren mit gleichen Werten ist möglich
-    //ToDO: Examiner für die ILV einbinden
+     */
+    // TODO: Bug mehrmaliges Duplizieren mit gleichen Werten ist möglich
     public String duplicateInstanceLecture(InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
         InstanceLecture ilv = new InstanceLecture();
@@ -408,6 +408,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         i = i + 1;
         ilv.setYear(i + "");
         ilv.setSemester(pInstanceLecture.getSemester());
+        ilv.addExaminer(user);
         try {
             instanceLectureDao.save(ilv);
         } catch (DuplicateInstanceLectureException ex) {
