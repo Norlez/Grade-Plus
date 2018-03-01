@@ -68,7 +68,7 @@ public class Exam extends JPAEntity {
      * Die Prüfungsdauer.
      */
     @Column
-    private int examLength;
+    private Integer examLength;
 
     /**
      * Der Prüfungsort.
@@ -101,7 +101,7 @@ public class Exam extends JPAEntity {
      *            Die Daten der zu erzeugenden Prüfung.
      */
     public Exam(final Exam pExam) {
-        assertNotNull(pExam);
+        assertNotNull(pExam, "Exam: Exam(Exam)");
         examRegulations = pExam.getExamRegulations();
         instanceLecture = pExam.getInstanceLecture();
         participants = pExam.getParticipants();
@@ -128,7 +128,8 @@ public class Exam extends JPAEntity {
      * @param pExamRegulations
      */
     public void setExamRegulations(final String pExamRegulations) {
-        examRegulations = assertNotNull(pExamRegulations);
+        examRegulations = assertNotNull(pExamRegulations,
+                "Exam: setExamRegulations(String)");
     }
 
     /**
@@ -147,7 +148,8 @@ public class Exam extends JPAEntity {
      *            Die neue ILV der Prüfung.
      */
     public void setInstanceLecture(final InstanceLecture pInstanceLecture) {
-        instanceLecture = assertNotNull(pInstanceLecture);
+        instanceLecture = assertNotNull(pInstanceLecture,
+                "Exam: setInstanceLecture(InstanceLecture)");
     }
 
     /**
@@ -166,7 +168,8 @@ public class Exam extends JPAEntity {
      *            Die hinzuzufügende JoinExam.
      */
     public void addParticipant(final JoinExam pJoinExam) {
-        if (participants.contains(assertNotNull(pJoinExam))) {
+        if (participants.contains(assertNotNull(pJoinExam,
+                "Exam: addParticipant(JoinExam)"))) {
             return;
         }
         participants.add(pJoinExam);
@@ -179,7 +182,8 @@ public class Exam extends JPAEntity {
      *            Die neuen JoinExams der Prüfung.
      */
     public void setParticipants(final List<JoinExam> pParticipants) {
-        participants = assertNotNull(participants);
+        participants = assertNotNull(participants,
+                "Exam: setParticipants(List<JoinExam>)");
     }
 
     /**
@@ -189,7 +193,8 @@ public class Exam extends JPAEntity {
      *            Die zu entfernende JoinExam.
      */
     public void removeParticipant(final JoinExam pParticipant) {
-        participants.remove(assertNotNull(pParticipant));
+        participants.remove(assertNotNull(pParticipant,
+                "Exam: removeParticipant(JoinExam)"));
     }
 
     /**
@@ -208,7 +213,7 @@ public class Exam extends JPAEntity {
      *            Der zur Prüfung als Prüfer einzutragende Benutzer.
      */
     public void addExaminer(final User pExaminer) {
-        if (examiners.contains(assertNotNull(pExaminer))) {
+        if (examiners.contains(assertNotNull(pExaminer, "Exam: addExaminer(User)"))) {
             return;
         }
         examiners.add(pExaminer);
@@ -221,7 +226,7 @@ public class Exam extends JPAEntity {
      *            Die neuen Prüfer der Prüfung.
      */
     public void setExaminers(final List<User> pExaminers) {
-        examiners = assertNotNull(pExaminers);
+        examiners = assertNotNull(pExaminers, "Exam: setExaminers(List<User>)");
     }
 
     /**
@@ -250,7 +255,8 @@ public class Exam extends JPAEntity {
      *            Der neue Startpunkt der Prüfung.
      */
     public void setLocalDateTime(final LocalDateTime pLocalDateTime) {
-        localDateTime = assertNotNull(pLocalDateTime);
+        localDateTime = assertNotNull(pLocalDateTime,
+                "Exam: setLocalDateTime(LocalDateTime)");
     }
 
     /**
@@ -258,7 +264,7 @@ public class Exam extends JPAEntity {
      *
      * @return Die Länge der Prüfung.
      */
-    public int getExamLength() {
+    public Integer getExamLength() {
         return examLength;
     }
 
@@ -268,8 +274,8 @@ public class Exam extends JPAEntity {
      * @param pExamLength
      *            Die neue Länge der Prüfung.
      */
-    public void setExamLength(final int pExamLength) {
-        examLength = assertNotNegative(pExamLength);
+    public void setExamLength(final Integer pExamLength) {
+        examLength = assertNotNull(pExamLength, "Exam: setExamLength(Integer)");
     }
 
     /**
@@ -288,7 +294,7 @@ public class Exam extends JPAEntity {
      *            Der neue Ort der Prüfung.
      */
     public void setLocation(final String pLocation) {
-        location = assertNotNull(pLocation);
+        location = assertNotNull(pLocation, "Exam: setLocation(String)");
     }
 
     /**
@@ -307,7 +313,7 @@ public class Exam extends JPAEntity {
      *            Der neue Typ der Prüfung.
      */
     public void setType(final String pType) {
-        type = assertNotNull(pType);
+        type = assertNotNull(pType, "Exam: setType(String)");
     }
 
     /**
@@ -326,7 +332,7 @@ public class Exam extends JPAEntity {
      *            Die neue Bemerkung der Prüfung.
      */
     public void setComment(final String pComment) {
-        comment = assertNotNull(pComment);
+        comment = assertNotNull(pComment, "Exam: setComment(String)");
     }
 
     @Override

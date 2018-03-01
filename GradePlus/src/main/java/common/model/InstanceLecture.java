@@ -233,4 +233,14 @@ public class InstanceLecture extends JPAEntity {
     public void setReleased() {
         isReleased = !isReleased;
     }
+
+    /**
+     * Gibt das Semester und das Jahr als String zurück.
+     *
+     * @return Das Semester und das Jahr als String.
+     */
+    public String semesterToString() {
+        return String.format("%s %s", semester, theYear);
+    }
+
 }

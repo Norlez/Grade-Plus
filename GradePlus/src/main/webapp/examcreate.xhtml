@@ -11,58 +11,108 @@
 </head>
 <body>
 <ui:composition template="WEB-INF/template.xhtml">
-    <ui:param name="title" value="#{msg['titleExamCreate']}"/>
+    <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
-        <f:loadBundle basename="internationalization.exams" var="msg" />
+        <f:loadBundle basename="internationalization.examcreate" var="msg"/>
 
         <b:form>
             <b:container class="form-group">
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                         <h1>
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name}" />
+                            <h:outputText value="#{msg['subtitle']}"/>
                         </h1>
                     </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="4">
                         <h2>
-                            <h:outputText value="#{msg['subtitleCreateExam']}"/>
+                            <h:outputText value="#{msg['outputInstanceLecture']}"/>
                         </h2>
                     </b:column>
                 </b:row>
 
-                <b:row class="space50px"/>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputName']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputLabel value="#{examsBean.instanceLecture.lecture.name}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputVak']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputLabel value="#{examsBean.instanceLecture.lecture.vak}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputSemester']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputLabel value="#{examsBean.instanceLecture.semesterToString()}"/>
+                    </b:column>
+                </b:row>
+
+                <b:row class="space25px"/>
+                <b:row>
+                    <b:column span="4">
+                        <h2>
+                            <h:outputText value="#{msg['outputExamdata']}"/>
+                        </h2>
+                    </b:column>
+                </b:row>
+
                 <b:formGroup rendered="#{true}">
 
                     <!-- DATE TIME PICKER -->
                     <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="dateTime"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
                         <b:column span="2">
-                            <h:outputLabel id="startOfExam"
-                                           value="#{msg['outputDateStart']}"/>
+                            <h:outputLabel value="#{msg['outputDateTime']}"/>
                         </b:column>
                         <b:column span="4">
-                            <b:dateTimePicker value="#{examsBean.localDateTime}" />
-                        </b:column>
-                        <b:column span="2">
-                            <b:message for="startOfExam"/>
+                            <b:dateTimePicker placeholder="#{msg['inputDateTime']}"
+                                              id="dateTime"
+                                              value="#{examsBean.localDateTime}"
+                                              format="DD.MM.YYYY HH:MM"
+                                              required="true"
+                                              requiredMessage="#{msg['errorDateTimeRequired']}"/>
                         </b:column>
                     </b:row>
 
                     <!-- EXAM LENGTH -->
+                    <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="examLength"/>
+                        </b:column>
+                    </b:row>
                     <b:row class="btn-paragraph">
                         <b:column span="2">
-                            <h:outputLabel value="#{msg['outputDuration']}"/>
+                            <h:outputLabel value="#{msg['outputExamLength']}"/>
                         </b:column>
-                        <b:column span="2">
-                            <b:inputText mask="integer"
-                                         value="#{examsBean.exam.examLength}" />
+                        <b:column span="4">
+                            <b:inputText placeholder="#{msg['inputExamLength']}"
+                                         id="examLength"
+                                         value="#{examsBean.exam.examLength}"
+                                         required="true"
+                                         requiredMessage="#{msg['errorExamLengthRequired']}"/>
                         </b:column>
                     </b:row>
 
                     <!-- EXAMINER PANEL -->
                     <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputSelectExaminers']}"/>
+                        </b:column>
                         <b:column span="7">
                             <b:panel>
                                 <b:dataTable value="#{usersBean.allUsers}" var="u"
@@ -75,8 +125,11 @@
 
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
-                                    <b:dataTableColumn label="#{msg['actionChoose']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionChoose']}" action="#{examsBean.exam.addExaminer(u)}"/>
+                                    <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionSelect']}" disabled="#{examsBean.exam.examiners.contains(u)}" action="#{examsBean.exam.addExaminer(u)}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRemove']}" disabled="#{!examsBean.exam.examiners.contains(u)}" action="#{examsBean.exam.removeExaminer(u)}" />
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>

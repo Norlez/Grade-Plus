@@ -35,7 +35,7 @@ public class ExamDAO extends JPADAO<Exam> implements Serializable {
      */
     @Override
     public synchronized void save(Exam pExam) {
-        assertNotNull(pExam);
+        assertNotNull(pExam, "ExamDAO: save(Exam)");
         try {
             super.save(pExam);
         } catch (DuplicateUniqueFieldException e) {
@@ -51,7 +51,7 @@ public class ExamDAO extends JPADAO<Exam> implements Serializable {
      */
     @Override
     public synchronized void update(Exam pExam) {
-        assertNotNull(pExam);
+        assertNotNull(pExam, "ExamDAO: update(Exam)");
         try {
             super.update(pExam);
         } catch (DuplicateUniqueFieldException e) {

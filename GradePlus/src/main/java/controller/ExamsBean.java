@@ -145,10 +145,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
             final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDao,
             final JoinExamDAO pJoinExamDao) {
         super(pSession);
-        examDao = assertNotNull(pExamDao);
-        userDao = assertNotNull(pUserDao);
-        joinExamDao = assertNotNull(pJoinExamDao);
-        instanceLectureDao = assertNotNull(pInstanceLectureDao);
+        examDao = assertNotNull(pExamDao, "ExamsBean: ExamsBean(_, ExamDAO, _, _, _)");
+        userDao = assertNotNull(pUserDao, "ExamsBean: ExamsBean(_, _, UserDAO, _, _)");
+        joinExamDao = assertNotNull(pJoinExamDao,
+                "ExamsBean: ExamsBean(_, _, _, JoinExamDAO, _)");
+        instanceLectureDao = assertNotNull(pInstanceLectureDao,
+                "ExamsBean: ExamsBean(_, _, _, _, InstanceLectureDAO)");
     }
 
     /**
@@ -161,10 +163,17 @@ public class ExamsBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         exam = new Exam();
-        allExams = assertNotNull(examDao.getAllExams());
-        examsOfStudent = assertNotNull(examDao.getExamsForStudent(getSession().getUser()));
-        examsOfExaminer = assertNotNull(examDao.getExamsForExaminer(getSession()
-                .getUser()));
+        startOfTimeSlot = null;
+        endOfTimeSlot = null;
+        lengthOfBreaks = null;
+        allExams = assertNotNull(examDao.getAllExams(),
+                "ExamsBean: init() -> examDao.getAllExams()");
+        examsOfStudent = assertNotNull(
+                examDao.getExamsForStudent(getSession().getUser()),
+                "ExamsBean: init() -> examDao.getExamsForStudent(getSession().getUser())");
+        examsOfExaminer = assertNotNull(
+                examDao.getExamsForExaminer(getSession().getUser()),
+                "ExamsBean: init() -> examDao.getExamsForExaminer(getSession().getUser())");
     }
 
     /**
@@ -184,7 +193,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Die neue aktuell geählte ILV.
      */
     public String setInstanceLectureForExam(final InstanceLecture pInstanceLecture) {
-        instanceLecture = assertNotNull(pInstanceLecture);
+        instanceLecture = assertNotNull(pInstanceLecture,
+                "ExamsBean: setInstanceLectureFotExam(InstanceLecture)");
         return "examcreate.xhtml";
     }
 
@@ -195,7 +205,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Die neue aktuell geählte ILV.
      */
     public String setInstanceLectureForExams(final InstanceLecture pInstanceLecture) {
-        instanceLecture = assertNotNull(pInstanceLecture);
+        instanceLecture = assertNotNull(pInstanceLecture,
+                "ExamsBean: setInstanceLectureForExams(InstanceLecture)");
         return "examscreate.xhtml";
     }
 
@@ -215,7 +226,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Der vom Püfer ausgewählte Termin.
      */
     public void setExam(final Exam pExam) {
-        exam = assertNotNull(pExam);
+        exam = assertNotNull(pExam, "ExamsBean: setExam(Exam)");
     }
 
     /**
@@ -245,7 +256,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Alle Prüflinge der Prüfung als Liste.
      */
     public List<User> getStudents(final Exam pExam) {
-        assertNotNull(pExam);
+        assertNotNull(pExam, "ExamsBean: getStudent(Exam)");
         List<User> students = new ArrayList<>();
         List<JoinExam> joinExams = pExam.getParticipants();
         for (JoinExam joinExam : joinExams) {
@@ -262,6 +273,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *         leiten.
      */
     public String save() {
+        if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
+                .plusMinutes(exam.getExamLength()))) {
+            return null;
+        }
         User user = getSession().getUser();
         exam.setInstanceLecture(instanceLecture);
         exam.addExaminer(user);
@@ -391,7 +406,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *         umzuleiten.
      */
     public String registerAsStudent(final Exam pExam) {
-        assertNotNull(pExam);
+        assertNotNull(pExam, "ExamsBean: registerAsStudent(Exam)");
         User user = getSession().getUser();
         if (!user.getAsStudent().contains(exam.getInstanceLecture())) {
             return "exams.xhtml";
@@ -425,7 +440,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *         umzuleiten.
      */
     public String deregisterAsStudent(final Exam pExam) {
-        assertNotNull(pExam);
+        assertNotNull(pExam, "ExamsBean: deregisterAsStudent(Exam)");
         User user = getSession().getUser();
         List<JoinExam> joinExams = user.getParticipation();
         JoinExam joinExam = null;
@@ -472,7 +487,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *             Falls {@link #exam} nicht in der Datenbank existiert.
      */
     public String addExaminer(final User pUser) {
-        assertNotNull(pUser);
+        assertNotNull(pUser, "ExamsBean: addExaminer(User)");
         pUser.addExamAsProf(exam);
         exam.addExaminer(pUser);
         try {
@@ -503,7 +518,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *             Falls {@link #exam} nicht in der Datenbank existiert.
      */
     public String removeExaminer(final User pUser) {
-        assertNotNull(pUser);
+        assertNotNull(pUser, "ExamsBean: removeExaminer(User)");
         pUser.removeExamAsProf(exam);
         exam.removeExaminer(pUser);
         try {
@@ -544,8 +559,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
         }
         conflictingExams = new ArrayList<>();
         exam.setLocalDateTime(startOfTimeSlot);
+        LocalDateTime theEndOfTimeSlot = endOfTimeSlot;
+        Integer theLengthOfBreaks = lengthOfBreaks;
         while (exam.getLocalDateTime().plusMinutes(exam.getExamLength())
-                .compareTo(endOfTimeSlot) <= 0) {
+                .compareTo(theEndOfTimeSlot) <= 0) {
             Exam theExam = exam;
             if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                     .plusMinutes(exam.getExamLength()))) {
@@ -592,8 +609,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Der neue Startpunkt der Prüfung.
      */
     public void setLocalDateTime(final java.util.Date pDate) {
-        exam.setLocalDateTime(LocalDateTime.ofInstant(pDate.toInstant(),
-                ZoneId.systemDefault()));
+        if (pDate != null) {
+            exam.setLocalDateTime(LocalDateTime.ofInstant(pDate.toInstant(),
+                    ZoneId.systemDefault()));
+        }
     }
 
     /**
@@ -602,10 +621,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Den Startpunkt der zu erstellenden Prüfungen.
      */
     public java.util.Date getStartOfTimeSlot() {
-        if (startOfTimeSlot == null) {
-            return null;
-        }
-        return Date.from(startOfTimeSlot.atZone(ZoneId.systemDefault()).toInstant());
+        return startOfTimeSlot == null ? null : Date.from(startOfTimeSlot.atZone(
+                ZoneId.systemDefault()).toInstant());
     }
 
     /**
@@ -615,7 +632,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Der neue Startpunkt der Prüfungen.
      */
     public void setStartOfTimeSlot(final java.util.Date pStartOfTimeSlot) {
-        assertNotNull(pStartOfTimeSlot);
+        assertNotNull(pStartOfTimeSlot, "ExamsBean: setStartOfTimeSlot(Date)");
         startOfTimeSlot = LocalDateTime.ofInstant(pStartOfTimeSlot.toInstant(),
                 ZoneId.systemDefault());
     }
@@ -626,10 +643,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Den Endpunkt der Prüfungen.
      */
     public java.util.Date getEndOfTimeSlot() {
-        if (endOfTimeSlot == null) {
-            return null;
-        }
-        return Date.from(endOfTimeSlot.atZone(ZoneId.systemDefault()).toInstant());
+        return endOfTimeSlot == null ? null : Date.from(endOfTimeSlot.atZone(
+                ZoneId.systemDefault()).toInstant());
     }
 
     /**
@@ -639,7 +654,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Der neue Endpunkt der Prüfungen.
      */
     public void setEndOfTimeSlot(final java.util.Date pEndOfTimeSlot) {
-        assertNotNull(pEndOfTimeSlot);
+        assertNotNull(pEndOfTimeSlot, "ExamsBean: setEndOfTimeSlot(Date)");
         endOfTimeSlot = LocalDateTime.ofInstant(pEndOfTimeSlot.toInstant(),
                 ZoneId.systemDefault());
     }
@@ -660,7 +675,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Die neue Länge der Pausen zwischen den Prüfungen.
      */
     public void setLengthOfBreaks(final Integer pLengthOfBreaks) {
-        lengthOfBreaks = assertNotNull(pLengthOfBreaks);
+        lengthOfBreaks = assertNotNull(pLengthOfBreaks,
+                "ExansBean: setLengthOfBreaks(Integer)");
     }
 
     /**
@@ -676,7 +692,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private void notify(final User pUser, final String pMessage) {
         MailBean sender = new MailBean(getSession());
         sender.getMail().setTopic("Änderungen an einem Prüfungstermin");
-        sender.getMail().setContent(assertNotNull(pMessage));
+        sender.getMail().setContent(
+                assertNotNull(pMessage, "ExamsBean: notify(_, String)"));
         sender.getMail().setRecipient(pUser.getEmail());
         sender.sendSystemMail();
     }
