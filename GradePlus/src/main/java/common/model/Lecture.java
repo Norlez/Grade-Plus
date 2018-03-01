@@ -19,7 +19,7 @@ import static common.util.Assertion.assertNotNull;
 @NamedQueries({
         @NamedQuery(name = "Lecture.findAll", query = "SELECT l FROM Lecture l"),
         @NamedQuery(name = "Lecture.findName", query = "SELECT l FROM Lecture l WHERE l.name = :name"),
-        @NamedQuery(name = "Lecture.findVAK", query = "SELECT l FROM Lecture l WHERE l.vak = :vak") })
+        @NamedQuery(name = "Lecture.findVAK", query = "SELECT l FROM Lecture l WHERE l.vak = :vak")})
 public class Lecture extends JPAEntity {
 
     /**
@@ -159,4 +159,14 @@ public class Lecture extends JPAEntity {
     public void removeILV(final InstanceLecture ilv) {
         instanceLectures.remove(ilv);
     }
+
+    /**
+     * Gibt den String für die CSV zurück.
+     * 
+     * @return CSV-String mit den Attributen von Lecture
+     */
+    public String toCSV() {
+        return String.format("%d; %s; %s; %d; %s", getId(), name, vak, ects, description);
+    }
+
 }

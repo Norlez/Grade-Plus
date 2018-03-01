@@ -75,7 +75,7 @@
                             <b:message for="dateTime"/>
                         </b:column>
                     </b:row>
-                    <b:row>
+                    <b:row class="btn-paragraph">
                         <b:column span="2">
                             <h:outputLabel value="#{msg['outputDateTime']}"/>
                         </b:column>
@@ -83,7 +83,7 @@
                             <b:dateTimePicker placeholder="#{msg['inputDateTime']}"
                                               id="dateTime"
                                               value="#{examsBean.localDateTime}"
-                                              format="DD.MM.YYYY HH:MM"
+                                              format="DD.MM.YYYY HH:mm"
                                               required="true"
                                               requiredMessage="#{msg['errorDateTimeRequired']}"/>
                         </b:column>
@@ -100,7 +100,8 @@
                             <h:outputLabel value="#{msg['outputExamLength']}"/>
                         </b:column>
                         <b:column span="4">
-                            <b:inputText placeholder="#{msg['inputExamLength']}"
+                            <b:inputText mask="integer"
+                                         placeholder="#{msg['inputExamLength']}"
                                          id="examLength"
                                          value="#{examsBean.exam.examLength}"
                                          required="true"

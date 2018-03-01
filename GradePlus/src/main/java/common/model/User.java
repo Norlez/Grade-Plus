@@ -401,6 +401,16 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
+     * Gibt den String für die CSV zurück.
+     * 
+     * @return CSV-String mit den Attributen von User
+     */
+    public String toCSV() {
+        return String.format("%d; %s; %s; %b; %s; %s; %s; %s; %s; %s", getId(), email,
+                givenName, isActive, language, matrNr, password, role, surname, username);
+    }
+
+    /**
      * Trennt den String bis zum Trennungszeichen
      * 
      * @param pString

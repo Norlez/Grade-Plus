@@ -156,4 +156,8 @@ public class Grade extends JPAEntity implements Serializable {
         return String.format("Grade {id: %d, subject: %s, mark: %s}", getId(), subject,
                 mark);
     }
+
+    public String toCSV() {
+        return String.format("%d; %s; %s; %f", getId(), user, subject, mark);
+    }
 }

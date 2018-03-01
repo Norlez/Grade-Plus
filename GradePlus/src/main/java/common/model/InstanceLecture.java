@@ -221,4 +221,13 @@ public class InstanceLecture extends JPAEntity {
         return String.format("%s %s", semester, theYear);
     }
 
+    /**
+     * Gibt den String für die CSV zurück.
+     * 
+     * @return CSV-String mit den Attributen von InstanceLecture
+     */
+    public String toCSV() {
+        return String.format("%d; %s; %s; %s", getId(), semester, theYear, lecture);
+
+    }
 }

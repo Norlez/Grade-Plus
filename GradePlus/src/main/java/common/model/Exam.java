@@ -261,7 +261,7 @@ public class Exam extends JPAEntity {
      *            Der neue Startpunkt der Prüfung.
      */
     public void setLocalDateTime(final LocalDateTime pLocalDateTime) {
-        localDateTime = assertNotNull(pLocalDateTime,
+        localDateTime = assertNotNull(pLocalDateTime.withSecond(0).withNano(0),
                 "Exam: setLocalDateTime(LocalDateTime)");
     }
 
@@ -366,4 +366,9 @@ public class Exam extends JPAEntity {
                                 FormatStyle.SHORT)), examLength);
     }
 
+    public String toCSV() {
+        return String.format("%d; %s; %d; %s; %b, %s, %s, %s", getId(), comment,
+                examLength, examRegulations, isReleased, localDateTime, type,
+                instanceLecture);
+    }
 }

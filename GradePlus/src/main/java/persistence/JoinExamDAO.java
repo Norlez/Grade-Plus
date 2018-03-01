@@ -2,7 +2,7 @@ package persistence;
 
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
-import common.model.JoinExam;
+import common.model.*;
 import jdk.nashorn.internal.scripts.JO;
 
 import javax.ejb.Stateless;
@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import java.io.Serializable;
 import java.util.List;
 
+import static common.util.Assertion.assertNotEmpty;
 import static common.util.Assertion.assertNotNull;
 
 /**
@@ -53,5 +54,23 @@ public class JoinExamDAO extends JPADAO<JoinExam> implements Serializable {
      */
     public List<JoinExam> getAllJoinExams() {
         return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
+    }
+
+    public List<JoinExam> getUsersForExam(Exam pExam)
+    {
+        assertNotNull(pExam);
+        final List<JoinExam> joinExams = getEm()
+                .createNamedQuery("JoinExams.getUsersForExam", getClazz())
+                .setParameter("exam", pExam).getResultList();
+        return joinExams.isEmpty() ? null :joinExams;
+    }
+
+    public List<JoinExam> getJoinExamsForUser(User pUser)
+    {
+        assertNotNull(pUser);
+        final List<JoinExam> joinExams = getEm()
+                .createNamedQuery("JoinExam.getJoinExamsForUser", getClazz())
+                .setParameter("pruefling", pUser).getResultList();
+        return joinExams.isEmpty() ? null :joinExams;
     }
 }
