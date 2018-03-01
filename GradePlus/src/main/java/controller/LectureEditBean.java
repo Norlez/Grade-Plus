@@ -61,6 +61,7 @@ public class LectureEditBean extends AbstractBean implements Serializable {
     public LectureEditBean(final Session pSession, final LectureDAO pLectureDao) {
         super(pSession);
         LectureDao = assertNotNull(pLectureDao);
+        selectedLecture = new Lecture();
     }
 
     /**
@@ -75,14 +76,14 @@ public class LectureEditBean extends AbstractBean implements Serializable {
     /**
      * Setzt den Editchecker auf das Gegenteil und setzt den übergebenen User.
      * 
-     * @param pUser
-     *            der zu setztende User
+     * @param pLecture
+     *            die zu setztende Lecture
      * @return die user.xhtml um auf das Facelet zu wechseln.
      */
-    public String setEditChecker(final User pUser) {
+    public String setEditChecker(final Lecture pLecture) {
         editChecker = !editChecker;
-        setUser(pUser);
-        return "user.xhtml";
+        setSelectedLectureWithoutReturn(pLecture);
+        return "lectureedit.xhtml";
     }
 
     /**
@@ -102,8 +103,19 @@ public class LectureEditBean extends AbstractBean implements Serializable {
      * @return "user.xhtml", um auf das Facelet der Benutzerbearbeitung weiterzuleiten.
      */
     public String setSelectedLecture(final Lecture pLecture) {
-        Lecture lecture = assertNotNull(pLecture);
-        return "user.xhtml";
+        selectedLecture = assertNotNull(pLecture);
+        return "lectureedit.xhtml";
+    }
+
+    /**
+     * Setzt die aktuell zu bearbeitenden Lecture auf den gegebenen Wert ohne Rückgabe.
+     *
+     * @param pLecture
+     *            die zu setzende Lecture Der neue aktuell zu bearbeitende Benutzer.
+     * @return "user.xhtml", um auf das Facelet der Benutzerbearbeitung weiterzuleiten.
+     */
+    public void setSelectedLectureWithoutReturn(final Lecture pLecture) {
+        selectedLecture = assertNotNull(pLecture);
     }
 
     public void setEditCheckerWithoutLecture() {
@@ -125,7 +137,7 @@ public class LectureEditBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));
         }
-        return "user.xhtml";
+        return "lectureedit.xhtml";
     }
 
 }
