@@ -167,7 +167,7 @@ public final class Math {
         final Map<String, Role> tmp = new LinkedHashMap<>();
         tmp.put("ADMIN", Role.ADMIN);
         tmp.put("EXAMINER", Role.EXAMINER);
-        tmp.put("STUDENT", Role.STUDENT);
+        //tmp.put("STUDENT", Role.STUDENT);
         return Collections.unmodifiableMap(tmp);
     }
 }

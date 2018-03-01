@@ -24,6 +24,7 @@
  */
 package controller;
 
+import static com.sun.tools.doclint.Entity.or;
 import static common.util.Assertion.assertNotNull;
 
 import java.io.*;
@@ -57,6 +58,7 @@ import javax.servlet.http.Part;
 
 import com.opencsv.*;
 import java.io.BufferedWriter;
+import java.util.stream.Collectors;
 
 /**
  * Dieses Bean ist für die Benutzerverwaltung zuständig. Backing Bean (und damit
@@ -423,10 +425,18 @@ public class UsersBean extends AbstractBean implements Serializable {
      * @return Liste von Prüflingen und Prüfern
      */
     public List<User> getAllStudentsAndExaminer() {
-        List<User> s = userDao.getAllStudents();
-        List<User> e = userDao.getAllExaminer();
-        ArrayList<User> se = new ArrayList<User>(s);
-        se.addAll(e);
-        return se;
+        return userDao.getAllUsers().stream().filter(x -> x.getRole().equals(Role.EXAMINER)
+                || x.getRole().equals(Role.STUDENT)).collect(Collectors.toList());
+
+    }
+
+
+    /**
+     * Gibt eine Liste nur besthenden von Prüflingen zurück.
+     * @param pUserList die Liste von allen Prüflingen im System
+     * @return
+     */
+    public List<User> calculateAllExaminers(List<User> pUserList){
+       return pUserList.stream().filter(pFilter -> pFilter.getRole().equals(Role.EXAMINER)).collect(Collectors.toList());
     }
 }
