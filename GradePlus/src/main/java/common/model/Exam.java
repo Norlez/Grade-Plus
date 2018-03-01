@@ -261,7 +261,7 @@ public class Exam extends JPAEntity {
      *            Der neue Startpunkt der Prüfung.
      */
     public void setLocalDateTime(final LocalDateTime pLocalDateTime) {
-        localDateTime = assertNotNull(pLocalDateTime,
+        localDateTime = assertNotNull(pLocalDateTime.withSecond(0).withNano(0),
                 "Exam: setLocalDateTime(LocalDateTime)");
     }
 

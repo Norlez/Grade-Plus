@@ -572,7 +572,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
             }
             exam = new Exam(theExam);
             exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(
-                    exam.getExamLength() + lengthOfBreaks));
+                    exam.getExamLength() + theLengthOfBreaks));
         }
         init();
         return "exams.xhtml";
@@ -633,8 +633,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     public void setStartOfTimeSlot(final java.util.Date pStartOfTimeSlot) {
         assertNotNull(pStartOfTimeSlot, "ExamsBean: setStartOfTimeSlot(Date)");
-        startOfTimeSlot = LocalDateTime.ofInstant(pStartOfTimeSlot.toInstant(),
-                ZoneId.systemDefault());
+        startOfTimeSlot = LocalDateTime
+                .ofInstant(pStartOfTimeSlot.toInstant(), ZoneId.systemDefault())
+                .withSecond(0).withNano(0);
     }
 
     /**
@@ -655,8 +656,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     public void setEndOfTimeSlot(final java.util.Date pEndOfTimeSlot) {
         assertNotNull(pEndOfTimeSlot, "ExamsBean: setEndOfTimeSlot(Date)");
-        endOfTimeSlot = LocalDateTime.ofInstant(pEndOfTimeSlot.toInstant(),
-                ZoneId.systemDefault());
+        endOfTimeSlot = LocalDateTime
+                .ofInstant(pEndOfTimeSlot.toInstant(), ZoneId.systemDefault())
+                .withSecond(0).withNano(0);
     }
 
     /**
