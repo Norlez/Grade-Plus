@@ -416,4 +416,17 @@ public class UsersBean extends AbstractBean implements Serializable {
     public List<User> getAllUsers() {
         return allUsers;
     }
+
+    /**
+     * Gibt eine Liste von Prüflingen und Prüfern zurück.
+     *
+     * @return Liste von Prüflingen und Prüfern
+     */
+    public List<User> getAllStudentsAndExaminer() {
+        List<User> s = userDao.getAllStudents();
+        List<User> e = userDao.getAllExaminer();
+        ArrayList<User> se = new ArrayList<User>(s);
+        se.addAll(e);
+        return se;
+    }
 }

@@ -1,6 +1,5 @@
 package controller;
 
-
 import common.model.*;
 import persistence.ExamDAO;
 import persistence.UserDAO;
@@ -20,7 +19,7 @@ import static common.util.Assertion.*;
  */
 @Named
 @RequestScoped
-public class DocumentBean extends AbstractBean implements Serializable{
+public class DocumentBean extends AbstractBean implements Serializable {
 
     private final UserDAO userDAO;
 
@@ -29,8 +28,10 @@ public class DocumentBean extends AbstractBean implements Serializable{
     /**
      * Erzeugt eine neue AbstractBean.
      *
-     * @param theSession Die Session der zu erzeugenden AbstractBean.
-     * @throws IllegalArgumentException Falls {@code theSession} {@code null} ist.
+     * @param theSession
+     *            Die Session der zu erzeugenden AbstractBean.
+     * @throws IllegalArgumentException
+     *             Falls {@code theSession} {@code null} ist.
      */
     @Inject
     public DocumentBean(Session theSession, UserDAO pUserDao, ExamDAO pExamDao) {
@@ -39,20 +40,17 @@ public class DocumentBean extends AbstractBean implements Serializable{
         examDAO = pExamDao;
     }
 
-    public String getNameOfStudent(User pStudent)
-    {
+    public String getNameOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDAO.getUserForUsername(pStudent.getUsername()).getGivenName();
     }
 
-    public String getSurnameOfStudent(User pStudent)
-    {
+    public String getSurnameOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDAO.getUserForUsername(pStudent.getUsername()).getSurname();
     }
 
-    public String getMatrNrOfStudent(User pStudent)
-    {
+    public String getMatrNrOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDAO.getUserForUsername(pStudent.getUsername()).getMatrNr();
     }
