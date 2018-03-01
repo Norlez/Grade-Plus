@@ -728,4 +728,35 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return true;
     }
 
+    /**
+     * Setzt eine oder mehrere Exams auf den Status freigegeben für die Prüflinge.
+     *
+     * @param pExams
+     *            mit allen zu ändernden Exams.
+     */
+    public void releaseExams(List<Exam> pExams) {
+        if (getSession().getUser().getRole() == Role.EXAMINER) {
+            assertNotNull(pExams);
+            for (Exam e : pExams) {
+                e.setReleased(true);
+                examDao.update(e);
+            }
+        }
+    }
+
+    /**
+     * Setzt eine oder mehrere Exams auf den Status geschlossen für die Prüflinge.
+     *
+     * @param pExams
+     *            mit allen zu ändernden Exams.
+     */
+    public void closeExams(List<Exam> pExams) {
+        if (getSession().getUser().getRole() == Role.EXAMINER) {
+            assertNotNull(pExams);
+            for (Exam e : pExams) {
+                e.setReleased(false);
+                examDao.update(e);
+            }
+        }
+    }
 }

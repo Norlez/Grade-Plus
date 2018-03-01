@@ -34,8 +34,11 @@ import common.exception.*;
 import common.model.Role;
 import common.model.User;
 import common.model.Lecture;
+import common.model.Exam;
 import common.model.InstanceLecture;
 import org.apache.log4j.Logger;
+
+import java.time.LocalDateTime;
 
 /**
  * Initialisiert den Datenbestand bei Start der Webapplikation.
@@ -85,6 +88,9 @@ public class DBInit {
     @Inject
     private InstanceLectureDAO instanceLectureDAO;
 
+    @Inject
+    private ExamDAO examDAO;
+
     /**
      * Trägt einen Standard-Benutzer in den Datenbestand ein, falls noch keine Benutzer
      * existieren. Wird beim Starten der Webanwendung ausgeführt.
@@ -102,8 +108,10 @@ public class DBInit {
         if (userDAO.getAllUsers().isEmpty()) {
             final User user = new User();
             final User pUser = new User();
+            final User student = new User();
             final Lecture lecture = new Lecture();
             final InstanceLecture instanceLecture = new InstanceLecture();
+            final Exam exam = new Exam();
             user.setUsername(DEFAULT_USER_NAME);
             user.setEmail(DEFAULT_USER_EMAIL);
             user.setPassword(DEFAULT_USER_PASSWORD);
@@ -116,6 +124,12 @@ public class DBInit {
             pUser.setGivenName("Boris");
             pUser.setSurname("Jelzin");
             pUser.setRole(Role.EXAMINER);
+            student.setUsername("student");
+            student.setGivenName("Horst");
+            student.setSurname("Hubert");
+            student.setRole(Role.STUDENT);
+            student.setPassword("123");
+            student.setEmail("horstIsOffline@offline.de");
             lecture.setVak("2035252-2");
             lecture.setEcts(9);
             lecture.setName("SWP-2");
@@ -123,12 +137,15 @@ public class DBInit {
             instanceLecture.addExaminer(pUser);
             instanceLecture.setYear("2018");
             instanceLecture.setSemester("WiSe");
-
+            exam.setInstanceLecture(instanceLecture);
+            exam.setLocalDateTime(LocalDateTime.of(2019, 10, 2, 4, 25));
             try {
                 userDAO.save(user);
                 userDAO.save(pUser);
+                userDAO.save(student);
                 lectureDAO.save(lecture);
                 instanceLectureDAO.save(instanceLecture);
+                examDAO.save(exam);
             } catch (final DuplicateUsernameException ex) {
                 logger.fatal(
                         String.format(

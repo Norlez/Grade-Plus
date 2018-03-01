@@ -380,19 +380,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return Collections.unmodifiableMap(tmp);
     }
 
-    // ////Wird versucht auf businesslogic.Math zu verschieben ///////////////////
-
-    /**
-     * Setzt den Freigabestatus einer ILV
-     * 
-     * @param pInstanceLecture
-     *            , die ILV die verändert wird
-     */
-    public void changeReleaseStatus(InstanceLecture pInstanceLecture) {
-        pInstanceLecture.setReleased();
-        instanceLectureDao.update(pInstanceLecture);
-    }
-
     /**
      * Dupliziert eine ILV. Dabei wird die Lecture und das Semester übernommen. Das Jahr
      * wird um um eins erhöht.
