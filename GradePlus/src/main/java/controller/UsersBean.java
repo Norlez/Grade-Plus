@@ -43,6 +43,7 @@ import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.model.Role;
 import common.util.Assertion;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -51,6 +52,7 @@ import persistence.SessionDAO;
 import persistence.UserDAO;
 
 import java.util.*;
+import javax.jws.soap.SOAPBinding;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
@@ -108,6 +110,19 @@ public class UsersBean extends AbstractBean implements Serializable {
      * Die Liste aller innerhalb der Applikation bekannten Benutzer.
      */
     private List<User> allUsers;
+
+    public List<User> getNotRegisteredExaminers() {
+        return notRegisteredExaminers;
+    }
+
+    public void setNotRegisteredExaminers(List<User> notRegisteredExaminers) {
+        this.notRegisteredExaminers =assertNotNull(notRegisteredExaminers);
+    }
+
+    /**
+     * Die Liste der Prüfer, die nicht bereits in einer ILV als Prüfer eingetragen worden sind.
+     */
+    private List<User> notRegisteredExaminers;
 
     /**
      * Die Map aller im System verfügbaren Rollen von Usern.
@@ -428,6 +443,23 @@ public class UsersBean extends AbstractBean implements Serializable {
         return userDao.getAllUsers().stream().filter(x -> x.getRole().equals(Role.EXAMINER)
                 || x.getRole().equals(Role.STUDENT)).collect(Collectors.toList());
 
+    }
+
+    /**
+     * Finde einfach keinen anderen namen alla..
+     * Gibt eine Liste von Usern zurück, die in einer spezifischen ILV noch nicht als Prüfer hinzugefügt worden
+     * sind.
+     *
+     * @return Die Liste von Usern die nicht ausgewählt wurden.
+     */
+    public List<User> getAllStudentsAndExaminerWhichAreNotChosenInILV(List<User> pAllUsers, List<User> pUserFlter){
+        List<User> result = new ArrayList<User>();
+        for(User u : pAllUsers){
+            if(!pUserFlter.contains(u)){
+                result.add(u);
+            }
+        }
+        return  result;
     }
 
 

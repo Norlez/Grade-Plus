@@ -37,8 +37,26 @@
                             </b:column>
                         </b:row>
                         <b:row>
-                            <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionAddExaminer']}" outcome="examiners" />
+                            <b:column span="10">
+                                <b:panel collapsed="true">
+                                    <f:facet name="heading">
+                                        <h:outputText value="Datei auswählen" />
+                                    </f:facet>
+                                    <b:dataTable span="8" value="#{usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLecturesBean.instanceLecture.examiners)}" var="u"
+                                                 excel="false"
+                                                 csv="false"
+                                                 pdf="false"
+                                                 columnVisibility="false"
+                                                 copy="false"
+                                                 print="false">
+                                        <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
+                                        <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                                        <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
+                                        <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
+                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLecturesBean.instanceLecture.addExaminer(u)}" />
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panel>
                             </b:column>
                         </b:row>
                         <b:row class="space50px" />
