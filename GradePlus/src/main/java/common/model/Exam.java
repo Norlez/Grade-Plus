@@ -89,6 +89,12 @@ public class Exam extends JPAEntity {
     private String comment;
 
     /**
+     * Der Freigabestatus eines Prüfungstermins.
+     */
+    @Column
+    private boolean isReleased = false;
+
+    /**
      * Erzeugt ein neues {@link Exam}-Objekt mit leeren Daten.
      */
     public Exam() {
@@ -333,6 +339,24 @@ public class Exam extends JPAEntity {
      */
     public void setComment(final String pComment) {
         comment = assertNotNull(pComment, "Exam: setComment(String)");
+    }
+
+    /**
+     * Setzt den Freigabestatus eines Termins.
+     * 
+     * @param released
+     */
+    public void setReleased(boolean released) {
+        isReleased = released;
+    }
+
+    /**
+     * Gibt den Freigabestatus zurück.
+     * 
+     * @return true, falls der Termin freigegeben wurde.
+     */
+    public boolean isReleased() {
+        return isReleased;
     }
 
     @Override
