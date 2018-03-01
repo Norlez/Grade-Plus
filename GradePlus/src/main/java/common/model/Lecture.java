@@ -19,7 +19,7 @@ import static common.util.Assertion.assertNotNull;
 @NamedQueries({
         @NamedQuery(name = "Lecture.findAll", query = "SELECT l FROM Lecture l"),
         @NamedQuery(name = "Lecture.findName", query = "SELECT l FROM Lecture l WHERE l.name = :name"),
-        @NamedQuery(name = "Lecture.findVAK", query = "SELECT l FROM Lecture l WHERE l.vak = :vak") })
+        @NamedQuery(name = "Lecture.findVAK", query = "SELECT l FROM Lecture l WHERE l.vak = :vak")})
 public class Lecture extends JPAEntity {
 
     /**

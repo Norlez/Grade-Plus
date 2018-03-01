@@ -1,5 +1,6 @@
 package common.model;
 
+import javax.inject.Named;
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,7 +14,10 @@ import java.util.List;
 @Table(name = "JoinExams")
 @NamedQueries({
         @NamedQuery(name = "JoinExams.getAll", query = "SELECT j FROM JoinExam j"),
-        @NamedQuery(name = "JoinExams.getKrank", query = "SELECT j FROM JoinExam j WHERE j.krank = TRUE") })
+        @NamedQuery(name = "JoinExams.getKrank", query = "SELECT j FROM JoinExam j WHERE j.krank = TRUE"),
+        @NamedQuery(name = "JoinExams.getUsersForExam", query = "SELECT j FROM JoinExam j WHERE j.exam = :exam"),
+        @NamedQuery(name = "JoinExam.getJoinExamsForUser", query = "SELECT j FROM JoinExam j WHERE j.pruefling = :pruefling")
+})
 public class JoinExam extends JPAEntity {
 
     @ManyToOne(optional = false)

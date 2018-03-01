@@ -110,5 +110,4 @@ public class LectureDAO extends JPADAO<Lecture> implements Serializable {
                 .setParameter("vak", pVAK).getResultList();
         return lectures.isEmpty() ? null : lectures.get(0);
     }
-
 }
