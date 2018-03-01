@@ -34,6 +34,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import common.model.Role;
 import common.model.Session;
 import persistence.UserDAO;
 import common.util.Assertion;
@@ -255,6 +256,11 @@ public class LoginBean extends AbstractBean {
             username = "";
             password = "";
             FacesContext.getCurrentInstance().getViewRoot().setLocale(getLanguage());
+            if(getSession().getUser().getRole().equals(Role.ADMIN)) {
+                return "admin/users.xhtml";
+            } else if(getSession().getUser().getRole().equals(Role.EXAMINER)) {
+                return "lectures.xhtml";
+            }
             return "dashboard.xhtml";
         } else {
             addErrorMessage(loginButton, "errorUnknownPassword");

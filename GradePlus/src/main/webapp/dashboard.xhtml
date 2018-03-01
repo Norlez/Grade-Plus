@@ -51,19 +51,13 @@
                         </b:column>
                     </b:row>
 
-                    <b:row>
-                        <b:column span="2">
-                            <b:button value="#{msg['linkSearchForLecture']}" outcome="lecturesearch"/>
-                        </b:column>
-                    </b:row>
-
                     <b:row class="space50px"/>
 
                     <b:row>
                         <b:dataTable class="table" span="8" value="#{instanceLecturesBean.instanceLecturesOfExaminee}" var="g"
-                                     excel="false" csv="false" pdf="false" columnVisibility="true"
+                                     excel="false" csv="false" pdf="false" columnVisibility="false"
                                      copy="false" print="false" searching="false" paginated="false"
-                                     rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminee}">
+                                     rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminee || true}">
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSubject']}" value="#{g.lecture.name}" />
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.lecture.vak}" />
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.lecture.ects}" />
@@ -77,9 +71,6 @@
                                 <b:commandButton value="#{msg['actionReportSick']}" />
                             </b:dataTableColumn>
 
-                            <b:dataTableColumn class="col" orderable="false" label="actionQuit">
-                                <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}"/>
-                            </b:dataTableColumn>
                         </b:dataTable>
                     </b:row>
 
