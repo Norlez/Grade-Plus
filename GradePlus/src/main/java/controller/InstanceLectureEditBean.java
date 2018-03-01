@@ -88,6 +88,19 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     /**
+     * Setzt die aktuell zu bearbeitende ILV auf den gegebenen Wert des Studenten.
+     *
+     * @param pInstanceLecture
+     *            Die aktuell zu bearbeitende ILV.
+     * @return "semestercreate.xhtml", um auf das Facelet der Bearbeitung einer ILV
+     *         umzuleiten.
+     */
+    public String setInstanceLectureForStudent(final InstanceLecture pInstanceLecture) {
+        instanceLecture = assertNotNull(pInstanceLecture);
+        return "semesterdetails.xhtml";
+    }
+
+    /**
      * Aktualisiert die aktuell ausgewählte ILV in der Liste aller bekannten ILVs unter
      * Verwendung des entsprechenden Data-Access-Objekts.
      *

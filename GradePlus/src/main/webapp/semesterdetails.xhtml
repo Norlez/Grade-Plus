@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://bootsfaces.net/ui" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xml:lang="en" lang="en">
+<h:head>
+    <!-- InstanceLectures -->
+    <title>#{msg['title']}</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="WEB-INF/template.xhtml">
+        <ui:param name="title" value="#{msg['title']}"/>
+
+        <ui:define name="content">
+            <f:loadBundle basename="internationalization.semester" var="msg" />
+
+            <b:form>
+                <b:container class="form-group">
+
+                    <!-- TITLE -->
+                    <b:row>
+                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                            <h1>
+                                <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.name}" />
+                            </h1>
+                        </b:column>
+                    </b:row>
+
+                    <!-- SUBTITLE -->
+                    <b:row>
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleGeneralInformations']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
+
+                    <!-- VAK -->
+                    <b:row>
+                        <b:column span="1">
+                            <h:outputLabel value="#{msg['outputVAK']}" />
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.vak}" />
+                        </b:column>
+                    </b:row>
+
+                    <!-- ECTS -->
+                    <b:row>
+                        <b:column span="1">
+                            <h:outputLabel value="#{msg['outputECTS']}" />
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.ects}" />
+                        </b:column>
+                    </b:row>
+
+                    <!-- DESCRIPTION -->
+                    <b:row>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.description}" />
+                        </b:column>
+                    </b:row>
+
+                    <!-- SEMESTER -->
+                    <b:row>
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleSemester']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
+                    <b:row rendered="#{usersBean.isExaminer(profileBean.thisUser)}">
+                        <b:column span="2">
+                            <b:button class="btn" value="#{msg['actionCreateNewSemester']}" outcome="semestercreate" />
+                        </b:column>
+                    </b:row>
+                    <b:row class="space50px" />
+                    <b:row>
+                        <b:column span="12">
+                            <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecturesForLecture}" var="l"
+                                         excel="false"
+                                         csv="false"
+                                         pdf="false"
+                                         columnVisibility="false"
+                                         copy="false"
+                                         print="false">
+
+                                <b:dataTableColumn label="#{msg['outputSemester']}" value="#{l.semester}" />
+                                <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
+
+                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
+                                    <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{instanceLectureEditBean.setInstanceLecture(l)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn label="#{msg['actionRegister']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">
+                                    <b:commandButton rendered="#{true}" value="#{msg['actionRegister']}" action="#{instanceLecturesBean.instanceLecture.addExaminee(profileBean.thisUser)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">
+                                <b:commandButton value="#{msg['actionDuplicate']}"
+                                                 action="#{instanceLecturesBean.duplicateInstanceLecture(l)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
+                                    <b:commandButton value="#{msg['actionDelete']}" action="#{instanceLecturesBean.remove(l)}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{false}" orderable="false">
+                                    <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}" />
+                                </b:dataTableColumn>
+
+                            </b:dataTable>
+                        </b:column>
+                    </b:row>
+
+                </b:container>
+            </b:form>
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

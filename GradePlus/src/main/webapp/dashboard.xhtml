@@ -64,7 +64,7 @@
                             <b:dataTableColumn class="col" orderable="false" label="#{msg['outputStatus']}" />
 
                             <b:dataTableColumn class="col" orderable="false" label="actionDetail">
-                                <b:commandButton value="#{msg['actionDetail']}" />
+                                <b:commandButton value="#{msg['actionDetail']}" action="#{instanceLectureEditBean.setInstanceLectureForStudent(g)}"/>
                             </b:dataTableColumn>
 
                             <b:dataTableColumn class="col" orderable="false" label="actionReportSick">
