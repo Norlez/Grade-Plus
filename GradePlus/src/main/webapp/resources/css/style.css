@@ -1,8 +1,10 @@
-body {
-    background-image: url(/resources/assets/bg_login.jpg);
-    /*background-color: black;*/
-
+#loginRendered {
+    background-image: url("#{request.contextPath}/resources/images/bg_login.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
+
+
 
 h2 {
     color: deeppink;

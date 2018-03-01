@@ -65,21 +65,21 @@
                         </b:column>
                     </b:row>
 
-                    <!-- SEMESTER -->
+                    <!-- EXAM -->
                     <b:row>
                         <b:column span="4">
                             <h2>
-                                <h:outputText value="#{msg['subtitleSemester']}" />
+                                <h:outputText value="#{msg['subtitleExam']}" />
                             </h2>
                         </b:column>
                     </b:row>
-                    <b:row rendered="#{usersBean.isExaminer(profileBean.thisUser)}">
+                    <b:row rendered="#{true}">
                         <b:column span="2">
-                            <b:button class="btn" value="#{msg['actionCreateNewSemester']}" outcome="semestercreate" />
+                            <b:button class="btn" value="#{msg['actionExamRegister']}" outcome="examregister" />
                         </b:column>
                     </b:row>
                     <b:row class="space50px" />
-                    <b:row>
+                    <b:row rendered="#{true}">
                         <b:column span="12">
                             <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecturesForLecture}" var="l"
                                          excel="false"

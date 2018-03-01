@@ -56,21 +56,11 @@
                 <!-- SURNAME -->
                 <b:row>
                     <b:column span="2">
-                        <h:outputLabel value="#{msg['outputSurname']}" />
+                        <h:outputLabel value="#{msg['outputGivenName']}" />
                     </b:column>
                     <b:column span="2">
                         <h:outputText rendered="#{!userEditBean.getEditChecker()}" value="#{userEditBean.selectedUser.surname}" />
                         <b:inputText rendered="#{userEditBean.editChecker}" value="#{userEditBean.selectedUser.surname}" id="surname" />
-                    </b:column>
-                </b:row>
-
-                <!-- MATRIKELNUMMER -->
-                <b:row>
-                    <b:column span="2">
-                        <h:outputLabel value="#{msg['outputMatriculationNumber']}" />
-                    </b:column>
-                    <b:column span="2">
-                        <h:outputText rendered="#{true}" value="#{userEditBean.selectedUser.matrNr}" />
                     </b:column>
                 </b:row>
 

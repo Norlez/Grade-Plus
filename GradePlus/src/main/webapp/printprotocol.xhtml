@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+
+<f:view locale="#{loginBean.getLanguage()}">
+    <f:loadBundle basename="internationalization.index" var="msg" />
+
+
+    <h:head>
+        <!-- Login, Registrierung und Passwort vergessen -->
+        <title>Protokoll</title>
+        <!-- CSS POSITION MUSS AUF LAST GESETZT SEIN -->
+        <h:outputStylesheet library = "css" name="printcertificate.css" position="last"/>
+    </h:head>
+
+    <h:body id="printprotocol">
+
+        <b:form id="index">
+            <b:container fluid="false">
+                <b:row styleClass="space50px"/>
+
+                <b:row>
+                    <b:column offset="1" span="5">
+                        <h:graphicImage library="images" name="logounibremen.png" />
+                    </b:column>
+                    <b:column offset="3" span="2">
+                        <h:graphicImage library="images" name="fachbereich3.png" />
+                    </b:column>
+                </b:row>
+
+                <b:row styleClass="space50px"/>
+
+                <!-- TITLE -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1">
+                        <h1>
+                            <h:outputText value="Protokoll" />
+                        </h1>
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+                <!-- PRUEFUNGSORDNUNG -->
+                <b:row>
+                    <b:column offset="1" span="5">
+                        <h:outputText value="einer mündlichen Prüfung gemäß" />
+                    </b:column>
+                    <b:column span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="§ 4 (3) DPO Informatik vom 30.09.2003" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column offset="6" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="§ 5 PO Bachelor Informatik vom 08.05.2002" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column offset="6" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="§ PO Master Informatik" />
+                    </b:column>
+                </b:row>
+
+                <!-- WIEDERHOLUNGSPRUEFUNG -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="Wiederholungsprüfung" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <!-- DETAILS -->
+                <b:row>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="Modul-Nr:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(VAK-00-00-87)" />
+                    </b:column>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="Titel:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(Softwaretechnik)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+            <b:row>
+                <b:column offset="1" span="2">
+                    <h:outputText value="Name, Vorname:" />
+                </b:column>
+                <b:column span="2">
+                    <h:outputText value="(Dieter, Thomas)" />
+                </b:column>
+                <b:column offset="1" span="2">
+                    <h:outputText value="Matrikel-Nr:" />
+                </b:column>
+                <b:column span="2">
+                    <h:outputText value="(987654)" />
+                </b:column>
+            </b:row>
+            <b:row styleClass="space50px"/>
+
+                <b:row>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="Prüfungsort:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(MXH Irgendwo)" />
+                    </b:column>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="Prüfungstag:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(DAMTUM)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <b:row>
+                    <b:column offset="6" span="2">
+                        <h:outputText value="Beginn:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(UHRZEIT)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <b:row>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="PrüferIn:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(Koschke)" />
+                    </b:column>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="BeisitzerIn:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(LEER ODER SO)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <b:row>
+                    <b:column offset="6" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText value="Auf eine(n) BeisitzerIn wurde einvernehmlich verzichtet." />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <b:row>
+                    <b:column offset="1" span="7">
+                        <h:outputText value="Verlauf der Prüfung:" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column offset="1" span="7">
+                        <h:outputText value="(aus dem Protokoll muss die Begründung der Note hervorgehen)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <b:row styleClass="space400px"/>
+
+                <!-- DETAILS NR ZWEI -->
+                <b:row>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="Ende der Prüfung:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(UHRZEIT)" />
+                    </b:column>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="Note:" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="(1,3)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <!-- Unterschrift -->
+                <b:row>
+                    <b:column offset="1" span="2">
+                        <h:outputText value="Unterschrift Prüfer" />
+                    </b:column>
+                    <b:column offset="3" span="2">
+                        <h:outputText value="Unterschrift Beisitzer/-in" />
+                    </b:column>
+                </b:row>
+
+            </b:container>
+        </b:form>
+
+    </h:body>
+
+</f:view>
+</html>

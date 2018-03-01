@@ -39,9 +39,6 @@
                     </b:row>
                     <b:row>
                         <b:column span="2">
-                            <b:commandButton value="#{msg['actionAddAll']}" action="#{usersBean.remove(profileBean.thisUser)}"/>
-                        </b:column>
-                        <b:column span="2">
                             <b:button value="#{msg['linkBack']}" outcome="exams"/>
                         </b:column>
                     </b:row>
@@ -54,7 +51,7 @@
 
                     <b:messages globalOnly="true"/>
 
-                    <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecture.examinees}" var="u"
+                    <b:dataTable span="8" value="#{usersBean.allUsers}" var="u"
                                  excel="false"
                                  csv="false"
                                  pdf="false"
@@ -66,7 +63,7 @@
                         <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}"/>
 
                         <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
-                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLecturesBean.instanceLecture.removeExaminee(u)}" />
+                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLecturesBean.setInstanceLecturesOfExaminee(u)}" />
                         </b:dataTableColumn>
                     </b:dataTable>
                 </b:container>

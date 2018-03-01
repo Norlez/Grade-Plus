@@ -55,7 +55,7 @@
                         <b:column span="6">
                             <b:panel collapsed="true">
                                 <f:facet name="heading">
-                                    <h:outputText value="#{msg['actionImportUser']}" />
+                                    <h:outputText value="#{msg['actionCreateUser']}" />
                                 </f:facet>
 
                                 <!-- INPUT EMAIL -->
@@ -88,17 +88,6 @@
                                     </b:column>
                                     <b:column>
                                         <b:message for="givenName" />
-                                    </b:column>
-                                </b:row>
-
-                                <!-- INPUT MATR NR -->
-                                <b:row>
-                                    <b:column span="6" colSm="4" colMd="6" colXs="12">
-                                        <b:inputText class="form-control" id="matrNr" placeholder="#{msg['inputMatrNr']}"
-                                                     value="#{usersBean.user.matrNr}" required="true" requiredMessage="#{msg['errorMatrNrRequired']}" />
-                                    </b:column>
-                                    <b:column>
-                                        <b:message for="matrNr" />
                                     </b:column>
                                 </b:row>
 

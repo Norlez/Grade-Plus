@@ -362,8 +362,7 @@ public class Exam extends JPAEntity {
     @Override
     public String toString() {
         return String.format("Exam: ID: %d, Lecture: %s, Time: %s, Length: %d", getId(),
-                instanceLecture.getLecture().getName(), localDateTime
-                        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,
+                instanceLecture.getLecture().getName(), localDateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,
                                 FormatStyle.SHORT)), examLength);
     }
 

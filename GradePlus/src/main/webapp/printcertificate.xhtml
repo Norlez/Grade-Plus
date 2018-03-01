@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+
+<f:view locale="#{loginBean.getLanguage()}">
+    <f:loadBundle basename="internationalization.index" var="msg" />
+
+
+    <h:head>
+        <!-- Login, Registrierung und Passwort vergessen -->
+        <title>Notenquittung</title>
+        <!-- CSS POSITION MUSS AUF LAST GESETZT SEIN -->
+        <h:outputStylesheet library = "css" name="printcertificate.css" position="last"/>
+    </h:head>
+
+    <h:body id="printcertificate">
+
+        <b:form id="index">
+            <b:container fluid="false">
+                <b:row styleClass="space50px"/>
+                <!-- TITLE -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1">
+                        <h:outputText value="Universität Bremen" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1">
+                        <h:outputText value="Fachbereich 3 (Informatik)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+                <!-- NAME -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="3">
+                        <h:outputText value="Name, Nachname:" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="(Michael, Hans)" />
+                    </b:column>
+                </b:row>
+                <!-- MATRIKELNUMMER -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="3">
+                        <h:outputText value="Matrikelnummer:" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="(987654)" />
+                    </b:column>
+                </b:row>
+                <!-- DATUM -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="3">
+                        <h:outputText value="hat am:" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="(Datum)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <!-- PRUEFUNGSART -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="ein Fachgespräch" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="eine mündliche Prüfung" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="________________________________" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <!-- MODUL -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="4">
+                        <h:outputText value="im Modul" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="3">
+                        <h:outputText value="Modulbezeichnung" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="(Softwaretechnik)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="3">
+                        <h:outputText value="Modulnummer" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="(VAK-00-00-98)" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <!-- NOTE -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="11">
+                        <h:outputText value="mit der Note " />
+                        <h:outputText value="(1,3)" />
+                        <h:outputText value=" absolviert." />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <!-- BEMERKUNGEN -->
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="11">
+                        <h:outputText value="Ggf. Bemerkung(en), (insbesondere bei Fachgespräch):" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="8">
+                        <h:outputText value="Die angegebene Note bezieht sich nur auf eine Teilleistung." />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="8">
+                        <h:outputText value="Es stehen noch Leistungen aus." />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="8">
+                        <h:outputText value="Die Endnote liegt noch nicht vor." />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space25px">
+                    <b:column offset="1" span="1">
+                        <h:outputText value="(X)" />
+                    </b:column>
+                    <b:column span="8">
+                        <h:outputText value="________________________________" />
+                    </b:column>
+                </b:row>
+                <b:row styleClass="space50px"/>
+
+                <!-- DATUM UND UNTERSCHRIFT -->
+                <b:row>
+                    <b:column offset="1" span="4">
+                        <h:outputText value="(HB, DATUM)" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column offset="1" span="4">
+                        <h:outputText value="________________________________" />
+                    </b:column>
+                    <b:column offset="2" span="4">
+                        <h:outputText value="________________________________" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column offset="1" span="4">
+                        <h:outputText value="Ort, Datum" />
+                    </b:column>
+                    <b:column offset="2" span="4">
+                        <h:outputText value="Unterschrift/Prüfer" />
+                    </b:column>
+                </b:row>
+            </b:container>
+        </b:form>
+
+    </h:body>
+
+</f:view>
+</html>
