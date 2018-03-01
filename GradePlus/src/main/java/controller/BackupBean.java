@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.criteria.CriteriaBuilder;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -38,6 +39,8 @@ public class BackupBean extends AbstractBean implements Serializable {
 
     private final ExamDAO examDAO;
 
+    private final GradeDAO gradeDAO;
+
     private final JoinExamDAO joinExamDAO;
 
     private List<User> allUsers;
@@ -50,6 +53,12 @@ public class BackupBean extends AbstractBean implements Serializable {
 
     private List<JoinExam> allJoinExams;
 
+    private List<Grade> allGrades;
+
+    private Writer out;
+
+    private CSVWriter csvWriter;
+
     /**
      * Erzeugt eine neue BackupBean.
      *
@@ -61,13 +70,14 @@ public class BackupBean extends AbstractBean implements Serializable {
     @Inject
     public BackupBean(Session pSession, UserDAO pUserDao, LectureDAO pLectureDao,
             InstanceLectureDAO pInstanceLectureDao, ExamDAO pExamDao,
-            JoinExamDAO pJoinExamDao) {
+            JoinExamDAO pJoinExamDao, GradeDAO pGradeDao) {
         super(pSession);
         userDAO = pUserDao;
         lectureDAO = pLectureDao;
         instanceLectureDAO = pInstanceLectureDao;
         examDAO = pExamDao;
         joinExamDAO = pJoinExamDao;
+        gradeDAO = pGradeDao;
     }
 
     /**
@@ -82,6 +92,7 @@ public class BackupBean extends AbstractBean implements Serializable {
         allInstanceLectures = instanceLectureDAO.getAllInstanceLectures();
         allExams = examDAO.getAllExams();
         allJoinExams = joinExamDAO.getAllJoinExams();
+        allGrades = gradeDAO.getAllGrades();
     }
 
     /**
@@ -89,28 +100,125 @@ public class BackupBean extends AbstractBean implements Serializable {
      *
      * @return {@code true}, falls das Backup erstellt wurde, sonst {@code false}.
      */
-    public void create() {
-
+    public void createBackup() {
+        createUserCSV();
+        createLectureCSV();
+        createInstanceLectureCSV();
+        createExamCSV();
+        createJoinExamCSV();
+        createGradeCSV();
     }
 
     /**
      * Setzt mal JavaDoc hier, alla
      */
-    public void createBackup() {
+    public void createUserCSV() {
         try {
-            Writer out = new BufferedWriter(new FileWriter("User.csv"));
-            CSVWriter csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End
-            // könnte
-            // wehtun
+            out = new BufferedWriter(new FileWriter("CSV/User.csv"));
+            csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
             List<User> u = allUsers;
             String[] s = new String[1];
             for (int i = 0; i < u.size(); i++) {
                 User tmp = u.get(i);
-                s[0] = tmp.toString();
+                s[0] = tmp.toCSV();
                 csvWriter.writeNext(s);
             }
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (java.io.IOException e) {
+            System.out.print("Ein Fehler beim Schreiben der Datei.");
+        }
+    }
 
+    public void createLectureCSV() {
+        try {
+            out = new BufferedWriter(new FileWriter("CSV/Lecture.csv"));
+            csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
+            List<Lecture> l = allLectures;
+            String[] s = new String[1];
+            for (int i = 0; i < l.size(); i++) {
+                Lecture tmp = l.get(i);
+                s[0] = tmp.toCSV();
+                csvWriter.writeNext(s);
+            }
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (java.io.IOException e) {
+            System.out.print("Ein Fehler beim Schreiben der Datei.");
+        }
+    }
+
+    public void createInstanceLectureCSV() {
+        try {
+            out = new BufferedWriter(new FileWriter("CSV/InstanceLecture.csv"));
+            csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
+            List<InstanceLecture> ilv = allInstanceLectures;
+            String[] s = new String[1];
+            for (int i = 0; i < ilv.size(); i++) {
+                InstanceLecture tmp = ilv.get(i);
+                s[0] = tmp.toCSV();
+                csvWriter.writeNext(s);
+            }
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (java.io.IOException e) {
+            System.out.print("Ein Fehler beim Schreiben der Datei.");
+        }
+    }
+
+    public void createGradeCSV() {
+        try {
+            out = new BufferedWriter(new FileWriter("CSV/Grade.csv"));
+            csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
+            List<Grade> g = allGrades;
+            String[] s = new String[1];
+            for (int i = 0; i < g.size(); i++) {
+                Grade tmp = g.get(i);
+                s[0] = tmp.toCSV();
+                csvWriter.writeNext(s);
+            }
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (java.io.IOException e) {
+            System.out.print("Ein Fehler beim Schreiben der Datei.");
+        }
+    }
+
+    public void createJoinExamCSV() {
+        try {
+            out = new BufferedWriter(new FileWriter("CSV/JoinExam.csv"));
+            csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
+            List<JoinExam> j = allJoinExams;
+            String[] s = new String[1];
+            for (int i = 0; i < j.size(); i++) {
+                JoinExam tmp = j.get(i);
+                s[0] = tmp.toCSV();
+                csvWriter.writeNext(s);
+            }
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (java.io.IOException e) {
+            System.out.print("Ein Fehler beim Schreiben der Datei.");
+        }
+    }
+
+    public void createExamCSV() {
+        try {
+            out = new BufferedWriter(new FileWriter("CSV/Exam.csv"));
+            csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
+            List<Exam> e = allExams;
+            String[] s = new String[1];
+            for (int i = 0; i < e.size(); i++) {
+                Exam tmp = e.get(i);
+                s[0] = tmp.toCSV();
+                csvWriter.writeNext(s);
+            }
             csvWriter.flush();
             csvWriter.close();
         } catch (java.io.IOException e) {

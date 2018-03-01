@@ -76,4 +76,9 @@ public class JoinExam extends JPAEntity {
     public void setGrade(Grade grade) {
         this.grade = grade;
     }
+
+    public String toCSV() {
+        return String.format("%d; %s; %s; %s; %s, %f", getId(), kind, krank, exam,
+                pruefling, grade);
+    }
 }

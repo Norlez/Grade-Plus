@@ -367,4 +367,9 @@ public class Exam extends JPAEntity {
                                 FormatStyle.SHORT)), examLength);
     }
 
+    public String toCSV() {
+        return String.format("%d; %s; %d; %s; %b, %s, %s, %s", getId(), comment,
+                examLength, examRegulations, isReleased, localDateTime, type,
+                instanceLecture);
+    }
 }

@@ -159,4 +159,14 @@ public class Lecture extends JPAEntity {
     public void removeILV(final InstanceLecture ilv) {
         instanceLectures.remove(ilv);
     }
+
+    /**
+     * Gibt den String für die CSV zurück.
+     * 
+     * @return CSV-String mit den Attributen von Lecture
+     */
+    public String toCSV() {
+        return String.format("%d; %s; %s; %d; %s", getId(), name, vak, ects, description);
+    }
+
 }
