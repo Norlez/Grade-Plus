@@ -35,6 +35,7 @@ import javax.inject.Named;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Part;
 
 import common.model.Mail;
 import common.model.User;
@@ -68,10 +69,6 @@ public class MailBean extends AbstractBean {
      */
     private User sender;
 
-    /**
-     * Das {@link Mail}-Objekt der Nachricht, das entsprechende Informationen enthält.
-     */
-    private Mail mail;
 
     /**
      * Die Nachricht, die versendet wird.
@@ -79,14 +76,105 @@ public class MailBean extends AbstractBean {
     private Message message;
 
     /**
-     * Die Properties für die Mailversendung.
-     */
-    private Properties props;
-
-    /**
      * Die Session der Mailversendung.
      */
     private javax.mail.Session session;
+
+    /**
+     * Die Email-Adresse des Empfängers der Nachricht.
+     */
+    private String recipient;
+
+    /**
+     * Der Titel der Nachricht.
+     */
+    private String topic;
+
+    /**
+     * Der Inhalt der Nachricht.
+     */
+    private String content;
+
+    /**
+     * Die zu verarbeitende Datei.
+     */
+    private javax.servlet.http.Part file;
+
+    /**
+     * Gibt die aktuell ausgewählte Datei zurück.
+     *
+     * @return Die aktuell ausgewählte Datei.
+     */
+    public javax.servlet.http.Part getFile() {
+        return file;
+    }
+
+    /**
+     * Setzt die aktuell ausgewählte Datei auf den gegebenen Wert.
+     *
+     * @param pFile
+     *            Die neue aktuell ausgewählte Datei.
+     */
+    public void setFile(final Part pFile) {
+        file = pFile;
+    }
+
+    /**
+     * Gibt die Email-Adresse des Empfängers zurück.
+     *
+     * @return Die Email-Adresse des Empfängers.
+     */
+    public String getRecipient() {
+        return recipient;
+    }
+
+    /**
+     * Setzt die Email-Adresse des Empfängers auf den gegebenen Wert.
+     *
+     * @param pRecipient
+     *            Die neue Email-Adresse des Empfängers.
+     */
+    public void setRecipient(final String pRecipient) {
+        recipient = assertNotNull(pRecipient);
+    }
+
+    /**
+     * Gibt den Titel der Nachricht zurück.
+     *
+     * @return Den Titel der Nachricht.
+     */
+    public String getTopic() {
+        return topic;
+    }
+
+    /**
+     * Setzt den Titel der Nachricht auf den gegebenen Wert.
+     *
+     * @param pTopic
+     *            Der neue Titel der Nachricht.
+     */
+    public void setTopic(final String pTopic) {
+        topic = assertNotNull(pTopic);
+    }
+
+    /**
+     * Gibt den Inhalt der Nachricht zurück.
+     *
+     * @return Den Inhalt der Nachricht.
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * Setzt den Inhalt der Nachricht auf den gegebenen Wert.
+     *
+     * @param pContent
+     *            Der Inhalt der Nachricht.
+     */
+    public void setContent(final String pContent) {
+        content = assertNotNull(pContent);
+    }
 
     /**
      * Erzeugt eine neue MailBean.
@@ -106,11 +194,10 @@ public class MailBean extends AbstractBean {
     @PostConstruct
     public void init() {
         sender = getSession().getUser();
-        sender.setEmail("gradeplusbremen@gmail.com"); //TODO: ENTFERNEN
-        sender.setTmpPassword("Koschke123"); //TODO: ENTFERNEN
-        smtp = "smtp."
-                + sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1);
-        mail = new Mail();
+        //sender.setEmail("gradeplusbremen@gmail.com"); //TODO: ENTFERNEN
+        //sender.setTmpPassword("Koschke123"); //TODO: ENTFERNEN
+        smtp = "smtp."+ sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1);
+        Properties props;
 
         props = new Properties();
         props.put("mail.smtp.host", smtp);
@@ -126,15 +213,6 @@ public class MailBean extends AbstractBean {
     }
 
     /**
-     * Gibt das {@link Mail}-Objekt zurück.
-     *
-     * @return Das {@link Mail}-Objekt.
-     */
-    public Mail getMail() {
-        return mail;
-    }
-
-    /**
      * Sendet eine Nachricht eines Benutzer an einen anderen Benutzer.
      *
      * @return
@@ -143,13 +221,13 @@ public class MailBean extends AbstractBean {
         try {
             message.setFrom(new InternetAddress(sender.getEmail()));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(mail.getRecipient()));
+                    InternetAddress.parse(recipient));
             message.setSentDate(new Date());
-            message.setSubject(mail.getTopic());
-            message.setText(mail.getContent());
+            message.setSubject(topic);
+            message.setText(content);
 
             Transport transport = session.getTransport("smtp");
-            transport.connect(smtp, sender.getEmail(), sender.getTmpPassword());
+            transport.connect(smtp, sender.getEmail(), getSession().getTmpPassword());
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (MessagingException e) {
@@ -162,7 +240,7 @@ public class MailBean extends AbstractBean {
 
     /**
      * Versendet eine Systemnachricht an einen gewählten Benutzer.
-     */
+
     public void sendSystemMail() {
         sender = new User();
         sender.setEmail("gradeplusbremen@gmail.com");
@@ -171,6 +249,7 @@ public class MailBean extends AbstractBean {
         sendMail();
         sender = getSession().getUser();
     }
+    */
 
     /**
      * Prüft, ob die Kombination der eingegebene Email mit dem dazugehörigem Passwort eine
