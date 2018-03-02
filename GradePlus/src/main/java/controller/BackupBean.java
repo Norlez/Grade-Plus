@@ -7,7 +7,16 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.Serializable;
 import java.io.Writer;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+
 import com.opencsv.*;
 import persistence.*;
 
@@ -95,18 +104,32 @@ public class BackupBean extends AbstractBean implements Serializable {
         allGrades = gradeDAO.getAllGrades();
     }
 
+    public Connection getConnection() throws SQLException {
+        Connection conn = null;
+        Properties connectionProps = new Properties();
+        connectionProps.put("user", "APP");
+        connectionProps.put("password", "APP");
+        conn = DriverManager.getConnection(
+                "jdbc:derby://localhost:1527/sun-appserv-samples", connectionProps);
+        return conn;
+    }
+
     /**
      * Erstellt für den aktuellen Stand der Datenbank ein Backup.
      *
-     * @return {@code true}, falls das Backup erstellt wurde, sonst {@code false}.
      */
-    public void createBackup() {
-        createUserCSV();
-        createLectureCSV();
-        createInstanceLectureCSV();
-        createExamCSV();
-        createJoinExamCSV();
-        createGradeCSV();
+    public void createBackup() throws SQLException {
+        Connection conn = getConnection();
+        java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat(
+                "yyyy-MM-dd");
+        String backupdirectory = "C:/Users/marvi/Documents/GradePlus/GradePlus/backup/"
+                + todaysDate.format((java.util.Calendar.getInstance()).getTime());
+        CallableStatement cs = conn
+                .prepareCall("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)");
+        cs.setString(1, backupdirectory);
+        cs.execute();
+        cs.close();
+        System.out.println("backed up database to " + backupdirectory);
     }
 
     /**
