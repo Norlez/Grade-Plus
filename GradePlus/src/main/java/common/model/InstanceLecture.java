@@ -98,7 +98,9 @@ public class InstanceLecture extends JPAEntity {
      *            Der neue Prüfer der ILV.
      */
     public String addExaminer(final User pExaminer) {
-        examiners.add(assertNotNull(pExaminer));
+        if (!examiners.contains(assertNotNull(pExaminer))) {
+            examiners.add(pExaminer);
+        }
         return "exams.xhtml";
     }
 
@@ -130,7 +132,9 @@ public class InstanceLecture extends JPAEntity {
      *            Der der ILV als Prüfling hinzuzufügende Benutzer.
      */
     public void addExaminee(final User pExaminee) {
-        examinees.add(assertNotNull(pExaminee));
+        if (!examinees.contains(assertNotNull(pExaminee))) {
+            examinees.add(pExaminee);
+        }
     }
 
     /**

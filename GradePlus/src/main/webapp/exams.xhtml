@@ -62,7 +62,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecture.examiners}" var="u"
+                                <b:dataTable span="8" value="#{examsBean.instanceLecture.examiners}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -166,7 +166,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecture.examinees}" var="u"
+                                <b:dataTable span="8" value="#{examsBean.getStudents(examsBean.exam)}" var="u"
                                              excel="false"
                                              csv="true"
                                              pdf="false"
@@ -246,7 +246,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{examsBean.examsOfInstanceLecture}" var="e"
+                                <b:dataTable span="8" value="#{examsBean.instanceLecture.exams}" var="e"
                                              excel="true"
                                              csv="true"
                                              pdf="false"

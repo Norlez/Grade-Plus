@@ -12,9 +12,7 @@ import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -22,7 +20,11 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -92,12 +94,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private List<Exam> allExams;
 
     /**
-     * Eine Liste mit allen Prüfungen der gewählten ILV, falls diese nicht {@code null}
-     * ist.
-     */
-    private List<Exam> examsOfInstanceLecture;
-
-    /**
      * Eine Liste mit allen Prüfungsterminen eines Prüflings.
      */
     private List<Exam> examsOfStudent;
@@ -130,6 +126,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * {@link InstanceLecture}-Objekte übernimmt.
      */
     private final InstanceLectureDAO instanceLectureDao;
+
+    /**
+     * Diese Map wird benötigt, um Prüfer oder Prüflinge mittels Checkbox auswählen zu
+     * können.
+     */
+    private Map<Long, Boolean> checked;
 
     /**
      * Erzeugt eine neue ExamsBean.
@@ -166,6 +168,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         startOfTimeSlot = null;
         endOfTimeSlot = null;
         lengthOfBreaks = null;
+        checked = new HashMap<>();
         allExams = assertNotNull(examDao.getAllExams(),
                 "ExamsBean: init() -> examDao.getAllExams()");
         examsOfStudent = assertNotNull(
@@ -239,18 +242,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Gibt die Liste aller Prüfungen der gewählten ILV zurück oder {@code null}, falls
-     * {@link #instanceLecture} {@code null} ist.
-     *
-     * @return Die Liste aller Prüfungen der gewählten ILV oder {@code null}, falls
-     *         {@link #instanceLecture} {@code null} ist.
-     */
-    public List<Exam> getExamsOfInstanceLecture() {
-        return instanceLecture == null ? null : examDao
-                .getExamsForInstanceLecture(instanceLecture);
-    }
-
-    /**
      * Gibt alle Prüflinge der Prüfung als Liste zurück.
      *
      * @return Alle Prüflinge der Prüfung als Liste.
@@ -277,27 +268,35 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .plusMinutes(exam.getExamLength()))) {
             return null;
         }
-        User user = getSession().getUser();
+        List<User> examiners = checked.entrySet().stream().filter(Map.Entry::getValue)
+                .map(Map.Entry::getKey).map(userDao::getById)
+                .collect(Collectors.toList());
+        examiners.add(getSession().getUser());
         exam.setInstanceLecture(instanceLecture);
-        exam.addExaminer(user);
+        exam.setExaminers(examiners);
         exam.getInstanceLecture().addExam(exam);
-        user.addExamAsProf(exam);
+        examiners.stream().forEach(e -> e.addAsProfToIlv(instanceLecture));
+        examiners.stream().forEach(exam.getInstanceLecture()::addExaminer);
         try {
             examDao.save(exam);
             instanceLectureDao.update(exam.getInstanceLecture());
-            userDao.update(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInputdataIncomplete"));
         } catch (final UnexpectedUniqueViolationException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("someError"));
-        } catch (final DuplicateUsernameException e) {
-            addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
-        } catch (final DuplicateEmailException e) {
-            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse", user.getEmail());
+        }
+        for (User examiner : examiners) {
+            try {
+                userDao.update(examiner);
+            } catch (final DuplicateUsernameException e) {
+                addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                        Level.DEBUG, "errorUsernameAlreadyInUse", examiner.getUsername());
+            } catch (final DuplicateEmailException e) {
+                addErrorMessageWithLogging("registerUserForm:email", e, logger,
+                        Level.DEBUG, "errorEmailAlreadyInUse", examiner.getEmail());
+            }
         }
         init();
         return "exams.xhtml";
@@ -564,12 +563,14 @@ public class ExamsBean extends AbstractBean implements Serializable {
         while (exam.getLocalDateTime().plusMinutes(exam.getExamLength())
                 .compareTo(theEndOfTimeSlot) <= 0) {
             Exam theExam = exam;
+            Map<Long, Boolean> theChecked = checked;
             if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                     .plusMinutes(exam.getExamLength()))) {
                 conflictingExams.add(exam);
             } else {
                 save();
             }
+            checked = theChecked;
             exam = new Exam(theExam);
             exam.setLocalDateTime(exam.getLocalDateTime().plusMinutes(
                     exam.getExamLength() + theLengthOfBreaks));
@@ -682,6 +683,25 @@ public class ExamsBean extends AbstractBean implements Serializable {
     }
 
     /**
+     * Gibt die Map der Checkbox zurück.
+     *
+     * @return Die Map der Checkbox.
+     */
+    public Map<Long, Boolean> getChecked() {
+        return checked;
+    }
+
+    /**
+     * Setzt die Map der Checkbox auf den gegebenen Wert.
+     *
+     * @param pChecked
+     *            Die zu setzende Map der Checkbox.
+     */
+    public void setChecked(final Map<Long, Boolean> pChecked) {
+        checked = assertNotNull(pChecked);
+    }
+
+    /**
      * Sendet eine Nachricht an den Prüfling, um ihm über Änderungen eines Prüfungstermins
      * zu informieren.
      *
@@ -761,4 +781,5 @@ public class ExamsBean extends AbstractBean implements Serializable {
             }
         }
     }
+
 }

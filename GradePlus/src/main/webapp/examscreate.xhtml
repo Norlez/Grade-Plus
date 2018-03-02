@@ -69,6 +69,25 @@
 
                 <b:formGroup rendered="#{true}">
 
+                    <!-- TYPE -->
+                    <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="type"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputType']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <b:inputText placeholder="#{msg['inputType']}"
+                                         id="type"
+                                         value="#{examsBean.exam.type}"
+                                         required="true"
+                                         requiredMessage="#{msg['errorTypeRequired']}"/>
+                        </b:column>
+                    </b:row>
+
                     <!-- START OF TIME SLOT PICKER -->
                     <b:row>
                         <b:column span="4" offset="2">
@@ -149,6 +168,23 @@
                         </b:column>
                     </b:row>
 
+                    <!-- LOCATION -->
+                    <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="location"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['inputLocation']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <b:inputText placeholder="#{msg['outputLocation']}"
+                                         id="location"
+                                         value="#{examsBean.exam.location}"/>
+                        </b:column>
+                    </b:row>
+
                     <!-- EXAMINER PANEL -->
                     <b:row>
                         <b:column span="2">
@@ -156,7 +192,7 @@
                         </b:column>
                         <b:column span="7">
                             <b:panel>
-                                <b:dataTable value="#{usersBean.allStudentsAndExaminer}" var="u"
+                                <b:dataTable value="#{examsBean.instanceLecture.getExaminers()}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -167,10 +203,7 @@
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                     <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionSelect']}" disabled="#{examsBean.exam.examiners.contains(u)}" action="#{examsBean.exam.addExaminer(u)}" />
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" disabled="#{!examsBean.exam.examiners.contains(u)}" action="#{examsBean.exam.removeExaminer(u)}" />
+                                        <h:selectBooleanCheckbox value="#{examsBean.checked[u.id]}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>
