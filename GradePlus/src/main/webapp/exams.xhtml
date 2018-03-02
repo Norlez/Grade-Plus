@@ -42,7 +42,7 @@
                                     <f:facet name="heading">
                                         <h:outputText value="Datei auswählen" />
                                     </f:facet>
-                                    <b:dataTable span="8" value="#{usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLecturesBean.instanceLecture.examiners)}" var="u"
+                                    <b:dataTable span="8" value="#{usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLectureEditBean.instanceLecture.examiners)}" var="u"
                                                  excel="false"
                                                  csv="false"
                                                  pdf="false"
@@ -53,7 +53,7 @@
                                         <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                         <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
                                         <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
-                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLecturesBean.instanceLecture.addExaminer(u)}" />
+                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLectureEditBean.instanceLecture.addExaminer(u)}" />
                                         </b:dataTableColumn>
                                     </b:dataTable>
                                 </b:panel>
@@ -62,7 +62,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{examsBean.instanceLecture.examiners}" var="u"
+                                <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.examiners}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -246,7 +246,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{examsBean.instanceLecture.exams}" var="e"
+                                <b:dataTable span="8" value="#{examsBean.exam.instanceLecture.exams}" var="e"
                                              excel="true"
                                              csv="true"
                                              pdf="false"
