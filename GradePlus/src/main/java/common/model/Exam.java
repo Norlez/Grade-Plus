@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import com.sun.xml.internal.bind.v2.TODO;
 import common.util.Assertion;
@@ -205,6 +206,16 @@ public class Exam extends JPAEntity {
     }
 
     /**
+     * Gibt alle Prüflinge der Prüfung zurück.
+     *
+     * @return Alle Prüflinge der Prüfung.
+     */
+    public List<User> getStudents() {
+        return participants.stream().map(JoinExam::getPruefling)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Entfernt die gegebene JoinExam aus der Prüfung.
      *
      * @param pParticipant
@@ -354,21 +365,41 @@ public class Exam extends JPAEntity {
     }
 
     /**
-     * Setzt den Freigabestatus eines Termins.
+     * Setzt den Freigabestatus der Prüfung auf den gegebenen Wert..
      * 
-     * @param released
+     * @param pReleased
+     *            Der neue Freigabestatus der Prüfung.
      */
-    public void setReleased(boolean released) {
-        isReleased = released;
+    public void setReleased(final Boolean pReleased) {
+        isReleased = assertNotNull(pReleased);
     }
 
     /**
-     * Gibt den Freigabestatus zurück.
+     * Gibt den Freigabestatus der Prüfung zurück.
      * 
-     * @return true, falls der Termin freigegeben wurde.
+     * @return {@code true}, falls die Prüfung freigegeben ist, sonst {@code false}.
      */
-    public boolean isReleased() {
+    public boolean getReleased() {
         return isReleased;
+    }
+
+    /**
+     * Gibt das Datum als String zurück.
+     *
+     * @return Das Datum als String.
+     */
+    public String dateToString() {
+        return localDateTime
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    }
+
+    /**
+     * Gibt die Uhrzeit als String zurück.
+     *
+     * @return Die Uhrzeit als String.
+     */
+    public String timeToString() {
+        return localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT));
     }
 
     @Override

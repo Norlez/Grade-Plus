@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui" xmlns:h="http://xmlns.jcp.org/jsf/html"
       xml:lang="en" lang="en">
 <head>
-    <!-- Seite zum Erstellen einer neuen Pruefung fuer eine Instanz der LV -->
+    <!-- Seite zum Erstellen einer neuen Prüfung für eine ILV -->
     <title>Title</title>
 </head>
 <body>
@@ -152,7 +152,7 @@
                         </b:column>
                         <b:column span="7">
                             <b:panel>
-                                <b:dataTable value="#{usersBean.allStudentsAndExaminer}" var="u"
+                                <b:dataTable value="#{examsBean.exam.instanceLecture.getExaminers()}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"

@@ -166,7 +166,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{examsBean.getStudents(examsBean.exam)}" var="u"
+                                <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.examinees}" var="u"
                                              excel="false"
                                              csv="true"
                                              pdf="false"
@@ -246,7 +246,7 @@
                         <b:row class="space50px" />
                         <b:row>
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{examsBean.exam.instanceLecture.exams}" var="e"
+                                <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.exams}" var="e"
                                              excel="true"
                                              csv="true"
                                              pdf="false"
@@ -254,23 +254,27 @@
                                              copy="false"
                                              print="false">
                                     <b:dataTableColumn label="#{msg['outputId']}" value="#{e.id}"/>
-                                    <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.localDateTime}"/>
-                                    <b:dataTableColumn label="#{msg['outputTime']}"/>
-                                    <b:dataTableColumn label="#{msg['outputExaminer']}"/>
-                                    <b:dataTableColumn label="#{msg['outputLength']}"/>
-                                    <b:dataTableColumn label="#{msg['outputState']}" orderable="true"/>
+                                    <b:dataTableColumn label="#{msg['outputType']}" value="#{e.type}"/>
+                                    <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
+                                    <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
+                                    <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}"/>
+                                    <b:dataTableColumn label="#{msg['outputExaminer']}">
+                                        <b:selectOneMenu value="#{msg['outputExaminer']}">
+                                            <f:selectItems value="#{examsBean.examinersToStringList(e)}"/>
+                                        </b:selectOneMenu>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
-                                    <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRelease']}"/>
+                                    <b:dataTableColumn rendered="#{!e.getReleased()}" label="#{msg['actionRelease']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRelease']}" action="#{examsBean.releaseExam(e)}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionManage']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionManage']}" action="#{usersBean.remove(e)}"/>
+                                    <b:dataTableColumn rendered="#{e.getReleased()}" label="#{msg['actionClose']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionClose']}" action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
                                     <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
-                                        <b:button value="#{msg['actionEdit']}" outcome="students"/>
-                                        <b:commandButton value="#{msg['actionEdit']}" action="#{usersBean.remove(e)}"/>
+                                        <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.setExam(e)}"/>
                                     </b:dataTableColumn>
 
                                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
