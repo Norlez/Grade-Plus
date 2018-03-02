@@ -25,6 +25,7 @@
 
 package controller;
 
+import java.io.*;
 import java.util.Date;
 import java.util.Properties;
 
@@ -34,10 +35,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.Part;
 
-import common.model.Mail;
 import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -52,7 +54,7 @@ import static common.util.Assertion.assertNotNull;
  */
 @Named
 @RequestScoped
-public class MailBean extends AbstractBean {
+public class MailBean extends AbstractBean implements Serializable{
 
     /**
      * Der Logger für diese Klasse.
@@ -237,6 +239,86 @@ public class MailBean extends AbstractBean {
         init();
         return "dashboard.xhtml";
     }
+
+    File filetosend;
+
+    /**
+     * Wandelt Part file in io.File um.
+     * @throws IOException
+     */
+    public File copyPartToFile() throws IOException{
+        InputStream inputStream = file.getInputStream();
+        String contentType = file.getContentType();
+        String suffix = "."+contentType.substring(contentType.lastIndexOf('/') +1);
+        File tempFile = File.createTempFile("tmpFile", suffix);
+        OutputStream outputStream = new FileOutputStream(tempFile);
+        try {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+            filetosend = tempFile;
+        } finally {
+            inputStream.close();
+            outputStream.close();
+            return tempFile;
+        }
+    }
+
+
+
+    /**
+     * Email mit Anhang.
+     */
+    public String sendMailWithAttachment() throws IOException {
+        try {
+            filetosend = copyPartToFile();
+            message.setFrom(new InternetAddress("arbnor@uni-bremen.de"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("arbnor@uni-bremen.de"));
+            message.setSentDate(new Date());
+            message.setSubject("TEST");
+
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText("PFA");
+
+            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+            attachmentBodyPart.attachFile(filetosend);
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(attachmentBodyPart);
+
+            message.setContent(multipart);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(smtp, "arbnor@uni-bremen.de", "PSCHT");
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        } catch (MessagingException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorTransmitOfMessage", sender.getEmail());
+        }
+        init();
+        return "dashboard.xhtml";
+    }
+
+    /**
+     * Je nachdem, ob eine Datei ausgewählt wurde, wird eine Mail mit Anhang oder eine ohne versendet.
+     */
+    public void decideWhichEmail(){
+        try{
+            if(file == null){
+
+                sendMail();
+            }else{
+                sendMailWithAttachment();
+            }
+        }catch (IOException e ){
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Versendet eine Systemnachricht an einen gewählten Benutzer.
