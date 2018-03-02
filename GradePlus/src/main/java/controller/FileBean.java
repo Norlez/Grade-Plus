@@ -119,4 +119,27 @@ public class FileBean extends AbstractBean implements Serializable {
         return "users.xhtml";
     }
 
+
+    /**
+     * Wandelt Part file in io.File um.
+     * @throws IOException
+     */
+    public  void copyPartToFile() throws IOException{
+        InputStream inputStream = file.getInputStream();
+        String contentType = file.getContentType();
+        String pathname = "/Users/arbnor/Documents/Repositories/Software_Projekt2/GradePlus/GradePlus/Attachment/tmpFile."+ contentType.substring(contentType.lastIndexOf('/') +1);
+        File copy = new File(pathname);
+        OutputStream outputStream = new FileOutputStream(copy);
+        try {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+        } finally {
+            inputStream.close();
+            outputStream.close();
+        }
+    }
+
 }
