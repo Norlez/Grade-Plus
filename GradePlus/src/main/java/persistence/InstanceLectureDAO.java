@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import java.io.Serializable;
 import java.util.List;
 
+import static common.util.Assertion.assertNotEmpty;
 import static common.util.Assertion.assertNotNegative;
 import static common.util.Assertion.assertNotNull;
 
@@ -73,6 +74,22 @@ public class InstanceLectureDAO extends JPADAO<InstanceLecture> implements Seria
                 .createNamedQuery("InstanceLectures.findForLecture", getClazz())
                 .setParameter("lecture", pLecture).getResultList();
         return lectures.isEmpty() ? null : lectures;
+    }
+
+    /**
+     * Gibt die ILVs mit dem gegebenen Semester zurück.
+     *
+     * @param year
+     *            , das gesuchte Semester als String
+     *
+     * @return Die ILVs mit dem gesuchten Semester
+     */
+    public List<InstanceLecture> getInstanceLecturesForYear(String year) {
+        assertNotEmpty(year);
+        final List<InstanceLecture> instanceLectures = getEm()
+                .createNamedQuery("Instance.findForYear", getClazz())
+                .setParameter("semester", year).getResultList();
+        return instanceLectures.isEmpty() ? null : instanceLectures;
     }
 
     /**

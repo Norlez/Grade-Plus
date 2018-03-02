@@ -390,16 +390,27 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     public String duplicateInstanceLecture(InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
         InstanceLecture ilv = new InstanceLecture();
+        List<InstanceLecture> allIlvsToLecture = instanceLectureDao
+                .getInstanceLecturesForLecture(pInstanceLecture.getLecture());
+        boolean isDuplicated = false;
         ilv.setLecture(pInstanceLecture.getLecture());
         Integer i = Integer.parseInt(pInstanceLecture.getYear());
         i = i + 1;
-        ilv.setYear(i + "");
-        ilv.setSemester(pInstanceLecture.getSemester());
-        ilv.addExaminer(user);
-        try {
-            instanceLectureDao.save(ilv);
-        } catch (DuplicateInstanceLectureException ex) {
-            throw new UnexpectedUniqueViolationException(ex);
+        for (InstanceLecture il : allIlvsToLecture) {
+            Integer o = Integer.parseInt(il.getYear());
+            if (i.equals(o)) {
+                isDuplicated = true;
+            }
+        }
+        if (!isDuplicated) {
+            ilv.setYear(i + "");
+            ilv.setSemester(pInstanceLecture.getSemester());
+            ilv.addExaminer(user);
+            try {
+                instanceLectureDao.save(ilv);
+            } catch (DuplicateInstanceLectureException ex) {
+                throw new UnexpectedUniqueViolationException(ex);
+            }
         }
         return "semester.xhtml";
     }

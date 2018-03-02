@@ -1,5 +1,6 @@
 package common.model;
 
+import javax.inject.Named;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,8 @@ import static common.util.Assertion.assertNull;
         @NamedQuery(name = "InstanceLectures.findAll", query = "SELECT l FROM InstanceLecture l"),
         @NamedQuery(name = "InstanceLectures.findForLecture", query = "SELECT l FROM InstanceLecture l WHERE l.lecture = :lecture"),
         @NamedQuery(name = "InstanceLectures.findForExaminee", query = "SELECT l FROM InstanceLecture l WHERE :examinee MEMBER OF l.examinees"),
-        @NamedQuery(name = "InstanceLectures.findForExaminer", query = "SELECT l FROM InstanceLecture l WHERE :examiner MEMBER OF l.examiners") })
+        @NamedQuery(name = "InstanceLectures.findForExaminer", query = "SELECT l FROM InstanceLecture l WHERE :examiner MEMBER OF l.examiners"),
+        @NamedQuery(name = "Instance.findForYear", query = "SELECT l FROM InstanceLecture l WHERE l.semester = :semester") })
 public class InstanceLecture extends JPAEntity {
 
     /**
