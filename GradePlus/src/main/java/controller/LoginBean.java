@@ -197,7 +197,6 @@ public class LoginBean extends AbstractBean {
 
         password = Assertion.assertNotNull(pPassword);
         User user = userDAO.getUserForUsername(username);
-        user.setTmpPassword(pPassword);
     }
 
     /**
