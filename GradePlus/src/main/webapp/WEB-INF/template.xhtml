@@ -17,7 +17,12 @@
         <div id="top" class="top">
             <h:form>
             <b:navBar>
+                <div>
+                    <h:graphicImage style="float: left; width: 100px; height: auto" id="logo" library="images" name="logo_gradeplus_small.png"/>
+
+                </div>
                 <b:navbarLinks>
+
                     <b:navLink id="dashboardLink" rendered="#{usersBean.isStudent(profileBean.thisUser)}" value="#{templateMsg['actionLinkDashboard']}" outcome="/dashboard" />
                     <b:navLink id="gradesLink" value="#{templateMsg['actionLinkGrades']}" outcome="/grades" rendered="#{usersBean.isExaminer(profileBean.thisUser)}"/>
                     <b:navLink id="UserLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkUser']}" outcome="/admin/users" />

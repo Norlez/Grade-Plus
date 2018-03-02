@@ -4,7 +4,11 @@
     background-repeat: no-repeat;
 }
 
-
+#logo {
+    height: 30%;
+    width: 30%;
+    float: left;
+}
 
 h2 {
     color: deeppink;
