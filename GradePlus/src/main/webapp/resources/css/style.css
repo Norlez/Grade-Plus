@@ -90,7 +90,7 @@ h2 {
 .btn-green:hover {
     border-color: deeppink;
 }
-/* FUNKTIONERT NICHT!!! */
+
 .btn-green:focus {
     border-color: deeppink;
     background-color: green;
@@ -102,4 +102,30 @@ h2 {
 }
 .col {
     border: 0px;
+}
+
+/* Media query */
+@media screen and (max-width: 800px) {
+    #loginRendered {
+        background: white;
+
+    }
+}
+
+/* Media query */
+@media screen and (min-width: 800px) {
+    #loginRendered {
+        background-image: url("#{request.contextPath}/resources/images/bg_login.jpg");
+        background-repeat: no-repeat;
+        background-size: auto;
+    }
+}
+
+/* Media query */
+@media screen and (min-width: 1280px) {
+    #loginRendered {
+        background-image: url("#{request.contextPath}/resources/images/bg_login.jpg");
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
 }
