@@ -24,7 +24,6 @@
  */
 package controller;
 
-import static com.sun.tools.doclint.Entity.or;
 import static common.util.Assertion.assertNotNull;
 
 import java.io.*;
@@ -116,11 +115,12 @@ public class UsersBean extends AbstractBean implements Serializable {
     }
 
     public void setNotRegisteredExaminers(List<User> notRegisteredExaminers) {
-        this.notRegisteredExaminers =assertNotNull(notRegisteredExaminers);
+        this.notRegisteredExaminers = assertNotNull(notRegisteredExaminers);
     }
 
     /**
-     * Die Liste der Prüfer, die nicht bereits in einer ILV als Prüfer eingetragen worden sind.
+     * Die Liste der Prüfer, die nicht bereits in einer ILV als Prüfer eingetragen worden
+     * sind.
      */
     private List<User> notRegisteredExaminers;
 
@@ -440,35 +440,41 @@ public class UsersBean extends AbstractBean implements Serializable {
      * @return Liste von Prüflingen und Prüfern
      */
     public List<User> getAllStudentsAndExaminer() {
-        return userDao.getAllUsers().stream().filter(x -> x.getRole().equals(Role.EXAMINER)
-                || x.getRole().equals(Role.STUDENT)).collect(Collectors.toList());
+        return userDao
+                .getAllUsers()
+                .stream()
+                .filter(x -> x.getRole().equals(Role.EXAMINER)
+                        || x.getRole().equals(Role.STUDENT)).collect(Collectors.toList());
 
     }
 
     /**
-     * Finde einfach keinen anderen namen alla..
-     * Gibt eine Liste von Usern zurück, die in einer spezifischen ILV noch nicht als Prüfer hinzugefügt worden
-     * sind.
+     * Finde einfach keinen anderen namen alla.. Gibt eine Liste von Usern zurück, die in
+     * einer spezifischen ILV noch nicht als Prüfer hinzugefügt worden sind.
      *
      * @return Die Liste von Usern die nicht ausgewählt wurden.
      */
-    public List<User> getAllStudentsAndExaminerWhichAreNotChosenInILV(List<User> pAllUsers, List<User> pUserFlter){
+    public List<User> getAllStudentsAndExaminerWhichAreNotChosenInILV(
+            List<User> pAllUsers, List<User> pUserFlter) {
         List<User> result = new ArrayList<User>();
-        for(User u : pAllUsers){
-            if(!pUserFlter.contains(u)){
+        for (User u : pAllUsers) {
+            if (!pUserFlter.contains(u)) {
                 result.add(u);
             }
         }
-        return  result;
+        return result;
     }
-
 
     /**
      * Gibt eine Liste nur besthenden von Prüflingen zurück.
-     * @param pUserList die Liste von allen Prüflingen im System
+     * 
+     * @param pUserList
+     *            die Liste von allen Prüflingen im System
      * @return
      */
-    public List<User> calculateAllExaminers(List<User> pUserList){
-       return pUserList.stream().filter(pFilter -> pFilter.getRole().equals(Role.EXAMINER)).collect(Collectors.toList());
+    public List<User> calculateAllExaminers(List<User> pUserList) {
+        return pUserList.stream()
+                .filter(pFilter -> pFilter.getRole().equals(Role.EXAMINER))
+                .collect(Collectors.toList());
     }
 }
