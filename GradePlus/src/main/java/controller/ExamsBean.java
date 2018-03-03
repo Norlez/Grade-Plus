@@ -841,4 +841,61 @@ public class ExamsBean extends AbstractBean implements Serializable {
         alreadyExists = !alreadyExists;
     }
 
+    public String printDateAsICS() {
+    StringBuilder date = new StringBuilder();
+    date.append("BEGIN:VCALENDAR");
+    date.append("\n");
+    date.append("VERSION:2.0");
+    date.append("\n");
+    date.append("PRODID:");
+    date.append("gradeplus/exams"); // ID
+    date.append("\n");
+
+    for (Exam e : examsOfStudent) {
+        date.append("BEGIN:VEVENT");
+        date.append("\n");
+        date.append("UID:");
+        date.append("Exam" + e.getId()); // UID
+        date.append("\n");
+        date.append("DTSTART:");
+        date.append(e.examDateToString());
+        date.append("\n");
+        date.append("DTEND:");
+        date.append(e.datePlusExamLengthToString());
+        date.append("\n");
+        date.append("SUMMARY: Exam-Date for ");
+        date.append(e.getIlv().getLecture().getName());
+        date.append("\n");
+        date.append("END:VEVENT");
+        date.append("\n");
+    }
+
+    date.append("END:VCALENDAR");
+
+    String name = new String("Exam-Dates");
+
+    BufferedWriter bw = null;
+
+    try {
+        File file = new File("/Exam-Dates.ics");
+
+        FileWriter fw = new FileWriter(file);
+        bw = new BufferedWriter(fw);
+        bw.write("" + date);
+        System.out.println("New File added");
+
+    } catch (IOException ioe) {
+        ioe.printStackTrace();
+    } finally {
+        try {
+            if (bw != null)
+                bw.close();
+        } catch (Exception ex) {
+            System.out.println("Exceptiooooon: ICS EXPORT„);
+        }
+    }
+    return "exams.xhtml"; // Auf welcher Seite ist das??? Muss evtl in eine andere
+                          // Bean verschoben werden
+}
+
 }
