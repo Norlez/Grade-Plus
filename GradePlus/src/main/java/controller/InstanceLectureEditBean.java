@@ -7,11 +7,14 @@ import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import persistence.InstanceLectureDAO;
+import persistence.UserDAO;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -38,6 +41,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     private final InstanceLectureDAO instanceLectureDao;
 
     /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
+     * übernimmt.
+     */
+    private final UserDAO userDao;
+
+    /**
      * Die aktuell zu bearbeitende ILV.
      */
     private InstanceLecture instanceLecture;
@@ -60,9 +69,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     @Inject
     public InstanceLectureEditBean(final Session pSession,
-            final InstanceLectureDAO pInstanceLectureDao) {
+            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
+        userDao = assertNotNull(pUserDao);
     }
 
     /**
@@ -118,6 +128,40 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                     getTranslation("someError"));
         }
         return "semester.xhtml";
+    }
+
+    public String addExaminer(final User pExaminer) {
+        instanceLecture.addExaminer(assertNotNull(pExaminer,
+                "InstanceLectureEditBean: addExaminer(User)"));
+        update();
+        return "exams.xhtml";
+    }
+
+    public String removeExaminer(final User pExaminer) {
+        instanceLecture.removeExaminer(assertNotNull(pExaminer,
+                "InstanceLectureEditBean: removeExaminer(User)"));
+        update();
+        return "exams.xhtml";
+    }
+
+    public String addStudent(final User pStudent) {
+        instanceLecture.addExaminee(assertNotNull(pStudent,
+                "InstanceLectureEditBean: addStudent(User)"));
+        update();
+        return "exams.xhtml";
+    }
+
+    public String removeStudent(final User pStudent) {
+        instanceLecture.removeExaminee(assertNotNull(pStudent,
+                "InstanceLectureEditBean: removeStudent(User)"));
+        update();
+        return "exams.xhtml";
+    }
+
+    public List<User> getUnregisteredStudents() {
+        return userDao.getAllStudents().stream()
+                .filter(s -> !instanceLecture.getExaminees().contains(s))
+                .collect(Collectors.toList());
     }
 
 }

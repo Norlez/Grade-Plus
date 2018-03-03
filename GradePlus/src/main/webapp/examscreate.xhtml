@@ -25,6 +25,8 @@
                         </h1>
                     </b:column>
                 </b:row>
+
+                <!-- INFORMATIONEN DER ILV -->
                 <b:row>
                     <b:column span="4">
                         <h2>
@@ -38,7 +40,7 @@
                         <h:outputLabel value="#{msg['outputName']}"/>
                     </b:column>
                     <b:column span="4">
-                        <h:outputLabel value="#{examsBean.exam.instanceLecture.lecture.name}"/>
+                        <h:outputText value="#{examsBean.exam.instanceLecture.lecture.name}"/>
                     </b:column>
                 </b:row>
                 <b:row>
@@ -46,7 +48,7 @@
                         <h:outputLabel value="#{msg['outputVak']}"/>
                     </b:column>
                     <b:column span="4">
-                        <h:outputLabel value="#{examsBean.exam.instanceLecture.lecture.vak}"/>
+                        <h:outputText value="#{examsBean.exam.instanceLecture.lecture.vak}"/>
                     </b:column>
                 </b:row>
                 <b:row>
@@ -54,10 +56,11 @@
                         <h:outputLabel value="#{msg['outputSemester']}"/>
                     </b:column>
                     <b:column span="4">
-                        <h:outputLabel value="#{examsBean.exam.instanceLecture.semesterToString()}"/>
+                        <h:outputText value="#{examsBean.exam.instanceLecture.semesterToString()}"/>
                     </b:column>
                 </b:row>
 
+                <!-- INFORMATIONEN DER PRÜFUNG -->
                 <b:row class="space25px"/>
                 <b:row>
                     <b:column span="4">
@@ -191,8 +194,8 @@
                             <h:outputLabel value="#{msg['outputSelectExaminers']}"/>
                         </b:column>
                         <b:column span="7">
-                            <b:panel>
-                                <b:dataTable value="#{examsBean.exam.instanceLecture.getExaminers()}" var="u"
+                            <b:panel rendered="#{!empty examsBean.getPossibleExaminersWithoutUser()}">
+                                <b:dataTable value="#{examsBean.getPossibleExaminersWithoutUser()}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -207,6 +210,8 @@
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>
+                            <h:outputLabel rendered="#{empty examsBean.getPossibleExaminersWithoutUser()}"
+                                           value="#{msg['outputNoExaminers']}"/>
                         </b:column>
                     </b:row>
 
@@ -214,8 +219,19 @@
 
                     <!-- BUTTON SAVE CANCEL -->
                     <b:row class="btn-paragraph">
-                        <b:column span="2">
-                            <b:commandButton value="#{msg['actionCreate']}"
+                        <b:column span="8" rendered="#{examsBean.getAlreadyExists()}">
+                            <h:outputLabel value="#{msg['outputContinue']}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="2" rendered="#{!examsBean.getAlreadyExists()}">
+                            <b:commandButton id="create"
+                                             value="#{msg['actionCreate']}"
+                                             action="#{examsBean.createExamsForTimeFrame()}"/>
+                        </b:column>
+                        <b:column span="1" rendered="#{examsBean.getAlreadyExists()}">
+                            <b:commandButton id="continue"
+                                             value="#{msg['actionContinue']}"
                                              action="#{examsBean.createExamsForTimeFrame()}"/>
                         </b:column>
                         <b:column span="1">

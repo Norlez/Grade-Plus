@@ -114,6 +114,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private Map<Long, Boolean> checked;
 
     /**
+     * Falls eine Prüfung im gewählten Zeitraum bereits existiert, wird dieser Wert auf
+     * {@code true} gesetzt, und somit kann die Prüfung bei bedarf dennoch gespeichert
+     * werden.
+     */
+    boolean alreadyExists;
+
+    /**
      * Erzeugt eine neue ExamsBean.
      *
      * @param pSession
@@ -146,6 +153,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         endOfTimeSlot = null;
         lengthOfBreaks = null;
         checked = new HashMap<>();
+        alreadyExists = false;
     }
 
     /**
@@ -201,8 +209,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Alle Prüfungen, in denen der angemeldete Benutzer Prüfer ist.
      */
     public List<Exam> getExamsForExaminer() {
-        return assertNotNull(examDao.getExamsForExaminer(getSession().getUser()),
-                "ExamsBean: getAllExams() -> examDao.getExamsForExaminer(getSession().getUser())");
+        return examDao.getAllExams().stream()
+                .filter(e -> e.getExaminers().contains(getSession().getUser()))
+                .collect(Collectors.toList());
+        // return assertNotNull(examDao.getExamsForExaminer(getSession().getUser()),
+        // "ExamsBean: getAllExams() -> examDao.getExamsForExaminer(getSession().getUser())");
     }
 
     /**
@@ -241,7 +252,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String save() {
         if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                 .plusMinutes(exam.getExamLength()))) {
-            return null;
+            alreadyExists = !alreadyExists;
+            if (alreadyExists) {
+                return null;
+            }
         }
         List<User> examiners = checked.entrySet().stream().filter(Map.Entry::getValue)
                 .map(Map.Entry::getKey).map(userDao::getById)
@@ -284,6 +298,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
      */
     public String update() {
+        if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
+                .plusMinutes(exam.getExamLength()))) {
+            alreadyExists = !alreadyExists;
+            if (alreadyExists) {
+                return null;
+            }
+        }
         try {
             Exam oldExam = examDao.getById(exam.getId());
             List<User> students = oldExam.getStudents();
@@ -369,7 +390,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         pExam.getInstanceLecture().removeExam(pExam);
         instanceLectureDao.update(pExam.getInstanceLecture());
         init();
-        return null;
+        return "exams.xhtml";
     }
 
     /**
@@ -531,7 +552,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging(new IllegalArgumentException(
                     "startOfTimeSlot, endOfTimeSlot or lengthOfBreaks is NULL."), logger,
                     Level.DEBUG, getTranslation("errorInputdataIncomplete"));
-            return "exams.xhtml";
         }
         conflictingExams = new ArrayList<>();
         exam.setLocalDateTime(startOfTimeSlot);
@@ -544,8 +564,14 @@ public class ExamsBean extends AbstractBean implements Serializable {
             if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                     .plusMinutes(exam.getExamLength()))) {
                 conflictingExams.add(exam);
-            } else {
-                save();
+            }
+            startOfTimeSlot = exam.getLocalDateTime();
+            boolean localAlreadyExists = alreadyExists;
+            save();
+            if (localAlreadyExists) {
+                alreadyExists = true;
+            } else if (alreadyExists) {
+                return null;
             }
             checked = theChecked;
             exam = new Exam(theExam);
@@ -690,12 +716,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     private void notify(final User pUser, final String pMessage) {
         MailBean sender = new MailBean(getSession());
-        /*sender.getMail().setTopic("Änderungen an einem Prüfungstermin");
-        sender.getMail().setContent(
-                assertNotNull(pMessage, "ExamsBean: notify(_, String)"));
-        sender.getMail().setRecipient(
-                assertNotNull(pUser, "ExamsBean: notify(User, _)").getEmail());
-        sender.sendSystemMail();*/
+        /*
+         * sender.getMail().setTopic("Änderungen an einem Prüfungstermin");
+         * sender.getMail().setContent( assertNotNull(pMessage,
+         * "ExamsBean: notify(_, String)")); sender.getMail().setRecipient(
+         * assertNotNull(pUser, "ExamsBean: notify(User, _)").getEmail());
+         * sender.sendSystemMail();
+         */
     }
 
     /**
@@ -728,12 +755,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return true;
     }
 
-    public void releaseExam(final Exam pExam) {
+    public String releaseExam(final Exam pExam) {
         assertNotNull(pExam).setReleased(true);
         Exam theExam = exam;
         exam = pExam;
         update();
         exam = theExam;
+        return "exams.xhtml";
     }
 
     /**
@@ -752,12 +780,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
         }
     }
 
-    public void closeExam(final Exam pExam) {
+    public String closeExam(final Exam pExam) {
         assertNotNull(pExam).setReleased(false);
         Exam theExam = exam;
         exam = pExam;
         update();
         exam = theExam;
+        return "exams.xhtml";
     }
 
     /**
@@ -784,9 +813,30 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Alle Prüfer der gegebenen Prüfung formatiert als String.
      */
     public List<String> examinersToStringList(final Exam pExam) {
-        return assertNotNull(pExam).getInstanceLecture().getExaminers().stream()
+        return assertNotNull(pExam).getExaminers().stream()
                 .map(e -> e.getGivenName() + " " + e.getSurname())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Gibt alle Prüfer der ILV der gewählten Prüfung zurück ohne den angemeldeten
+     * Benutzer, da dieser immer automatisch Prüfer wird.
+     *
+     * @return Alle Prüfer der ILV der gewählten Prüfung zurück ohne den angemeldeten
+     *         Benutzer.
+     */
+    public List<User> getPossibleExaminersWithoutUser() {
+        return exam.getInstanceLecture().getExaminers().stream()
+                .filter(u -> !u.equals(getSession().getUser()))
+                .collect(Collectors.toList());
+    }
+
+    public boolean getAlreadyExists() {
+        return alreadyExists;
+    }
+
+    public void setAlreadyExists() {
+        alreadyExists = !alreadyExists;
     }
 
 }

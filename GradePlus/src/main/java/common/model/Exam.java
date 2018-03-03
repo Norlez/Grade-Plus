@@ -93,7 +93,7 @@ public class Exam extends JPAEntity {
      * Der Freigabestatus eines Prüfungstermins.
      */
     @Column
-    private boolean isReleased = false;
+    private boolean isReleased;
 
     /**
      * Erzeugt ein neues {@link Exam}-Objekt mit leeren Daten.
@@ -242,10 +242,9 @@ public class Exam extends JPAEntity {
      *            Der zur Prüfung als Prüfer einzutragende Benutzer.
      */
     public void addExaminer(final User pExaminer) {
-        if (examiners.contains(assertNotNull(pExaminer, "Exam: addExaminer(User)"))) {
-            return;
+        if (!examiners.contains(assertNotNull(pExaminer, "Exam: addExaminer(User)"))) {
+            examiners.add(pExaminer);
         }
-        examiners.add(pExaminer);
     }
 
     /**
@@ -404,10 +403,11 @@ public class Exam extends JPAEntity {
 
     @Override
     public String toString() {
-        return String.format("Exam: ID: %d, Lecture: %s, Time: %s, Length: %d", getId(),
-                instanceLecture.getLecture().getName(), localDateTime
+        return String.format(
+                "Exam: ID: %d, Lecture: %s, Time: %s, Length: %d, Freigegeben: %b",
+                getId(), instanceLecture.getLecture().getName(), localDateTime
                         .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,
-                                FormatStyle.SHORT)), examLength);
+                                FormatStyle.SHORT)), examLength, isReleased);
     }
 
     public String toCSV() {

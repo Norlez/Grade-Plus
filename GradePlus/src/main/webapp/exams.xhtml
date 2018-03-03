@@ -26,21 +26,63 @@
                     </b:column>
                 </b:row>
 
+                <!-- INFORMATIONEN DER ILV -->
+                <b:row>
+                    <b:column span="4">
+                        <h2>
+                            <h:outputText value="#{msg['outputInstanceLecture']}"/>
+                        </h2>
+                    </b:column>
+                </b:row>
+
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputName']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.name}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputVak']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.vak}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputSemester']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{instanceLectureEditBean.instanceLecture.semesterToString()}"/>
+                    </b:column>
+                </b:row>
+            </b:container>
+
+            <b:row class="space25px" />
+
+            <b:container>
+                <!-- TABS -->
                 <b:tabView>
+
+                    <!-- PRÜFER -->
                     <b:tab title="#{msg['tabtitleExaminers']}">
-                        <!-- EXAM -->
-                        <b:row>
+
+                        <!-- PRÜFER HINZUFÜGEN -->
+                        <b:row class="btn-paragraph">
                             <b:column span="4">
                                 <h2>
-                                    <h:outputText value="#{msg['subtitleExaminers']}" />
+                                    <h:outputText value="#{msg['subtitleAddExaminers']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row>
-                            <b:column span="10">
-                                <b:panel collapsed="true">
+                        <b:row class="btn-paragraph">
+                            <b:column span="8">
+                                <b:panel  collapsed="true" rendered="#{!empty usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLectureEditBean.instanceLecture.examiners)}" >
                                     <f:facet name="heading">
-                                        <h:outputText value="Datei auswählen" />
+                                        <h:outputText value="#{msg['outputAddExaminers']}" />
                                     </f:facet>
                                     <b:dataTable span="8" value="#{usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLectureEditBean.instanceLecture.examiners)}" var="u"
                                                  excel="false"
@@ -53,16 +95,29 @@
                                         <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                         <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
                                         <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
-                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLectureEditBean.instanceLecture.addExaminer(u)}" />
+                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLectureEditBean.addExaminer(u)}" />
                                         </b:dataTableColumn>
                                     </b:dataTable>
                                 </b:panel>
+                                <h:outputLabel rendered="#{empty usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLectureEditBean.instanceLecture.examiners)}"
+                                               value="#{msg['outputNoExaminersAvailable']}"/>
                             </b:column>
                         </b:row>
-                        <b:row class="space50px" />
-                        <b:row>
+                        <b:row class="space25px" />
+
+                        <!-- PRÜFER -->
+                        <b:row class="btn-paragraph">
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleExaminers']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row class="btn-paragraph">
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.examiners}" var="u"
+                                <b:dataTable span="8"
+                                             rendered="#{!empty instanceLectureEditBean.instanceLecture.examiners}"
+                                             value="#{instanceLectureEditBean.instanceLecture.examiners}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -75,33 +130,53 @@
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
                                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}"/>
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeExaminer(u)}"/>
                                     </b:dataTableColumn>
+                                    <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examiners}"
+                                                   value="#{msg['outputNoExaminers']}"/>
                                 </b:dataTable>
                             </b:column>
                         </b:row>
                     </b:tab>
+
+                    <!-- PRÜFLINGE -->
                     <b:tab title="#{msg['tabtitleStudents']}">
-                        <!-- EXAM -->
-                        <b:row>
+
+                        <!-- PRÜFLINGE HINZUFÜGEN -->
+                        <b:row class="btn-paragraph">
                             <b:column span="4">
                                 <h2>
-                                    <h:outputText value="#{msg['subtitleStudents']}" />
+                                    <h:outputText value="#{msg['subtitleAddStudents']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row>
-                            <b:column span="2">
-                                <b:button class="btn" value="#{msg['actionAddStudent']}" outcome="students" />
+                        <b:row class="btn-paragraph">
+                            <b:column span="8">
+                                <b:panel  collapsed="true" rendered="#{!empty instanceLectureEditBean.unregisteredStudents}" >
+                                    <f:facet name="heading">
+                                        <h:outputText value="#{msg['outputAddStudents']}" />
+                                    </f:facet>
+                                    <b:dataTable span="8" value="#{instanceLectureEditBean.unregisteredStudents}" var="u"
+                                                 excel="false"
+                                                 csv="false"
+                                                 pdf="false"
+                                                 columnVisibility="false"
+                                                 copy="false"
+                                                 print="false">
+                                        <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
+                                        <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                                        <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
+                                        <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
+                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLectureEditBean.addStudent(u)}" />
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panel>
                             </b:column>
-
                         </b:row>
 
-                        <b:row class="space50px"/>
-
                         <!-- UPLOAD STUDENT LIST -->
-                        <b:row>
-                            <b:column span="6">
+                        <b:row class="btn-paragraph">
+                            <b:column span="8">
                                 <b:panel collapsed="true">
                                     <f:facet name="heading">
                                         <h:outputText value="#{msg['actionUpload']}" />
@@ -132,8 +207,8 @@
                         </b:row>
 
                         <!-- UPLOAD PABO LIST -->
-                        <b:row>
-                            <b:column span="6">
+                        <b:row class="btn-paragraph">
+                            <b:column span="8">
                                 <b:panel collapsed="true">
                                     <f:facet name="heading">
                                         <h:outputText value="#{msg['actionImportPabo']}" />
@@ -162,11 +237,22 @@
                                 </b:panel>
                             </b:column>
                         </b:row>
+                        <b:row class="space25px" />
 
-                        <b:row class="space50px" />
-                        <b:row>
+                        <!-- PRÜFLINGE -->
+                        <b:row class="btn-paragraph">
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleStudents']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row class="btn-paragraph">
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.examinees}" var="u"
+                                <b:dataTable span="8"
+                                             rendered="#{!empty instanceLectureEditBean.instanceLecture.examinees}"
+                                             value="#{instanceLectureEditBean.instanceLecture.examinees}"
+                                             var="u"
                                              excel="false"
                                              csv="true"
                                              pdf="false"
@@ -182,38 +268,43 @@
                                     <b:dataTableColumn label="#{msg['outputGrade']}"/>
                                     <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
                                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLecturesBean.instanceLecture.removeExaminee(u)}"/>
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeStudent(u)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
+                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
+                                               value="#{msg['outputNoStudents']}"/>
                             </b:column>
                         </b:row>
                     </b:tab>
+
+                    <!-- PRÜFUNGEN -->
                     <b:tab title="#{msg['tabtitleExams']}">
-                        <!-- EXAM -->
-                        <b:row>
+
+                        <!-- PRÜFUNGEN HINZUFÜGEN -->
+                        <b:row class="btn-paragraph">
                             <b:column span="4">
                                 <h2>
-                                    <h:outputText value="#{msg['subtitleExams']}" />
+                                    <h:outputText value="#{msg['subtitleAddExams']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row>
-                            <b:column span="2">
+                        <b:row class="btn-paragraph">
+                            <b:column span="3">
                                 <h:commandButton class="btn" value="#{msg['actionCreateNewExam']}" action="#{examsBean.setInstanceLectureForExam(instanceLectureEditBean.getInstanceLecture())}">
                                 </h:commandButton>
                             </b:column>
                         </b:row>
-                        <b:row>
-                            <b:column span="2">
+                        <b:row class="btn-paragraph">
+                            <b:column span="3">
                                 <h:commandButton class="btn" value="#{msg['actionCreateNewExams']}" action="#{examsBean.setInstanceLectureForExams(instanceLectureEditBean.getInstanceLecture())}">
                                 </h:commandButton>
                             </b:column>
                         </b:row>
 
-                        <b:row class="space50px" />
+                        <b:row class="space25px" />
 
                         <!-- UPLOAD GRADES LIST -->
-                        <b:row>
+                        <b:row class="btn-paragraph">
                             <b:column span="6">
                                 <b:panel collapsed="true">
                                     <f:facet name="heading">
@@ -243,10 +334,22 @@
                                 </b:panel>
                             </b:column>
                         </b:row>
-                        <b:row class="space50px" />
-                        <b:row>
+                        <b:row class="space25px" />
+
+                        <!-- PRÜFUNGEN -->
+                        <b:row class="btn-paragraph">
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleExams']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row class="btn-paragraph">
                             <b:column span="12">
-                                <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.exams}" var="e"
+                                <b:dataTable span="8"
+                                             rendered="#{!empty instanceLectureEditBean.instanceLecture.exams}"
+                                             value="#{instanceLectureEditBean.instanceLecture.exams}"
+                                             var="e"
                                              excel="true"
                                              csv="true"
                                              pdf="false"
@@ -265,12 +368,13 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
-                                    <b:dataTableColumn rendered="#{!e.getReleased()}" label="#{msg['actionRelease']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRelease']}" action="#{examsBean.releaseExam(e)}"/>
-                                    </b:dataTableColumn>
-
-                                    <b:dataTableColumn rendered="#{e.getReleased()}" label="#{msg['actionClose']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionClose']}" action="#{examsBean.closeExam(e)}"/>
+                                    <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
+                                        <b:commandButton rendered="#{!e.getReleased()}"
+                                                         value="#{msg['actionRelease']}"
+                                                         action="#{examsBean.releaseExam(e)}"/>
+                                        <b:commandButton rendered="#{e.getReleased()}"
+                                                         value="#{msg['actionClose']}"
+                                                         action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
                                     <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
@@ -281,6 +385,8 @@
                                         <b:commandButton value="#{msg['actionRemove']}" action="#{examsBean.remove(e)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
+                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
+                                               value="#{msg['outputNoExams']}"/>
                             </b:column>
                         </b:row>
                     </b:tab>
