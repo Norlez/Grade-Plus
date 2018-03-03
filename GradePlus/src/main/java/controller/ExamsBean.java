@@ -118,7 +118,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * {@code true} gesetzt, und somit kann die Prüfung bei bedarf dennoch gespeichert
      * werden.
      */
-    boolean alreadyExists;
+    private boolean alreadyExists;
 
     /**
      * Erzeugt eine neue ExamsBean.
@@ -745,10 +745,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
             LocalDateTime currUpperBound = currLowerBound.plusMinutes(currExam
                     .getExamLength());
 
-            if ((lowerBound.isBefore(currLowerBound) && upperBound
-                    .isAfter(currLowerBound))
-                    || (currLowerBound.isBefore(lowerBound) && currUpperBound
-                            .isAfter(lowerBound)) || lowerBound.equals(currLowerBound)) {
+            if (!currExam.getId().equals(exam.getId())
+                    && ((lowerBound.isBefore(currLowerBound) && upperBound
+                            .isAfter(currLowerBound))
+                            || (currLowerBound.isBefore(lowerBound) && currUpperBound
+                                    .isAfter(lowerBound)) || lowerBound
+                                .equals(currLowerBound))) {
                 return false;
             }
         }
