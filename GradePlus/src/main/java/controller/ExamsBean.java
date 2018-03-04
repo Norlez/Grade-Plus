@@ -846,7 +846,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
         alreadyExists = !alreadyExists;
     }
 
-    public String printDateAsICS(List<Exam> examsOfStudent) {
+    /**
+     * Druck die Termine der übergebenen Liste von Exams im ICS Format.
+     * @param examsOfStudent Ist die Liste der Exams eines Studenten.
+     */
+    public void printDateAsICS(List<Exam> examsOfStudent) {  //Muss hier ein Parameter übergeben werden? Oder reicht es examsOfStudent von oben zu benutzen?
+
     StringBuilder date = new StringBuilder();
     date.append("BEGIN:VCALENDAR");
     date.append("\n");
@@ -898,8 +903,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         } catch (Exception ex) {
             System.out.println("Exceptiooooon: ICS EXPORT");
         }
-    }
-    return "exams.xhtml"; // Auf welcher Seite ist das??? Muss evtl in eine andere
+    }// Auf welcher Seite ist das??? Muss evtl in eine andere
                           // Bean verschoben werden
 }
 
