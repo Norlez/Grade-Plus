@@ -26,6 +26,11 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import static common.util.Assertion.assertNotNull;
 
 /**
@@ -841,7 +846,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         alreadyExists = !alreadyExists;
     }
 
-    public String printDateAsICS() {
+    public String printDateAsICS(List<Exam> examsOfStudent) {
     StringBuilder date = new StringBuilder();
     date.append("BEGIN:VCALENDAR");
     date.append("\n");
@@ -864,7 +869,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         date.append(e.datePlusExamLengthToString());
         date.append("\n");
         date.append("SUMMARY: Exam-Date for ");
-        date.append(e.getIlv().getLecture().getName());
+        date.append(e.getInstanceLecture().getLecture().getName());
         date.append("\n");
         date.append("END:VEVENT");
         date.append("\n");
@@ -891,7 +896,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
             if (bw != null)
                 bw.close();
         } catch (Exception ex) {
-            System.out.println("Exceptiooooon: ICS EXPORT„);
+            System.out.println("Exceptiooooon: ICS EXPORT");
         }
     }
     return "exams.xhtml"; // Auf welcher Seite ist das??? Muss evtl in eine andere
