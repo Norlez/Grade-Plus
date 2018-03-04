@@ -26,6 +26,11 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import static common.util.Assertion.assertNotNull;
 
 /**
@@ -114,6 +119,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private Map<Long, Boolean> checked;
 
     /**
+     * Falls eine Prüfung im gewählten Zeitraum bereits existiert, wird dieser Wert auf
+     * {@code true} gesetzt, und somit kann die Prüfung bei bedarf dennoch gespeichert
+     * werden.
+     */
+    private boolean alreadyExists;
+
+    /**
      * Erzeugt eine neue ExamsBean.
      *
      * @param pSession
@@ -140,11 +152,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        exam = exam == null ? new Exam() : new Exam(exam.getInstanceLecture());
+        exam = exam == null || exam.getInstanceLecture() == null ? new Exam() : new Exam(
+                exam.getInstanceLecture());
         startOfTimeSlot = null;
         endOfTimeSlot = null;
         lengthOfBreaks = null;
         checked = new HashMap<>();
+        alreadyExists = false;
     }
 
     /**
@@ -157,13 +171,19 @@ public class ExamsBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Setzt den ausgewählten Termin in der Bean.
+     * Setzt die aktuelle Prüfung auf den gegebenen Wert.
      *
      * @param pExam
-     *            Der vom Püfer ausgewählte Termin.
+     *            Die aktuelle Prüfung.
+     * @return "examedit.xhtml", um auf das Facelet der Bearbeitung einer Prüfung
+     *         weiterzuleiten.
      */
-    public void setExam(final Exam pExam) {
-        exam = assertNotNull(pExam, "ExamsBean: setExam(Exam)");
+    public String setExam(final Exam pExam) {
+        init();
+        exam = assertNotNull(pExam);
+        exam.getInstanceLecture().getExaminers()
+                .forEach(u -> checked.put(u.getId(), exam.getExaminers().contains(u)));
+        return "examedit.xhtml";
     }
 
     /**
@@ -194,8 +214,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Alle Prüfungen, in denen der angemeldete Benutzer Prüfer ist.
      */
     public List<Exam> getExamsForExaminer() {
-        return assertNotNull(examDao.getExamsForExaminer(getSession().getUser()),
-                "ExamsBean: getAllExams() -> examDao.getExamsForExaminer(getSession().getUser())");
+        return examDao.getAllExams().stream()
+                .filter(e -> e.getExaminers().contains(getSession().getUser()))
+                .collect(Collectors.toList());
+        // return assertNotNull(examDao.getExamsForExaminer(getSession().getUser()),
+        // "ExamsBean: getAllExams() -> examDao.getExamsForExaminer(getSession().getUser())");
     }
 
     /**
@@ -205,6 +228,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Die neue aktuell geählte ILV.
      */
     public String setInstanceLectureForExam(final InstanceLecture pInstanceLecture) {
+        init();
         exam.setInstanceLecture(assertNotNull(pInstanceLecture,
                 "ExamsBean: setInstanceLectureFotExam(InstanceLecture)"));
         return "examcreate.xhtml";
@@ -217,20 +241,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Die neue aktuell geählte ILV.
      */
     public String setInstanceLectureForExams(final InstanceLecture pInstanceLecture) {
+        init();
         exam.setInstanceLecture(assertNotNull(pInstanceLecture,
                 "ExamsBean: setInstanceLectureForExams(InstanceLecture)"));
         return "examscreate.xhtml";
-    }
-
-    /**
-     * Gibt alle Prüflinge der Prüfung als Liste zurück.
-     *
-     * @return Alle Prüflinge der Prüfung als Liste.
-     */
-    public List<User> getStudents(final Exam pExam) {
-        assertNotNull(pExam, "ExamsBean: getStudent(Exam)");
-        return pExam.getParticipants().stream().map(JoinExam::getPruefling)
-                .collect(Collectors.toList());
     }
 
     /**
@@ -243,7 +257,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String save() {
         if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                 .plusMinutes(exam.getExamLength()))) {
-            return null;
+            alreadyExists = !alreadyExists;
+            if (alreadyExists) {
+                return null;
+            }
         }
         List<User> examiners = checked.entrySet().stream().filter(Map.Entry::getValue)
                 .map(Map.Entry::getKey).map(userDao::getById)
@@ -286,19 +303,31 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
      */
     public String update() {
+        if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
+                .plusMinutes(exam.getExamLength()))) {
+            alreadyExists = !alreadyExists;
+            if (alreadyExists) {
+                return null;
+            }
+        }
         try {
             Exam oldExam = examDao.getById(exam.getId());
-            List<User> students = getStudents(oldExam);
+            List<User> students = oldExam.getStudents();
+            exam.setExaminers(checked.entrySet().stream().filter(Map.Entry::getValue)
+                    .map(Map.Entry::getKey).map(userDao::getById)
+                    .collect(Collectors.toList()));
             examDao.update(exam);
             String message = String
-                    .format("Die Daten des Prüfungstermins für %s am %s um %s Uhr, wurden angepasst.\n\nNeue Daten:\nDatum: %s\nUhrzeit: %s Uhr\nDauer: %i Minuten",
-                            oldExam.getInstanceLecture().getLecture().getName(), oldExam
-                                    .getLocalDateTime().toLocalDate().toString(), oldExam
-                                    .getLocalDateTime().toLocalTime().toString(), exam
-                                    .getLocalDateTime().toLocalDate().toString(), exam
-                                    .getLocalDateTime().toLocalTime().toString(),
+                    .format("Die Daten des Prüfungstermins für %s am %s um %s Uhr, wurden angepasst.\n\nNeue Daten:\nDatum: %s\nUhrzeit: %s Uhr\nDauer: %d Minuten",
+                            oldExam.getInstanceLecture().getLecture().getName(),
+                            oldExam.dateToString(), oldExam.timeToString(),
+                            exam.dateToString(), exam.timeToString(),
                             exam.getExamLength());
-            students.forEach(s -> notify(s, message));
+            if (!oldExam.getLocalDateTime().equals(exam.getLocalDateTime())
+                    || !oldExam.getExamLength().equals(exam.getExamLength())
+                    || !oldExam.getLocation().equals(exam.getLocation())) {
+                students.forEach(s -> notify(s, message));
+            }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInputdataIncomplete"));
@@ -335,7 +364,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
                         pExam.getInstanceLecture().getLecture().getName(), pExam
                                 .getLocalDateTime().toLocalDate().toString(), pExam
                                 .getLocalDateTime().toLocalTime().toString());
-        for (User student : getStudents(pExam)) {
+        for (User student : pExam.getStudents()) {
             List<JoinExam> joinExams = student.getParticipation();
             for (JoinExam joinExam : joinExams) {
                 if (joinExam.getExam() == pExam) {
@@ -366,7 +395,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         pExam.getInstanceLecture().removeExam(pExam);
         instanceLectureDao.update(pExam.getInstanceLecture());
         init();
-        return null;
+        return "exams.xhtml";
     }
 
     /**
@@ -528,7 +557,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging(new IllegalArgumentException(
                     "startOfTimeSlot, endOfTimeSlot or lengthOfBreaks is NULL."), logger,
                     Level.DEBUG, getTranslation("errorInputdataIncomplete"));
-            return "exams.xhtml";
         }
         conflictingExams = new ArrayList<>();
         exam.setLocalDateTime(startOfTimeSlot);
@@ -541,8 +569,14 @@ public class ExamsBean extends AbstractBean implements Serializable {
             if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                     .plusMinutes(exam.getExamLength()))) {
                 conflictingExams.add(exam);
-            } else {
-                save();
+            }
+            startOfTimeSlot = exam.getLocalDateTime();
+            boolean localAlreadyExists = alreadyExists;
+            save();
+            if (localAlreadyExists) {
+                alreadyExists = true;
+            } else if (alreadyExists) {
+                return null;
             }
             checked = theChecked;
             exam = new Exam(theExam);
@@ -687,11 +721,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     private void notify(final User pUser, final String pMessage) {
         MailBean sender = new MailBean(getSession());
-        sender.getMail().setTopic("Änderungen an einem Prüfungstermin");
-        sender.getMail().setContent(
-                assertNotNull(pMessage, "ExamsBean: notify(_, String)"));
-        sender.getMail().setRecipient(pUser.getEmail());
-        sender.sendSystemMail();
+        /*
+         * sender.getMail().setTopic("Änderungen an einem Prüfungstermin");
+         * sender.getMail().setContent( assertNotNull(pMessage,
+         * "ExamsBean: notify(_, String)")); sender.getMail().setRecipient(
+         * assertNotNull(pUser, "ExamsBean: notify(User, _)").getEmail());
+         * sender.sendSystemMail();
+         */
     }
 
     /**
@@ -714,14 +750,25 @@ public class ExamsBean extends AbstractBean implements Serializable {
             LocalDateTime currUpperBound = currLowerBound.plusMinutes(currExam
                     .getExamLength());
 
-            if ((lowerBound.isBefore(currLowerBound) && upperBound
-                    .isAfter(currLowerBound))
-                    || (currLowerBound.isBefore(lowerBound) && currUpperBound
-                            .isAfter(lowerBound)) || lowerBound.equals(currLowerBound)) {
+            if (!currExam.getId().equals(exam.getId())
+                    && ((lowerBound.isBefore(currLowerBound) && upperBound
+                            .isAfter(currLowerBound))
+                            || (currLowerBound.isBefore(lowerBound) && currUpperBound
+                                    .isAfter(lowerBound)) || lowerBound
+                                .equals(currLowerBound))) {
                 return false;
             }
         }
         return true;
+    }
+
+    public String releaseExam(final Exam pExam) {
+        assertNotNull(pExam).setReleased(true);
+        Exam theExam = exam;
+        exam = pExam;
+        update();
+        exam = theExam;
+        return "exams.xhtml";
     }
 
     /**
@@ -740,6 +787,15 @@ public class ExamsBean extends AbstractBean implements Serializable {
         }
     }
 
+    public String closeExam(final Exam pExam) {
+        assertNotNull(pExam).setReleased(false);
+        Exam theExam = exam;
+        exam = pExam;
+        update();
+        exam = theExam;
+        return "exams.xhtml";
+    }
+
     /**
      * Setzt eine oder mehrere Exams auf den Status geschlossen für die Prüflinge.
      *
@@ -755,5 +811,100 @@ public class ExamsBean extends AbstractBean implements Serializable {
             }
         }
     }
+
+    /**
+     * Gibt alle Prüfer der gegebenen Prüfung formatiert als String zurück.
+     *
+     * @param pExam
+     *            Die gewählte Prüfung.
+     * @return Alle Prüfer der gegebenen Prüfung formatiert als String.
+     */
+    public List<String> examinersToStringList(final Exam pExam) {
+        return assertNotNull(pExam).getExaminers().stream()
+                .map(e -> e.getGivenName() + " " + e.getSurname())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gibt alle Prüfer der ILV der gewählten Prüfung zurück ohne den angemeldeten
+     * Benutzer, da dieser immer automatisch Prüfer wird.
+     *
+     * @return Alle Prüfer der ILV der gewählten Prüfung zurück ohne den angemeldeten
+     *         Benutzer.
+     */
+    public List<User> getPossibleExaminersWithoutUser() {
+        return exam.getInstanceLecture().getExaminers().stream()
+                .filter(u -> !u.equals(getSession().getUser()))
+                .collect(Collectors.toList());
+    }
+
+    public boolean getAlreadyExists() {
+        return alreadyExists;
+    }
+
+    public void setAlreadyExists() {
+        alreadyExists = !alreadyExists;
+    }
+
+    /**
+     * Druck die Termine der übergebenen Liste von Exams im ICS Format.
+     * @param examsOfStudent Ist die Liste der Exams eines Studenten.
+     */
+    public void printDateAsICS(List<Exam> examsOfStudent) {  //Muss hier ein Parameter übergeben werden? Oder reicht es examsOfStudent von oben zu benutzen?
+
+    StringBuilder date = new StringBuilder();
+    date.append("BEGIN:VCALENDAR");
+    date.append("\n");
+    date.append("VERSION:2.0");
+    date.append("\n");
+    date.append("PRODID:");
+    date.append("gradeplus/exams"); // ID
+    date.append("\n");
+
+    for (Exam e : examsOfStudent) {
+        date.append("BEGIN:VEVENT");
+        date.append("\n");
+        date.append("UID:");
+        date.append("Exam" + e.getId()); // UID
+        date.append("\n");
+        date.append("DTSTART:");
+        date.append(e.examDateToString());
+        date.append("\n");
+        date.append("DTEND:");
+        date.append(e.datePlusExamLengthToString());
+        date.append("\n");
+        date.append("SUMMARY: Exam-Date for ");
+        date.append(e.getInstanceLecture().getLecture().getName());
+        date.append("\n");
+        date.append("END:VEVENT");
+        date.append("\n");
+    }
+
+    date.append("END:VCALENDAR");
+
+    String name = new String("Exam-Dates");
+
+    BufferedWriter bw = null;
+
+    try {
+        File file = new File("/Exam-Dates.ics");
+
+        FileWriter fw = new FileWriter(file);
+        bw = new BufferedWriter(fw);
+        bw.write("" + date);
+        System.out.println("New File added");
+
+    } catch (IOException ioe) {
+        ioe.printStackTrace();
+    } finally {
+        try {
+            if (bw != null)
+                bw.close();
+        } catch (Exception ex) {
+            System.out.println("Exceptiooooon: ICS EXPORT");
+        }
+    }// Auf welcher Seite ist das??? Muss evtl in eine andere
+                          // Bean verschoben werden
+}
 
 }

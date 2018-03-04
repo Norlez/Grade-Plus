@@ -6,68 +6,156 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui" xmlns:h="http://xmlns.jcp.org/jsf/html"
       xml:lang="en" lang="en">
 <head>
-    <!-- Seite zum Erstellen einer neuen Pruefung fuer eine Instanz der LV -->
+    <!-- Seite zum Bearbeiten einer Prüfung einer ILV -->
     <title>Title</title>
 </head>
 <body>
 <ui:composition template="WEB-INF/template.xhtml">
-    <ui:param name="title" value="#{msg['titleExamCreate']}"/>
+    <ui:param name="title" value="#{msg['title']}"/>
 
     <ui:define name="content">
-        <f:loadBundle basename="internationalization.exams" var="msg" />
+        <f:loadBundle basename="internationalization.examedit" var="msg"/>
 
         <b:form>
             <b:container class="form-group">
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
                         <h1>
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name}" />
+                            <h:outputText value="#{msg['subtitle']}"/>
                         </h1>
                     </b:column>
                 </b:row>
+
+                <!-- INFORMATIONEN DER ILV -->
                 <b:row>
                     <b:column span="4">
                         <h2>
-                            <h:outputText value="#{msg['outputEditExam']}"/>
+                            <h:outputText value="#{msg['outputInstanceLecture']}"/>
                         </h2>
                     </b:column>
                 </b:row>
 
-                <b:row class="space50px"/>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputName']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{examsBean.exam.instanceLecture.lecture.name}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputVak']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{examsBean.exam.instanceLecture.lecture.vak}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputSemester']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{examsBean.exam.instanceLecture.semesterToString()}"/>
+                    </b:column>
+                </b:row>
+
+                <!-- INFORMATIONEN DER PRÜFUNG -->
+                <b:row class="space25px"/>
+                <b:row>
+                    <b:column span="4">
+                        <h2>
+                            <h:outputText value="#{msg['outputExamdata']}"/>
+                        </h2>
+                    </b:column>
+                </b:row>
+
                 <b:formGroup rendered="#{true}">
-                    <!-- DATE -->
+
+                    <!-- TYPE -->
                     <b:row>
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputDate']}"/>
+                        <b:column span="4" offset="2">
+                            <b:message for="type"/>
                         </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
                         <b:column span="2">
-                            <b:datepicker id="date" mode="popup" value="#{msg['inputSelectDate']}"/>
+                            <h:outputLabel value="#{msg['outputType']}"/>
                         </b:column>
-                        <b:column span="2">
-                            <b:message for="date"/>
+                        <b:column span="4">
+                            <b:inputText placeholder="#{msg['inputType']}"
+                                         id="type"
+                                         value="#{examsBean.exam.type}"
+                                         required="true"
+                                         requiredMessage="#{msg['errorTypeRequired']}"/>
                         </b:column>
                     </b:row>
 
-                    <!-- EXAMINER -->
+                    <!-- DATE TIME PICKER -->
+                    <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="dateTime"/>
+                        </b:column>
+                    </b:row>
                     <b:row class="btn-paragraph">
                         <b:column span="2">
-                            <h:outputLabel value="#{msg['inputExaminer']}"/>
+                            <h:outputLabel value="#{msg['outputDateTime']}"/>
                         </b:column>
-                        <b:column span="2">
-                            <b:form horizontal="true">
-                                <b:inputText value="" placeholder="#{msg['inputExaminer']}" typeahead="true" typeahead-values="#{usersBean.allUsers}"/>
-                            </b:form>
+                        <b:column span="4">
+                            <b:dateTimePicker placeholder="#{msg['inputDateTime']}"
+                                              id="dateTime"
+                                              value="#{examsBean.localDateTime}"
+                                              format="DD.MM.YYYY HH:mm"
+                                              required="true"
+                                              requiredMessage="#{msg['errorDateTimeRequired']}"/>
                         </b:column>
+                    </b:row>
+
+                    <!-- EXAM LENGTH -->
+                    <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="examLength"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
                         <b:column span="2">
-                            <b:commandButton value="#{msg['actionSearch']}"/>
+                            <h:outputLabel value="#{msg['outputExamLength']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <b:inputText mask="integer"
+                                         placeholder="#{msg['inputExamLength']}"
+                                         id="examLength"
+                                         value="#{examsBean.exam.examLength}"
+                                         required="true"
+                                         requiredMessage="#{msg['errorExamLengthRequired']}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- LOCATION -->
+                    <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="location"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['inputLocation']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <b:inputText placeholder="#{msg['outputLocation']}"
+                                         id="location"
+                                         value="#{examsBean.exam.location}"/>
                         </b:column>
                     </b:row>
 
                     <!-- EXAMINER PANEL -->
                     <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputSelectExaminers']}"/>
+                        </b:column>
                         <b:column span="7">
-                            <b:panel>
-                                <b:dataTable value="#{usersBean.allStudentsAndExaminer}" var="e"
+                            <b:panel rendered="#{!empty examsBean.getPossibleExaminersWithoutUser()}">
+                                <b:dataTable value="#{examsBean.getPossibleExaminersWithoutUser()}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -75,60 +163,43 @@
                                              copy="false"
                                              print="false">
 
-                                    <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{e.givenName}"/>
-                                    <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}"/>
-                                    <b:dataTableColumn label="#{msg['actionChoose']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionChoose']}"/>
+                                    <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
+                                    <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                                    <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
+                                        <h:selectBooleanCheckbox value="#{examsBean.checked[u.id]}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>
-                        </b:column>
-                    </b:row>
-
-                    <!-- TIME -->
-                    <b:row class="btn-paragraph">
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputTime']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:dateTimePicker value="08:00" format="HH:mm" mode="popup" />
-                        </b:column>
-                    </b:row>
-
-                    <!-- DURATION -->
-                    <b:row class="btn-paragraph">
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputDuration']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:inputText mask="integer" value="" />
-                        </b:column>
-                    </b:row>
-
-                    <!-- SINGLE OR GROUPE -->
-                    <b:row class="btn-paragraph">
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputGroup']}"/>
-                        </b:column>
-                        <b:column span="2">
-                            <b:radiobutton value="#{examsBean.loggedIn}">
-                                <f:selectItem itemValue="false"   itemLabel="#{msg['outputNo']}" />
-                                <f:selectItem itemValue="true" itemLabel="#{msg['outputYes']}" />
-                            </b:radiobutton>
+                            <h:outputLabel rendered="#{empty examsBean.getPossibleExaminersWithoutUser()}"
+                                           value="#{msg['outputNoExaminers']}"/>
                         </b:column>
                     </b:row>
 
                     <b:row class="space50px"/>
-                    <!-- BUTTON SAVE CANCEL -->
+
+                    <!-- SAVE AND CANCEL -->
                     <b:row class="btn-paragraph">
-                        <b:column span="1">
-                            <b:commandButton value="#{msg['actionSave']}"/>
+                        <b:column span="8" rendered="#{examsBean.getAlreadyExists()}">
+                            <h:outputLabel value="#{msg['outputContinue']}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="1" rendered="#{!examsBean.getAlreadyExists()}">
+                            <b:commandButton id="create"
+                                             value="#{msg['actionSave']}"
+                                             action="#{examsBean.update}"/>
+                        </b:column>
+                        <b:column span="1" rendered="#{examsBean.getAlreadyExists()}">
+                            <b:commandButton id="continue"
+                                             value="#{msg['actionContinue']}"
+                                             action="#{examsBean.update}"/>
                         </b:column>
                         <b:column span="1">
-                            <b:button value="#{msg['linkBack']}" outcome="examcreate"/>
+                            <b:button value="#{msg['linkCancel']}" outcome="exams"/>
                         </b:column>
                     </b:row>
                 </b:formGroup>
+
             </b:container>
         </b:form>
 

@@ -118,5 +118,4 @@ public class FileBean extends AbstractBean implements Serializable {
         }
         return "users.xhtml";
     }
-
 }

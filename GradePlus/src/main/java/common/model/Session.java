@@ -89,6 +89,20 @@ public class Session implements Serializable {
      */
     private InstanceLecture selectedILV;
 
+
+    public String getTmpPassword() {
+        return tmpPassword;
+    }
+
+    public void setTmpPassword(String tmpPassword) {
+        this.tmpPassword = tmpPassword;
+    }
+
+    /**
+     * temporäres Passwort.
+     */
+    private String tmpPassword;
+
     /**
      * Die Id des innerhalb dieser Session eingeloggten {@link User}s. Falls in dieser
      * Session noch niemand eingeloggt ist, ist der Wert {@code null}.

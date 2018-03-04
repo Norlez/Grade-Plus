@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import com.sun.xml.internal.bind.v2.TODO;
 import common.util.Assertion;
@@ -92,7 +93,7 @@ public class Exam extends JPAEntity {
      * Der Freigabestatus eines Prüfungstermins.
      */
     @Column
-    private boolean isReleased = false;
+    private boolean isReleased;
 
     /**
      * Erzeugt ein neues {@link Exam}-Objekt mit leeren Daten.
@@ -205,6 +206,16 @@ public class Exam extends JPAEntity {
     }
 
     /**
+     * Gibt alle Prüflinge der Prüfung zurück.
+     *
+     * @return Alle Prüflinge der Prüfung.
+     */
+    public List<User> getStudents() {
+        return participants.stream().map(JoinExam::getPruefling)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Entfernt die gegebene JoinExam aus der Prüfung.
      *
      * @param pParticipant
@@ -231,10 +242,9 @@ public class Exam extends JPAEntity {
      *            Der zur Prüfung als Prüfer einzutragende Benutzer.
      */
     public void addExaminer(final User pExaminer) {
-        if (examiners.contains(assertNotNull(pExaminer, "Exam: addExaminer(User)"))) {
-            return;
+        if (!examiners.contains(assertNotNull(pExaminer, "Exam: addExaminer(User)"))) {
+            examiners.add(pExaminer);
         }
-        examiners.add(pExaminer);
     }
 
     /**
@@ -354,34 +364,73 @@ public class Exam extends JPAEntity {
     }
 
     /**
-     * Setzt den Freigabestatus eines Termins.
+     * Setzt den Freigabestatus der Prüfung auf den gegebenen Wert..
      * 
-     * @param released
+     * @param pReleased
+     *            Der neue Freigabestatus der Prüfung.
      */
-    public void setReleased(boolean released) {
-        isReleased = released;
+    public void setReleased(final Boolean pReleased) {
+        isReleased = assertNotNull(pReleased);
     }
 
     /**
-     * Gibt den Freigabestatus zurück.
+     * Gibt den Freigabestatus der Prüfung zurück.
      * 
-     * @return true, falls der Termin freigegeben wurde.
+     * @return {@code true}, falls die Prüfung freigegeben ist, sonst {@code false}.
      */
-    public boolean isReleased() {
+    public boolean getReleased() {
         return isReleased;
+    }
+
+    /**
+     * Gibt das Datum als String zurück.
+     *
+     * @return Das Datum als String.
+     */
+    public String dateToString() {
+        return localDateTime
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    }
+
+    /**
+     * Gibt die Uhrzeit als String zurück.
+     *
+     * @return Die Uhrzeit als String.
+     */
+    public String timeToString() {
+        return localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT));
     }
 
     @Override
     public String toString() {
-        return String.format("Exam: ID: %d, Lecture: %s, Time: %s, Length: %d", getId(),
-                instanceLecture.getLecture().getName(), localDateTime
+        return String.format(
+                "Exam: ID: %d, Lecture: %s, Time: %s, Length: %d, Freigegeben: %b",
+                getId(), instanceLecture.getLecture().getName(), localDateTime
                         .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,
-                                FormatStyle.SHORT)), examLength);
+                                FormatStyle.SHORT)), examLength, isReleased);
     }
 
     public String toCSV() {
         return String.format("%d; %s; %d; %s; %b, %s, %s, %s", getId(), comment,
                 examLength, examRegulations, isReleased, localDateTime, type,
                 instanceLecture);
+    }
+
+    public String examDateToString() {
+        String date = dateToString(localDateTime);
+        return date;
+    }
+
+    public String datePlusExamLengthToString() {
+        LocalDateTime ldtNew = getLocalDateTime().plusMinutes(getExamLength());
+        String date = dateToString(ldtNew);
+        return date;
+    }
+
+    private String dateToString(LocalDateTime localDateTime) {
+        String date = new String("" + localDateTime.getYear() + localDateTime.getMonth()
+                + localDateTime.getDayOfMonth() + "T" + localDateTime.getHour()
+                + localDateTime.getMinute() + localDateTime.getSecond() + "Z");
+        return date;
     }
 }
