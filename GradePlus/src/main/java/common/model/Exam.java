@@ -415,4 +415,22 @@ public class Exam extends JPAEntity {
                 examLength, examRegulations, isReleased, localDateTime, type,
                 instanceLecture);
     }
+
+    public String examDateToString() {
+        String date = dateToString(localDateTime);
+        return date;
+    }
+
+    public String datePlusExamLengthToString() {
+        LocalDateTime ldtNew = getLocalDateTime().plusMinutes(getExamLength());
+        String date = dateToString(ldtNew);
+        return date;
+    }
+
+    private String dateToString(LocalDateTime localDateTime) {
+        String date = new String("" + localDateTime.getYear() + localDateTime.getMonth()
+                + localDateTime.getDayOfMonth() + "T" + localDateTime.getHour()
+                + localDateTime.getMinute() + localDateTime.getSecond() + "Z");
+        return date;
+    }
 }
