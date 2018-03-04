@@ -4,6 +4,7 @@ import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.InstanceLecture;
+import common.model.Lecture;
 import common.model.Session;
 import common.model.User;
 import org.apache.log4j.Level;
@@ -192,4 +193,8 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .collect(Collectors.toList());
     }
 
+    public List<InstanceLecture> getAllInstances(Lecture pLecture)
+    {
+        return instanceLectureDao.getInstanceLecturesForLecture(pLecture);
+    }
 }
