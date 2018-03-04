@@ -50,22 +50,10 @@
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
-                            <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
-                                <b:commandButton rendered="#{!e.getReleased()}"
-                                                 value="#{msg['actionRelease']}"
-                                                 action="#{examsBean.releaseExam(e)}"/>
-                                <b:commandButton rendered="#{e.getReleased()}"
-                                                 value="#{msg['actionClose']}"
-                                                 action="#{examsBean.closeExam(e)}"/>
-                            </b:dataTableColumn>
-
                             <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
                                 <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.setExam(e)}"/>
                             </b:dataTableColumn>
 
-                            <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                <b:commandButton value="#{msg['actionRemove']}" action="#{examsBean.remove(e)}"/>
-                            </b:dataTableColumn>
                         </b:dataTable>
                         <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
                                        value="#{msg['outputNoExams']}"/>
