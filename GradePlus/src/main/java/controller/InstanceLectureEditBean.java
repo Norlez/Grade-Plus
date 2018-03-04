@@ -1,5 +1,7 @@
 package controller;
 
+import common.exception.DuplicateEmailException;
+import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.InstanceLecture;
 import common.model.Session;
@@ -130,31 +132,57 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return "semester.xhtml";
     }
 
+    /**
+     * Ist für das Updaten der Studenten und Profs erforderlich.
+     * @param pUser
+     */
+    public void update(User pUser)
+    {
+        try{
+            userDao.update(pUser);
+            instanceLectureDao.update(instanceLecture);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorInputdataIncomplete"));
+        } catch (UnexpectedUniqueViolationException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("someError"));
+        } catch (DuplicateUsernameException e) {
+            e.printStackTrace();
+        } catch (DuplicateEmailException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String addExaminer(final User pExaminer) {
         instanceLecture.addExaminer(assertNotNull(pExaminer,
                 "InstanceLectureEditBean: addExaminer(User)"));
-        update();
+        pExaminer.addAsProfToIlv(instanceLecture);
+        update(pExaminer);
         return "exams.xhtml";
     }
 
     public String removeExaminer(final User pExaminer) {
         instanceLecture.removeExaminer(assertNotNull(pExaminer,
                 "InstanceLectureEditBean: removeExaminer(User)"));
-        update();
+        pExaminer.removeProfFromIlv(instanceLecture);
+        update(pExaminer);
         return "exams.xhtml";
     }
 
     public String addStudent(final User pStudent) {
         instanceLecture.addExaminee(assertNotNull(pStudent,
                 "InstanceLectureEditBean: addStudent(User)"));
-        update();
+        pStudent.addAsStudentToIlv(instanceLecture);
+        update(pStudent);
         return "exams.xhtml";
     }
 
     public String removeStudent(final User pStudent) {
         instanceLecture.removeExaminee(assertNotNull(pStudent,
                 "InstanceLectureEditBean: removeStudent(User)"));
-        update();
+        pStudent.removeStudentFromIlv(instanceLecture);
+        update(pStudent);
         return "exams.xhtml";
     }
 
