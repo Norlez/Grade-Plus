@@ -50,9 +50,8 @@ import javax.inject.Named;
 import businesslogic.Math;
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
-import common.model.Role;
-import common.model.Session;
-import common.model.User;
+import common.model.*;
+import persistence.JoinExamDAO;
 import persistence.UserDAO;
 import common.util.Assertion;
 import org.apache.log4j.Level;
@@ -118,6 +117,8 @@ public class ProfileBean extends AbstractBean implements Serializable {
      */
     private boolean editChecker = false;
 
+    private final JoinExamDAO joinExamDAO;
+
     /**
      * Erzeugt eine neue ProfileBean.
      *
@@ -129,11 +130,12 @@ public class ProfileBean extends AbstractBean implements Serializable {
      *             Falls {@code pSession} oder {@code pUserDAO} {@code null} ist.
      */
     @Inject
-    public ProfileBean(final Session pSession, final UserDAO pUserDAO) {
+    public ProfileBean(final Session pSession, final UserDAO pUserDAO, final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         userDao = Assertion.assertNotNull(pUserDAO);
         thisUser = getSession().getUser();
         roles = Math.calculateRoleMap();
+        joinExamDAO = pJoinExamDAO;
     }
 
     /**
@@ -283,5 +285,19 @@ public class ProfileBean extends AbstractBean implements Serializable {
     }
 
 
+    public List<Exam> getExamForStudent()
+    {
+       List<JoinExam> je = joinExamDAO.getJoinExamsForUser(thisUser);
+       if(je == null)
+       {
+           return null;
+       }
+       ArrayList<Exam> e = new ArrayList<Exam>();
+       for(JoinExam j: je )
+       {
+           e.add(j.getExam());
+       }
+       return e;
+    }
 }
 

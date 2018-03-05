@@ -55,6 +55,9 @@
                         <b:column>
                             <b:button value="!!certificate!!" outcome="printprotocol"/>
                         </b:column>
+                        <b:column>
+                            <b:commandButton value="#{msg['ICS']}" action="#{examsBean.printDateAsICS(profileBean.examForStudent)}" />
+                        </b:column>
                     </b:row>
 
                     <b:row class="space50px"/>
