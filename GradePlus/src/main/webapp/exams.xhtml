@@ -7,7 +7,7 @@
       xml:lang="en" lang="en">
 <head>
     <!-- Anzeige fuer Pruefer der Pruefungs* und Termindaten als Liste mit Optionsbutton -->
-    <title>Title</title>
+    <title>#{msg['title']}</title>
 </head>
 <body>
 <ui:composition template="WEB-INF/template.xhtml">
@@ -18,13 +18,6 @@
 
         <b:form>
             <b:container class="form-group">
-                <b:row>
-                    <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                        <h1>
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name} #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
-                        </h1>
-                    </b:column>
-                </b:row>
 
                 <!-- INFORMATIONEN DER ILV -->
                 <b:row>

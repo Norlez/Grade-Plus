@@ -20,48 +20,37 @@
             <b:form>
                 <b:container class="form-group">
 
-                    <!-- TITLE -->
-                    <b:row>
-                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                            <h1>
-                                <h:outputText value="#{lectureEditBean.selectedLecture.name}" />
-                            </h1>
-                        </b:column>
-                    </b:row>
-
-                    <!-- SUBTITLE -->
+                    <!-- INFORMATIONEN DER ILV -->
                     <b:row>
                         <b:column span="4">
                             <h2>
-                                <h:outputText value="#{msg['subtitleGeneralInformations']}" />
+                                <h:outputText value="#{msg['outputLecture']}"/>
                             </h2>
                         </b:column>
                     </b:row>
 
-                    <!-- VAK -->
                     <b:row>
-                        <b:column span="1">
-                            <h:outputLabel value="#{msg['outputVAK']}" />
-                        </b:column>
                         <b:column span="2">
-                            <h:outputText value="#{lecturesBean.lecture.vak}" />
+                            <h:outputLabel value="#{msg['outputName']}"/>
                         </b:column>
-                    </b:row>
-
-                    <!-- ECTS -->
-                    <b:row>
-                        <b:column span="1">
-                            <h:outputLabel value="#{msg['outputECTS']}" />
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText value="#{lecturesBean.lecture.ects}" />
-                        </b:column>
-                    </b:row>
-
-                    <!-- DESCRIPTION -->
-                    <b:row>
                         <b:column span="4">
-                            <h:outputText value="#{lecturesBean.lecture.description}" />
+                            <h:outputText value="#{instanceLecturesBean.selectedLecture.name}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputVak']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLecturesBean.selectedLecture.vak}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row rendered="#{! empty instanceLecturesBean.selectedLecture.description}">
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputDescription']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLecturesBean.selectedLecture.description}"/>
                         </b:column>
                     </b:row>
 
@@ -81,7 +70,7 @@
                     <b:row class="space50px" />
                     <b:row>
                         <b:column span="12">
-                            <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecturesForLecture}" var="l"
+                            <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecturesForExaminerForLecture}" var="l"
                                          excel="false"
                                          csv="false"
                                          pdf="false"
