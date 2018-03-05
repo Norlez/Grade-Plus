@@ -8,6 +8,7 @@ import jdk.nashorn.internal.scripts.JO;
 import javax.ejb.Stateless;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import static common.util.Assertion.assertNotEmpty;
@@ -72,5 +73,21 @@ public class JoinExamDAO extends JPADAO<JoinExam> implements Serializable {
                 .createNamedQuery("JoinExam.getJoinExamsForUser", getClazz())
                 .setParameter("pruefling", pUser).getResultList();
         return joinExams.isEmpty() ? null :joinExams;
+    }
+
+    public List<JoinExam> getNonExmptyJoinExamsForUser(User pUser)
+    {
+        assertNotNull(pUser);
+        List<JoinExam> l = getJoinExamsForUser(pUser);
+        List<JoinExam> tmp = new ArrayList<JoinExam>();
+        for(JoinExam exam: l)
+        {
+            if(exam.getExam() != null)
+            {
+                tmp.add(exam);
+            }
+        }
+        return tmp;
+
     }
 }
