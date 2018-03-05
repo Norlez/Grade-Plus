@@ -163,8 +163,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     public String addExaminer(final User pExaminer) {
-        instanceLecture.addExaminer(assertNotNull(pExaminer,
-                "InstanceLectureEditBean: addExaminer(User)"));
+        assertNotNull(pExaminer, "InstanceLectureEditBean: addExaminer(User)");
+        if (instanceLecture.getExaminees().contains(pExaminer)) {
+            addErrorMessage("errorUserIsStudentInInstanceLecture");
+            return "exams.xhtml";
+        }
+        instanceLecture.addExaminer(pExaminer);
         pExaminer.addAsProfToIlv(instanceLecture);
         update(pExaminer);
         update();
@@ -187,8 +191,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     public String addStudent(final User pStudent) {
-        instanceLecture.addExaminee(assertNotNull(pStudent,
-                "InstanceLectureEditBean: addStudent(User)"));
+        assertNotNull(pStudent, "InstanceLectureEditBean: addStudent(User)");
+        if (instanceLecture.getExaminers().contains(pStudent)) {
+            addErrorMessage("errorUserIsExaminerInInstanceLecture");
+            return "exams.xhtml";
+        }
+        instanceLecture.addExaminee(pStudent);
         pStudent.addAsStudentToIlv(instanceLecture);
         JoinExam joinExam = new JoinExam();
         joinExam.setPruefling(pStudent);
@@ -221,7 +229,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         List<JoinExam> tmp = joinExamDAO.getNonExmptyJoinExamsForUser(pUser);
         if (tmp != null) {
             for (JoinExam l : tmp) {
-                if(l.getExam() != null) {
+                if (l.getExam() != null) {
                     exam.add(l.getExam());
                 }
             }
