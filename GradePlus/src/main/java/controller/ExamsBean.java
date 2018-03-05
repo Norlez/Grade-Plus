@@ -410,26 +410,17 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String registerAsStudent(final Exam pExam) {
         assertNotNull(pExam, "ExamsBean: registerAsStudent(Exam)");
         User user = getSession().getUser();
-        if (!user.getAsStudent().contains(exam.getInstanceLecture())) {
-            return "exams.xhtml";
-        }
+      //  if (!user.getAsStudent().contains(exam.getInstanceLecture())) {
+      //      return "examregister.xhtml";
+      //  }
         JoinExam joinExam = new JoinExam();
         joinExam.setExam(pExam);
         joinExam.setPruefling(user);
         joinExam.setKind(Anmeldeart.SELBER);
+        joinExamDao.save(joinExam);
         pExam.addParticipant(joinExam);
-        try {
-            userDao.update(user);
-            joinExamDao.save(joinExam);
-            examDao.update(pExam);
-        } catch (final DuplicateUsernameException e) {
-            addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
-        } catch (final DuplicateEmailException e) {
-            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse", user.getEmail());
-        }
-        return "exams.xhtml";
+        examDao.update(pExam);
+        return "examregister.xhtml";
     }
 
     /**

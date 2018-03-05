@@ -81,7 +81,7 @@
                     <b:row class="space50px" />
                     <b:row rendered="#{true}">
                         <b:column span="12">
-                            <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecturesForLecture}" var="l"
+                            <b:dataTable span="8" value="#{instanceLectureEditBean.getAllInstances(instanceLectureEditBean.instanceLecture.lecture)}" var="l"
                                          excel="false"
                                          csv="false"
                                          pdf="false"
