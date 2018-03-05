@@ -20,7 +20,7 @@ import java.util.List;
 })
 public class JoinExam extends JPAEntity {
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private Exam exam;
 
     @ManyToOne

@@ -3,13 +3,11 @@ package controller;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
-import common.model.InstanceLecture;
-import common.model.Lecture;
-import common.model.Session;
-import common.model.User;
+import common.model.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import persistence.InstanceLectureDAO;
+import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.enterprise.context.SessionScoped;
@@ -59,6 +57,8 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     private boolean editChecker = false;
 
+    private JoinExamDAO joinExamDAO;
+
     /**
      * Erzeugt eine neue InstanceLectureEditBean.
      *
@@ -72,10 +72,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     @Inject
     public InstanceLectureEditBean(final Session pSession,
-            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
+                                   final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao, final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
+        joinExamDAO = assertNotNull(pJoinExamDAO);
     }
 
     /**
@@ -175,6 +176,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         instanceLecture.addExaminee(assertNotNull(pStudent,
                 "InstanceLectureEditBean: addStudent(User)"));
         pStudent.addAsStudentToIlv(instanceLecture);
+        JoinExam joinExam = new JoinExam();
+        joinExam.setPruefling(pStudent);
+        joinExam.setKind(Anmeldeart.LISTE);
+        joinExamDAO.save(joinExam);
         update(pStudent);
         return "exams.xhtml";
     }
