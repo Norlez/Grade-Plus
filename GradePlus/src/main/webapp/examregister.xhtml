@@ -51,7 +51,7 @@
                             <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
                             <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
-                                <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.setExam(e)}"/>
+                                <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.registerAsStudent(e)}"/>
                             </b:dataTableColumn>
 
                         </b:dataTable>
