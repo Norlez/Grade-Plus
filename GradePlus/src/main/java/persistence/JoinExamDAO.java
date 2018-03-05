@@ -79,6 +79,10 @@ public class JoinExamDAO extends JPADAO<JoinExam> implements Serializable {
     {
         assertNotNull(pUser);
         List<JoinExam> l = getJoinExamsForUser(pUser);
+        if(l == null)
+        {
+            return null;
+        }
         List<JoinExam> tmp = new ArrayList<JoinExam>();
         for(JoinExam exam: l)
         {

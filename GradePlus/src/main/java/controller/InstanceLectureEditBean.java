@@ -210,11 +210,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     public List<Exam> getExams(User pUser)
     {
-        List<JoinExam> tmp = joinExamDAO.getNonExmptyJoinExamsForUser(pUser);
         List<Exam> exam = new ArrayList<Exam>();
-        for(JoinExam l : tmp)
-        {
-            exam.add(l.getExam());
+        List<JoinExam> tmp = joinExamDAO.getNonExmptyJoinExamsForUser(pUser);
+        if(tmp != null) {
+            for (JoinExam l : tmp) {
+                exam.add(l.getExam());
+            }
         }
         return exam;
     }
