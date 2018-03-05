@@ -6,6 +6,7 @@ import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import persistence.ExamDAO;
 import persistence.InstanceLectureDAO;
 import persistence.JoinExamDAO;
 import persistence.UserDAO;
@@ -14,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,8 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     private final UserDAO userDao;
 
+    private final ExamDAO examDAO;
+
     /**
      * Die aktuell zu bearbeitende ILV.
      */
@@ -71,12 +75,13 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      *             sind.
      */
     @Inject
-    public InstanceLectureEditBean(final Session pSession,
+    public InstanceLectureEditBean(final Session pSession,final ExamDAO pExamDao,
                                    final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao, final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
         joinExamDAO = assertNotNull(pJoinExamDAO);
+        examDAO = assertNotNull(pExamDao);
     }
 
     /**
@@ -201,5 +206,33 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     public List<InstanceLecture> getAllInstances(Lecture pLecture)
     {
         return instanceLectureDao.getInstanceLecturesForLecture(pLecture);
+    }
+
+    public List<Exam> getExams(User pUser)
+    {
+        List<Exam> exam = new ArrayList<Exam>();
+        List<JoinExam> tmp = joinExamDAO.getNonExmptyJoinExamsForUser(pUser);
+        if(tmp != null) {
+            for (JoinExam l : tmp) {
+                if(l.getExam() != null) {
+                    exam.add(l.getExam());
+                }
+            }
+        }
+        return exam;
+    }
+
+    public  List<Exam> getReleasedExams() {
+        List<Exam> tmp = examDAO.getExamsForInstanceLecture(instanceLecture);
+        List<Exam> examList = new ArrayList<Exam>();
+        if(!tmp.isEmpty())
+        for(Exam e: tmp)
+        {
+            if(e.getReleased() == true)
+            {
+                examList.add(e);
+            }
+        }
+        return examList;
     }
 }

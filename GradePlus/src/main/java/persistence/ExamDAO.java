@@ -103,5 +103,4 @@ public class ExamDAO extends JPADAO<Exam> implements Serializable {
         return getEm().createNamedQuery("Exam.findByStudent", getClazz())
                 .setParameter("student", pStudent).getResultList();
     }
-
 }

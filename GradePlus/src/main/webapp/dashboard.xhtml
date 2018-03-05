@@ -55,6 +55,9 @@
                         <b:column>
                             <b:button value="!!certificate!!" outcome="printprotocol"/>
                         </b:column>
+                        <b:column>
+                            <b:commandButton value="#{msg['ICS']}" action="#{examsBean.printDateAsICS(profileBean.examForStudent)}" />
+                        </b:column>
                     </b:row>
 
                     <b:row class="space50px"/>
@@ -82,6 +85,51 @@
 
                 </b:container>
             </b:form>
+
+                <b:form>
+                    <b:container class="form-group">
+                        <b:row class="btn-paragraph">
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleExams']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row class="btn-paragraph">
+                            <b:column span="12">
+                                <b:dataTable span="8"
+                                             value="#{instanceLectureEditBean.getExams(profileBean.thisUser)}"
+                                             var="e"
+                                             excel="true"
+                                             csv="true"
+                                             pdf="false"
+                                             columnVisibility="false"
+                                             copy="false"
+                                             print="false">
+                                    <b:dataTableColumn label="#{msg['outputId']}" value="#{e.id}"/>
+                                    <b:dataTableColumn label="#{msg['outputType']}" value="#{e.type}"/>
+                                    <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
+                                    <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
+                                    <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}"/>
+                                    <b:dataTableColumn label="#{msg['outputExaminer']}">
+                                        <b:selectOneMenu value="#{msg['outputExaminer']}">
+                                            <f:selectItems value="#{examsBean.examinersToStringList(e)}"/>
+                                        </b:selectOneMenu>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
+
+                                    <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.registerAsStudent(e)}"/>
+                                    </b:dataTableColumn>
+
+                                </b:dataTable>
+                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
+                                               value="#{msg['outputNoExams']}"/>
+                            </b:column>
+                        </b:row>
+                    </b:container>
+                </b:form>
+
 
             </h:panelGroup>
 
