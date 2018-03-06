@@ -122,8 +122,8 @@
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeExaminer(u)}" rendered="#{!usersBean.isStudent(profileBean.thisUser)}"/>
+                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeExaminer(u)}"/>
                                     </b:dataTableColumn>
                                     <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examiners}"
                                                    value="#{msg['outputNoExaminers']}"/>
@@ -340,8 +340,8 @@
                         <b:row class="btn-paragraph">
                             <b:column span="12">
                                 <b:dataTable span="8"
-                                             rendered="#{!empty instanceLectureEditBean.instanceLecture.exams}"
-                                             value="#{instanceLectureEditBean.instanceLecture.exams}"
+                                             rendered="#{!empty instanceLectureEditBean.getAllOrStudentExaminerExams()}"
+                                             value="#{instanceLectureEditBean.getAllOrStudentExaminerExams()}"
                                              var="e"
                                              excel="true"
                                              csv="true"
@@ -382,7 +382,7 @@
                                         <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.removeStudentAsExaminer(e)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
-                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
+                                <h:outputLabel rendered="#{empty instanceLectureEditBean.getAllOrStudentExaminerExams()}"
                                                value="#{msg['outputNoExams']}"/>
                             </b:column>
                         </b:row>

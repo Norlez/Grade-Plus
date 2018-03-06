@@ -15,9 +15,10 @@ public enum Role {
     /**
      * Gibt die Rolle mit im gegebenen String enthaltenen Namen zurück.
      *
-     * @param pString Der Rollenname als String.
-     * @return Die gefundene Rolle oder {@code null}, falls keine passende Rolle
-     * gefunden werden konnte.
+     * @param pString
+     *            Der Rollenname als String.
+     * @return Die gefundene Rolle oder {@code null}, falls keine passende Rolle gefunden
+     *         werden konnte.
      */
     public static Role fromString(final String pString) {
         switch (assertNotNull(pString.trim().toUpperCase())) {

@@ -1,64 +1,13 @@
 ----------------------------------------------------------------
-Mon Feb 19 16:26:14 CET 2018:
-Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-0161-aeac-2a8a-0000115d5a10
-für Datenbankverzeichnis C:\Users\marvi\AppData\Local\Temp\gfembed4294699218642871711tmp\lib\databases\embedded_default mit Class Loader ClassRealm[plugin>co.luminositylabs.oss.maven.plugins:embedded-payara-maven-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@5c647e05]
-Geladen aus file:/C:/Users/marvi/.m2/repository/fish/payara/extras/payara-embedded-all/4.1.1.171.1/payara-embedded-all-4.1.1.171.1.jar
+Tue Mar 06 12:15:50 CET 2018:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-0161-fb06-4f51-00002f1a6b40
+für Datenbankverzeichnis C:\Users\Torben\AppData\Local\Temp\gfembed5685569786950162218tmp\lib\databases\embedded_default mit Class Loader ClassRealm[plugin>co.luminositylabs.oss.maven.plugins:embedded-payara-maven-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+Geladen aus file:/C:/Users/Torben/.m2/repository/fish/payara/extras/payara-embedded-all/4.1.1.171.1/payara-embedded-all-4.1.1.171.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_144-b01
-user.dir=C:\Users\marvi\Documents\GradePlus\GradePlus
+java.runtime.version=1.8.0_131-b11
+user.dir=C:\Users\Torben\Desktop\Private\Bachelor\Informatik\03-Semester\Software-Projekt 2\GradePlus\GradePlus
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
-<<<<<<< HEAD
-Fri Feb 09 13:11:00 CET 2018 : Security manager installed using the Basic server security policy.
-Fri Feb 09 13:11:01 CET 2018 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
-Fri Feb 09 13:11:01 CET 2018 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
-----------------------------------------------------------------
-Fri Feb 09 13:11:23 CET 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0161-7a79-d7c7-ffff9bc44120 
-on database directory /Users/andreasestenfelder/Projects/GradePlus/GradePlus/sun-appserv-samples with class loader sun.misc.Launcher$AppClassLoader@42a57993 
-Loaded from file:/Users/andreasestenfelder/Tools/payara41/javadb/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_121-b13
-user.dir=/Users/andreasestenfelder/Projects/GradePlus/GradePlus
-os.name=Mac OS X
-os.arch=x86_64
-os.version=10.13.3
-derby.system.home=/Users/andreasestenfelder/Projects/GradePlus/GradePlus
-Database Class Loader started - derby.database.classpath=''
-Fri Feb 16 12:30:31 CET 2018 : Security manager installed using the Basic server security policy.
-Fri Feb 16 12:30:31 CET 2018 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
-Fri Feb 16 12:30:31 CET 2018 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
-----------------------------------------------------------------
-Fri Feb 16 12:31:58 CET 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0161-9e61-4a36-ffff9bc44120 
-on database directory /Users/andreasestenfelder/Projects/GradePlus/GradePlus/sun-appserv-samples with class loader sun.misc.Launcher$AppClassLoader@42a57993 
-Loaded from file:/Users/andreasestenfelder/Tools/payara41/javadb/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_121-b13
-user.dir=/Users/andreasestenfelder/Projects/GradePlus/GradePlus
-os.name=Mac OS X
-os.arch=x86_64
-os.version=10.13.3
-derby.system.home=/Users/andreasestenfelder/Projects/GradePlus/GradePlus
-Database Class Loader started - derby.database.classpath=''
-=======
->>>>>>> a6535d1aaa42190b5ef598997e4773de317a65d2
-Thu Mar 01 11:00:25 CET 2018 : Security manager installed using the Basic server security policy.
-Thu Mar 01 11:00:26 CET 2018 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
-Thu Mar 01 11:00:26 CET 2018 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
-----------------------------------------------------------------
-Thu Mar 01 11:01:13 CET 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0161-e101-7a88-ffff9bc44120 
-on database directory /Users/andreasestenfelder/Projects/GradePlus/GradePlus/sun-appserv-samples with class loader sun.misc.Launcher$AppClassLoader@42a57993 
-Loaded from file:/Users/andreasestenfelder/Tools/payara41/javadb/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_121-b13
-user.dir=/Users/andreasestenfelder/Projects/GradePlus/GradePlus
-os.name=Mac OS X
-os.arch=x86_64
-os.version=10.13.3
-derby.system.home=/Users/andreasestenfelder/Projects/GradePlus/GradePlus
-Database Class Loader started - derby.database.classpath=''

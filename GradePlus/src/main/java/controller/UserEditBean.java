@@ -63,7 +63,6 @@ public class UserEditBean extends AbstractBean implements Serializable {
         return "user.xhtml";
     }
 
-
     /**
      * Prüft, ob die Attribute in dieser Klasse verändert werden dürfen.
      */

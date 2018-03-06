@@ -248,4 +248,13 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
             }
         return examList;
     }
+
+    public List<Exam> getAllOrStudentExaminerExams() {
+        if (getSession().getUser().getRole().equals(Role.STUDENT)) {
+            return instanceLecture.getExams().stream()
+                    .filter(e -> e.getExaminers().contains(getSession().getUser()))
+                    .collect(Collectors.toList());
+        }
+        return instanceLecture.getExams();
+    }
 }

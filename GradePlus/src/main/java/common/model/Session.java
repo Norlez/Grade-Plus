@@ -89,7 +89,6 @@ public class Session implements Serializable {
      */
     private InstanceLecture selectedILV;
 
-
     public String getTmpPassword() {
         return tmpPassword;
     }
