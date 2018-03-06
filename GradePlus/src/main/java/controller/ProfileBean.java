@@ -130,7 +130,8 @@ public class ProfileBean extends AbstractBean implements Serializable {
      *             Falls {@code pSession} oder {@code pUserDAO} {@code null} ist.
      */
     @Inject
-    public ProfileBean(final Session pSession, final UserDAO pUserDAO, final JoinExamDAO pJoinExamDAO) {
+    public ProfileBean(final Session pSession, final UserDAO pUserDAO,
+            final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         userDao = Assertion.assertNotNull(pUserDAO);
         thisUser = getSession().getUser();
@@ -140,6 +141,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt den ausgewählten User zurück.
+     * 
      * @return der ausgewählte User.
      */
     public User getThisUser() {
@@ -148,7 +150,9 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den ausgewählten User durch den übergebenen Parameter
-     * @param thisUser der zu setztende User
+     * 
+     * @param thisUser
+     *            der zu setztende User
      */
     public void setThisUser(User thisUser) {
         this.thisUser = Assertion.assertNotNull(thisUser);
@@ -204,8 +208,6 @@ public class ProfileBean extends AbstractBean implements Serializable {
         languageName = Assertion.assertNotEmpty(pLanguage);
     }
 
-
-
     /**
      * Speichert die Einstellungen aus der GUI im Nutzerprofil. Aktuell ist lediglich die
      * Sprache einstellbar.
@@ -225,10 +227,10 @@ public class ProfileBean extends AbstractBean implements Serializable {
             final User user = thisUser;
             user.setLanguage(newLanguage);
             try {
-                //user.setEmail(thisUser.getEmail());
-                //user.setGivenName(thisUser.getGivenName());
-                //user.setSurname(thisUser.getSurname());
-                //user.setUsername(thisUser.getUsername());
+                // user.setEmail(thisUser.getEmail());
+                // user.setGivenName(thisUser.getGivenName());
+                // user.setSurname(thisUser.getSurname());
+                // user.setUsername(thisUser.getUsername());
                 userDao.update(user);
                 setEditChecker();
 
@@ -284,20 +286,15 @@ public class ProfileBean extends AbstractBean implements Serializable {
         return Collections.unmodifiableMap(countriesMap);
     }
 
-
-    public List<Exam> getExamForStudent()
-    {
-       List<JoinExam> je = joinExamDAO.getJoinExamsForUser(thisUser);
-       if(je == null)
-       {
-           return null;
-       }
-       ArrayList<Exam> e = new ArrayList<Exam>();
-       for(JoinExam j: je )
-       {
-           e.add(j.getExam());
-       }
-       return e;
+    public List<Exam> getExamForStudent() {
+        List<JoinExam> je = joinExamDAO.getJoinExamsForUser(thisUser);
+        if (je == null) {
+            return null;
+        }
+        ArrayList<Exam> e = new ArrayList<Exam>();
+        for (JoinExam j : je) {
+            e.add(j.getExam());
+        }
+        return e;
     }
 }
-

@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -209,7 +210,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *         angemeldet ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminee() {
-        return instanceLecturesOfExaminee;
+        return allInstanceLectures.stream().filter(i -> i.getExaminees().contains(user))
+                .collect(Collectors.toList());
+        // return instanceLecturesOfExaminee;
     }
 
     /**
@@ -232,7 +235,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *         ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminer() {
-        return instanceLecturesOfExaminer;
+        return allInstanceLectures.stream().filter(i -> i.getExaminers().contains(user))
+                .collect(Collectors.toList());
+        // return instanceLecturesOfExaminer;
     }
 
     /**
@@ -242,8 +247,21 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu leiten.
      */
     public String save() {
+        List<InstanceLecture> instanceLecturesOfSameLecture = instanceLectureDao
+                .getAllInstanceLectures().stream()
+                .filter(i -> i.getLecture().equals(getSession().getSelectedLecture()))
+                .collect(Collectors.toList());
+        boolean alreadyExists = false;
+        for (InstanceLecture theInstanceLecture : instanceLecturesOfSameLecture) {
+            if (theInstanceLecture.getSemester().equals(
+                    SemesterTime.toString(selectedTimes))
+                    && theInstanceLecture.getYear().equals(selectedYear)) {
+                addErrorMessage("errorSemesterAlreadyExists");
+                return "semestercreate.xhtml";
+            }
+        }
         try {
-            instanceLecture.setSemester(selectedTimes.toString());
+            instanceLecture.setSemester(SemesterTime.toString(selectedTimes));
             instanceLecture.setYear(selectedYear);
             instanceLecture.setLecture(getSession().getSelectedLecture());
             instanceLectureDao.save(instanceLecture);
@@ -414,4 +432,20 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         }
         return "semester.xhtml";
     }
+
+    /**
+     * Gibt alle ILVs der LV zurück, in denen der Benutzer Prüfer ist.
+     *
+     * @return Alle ILVs der LV, in denen der Benutzer Prüfer ist.
+     */
+    public List<InstanceLecture> getInstanceLecturesForExaminerForLecture() {
+        return allInstanceLectures.stream().filter(i -> i.getExaminers().contains(user))
+                .filter(i -> i.getLecture().equals(getSession().getSelectedLecture()))
+                .collect(Collectors.toList());
+    }
+
+    public Lecture getSelectedLecture() {
+        return getSession().getSelectedLecture();
+    }
+
 }

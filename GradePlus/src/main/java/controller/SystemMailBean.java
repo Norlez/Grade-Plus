@@ -53,7 +53,6 @@ public class SystemMailBean {
      */
     private static final Logger logger = Logger.getLogger(SystemMailBean.class);
 
-
     /**
      * Die Properties für die Mailversendung.
      */
@@ -70,10 +69,10 @@ public class SystemMailBean {
     private static Message message;
 
     /**
-     * Legt Properties für die Versendung einer Mail ab und erstellt ein neues Message Objekt für die Versendung
-     * der Nachricht.
+     * Legt Properties für die Versendung einer Mail ab und erstellt ein neues Message
+     * Objekt für die Versendung der Nachricht.
      */
-    public static void init(){
+    public static void init() {
 
         properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -84,34 +83,35 @@ public class SystemMailBean {
 
         session = javax.mail.Session.getInstance(properties, null);
         session.setDebug(true);
-        try{
+        try {
             message = new MimeMessage(session);
             message.setFrom(new InternetAddress("gradeplusbremen@gmail.com"));
-        }catch (MessagingException e){
+        } catch (MessagingException e) {
             throw new RuntimeException();
         }
-
 
     }
 
     /**
-     *Erstellt das Transporterobjekt, um die erstellte Mail zu versenden.
+     * Erstellt das Transporterobjekt, um die erstellte Mail zu versenden.
      */
-    public static void postInit(){
+    public static void postInit() {
 
-        try{
+        try {
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
+            transport
+                    .connect("smtp.gmail.com", "gradeplusbremen@gmail.com", "Koschke123");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-        }catch (MessagingException e){
+        } catch (MessagingException e) {
             throw new RuntimeException();
         }
     }
+
     /**
      * Eine Loginunabhängige Funktion, die dem sich registrierenden Benutzer, nach der
-     * Registrierung eine Bestätigungsmail zusendet und  in der alle relevanten Daten vermerkt
-     * sind.
+     * Registrierung eine Bestätigungsmail zusendet und in der alle relevanten Daten
+     * vermerkt sind.
      * 
      * @param pUser
      *            Der Empfänger der Registrierungsmail.
@@ -145,10 +145,14 @@ public class SystemMailBean {
     }
 
     /**
-     * Sendet eine Mail von der Systemmail, an den User, der in einer IlV angemeldet war und informiert ihn darüber,
-     * dass die Veranstaltung von Ersteller aus dem System entfernt wurde.
-     * @param pUser Der User, der in Kenntniss gesetzt wird.
-     * @param pIlvName Die ILV die aus dem System entfernt wurde.
+     * Sendet eine Mail von der Systemmail, an den User, der in einer IlV angemeldet war
+     * und informiert ihn darüber, dass die Veranstaltung von Ersteller aus dem System
+     * entfernt wurde.
+     * 
+     * @param pUser
+     *            Der User, der in Kenntniss gesetzt wird.
+     * @param pIlvName
+     *            Die ILV die aus dem System entfernt wurde.
      */
 
     public static void ilvRemovedMail(User pUser, String pIlvName) {
@@ -157,11 +161,13 @@ public class SystemMailBean {
             init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
-            message.setSubject("Systemnachricht: Lehrveranstaltung " + pIlvName + " entfernt" );
+            message.setSubject("Systemnachricht: Lehrveranstaltung " + pIlvName
+                    + " entfernt");
             message.setText("Hallo"
                     + pUser.getGivenName()
                     + ","
-                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Lehrveranstaltung " + pIlvName
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Lehrveranstaltung "
+                    + pIlvName
                     + "\n\n vom Prüfer gelöscht wurde und sie damit entfernt wurden.");
 
             postInit();
@@ -173,12 +179,14 @@ public class SystemMailBean {
 
     }
 
-
     /**
-     * Sendet eine Mail von der Systemmail an den User und informiert ihn darüber, dass er einer Lehrveranstaltung
-     * hinzugefügt wurde.
-     * @param pUser Der User, der in Kenntniss gesetzt wird.
-     * @param pIlvName Die Lehrveranstaltung, in der der User eingetragen wurde.
+     * Sendet eine Mail von der Systemmail an den User und informiert ihn darüber, dass er
+     * einer Lehrveranstaltung hinzugefügt wurde.
+     * 
+     * @param pUser
+     *            Der User, der in Kenntniss gesetzt wird.
+     * @param pIlvName
+     *            Die Lehrveranstaltung, in der der User eingetragen wurde.
      */
 
     public static void userJoinIlvRegisterMail(User pUser, String pIlvName) {
@@ -187,13 +195,14 @@ public class SystemMailBean {
             init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
-            message.setSubject("Systemnachricht: Eintragung in die Lehrveranstaltung " + pIlvName  );
+            message.setSubject("Systemnachricht: Eintragung in die Lehrveranstaltung "
+                    + pIlvName);
             message.setText("Hallo"
                     + pUser.getGivenName()
                     + ","
-                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie für die Lehrveranstaltung " + pIlvName
-                    + "\n\n vom Prüfer hinzugefügt wurden.");
-           postInit();
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie für die Lehrveranstaltung "
+                    + pIlvName + "\n\n vom Prüfer hinzugefügt wurden.");
+            postInit();
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -202,12 +211,14 @@ public class SystemMailBean {
 
     }
 
-
     /**
-     * Sendet eine Mail von der Systemmail an den User und informiert ihn darüber, dass dieser sich erfolgreich
-     * für eine Prüfung in der Lehrveranstaltung angemeldet hat.
-     * @param pUser Der User, der informiert wird.
-     * @param pIlvName Die Lehrveranstaltung, in die sich der User eingetragen hat
+     * Sendet eine Mail von der Systemmail an den User und informiert ihn darüber, dass
+     * dieser sich erfolgreich für eine Prüfung in der Lehrveranstaltung angemeldet hat.
+     * 
+     * @param pUser
+     *            Der User, der informiert wird.
+     * @param pIlvName
+     *            Die Lehrveranstaltung, in die sich der User eingetragen hat
      */
     public static void joinExamMail(User pUser, String pIlvName) {
 
@@ -215,12 +226,13 @@ public class SystemMailBean {
             init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
-            message.setSubject("Systemnachricht: Anmeldung zur Prüfung für die Lehrveranstaltung " + pIlvName  );
+            message.setSubject("Systemnachricht: Anmeldung zur Prüfung für die Lehrveranstaltung "
+                    + pIlvName);
             message.setText("Hallo"
                     + pUser.getGivenName()
                     + ","
-                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie zur Prüfung für die  Lehrveranstaltung " + pIlvName
-                    + "\n\n am 01.01.1995 hinzugefügt wurden.");
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie zur Prüfung für die  Lehrveranstaltung "
+                    + pIlvName + "\n\n am 01.01.1995 hinzugefügt wurden.");
             postInit();
 
         } catch (MessagingException e) {
@@ -230,10 +242,13 @@ public class SystemMailBean {
     }
 
     /**
-     * Sendet eine Mail von der Systemmail, an den übergebenen Empfänger und informiert darüber,
-     * dass der User sich für eine Prüfung  Krankgemeldet hat.
-     * @param pUser Der User, der sich krank meldet.
-     * @param pRecipient Der Empfänger, der über die Krankmeldung in Kentniss gesetzt werden soll
+     * Sendet eine Mail von der Systemmail, an den übergebenen Empfänger und informiert
+     * darüber, dass der User sich für eine Prüfung Krankgemeldet hat.
+     * 
+     * @param pUser
+     *            Der User, der sich krank meldet.
+     * @param pRecipient
+     *            Der Empfänger, der über die Krankmeldung in Kentniss gesetzt werden soll
      */
 
     public static void reportIllness(User pUser, User pRecipient) {
@@ -242,7 +257,8 @@ public class SystemMailBean {
             init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pRecipient.getEmail()));
-            message.setSubject("Systemnachricht: Krankmeldung vom Nutzer" + pUser.getGivenName() + " " + pUser.getSurname());
+            message.setSubject("Systemnachricht: Krankmeldung vom Nutzer"
+                    + pUser.getGivenName() + " " + pUser.getSurname());
             message.setText("Hallo"
                     + pRecipient.getSurname()
                     + ","
@@ -253,6 +269,5 @@ public class SystemMailBean {
             throw new RuntimeException(e);
         }
     }
-
 
 }

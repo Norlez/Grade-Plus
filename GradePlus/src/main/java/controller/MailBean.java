@@ -54,7 +54,7 @@ import static common.util.Assertion.assertNotNull;
  */
 @Named
 @RequestScoped
-public class MailBean extends AbstractBean implements Serializable{
+public class MailBean extends AbstractBean implements Serializable {
 
     /**
      * Der Logger für diese Klasse.
@@ -70,7 +70,6 @@ public class MailBean extends AbstractBean implements Serializable{
      * Der Absender der Nachricht.
      */
     private User sender;
-
 
     /**
      * Die Nachricht, die versendet wird.
@@ -196,9 +195,10 @@ public class MailBean extends AbstractBean implements Serializable{
     @PostConstruct
     public void init() {
         sender = getSession().getUser();
-        //sender.setEmail("gradeplusbremen@gmail.com"); //TODO: ENTFERNEN
-        //sender.setTmpPassword("Koschke123"); //TODO: ENTFERNEN
-        smtp = "smtp."+ sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1);
+        // sender.setEmail("gradeplusbremen@gmail.com"); //TODO: ENTFERNEN
+        // sender.setTmpPassword("Koschke123"); //TODO: ENTFERNEN
+        smtp = "smtp."
+                + sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1);
         Properties props;
 
         props = new Properties();
@@ -244,12 +244,13 @@ public class MailBean extends AbstractBean implements Serializable{
 
     /**
      * Wandelt Part file in io.File um.
+     * 
      * @throws IOException
      */
-    public File copyPartToFile() throws IOException{
+    public File copyPartToFile() throws IOException {
         InputStream inputStream = file.getInputStream();
         String contentType = file.getContentType();
-        String suffix = "."+contentType.substring(contentType.lastIndexOf('/') +1);
+        String suffix = "." + contentType.substring(contentType.lastIndexOf('/') + 1);
         File tempFile = File.createTempFile("tmpFile", suffix);
         OutputStream outputStream = new FileOutputStream(tempFile);
         try {
@@ -265,8 +266,6 @@ public class MailBean extends AbstractBean implements Serializable{
             return tempFile;
         }
     }
-
-
 
     /**
      * Email mit Anhang.
@@ -304,34 +303,29 @@ public class MailBean extends AbstractBean implements Serializable{
     }
 
     /**
-     * Je nachdem, ob eine Datei ausgewählt wurde, wird eine Mail mit Anhang oder eine ohne versendet.
+     * Je nachdem, ob eine Datei ausgewählt wurde, wird eine Mail mit Anhang oder eine
+     * ohne versendet.
      */
-    public void decideWhichEmail(){
-        try{
-            if(file == null){
+    public void decideWhichEmail() {
+        try {
+            if (file == null) {
 
                 sendMail();
-            }else{
+            } else {
                 sendMailWithAttachment();
             }
-        }catch (IOException e ){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     /**
      * Versendet eine Systemnachricht an einen gewählten Benutzer.
-
-    public void sendSystemMail() {
-        sender = new User();
-        sender.setEmail("gradeplusbremen@gmail.com");
-        sender.setTmpPassword("Koschke123");
-        smtp = "smtp.gmail.com";
-        sendMail();
-        sender = getSession().getUser();
-    }
-    */
+     * 
+     * public void sendSystemMail() { sender = new User();
+     * sender.setEmail("gradeplusbremen@gmail.com"); sender.setTmpPassword("Koschke123");
+     * smtp = "smtp.gmail.com"; sendMail(); sender = getSession().getUser(); }
+     */
 
     /**
      * Prüft, ob die Kombination der eingegebene Email mit dem dazugehörigem Passwort eine

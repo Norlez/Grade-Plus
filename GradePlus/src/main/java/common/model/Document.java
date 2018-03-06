@@ -9,19 +9,63 @@ import java.io.File;
 import java.io.IOException;
 
 public class Document {
+
+    private String name;
+
+    private int matrnr;
+
+    private String lecture;
+
+    private int ects;
+
+    private String vak;
+
+    private String time;
+
+    private String hours;
+
+    private String course;
+
+    private String details;
+
+    private boolean singeGroup;
+
+    private String content;
+
+    private String area;
+
+    private String grade;
+
+    private String date;
+
     File file;
 
     PDDocument document;
 
+    public static void printBlank () throws IOException {
+
+        //Creating PDF document object
+        PDDocument document = new PDDocument();
+
+        //Saving the document
+        document.save("C:/PdfBox_Examples/my_doc.pdf");
+
+        System.out.println("PDF created");
+
+        //Closing the document
+        document.close();
+
+    }
+
 
     public void printCertificate (String pInputFile, String pOutputFile) throws IOException {
-        String inputTestPath = "Volumes/Macintosh HD/Users/andreasestenfelder/Projects/GradePlus/GradePlus/src/main/webapp/resources/templates.certificate.pdf";
+        String inputTestPath = "Macintosh HD/Users/andreasestenfelder/Projects/GradePlus/GradePlus/src/main/webapp/resources/templates.certificate.pdf";
 
 
         //Loading an existing document
         File file = new File(inputTestPath);
 System.out.println("Methode printCertificate wird angesprochen");
-        String outputTestPath = "Volumes/Macintosh\\ HD//Users/andreasestenfelder/Desktop/newFile.pdf";
+        String outputTestPath = "Macintosh\\ HD//Users/andreasestenfelder/Desktop/newFile.pdf";
         try {
             PDDocument document = PDDocument.load(file);
             PDPage page = document.getPage(1);

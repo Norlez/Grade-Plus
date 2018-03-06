@@ -19,7 +19,7 @@ import static common.util.Assertion.assertNotNull;
 @NamedQueries({
         @NamedQuery(name = "Lecture.findAll", query = "SELECT l FROM Lecture l"),
         @NamedQuery(name = "Lecture.findName", query = "SELECT l FROM Lecture l WHERE l.name = :name"),
-        @NamedQuery(name = "Lecture.findVAK", query = "SELECT l FROM Lecture l WHERE l.vak = :vak")})
+        @NamedQuery(name = "Lecture.findVAK", query = "SELECT l FROM Lecture l WHERE l.vak = :vak") })
 public class Lecture extends JPAEntity {
 
     /**
@@ -167,6 +167,15 @@ public class Lecture extends JPAEntity {
      */
     public String toCSV() {
         return String.format("%d; %s; %s; %d; %s", getId(), name, vak, ects, description);
+    }
+
+    @Override
+    public boolean equals(final Object theObject) {
+        if (!(theObject instanceof Lecture)) {
+            return false;
+        }
+        final Lecture otherLecture = (Lecture) theObject;
+        return getId().equals(otherLecture.getId());
     }
 
 }
