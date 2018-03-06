@@ -64,14 +64,14 @@
                     <b:tab title="#{msg['tabtitleExaminers']}">
 
                         <!-- PRÜFER HINZUFÜGEN -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="4">
                                 <h2>
                                     <h:outputText value="#{msg['subtitleAddExaminers']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="8">
                                 <b:panel  collapsed="true" rendered="#{!empty usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLectureEditBean.instanceLecture.examiners)}" >
                                     <f:facet name="heading">
@@ -123,7 +123,7 @@
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
                                     <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeExaminer(u)}"/>
+                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeExaminer(u)}" rendered="#{!usersBean.isStudent(profileBean.thisUser)}"/>
                                     </b:dataTableColumn>
                                     <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examiners}"
                                                    value="#{msg['outputNoExaminers']}"/>
@@ -136,14 +136,14 @@
                     <b:tab title="#{msg['tabtitleStudents']}">
 
                         <!-- PRÜFLINGE HINZUFÜGEN -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="4">
                                 <h2>
                                     <h:outputText value="#{msg['subtitleAddStudents']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="8">
                                 <b:panel  collapsed="true" rendered="#{!empty instanceLectureEditBean.unregisteredStudents}" >
                                     <f:facet name="heading">
@@ -168,7 +168,7 @@
                         </b:row>
 
                         <!-- UPLOAD STUDENT LIST -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="8">
                                 <b:panel collapsed="true">
                                     <f:facet name="heading">
@@ -200,7 +200,7 @@
                         </b:row>
 
                         <!-- UPLOAD PABO LIST -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="8">
                                 <b:panel collapsed="true">
                                     <f:facet name="heading">
@@ -260,7 +260,7 @@
                                     <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
                                     <b:dataTableColumn label="#{msg['outputGrade']}"/>
                                     <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                                         <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeStudent(u)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
@@ -274,20 +274,20 @@
                     <b:tab title="#{msg['tabtitleExams']}">
 
                         <!-- PRÜFUNGEN HINZUFÜGEN -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="4">
                                 <h2>
                                     <h:outputText value="#{msg['subtitleAddExams']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="3">
                                 <h:commandButton class="btn" value="#{msg['actionCreateNewExam']}" action="#{examsBean.setInstanceLectureForExam(instanceLectureEditBean.getInstanceLecture())}">
                                 </h:commandButton>
                             </b:column>
                         </b:row>
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="3">
                                 <h:commandButton class="btn" value="#{msg['actionCreateNewExams']}" action="#{examsBean.setInstanceLectureForExams(instanceLectureEditBean.getInstanceLecture())}">
                                 </h:commandButton>
@@ -297,7 +297,7 @@
                         <b:row class="space25px" />
 
                         <!-- UPLOAD GRADES LIST -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="6">
                                 <b:panel collapsed="true">
                                     <f:facet name="heading">
@@ -361,7 +361,7 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
-                                    <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
+                                    <b:dataTableColumn rendered="#{!usersBean.isStudent(profileBean.thisUser)}" label="#{msg['actionRelease']}" orderable="false">
                                         <b:commandButton rendered="#{!e.getReleased()}"
                                                          value="#{msg['actionRelease']}"
                                                          action="#{examsBean.releaseExam(e)}"/>
@@ -370,12 +370,16 @@
                                                          action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
+                                    <b:dataTableColumn rendered="#{!usersBean.isStudent(profileBean.thisUser)}" label="#{msg['actionEdit']}" orderable="false">
                                         <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.setExam(e)}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                    <b:dataTableColumn rendered="#{!usersBean.isStudent(profileBean.thisUser)}" label="#{msg['actionRemove']}" orderable="false">
                                         <b:commandButton value="#{msg['actionRemove']}" action="#{examsBean.remove(e)}"/>
+                                    </b:dataTableColumn>
+
+                                    <b:dataTableColumn rendered="#{usersBean.isStudent(profileBean.thisUser)}" label="#{msg['actionDeregister']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.removeStudentAsExaminer(e)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"

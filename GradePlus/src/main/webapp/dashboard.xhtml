@@ -38,53 +38,91 @@
 
             <h:panelGroup>
 
-            <b:form id="courses">
+                <b:form id="courses">
 
-                <b:container class="form-group">
+                    <b:container class="form-group">
 
-                    <!-- SUBTITLE -->
-                    <b:row>
-                        <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
-                            <h2>
-                                <h:outputText value="#{msg['subtitleAllCourses']}" />
-                            </h2>
-                        </b:column>
-                        <b:column>
-                            <b:button value="!!certificate!!" outcome="printcertificate"/>
-                        </b:column>
-                        <b:column>
-                            <b:button value="!!certificate!!" outcome="printprotocol"/>
-                        </b:column>
-                        <b:column>
-                            <b:commandButton value="#{msg['ICS']}" action="#{examsBean.printDateAsICS(profileBean.examForStudent)}" />
-                        </b:column>
-                    </b:row>
+                        <!-- SUBTITLE -->
+                        <b:row>
+                            <b:column class="subtitle" span="8" colSm="12" colMd="12" colXs="12">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleAllCourses']}" />
+                                </h2>
+                            </b:column>
+                            <b:column>
+                                <b:button value="!!certificate!!" outcome="printcertificate"/>
+                            </b:column>
+                            <b:column>
+                                <b:button value="!!certificate!!" outcome="printprotocol"/>
+                            </b:column>
+                            <b:column>
+                                <b:commandButton value="#{msg['ICS']}" action="#{examsBean.printDateAsICS(profileBean.examForStudent)}" />
+                            </b:column>
+                        </b:row>
 
-                    <b:row class="space50px"/>
+                        <b:row class="space50px"/>
 
-                    <b:row>
-                        <b:dataTable class="table" span="8" value="#{instanceLecturesBean.instanceLecturesOfExaminee}" var="g"
-                                     excel="false" csv="false" pdf="false" columnVisibility="false"
-                                     copy="false" print="false" searching="false" paginated="false"
-                                     rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminee || true}">
-                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSubject']}" value="#{g.lecture.name}" />
-                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.lecture.vak}" />
-                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.lecture.ects}" />
-                            <b:dataTableColumn class="col" orderable="false" label="#{msg['outputStatus']}" />
+                        <b:row rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminee}">
+                            <b:dataTable class="table" span="8" value="#{instanceLecturesBean.instanceLecturesOfExaminee}" var="g"
+                                         excel="false" csv="false" pdf="false" columnVisibility="false"
+                                         copy="false" print="false" searching="false" paginated="false"
+                                         rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminee || true}">
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{g.lecture.name}" />
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.lecture.vak}" />
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.lecture.ects}" />
 
-                            <b:dataTableColumn class="col" orderable="false" label="actionDetail">
-                                <b:commandButton value="#{msg['actionDetail']}" action="#{instanceLectureEditBean.setInstanceLectureForStudent(g)}"/>
-                            </b:dataTableColumn>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDetail']}">
+                                    <b:commandButton value="#{msg['actionDetail']}" action="#{instanceLectureEditBean.setInstanceLectureForStudent(g)}"/>
+                                </b:dataTableColumn>
 
-                            <b:dataTableColumn class="col" orderable="false" label="actionReportSick">
-                                <b:commandButton value="#{msg['actionReportSick']}" />
-                            </b:dataTableColumn>
+                            </b:dataTable>
+                        </b:row>
+                        <b:row rendered="#{empty instanceLecturesBean.instanceLecturesOfExaminee}">
+                            <h:outputLabel value="#{msg['outputNoLectures']}"/>
+                        </b:row>
 
-                        </b:dataTable>
-                    </b:row>
+                        <b:row class="space50px"/>
 
-                </b:container>
-            </b:form>
+                    </b:container>
+                </b:form>
+
+                <b:form id="coursesAsExaminer" rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminer}">
+
+                    <b:container class="form-group">
+
+                        <!-- SUBTITLE -->
+                        <b:row>
+                            <b:column class="subtitle" span="8" colSm="12" colMd="12" colXs="12">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleCoursesAsExaminer']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+
+                        <b:row>
+                            <b:dataTable class="table" span="8" value="#{instanceLecturesBean.instanceLecturesOfExaminer}" var="g"
+                                         excel="false" csv="false" pdf="false" columnVisibility="false"
+                                         copy="false" print="false" searching="false" paginated="false"
+                                         rendered="#{! empty instanceLecturesBean.instanceLecturesOfExaminee || true}">
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{g.lecture.name}" />
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.lecture.vak}" />
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.lecture.ects}" />
+
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDetail']}">
+                                    <b:commandButton value="#{msg['actionDetail']}" action="#{instanceLectureEditBean.setInstanceLecture(g)}"/>
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn class="col" orderable="false" label="actionReportSick">
+                                    <b:commandButton value="#{msg['actionReportSick']}" />
+                                </b:dataTableColumn>
+
+                            </b:dataTable>
+                        </b:row>
+
+                        <b:row class="space50px"/>
+
+                    </b:container>
+                </b:form>
 
                 <b:form>
                     <b:container class="form-group">
@@ -97,7 +135,8 @@
                         </b:row>
                         <b:row class="btn-paragraph">
                             <b:column span="12">
-                                <b:dataTable span="8"
+                                <b:dataTable rendered="#{! empty examsBean.examsForStudent}"
+                                             span="8"
                                              value="#{instanceLectureEditBean.getExams(profileBean.thisUser)}"
                                              var="e"
                                              excel="true"
@@ -106,6 +145,7 @@
                                              columnVisibility="false"
                                              copy="false"
                                              print="false">
+
                                     <b:dataTableColumn label="#{msg['outputId']}" value="#{e.id}"/>
                                     <b:dataTableColumn label="#{msg['outputType']}" value="#{e.type}"/>
                                     <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
@@ -118,12 +158,16 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
-                                    <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.registerAsStudent(e)}"/>
+                                    <b:dataTableColumn label="#{msg['actionDeregister']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.registerAsStudent(e)}"/>
+                                    </b:dataTableColumn>
+
+                                    <b:dataTableColumn class="col" orderable="false" label="actionReportSick">
+                                        <b:commandButton value="#{msg['actionReportSick']}" action="#{examsBean.reportSick(e)}" />
                                     </b:dataTableColumn>
 
                                 </b:dataTable>
-                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
+                                <h:outputLabel rendered="#{empty examsBean.examsForStudent}"
                                                value="#{msg['outputNoExams']}"/>
                             </b:column>
                         </b:row>

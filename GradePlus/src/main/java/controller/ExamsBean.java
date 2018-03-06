@@ -203,8 +203,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Alle Prüfungen, in denen der angemeldete Benutzer Prüfling ist.
      */
     public List<Exam> getExamsForStudent() {
-        return assertNotNull(examDao.getExamsForStudent(getSession().getUser()),
-                "ExamsBean: getAllExams() -> examDao.getExamsForStudent(getSession().getUser())");
+        return examDao.getAllExams().stream()
+                .filter(e -> e.getStudents().contains(getSession().getUser()))
+                .collect(Collectors.toList());
+        // return assertNotNull(examDao.getExamsForStudent(getSession().getUser()),
+        // "ExamsBean: getAllExams() -> examDao.getExamsForStudent(getSession().getUser())");
     }
 
     /**
@@ -526,6 +529,24 @@ public class ExamsBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", pUser.getEmail());
         }
+        return "exams.xhtml";
+    }
+
+    /**
+     * Entfernt den aktuell eingeloggten Studenten aus der Liste der Prüfer des gegebenen
+     * Exams.
+     *
+     * @param pExam
+     *            Die gewählte Prüfung.
+     * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen
+     *         weiterzuleiten.
+     */
+    public String removeStudentAsExaminer(final Exam pExam) {
+        assertNotNull(pExam);
+        Exam theExam = exam;
+        exam = pExam;
+        removeExaminer(getSession().getUser());
+        exam = theExam;
         return "exams.xhtml";
     }
 
@@ -903,6 +924,30 @@ public class ExamsBean extends AbstractBean implements Serializable {
             }
         }// Auf welcher Seite ist das??? Muss evtl in eine andere
          // Bean verschoben werden
+    }
+
+    /**
+     * Wird vom Studenten aufgerufen, wenn er sich krankmeldet und markiert den
+     * eingeloggten Studenten in der gegebenen Prüfung als krank.
+     *
+     * @param pExam
+     *            Das Exam, an dem sich der Studen krankmeldet.
+     * @return "dashboard.xhtml", um auf das Facelet des Sahboards weiterzuleiten.
+     */
+    public String reportSick(final Exam pExam) {
+        assertNotNull(pExam);
+        JoinExam joinExam = pExam.getParticipants().stream()
+                .filter(j -> j.getPruefling().equals(getSession().getUser()))
+                .collect(Collectors.toList()).get(0);
+        joinExam.setKrank(true);
+        joinExamDao.update(joinExam);
+        try {
+            pExam.getExaminers().forEach(
+                    e -> SystemMailBean.reportIllness(getSession().getUser(), e));
+        } catch (RuntimeException e) {
+            addErrorMessage("illnessReportCouldNotBeSent");
+        }
+        return "dashboard.xhtml";
     }
 
 }
