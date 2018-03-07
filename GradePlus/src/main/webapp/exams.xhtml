@@ -7,7 +7,7 @@
       xml:lang="en" lang="en">
 <head>
     <!-- Anzeige fuer Pruefer der Pruefungs* und Termindaten als Liste mit Optionsbutton -->
-    <title>Title</title>
+    <title>#{msg['title']}</title>
 </head>
 <body>
 <ui:composition template="WEB-INF/template.xhtml">
@@ -305,7 +305,9 @@
 
                         <!-- UPLOAD GRADES LIST -->
                         <b:row class="btn-paragraph">
-                            <b:button value="#{msg['actionImportGrades']}" outcome="grades"/>
+                            <b:column span="3">
+                                <b:button class="btn" value="#{msg['actionImportGrades']}" outcome="grades"/>
+                            </b:column>
                         </b:row>
                         <b:row class="space25px" />
 
