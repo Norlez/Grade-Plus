@@ -305,34 +305,7 @@
 
                         <!-- UPLOAD GRADES LIST -->
                         <b:row class="btn-paragraph">
-                            <b:column span="6">
-                                <b:panel collapsed="true">
-                                    <f:facet name="heading">
-                                        <h:outputText value="#{msg['actionImportGrades']}" />
-                                    </f:facet>
-                                    <b:row>
-                                        <b:column>
-                                            <h:outputLabel value="#{msg['inputPath']}" />
-                                        </b:column>
-                                    </b:row>
-                                    <b:row>
-                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
-                                            <b:inputText placeholder="#{msg['inputPath']}" />
-                                        </b:column>
-                                        <b:column  span="6" colSm="12" colMd="12" colXs="12">
-                                            <b:commandButton value="#{msg['actionChoosePath']}" />
-                                        </b:column>
-                                    </b:row>
-                                    <b:row>
-                                        <b:column  span="6" colSm="4" colMd="6" colXs="12">
-                                            <b:commandButton value="#{msg['actionUpload']}" />
-                                        </b:column>
-                                        <b:column  span="2" colSm="4" colMd="6" colXs="12">
-                                            <b:button value="#{msg['linkCancel']}" outcome="exams"/>
-                                        </b:column>
-                                    </b:row>
-                                </b:panel>
-                            </b:column>
+                            <b:button value="#{msg['actionImportGrades']}" outcome="grades"/>
                         </b:row>
                         <b:row class="space25px" />
 

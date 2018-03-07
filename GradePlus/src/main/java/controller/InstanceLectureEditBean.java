@@ -75,8 +75,9 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      *             sind.
      */
     @Inject
-    public InstanceLectureEditBean(final Session pSession,final ExamDAO pExamDao,
-                                   final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao, final JoinExamDAO pJoinExamDAO) {
+    public InstanceLectureEditBean(final Session pSession, final ExamDAO pExamDao,
+            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao,
+            final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
@@ -141,11 +142,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     /**
      * Ist für das Updaten der Studenten und Profs erforderlich.
+     * 
      * @param pUser
      */
-    public void update(User pUser)
-    {
-        try{
+    public void update(User pUser) {
+        try {
             userDao.update(pUser);
             instanceLectureDao.update(instanceLecture);
         } catch (final IllegalArgumentException e) {
@@ -170,8 +171,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     public String removeExaminer(final User pExaminer) {
-        instanceLecture.removeExaminer(assertNotNull(pExaminer,
-                "InstanceLectureEditBean: removeExaminer(User)"));
+        assertNotNull(pExaminer, "InstanceLectureEditBean: removeExaminer(User)");
+        if (instanceLecture.getExaminers().size() <= 1) {
+            addErrorMessage("errorLastExaminer");
+            return "exams.xhtml";
+        }
+        instanceLecture.removeExaminer(pExaminer);
         pExaminer.removeProfFromIlv(instanceLecture);
         update(pExaminer);
         return "exams.xhtml";
@@ -203,18 +208,16 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .collect(Collectors.toList());
     }
 
-    public List<InstanceLecture> getAllInstances(Lecture pLecture)
-    {
+    public List<InstanceLecture> getAllInstances(Lecture pLecture) {
         return instanceLectureDao.getInstanceLecturesForLecture(pLecture);
     }
 
-    public List<Exam> getExams(User pUser)
-    {
+    public List<Exam> getExams(User pUser) {
         List<Exam> exam = new ArrayList<Exam>();
         List<JoinExam> tmp = joinExamDAO.getNonExmptyJoinExamsForUser(pUser);
-        if(tmp != null) {
+        if (tmp != null) {
             for (JoinExam l : tmp) {
-                if(l.getExam() != null) {
+                if (l.getExam() != null) {
                     exam.add(l.getExam());
                 }
             }
@@ -222,17 +225,15 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return exam;
     }
 
-    public  List<Exam> getReleasedExams() {
+    public List<Exam> getReleasedExams() {
         List<Exam> tmp = examDAO.getExamsForInstanceLecture(instanceLecture);
         List<Exam> examList = new ArrayList<Exam>();
-        if(!tmp.isEmpty())
-        for(Exam e: tmp)
-        {
-            if(e.getReleased() == true)
-            {
-                examList.add(e);
+        if (!tmp.isEmpty())
+            for (Exam e : tmp) {
+                if (e.getReleased() == true) {
+                    examList.add(e);
+                }
             }
-        }
         return examList;
     }
 }
