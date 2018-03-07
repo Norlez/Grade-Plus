@@ -5,7 +5,7 @@
 GradePlus/target/
 
 ### Eclipse ###
-
+/Tools
 .metadata
 bin/
 tmp/
