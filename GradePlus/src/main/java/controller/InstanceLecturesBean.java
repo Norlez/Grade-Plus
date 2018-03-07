@@ -1,7 +1,9 @@
 package controller;
 
 import businesslogic.Math;
+import common.exception.DuplicateEmailException;
 import common.exception.DuplicateInstanceLectureException;
+import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
 import persistence.InstanceLectureDAO;
@@ -426,14 +428,21 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
             ilv.setYear(i + "");
             ilv.setSemester(pInstanceLecture.getSemester());
             ilv.addExaminer(user);
+            user.addAsProfToIlv(ilv);
             try {
                 instanceLectureDao.save(ilv);
+                userDao.update(user);
             } catch (DuplicateInstanceLectureException ex) {
                 throw new UnexpectedUniqueViolationException(ex);
+            } catch (DuplicateUsernameException e) {
+                e.printStackTrace();
+            } catch (DuplicateEmailException e) {
+                e.printStackTrace();
             }
         }
         return "semester.xhtml";
     }
+
 
     /**
      * Gibt alle ILVs der LV zurück, in denen der Benutzer Prüfer ist.

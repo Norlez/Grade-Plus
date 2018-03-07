@@ -370,6 +370,10 @@
                                                          action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
+                                    <b:dataTableColumn rendered="#{!usersBean.isStudent(profileBean.thisUser)}" label="#{msg['actionEnter']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionEnter']}" action="#{examsBean.setExam(e)}"/>
+                                    </b:dataTableColumn>
+
                                     <b:dataTableColumn rendered="#{!usersBean.isStudent(profileBean.thisUser)}" label="#{msg['actionEdit']}" orderable="false">
                                         <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.setExam(e)}"/>
                                     </b:dataTableColumn>
