@@ -70,9 +70,9 @@
                 <b:formGroup rendered="#{true}">
 
                     <!-- TYPE -->
-                    <b:row>
-                        <b:column>
-                            <h:outputLabel value="Prüfungsform auswählen"/>
+                    <b:row class="btn-paragraph">
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputType']}"/>
                         </b:column>
                         <b:column span="4">
                             <b:selectOneMenu class="form-control" value="#{examsBean.exam.type}">
