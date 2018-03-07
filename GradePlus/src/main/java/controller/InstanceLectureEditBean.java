@@ -163,10 +163,14 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     public String addExaminer(final User pExaminer) {
-        instanceLecture.addExaminer(assertNotNull(pExaminer,
-                "InstanceLectureEditBean: addExaminer(User)"));
-        pExaminer.addAsProfToIlv(instanceLecture);
-        update(pExaminer);
+        assertNotNull(pExaminer, "InstanceLectureEditBean: addExaminer(User)");
+        if (!instanceLecture.getExaminees().contains(pExaminer)) {
+            instanceLecture.addExaminer(pExaminer);
+            pExaminer.addAsProfToIlv(instanceLecture);
+            update(pExaminer);
+        } else {
+            addErrorMessage("errorUserIsStudent");
+        }
         return "exams.xhtml";
     }
 
@@ -183,14 +187,18 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     public String addStudent(final User pStudent) {
-        instanceLecture.addExaminee(assertNotNull(pStudent,
-                "InstanceLectureEditBean: addStudent(User)"));
-        pStudent.addAsStudentToIlv(instanceLecture);
-        JoinExam joinExam = new JoinExam();
-        joinExam.setPruefling(pStudent);
-        joinExam.setKind(Anmeldeart.LISTE);
-        joinExamDAO.save(joinExam);
-        update(pStudent);
+        assertNotNull(pStudent, "InstanceLectureEditBean: addStudent(User)");
+        if (!instanceLecture.getExaminers().contains(pStudent)) {
+            instanceLecture.addExaminee(pStudent);
+            pStudent.addAsStudentToIlv(instanceLecture);
+            JoinExam joinExam = new JoinExam();
+            joinExam.setPruefling(pStudent);
+            joinExam.setKind(Anmeldeart.LISTE);
+            joinExamDAO.save(joinExam);
+            update(pStudent);
+        } else {
+            addErrorMessage("errorUserIsExaminer");
+        }
         return "exams.xhtml";
     }
 
