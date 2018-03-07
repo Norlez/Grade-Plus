@@ -373,7 +373,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         for (User student : pExam.getStudents()) {
             List<JoinExam> joinExams = student.getParticipation();
             for (JoinExam joinExam : joinExams) {
-                if (joinExam.getExam() == pExam) {
+                if (joinExam.getExam() != null && joinExam.getExam().equals(pExam)) {
                     joinExams.remove(joinExam);
                     joinExamDao.remove(joinExam);
                     break;
@@ -804,6 +804,16 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     public String closeExam(final Exam pExam) {
         assertNotNull(pExam).setReleased(false);
+        for (User u : pExam.getStudents()) {
+            for (JoinExam j : u.getParticipation()) {
+                if (j.getExam().equals(pExam)) {
+                    j.setExam(null);
+                    joinExamDao.update(j);
+                    SystemMailBean.reportExamCancel(u, pExam);
+                    break;
+                }
+            }
+        }
         Exam theExam = exam;
         exam = pExam;
         update();
