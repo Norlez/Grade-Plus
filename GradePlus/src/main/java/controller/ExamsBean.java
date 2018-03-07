@@ -432,21 +432,24 @@ public class ExamsBean extends AbstractBean implements Serializable {
     /**
      * Meldet den eingeloggten Benutzer von der gegebenen Prüfung ab.
      *
+     * @param pUser
+     *            Der zu entfernende Prüfling.
+     *
      * @param pExam
      *            Die Prüfung.
      *
      * @return "exams.xhtml", um auf das Facelet der Übersicht über die Prüfungen
      *         umzuleiten.
      */
-    public String deregisterAsStudent(final Exam pExam) {
-        assertNotNull(pExam, "ExamsBean: deregisterAsStudent(Exam)");
-        User user = getSession().getUser();
-        List<JoinExam> joinExams = user.getParticipation();
+    public String deregisterAsStudent(final User pUser, final Exam pExam) {
+        assertNotNull(pUser, "ExamsBean: deregisterAsStudent(User, _)");
+        assertNotNull(pExam, "ExamsBean: deregisterAsStudent(_, Exam)");
+        List<JoinExam> joinExams = pExam.getParticipants();
         JoinExam joinExam = null;
         for (JoinExam theJoinExam : joinExams) {
-            if (theJoinExam.getExam() == pExam) {
+            if (theJoinExam.getExam() != null && theJoinExam.getExam().equals(pExam)) {
                 joinExam = theJoinExam;
-                user.removeParticipation(joinExam);
+                pUser.removeParticipation(joinExam);
                 pExam.removeParticipant(joinExam);
                 break;
             }
@@ -454,19 +457,19 @@ public class ExamsBean extends AbstractBean implements Serializable {
         if (joinExam == null) {
             addErrorMessageWithLogging(new IllegalArgumentException(
                     "An error has occurred."), logger, Level.DEBUG,
-                    getTranslation("errorUserdataIncomplete"));
+                    getTranslation("someError"));
             return null;
         }
         try {
-            userDao.update(user);
+            userDao.update(pUser);
             joinExamDao.remove(joinExam);
             examDao.update(pExam);
         } catch (final DuplicateUsernameException e) {
             addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse", user.getUsername());
+                    Level.DEBUG, "errorUsernameAlreadyInUse", pUser.getUsername());
         } catch (final DuplicateEmailException e) {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse", user.getEmail());
+                    "errorEmailAlreadyInUse", pUser.getEmail());
         }
         return "exams.xhtml";
     }
@@ -805,14 +808,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String closeExam(final Exam pExam) {
         assertNotNull(pExam).setReleased(false);
         for (User u : pExam.getStudents()) {
-            for (JoinExam j : u.getParticipation()) {
-                if (j.getExam().equals(pExam)) {
-                    j.setExam(null);
-                    joinExamDao.update(j);
-                    SystemMailBean.reportExamCancel(u, pExam);
-                    break;
-                }
-            }
+            deregisterAsStudent(u, pExam);
+            SystemMailBean.reportExamCancel(u, pExam);
         }
         Exam theExam = exam;
         exam = pExam;
