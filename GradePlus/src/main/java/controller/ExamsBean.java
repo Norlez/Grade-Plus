@@ -19,10 +19,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -125,6 +122,13 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     private boolean alreadyExists;
 
+
+    /**
+     * Die Liste aller innherhalb der Applikation bekannten Prüfungstypen.
+     */
+    private List<String> examTypes;
+
+
     /**
      * Erzeugt eine neue ExamsBean.
      *
@@ -145,6 +149,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 "ExamsBean: ExamsBean(_, _, _, JoinExamDAO, _)");
         instanceLectureDao = assertNotNull(pInstanceLectureDao,
                 "ExamsBean: ExamsBean(_, _, _, _, InstanceLectureDAO)");
+        examTypes = calculateExamTypeList();
     }
 
     /**
@@ -580,6 +585,24 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return "exams.xhtml";
     }
 
+
+    /**
+     *
+     * Gibt die Liste der Prüfungsarten zurück.
+     * @return die Liste von Prüfungsarten.
+     */
+    public List<String> getExamTypes() {
+        return examTypes;
+    }
+
+    /**
+     * Setzt die typen von möglichen Prüfungen im System.
+     *
+     */
+    public void setExamTypes(List<String> examTypes) {
+        this.examTypes = assertNotNull(examTypes);
+    }
+
     /**
      * Gibt alle Prüfungen als Liste zurück, die beim Aufruf von
      * {@link #createExamsForTimeFrame()} aufgrund von Zeitkonflikten nicht gespeichert
@@ -903,6 +926,19 @@ public class ExamsBean extends AbstractBean implements Serializable {
             }
         }// Auf welcher Seite ist das??? Muss evtl in eine andere
          // Bean verschoben werden
+    }
+
+    /**
+     * Liefert eine einfache Map mit den verfügbaren Exam Typen im System zurück. Diese werden
+     * als Auswahl im Drop-Down Menu bei der erstellung einer Prüfung verfügbar sein.
+     *
+     * @return Eine einfache Map mit verfügbaren Rollen.
+     */
+    private List<String> calculateExamTypeList() {
+        final List<String> tmp = new ArrayList<String>();
+        tmp.add("Mündliche Prüfung");
+        tmp.add("Fachgespräch");
+        return Collections.unmodifiableList(tmp);
     }
 
 }

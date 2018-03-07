@@ -71,20 +71,13 @@
 
                     <!-- TYPE -->
                     <b:row>
-                        <b:column span="4" offset="2">
-                            <b:message for="type"/>
-                        </b:column>
-                    </b:row>
-                    <b:row class="btn-paragraph">
-                        <b:column span="2">
-                            <h:outputLabel value="#{msg['outputType']}"/>
+                        <b:column>
+                            <h:outputLabel value="Prüfungsform auswählen"/>
                         </b:column>
                         <b:column span="4">
-                            <b:inputText placeholder="#{msg['inputType']}"
-                                         id="type"
-                                         value="#{examsBean.exam.type}"
-                                         required="true"
-                                         requiredMessage="#{msg['errorTypeRequired']}"/>
+                            <b:selectOneMenu class="form-control" value="#{examsBean.exam.type}">
+                                <f:selectItems value="#{examsBean.examTypes}" />
+                            </b:selectOneMenu>
                         </b:column>
                     </b:row>
 
