@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
@@ -17,64 +17,36 @@
         <ui:define name="content">
             <f:loadBundle basename="internationalization.grades" var="msg" />
 
-        <b:form id="gradeview">
-            <b:container class="form-group">
-                <b:row>
-                    <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                        <h1>
-                            <h:outputText value="#{msg['actionLinkGrades']}" />
-                        </h1>
-                    </b:column>
-                </b:row>
-
-                <!-- INPUT SUBJECT -->
-                <b:row>
-                    <b:column span="3" colSm="4" colMd="6" colXs="12">
-                        <b:inputText class="form-control" placeholder="#{msg['inputSubject']}" id="subject" value="#{gradesBean.grade.subject}" required="true"
-                                     requiredMessage="#{msg['errorSubjectRequired']}" />
-                    </b:column>
-                    <b:column span="4">
-                        <b:message for="subject" />
-                    </b:column>
-                </b:row>
-
-                <!-- INPUT GRADE -->
-                <b:row>
-                    <b:column span="3" colSm="4" colMd="6" colXs="12">
-                        <b:inputText class="form-control" placeholder="#{msg['inputGrade']}" id="grade" value="#{gradesBean.grade.mark}" required="true"
-                                     requiredMessage="#{msg['errorGradeRequired']}" />
-                    </b:column>
-                    <b:column span="4">
-                        <b:message for="grade" />
-                    </b:column>
-                </b:row>
-
-                <!-- BUTTON GRADE -->
-                <b:row>
-                    <b:column span="3" colSm="4" colMd="6" colXs="12">
-                        <b:commandButton class="btn-green" id="saveButton" value="#{msg['actionSave']}" action="#{gradesBean.save}" />
-                    </b:column>
-                </b:row>
-            </b:container>
-        </b:form>
+            <b:form id="gradeview">
+                <b:container class="form-group">
+                    <b:row>
+                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                            <h1>
+                                <h:outputText value="#{msg['actionLinkGrades']}" />
+                            </h1>
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </b:form>
 
 
 
-            <h:panelGroup rendered="#{! empty gradesBean.getAllGrades()}">
+            <h:panelGroup rendered="#{! empty instanceLectureEditBean.instanceLecture.examinees}">
 
                 <b:form>
                     <b:container class="form-group">
-                        <b:dataTable span="8" value="#{gradesBean.getAllGrades()}" var="g"
+                        <b:dataTable span="8" value="#{instanceLectureEditBean.instanceLecture.examinees}" var="e"
                                      excel="true"
                                      csv="true"
                                      pdf="true"
                                      columnVisibility="false"
                                      copy="false"
                                      print="true">
-                            <b:dataTableColumn label="#{msg['outputSubject']}" value="#{g.subject}" />
-                            <b:dataTableColumn label="#{msg['outputGrade']}" value="#{g.mark}" />
+                            <b:dataTableColumn label="martikelnummer" value="#{e.matrNr}" />
+                            <b:dataTableColumn label="name" value="#{e.surname}" />
+                            <b:dataTableColumn label="vorname" value="#{e.givenName}" />
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['actionRemove']}" action="#{gradesBean.remove(g)}" />
+                                <b:commandButton value="#{msg['actionRemove']}" action="huhu" />
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:container>

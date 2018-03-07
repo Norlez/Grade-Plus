@@ -33,8 +33,12 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import common.model.InstanceLecture;
+import common.model.JoinExam;
+import common.model.Lecture;
 import common.model.User;
 import org.apache.log4j.Logger;
+import sun.jvm.hotspot.oops.Instance;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -112,7 +116,7 @@ public class SystemMailBean {
      * Eine Loginunabhängige Funktion, die dem sich registrierenden Benutzer, nach der
      * Registrierung eine Bestätigungsmail zusendet und  in der alle relevanten Daten vermerkt
      * sind.
-     * 
+     *
      * @param pUser
      *            Der Empfänger der Registrierungsmail.
      */
@@ -193,7 +197,7 @@ public class SystemMailBean {
                     + ","
                     + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie für die Lehrveranstaltung " + pIlvName
                     + "\n\n vom Prüfer hinzugefügt wurden.");
-           postInit();
+            postInit();
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -255,4 +259,33 @@ public class SystemMailBean {
     }
 
 
+
+    /**
+     * Sendet eine Mail von der Systemmail, an den übergebenen Empfänger und informiert darüber,
+     * dass der Veranstalter der Lecture einen erstellten Termin, in dem ein User angemeldet war, geschlossen hat.
+     * @param pUser Der User, der sich krank meldet.
+     * @param pLecture Der Empfänger, der über die Krankmeldung in Kentniss gesetzt werden soll
+     */
+
+    public static void reportExam(User pUser, Lecture pLecture) {
+
+        try {
+            init();
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("gradeplusbremen@gmail.com"));
+            message.setSubject("Systemnachricht: Prüfung gelöscht");
+            message.setText("Hallo"
+                    + pUser.getSurname()
+                    + ","
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Prüfung für " + pLecture.getName()
+                    + "\n\n vom Veranstelter gelöscht wurde. Für weitere Informationen kontaktieren Sie bitten den"
+                    + "\n\n Veranstalter von " + pLecture.getName());
+            postInit();
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
+
