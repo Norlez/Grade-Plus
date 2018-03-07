@@ -122,12 +122,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     private boolean alreadyExists;
 
-
     /**
      * Die Liste aller innherhalb der Applikation bekannten Prüfungstypen.
      */
     private List<String> examTypes;
-
 
     /**
      * Erzeugt eine neue ExamsBean.
@@ -273,7 +271,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         examiners.add(getSession().getUser());
         exam.setExaminers(examiners);
         exam.getInstanceLecture().addExam(exam);
-       // examiners.forEach(e -> e.addAsProfToIlv(exam.getInstanceLecture()));
+        // examiners.forEach(e -> e.addAsProfToIlv(exam.getInstanceLecture()));
         // addAsProfToIlv pls
         examiners.forEach(exam.getInstanceLecture()::addExaminer);
         try {
@@ -428,7 +426,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         joinExamDao.save(joinExam);
         pExam.addParticipant(joinExam);
         examDao.update(pExam);
-        return "examregister.xhtml";
+        return "dashboard.xhtml";
     }
 
     /**
@@ -586,10 +584,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return "exams.xhtml";
     }
 
-
     /**
      *
      * Gibt die Liste der Prüfungsarten zurück.
+     * 
      * @return die Liste von Prüfungsarten.
      */
     public List<String> getExamTypes() {
@@ -930,8 +928,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Liefert eine einfache Map mit den verfügbaren Exam Typen im System zurück. Diese werden
-     * als Auswahl im Drop-Down Menu bei der erstellung einer Prüfung verfügbar sein.
+     * Liefert eine einfache Map mit den verfügbaren Exam Typen im System zurück. Diese
+     * werden als Auswahl im Drop-Down Menu bei der erstellung einer Prüfung verfügbar
+     * sein.
      *
      * @return Eine einfache Map mit verfügbaren Rollen.
      */

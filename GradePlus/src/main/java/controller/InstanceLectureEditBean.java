@@ -244,4 +244,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
             }
         return examList;
     }
+
+    public boolean isStudentRegisteredForExam() {
+        List<User> allRegisteredUsers = new ArrayList<>();
+        instanceLecture.getExams().forEach(
+                e -> allRegisteredUsers.addAll(e.getStudents()));
+        return allRegisteredUsers.contains(getSession().getUser());
+    }
+
 }

@@ -8,55 +8,55 @@
 <head>
     <!-- Fuer den Pruefling, hier kann er sich zu einer Pruefung aus seinen Lehrveranstaltungen
      anmelden -->
-    <title>Title</title>
+    <title>#{mgs['title']}</title>
 </head>
 <body>
 <ui:composition template="WEB-INF/template.xhtml">
-    <ui:param name="title" value="#{msg['title']}"/>
+    <ui:param name="title" value="#{msg['title']}" />
 
     <ui:define name="content">
-        <f:loadBundle basename="internationalization.dashboard" var="msg" />
+        <f:loadBundle basename="internationalization.examregister" var="msg" />
 
         <b:form>
             <b:container class="form-group">
-                <b:row class="btn-paragraph">
+                <b:row>
                     <b:column span="4">
                         <h2>
-                            <h:outputText value="#{msg['subtitleExams']}" />
+                            <h:outputText value="#{msg['outputExams']}" />
                         </h2>
                     </b:column>
                 </b:row>
-                <b:row class="btn-paragraph">
-                    <b:column span="12">
-                        <b:dataTable span="8"
-                                     rendered="#{!empty instanceLectureEditBean.instanceLecture.exams}"
+
+                <b:row class="space25px" />
+
+                <b:row>
+                    <b:column span="12" colSm="12" colMd="12" colXs="12">
+                        <b:dataTable rendered="#{!instanceLectureEditBean.studentRegisteredForExam}"
+                                     span="8"
                                      value="#{instanceLectureEditBean.releasedExams}"
                                      var="e"
-                                     excel="true"
-                                     csv="true"
+                                     excel="false"
+                                     csv="false"
                                      pdf="false"
                                      columnVisibility="false"
                                      copy="false"
                                      print="false">
-                            <b:dataTableColumn label="#{msg['outputId']}" value="#{e.id}"/>
-                            <b:dataTableColumn label="#{msg['outputType']}" value="#{e.type}"/>
-                            <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
-                            <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
-                            <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}"/>
-                            <b:dataTableColumn label="#{msg['outputExaminer']}">
-                                <b:selectOneMenu value="#{msg['outputExaminer']}">
-                                    <f:selectItems value="#{examsBean.examinersToStringList(e)}"/>
-                                </b:selectOneMenu>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
-                            <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
-                                <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.registerAsStudent(e)}"/>
+                            <b:dataTableColumn label="#{msg['outputType']}" value="#{e.type}" />
+                            <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}" />
+                            <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}" />
+                            <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}" />
+                            <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}" />
+                            <b:dataTableColumn label="#{msg['outputRegister']}">
+                                <b:commandButton value="#{msg['actionRegister']}"
+                                                 action="#{examsBean.registerAsStudent(e)}" />
                             </b:dataTableColumn>
 
                         </b:dataTable>
-                        <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
-                                       value="#{msg['outputNoExams']}"/>
+
+                        <h:outputLabel rendered="#{instanceLectureEditBean.studentRegisteredForExam}"
+                                       value="#{msg['outputNoExamsAvailable']}"/>
+
                     </b:column>
                 </b:row>
             </b:container>
