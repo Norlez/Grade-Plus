@@ -2,11 +2,13 @@ package controller;
 
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
+import common.model.InstanceLecture;
 import common.model.Role;
 import common.model.Session;
 import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import persistence.InstanceLectureDAO;
 import persistence.UserDAO;
 
 import javax.enterprise.context.RequestScoped;
@@ -41,6 +43,12 @@ public class FileBean extends AbstractBean implements Serializable {
     private UserDAO userDao;
 
     /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für InstanceLecture-Objekte
+     * übernimmt.
+     */
+    private InstanceLectureDAO instanceLectureDAO;
+
+    /**
      * Die zu verarbeitende Datei.
      */
     private Part file;
@@ -54,9 +62,10 @@ public class FileBean extends AbstractBean implements Serializable {
      *            Die UserDAO der zu erzeugenden FileBean.
      */
     @Inject
-    public FileBean(final Session pSession, final UserDAO pUserDao) {
+    public FileBean(final Session pSession, final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDao);
+        instanceLectureDAO = assertNotNull(pInstanceLectureDAO);
     }
 
     /**
@@ -125,7 +134,8 @@ public class FileBean extends AbstractBean implements Serializable {
      * @return
      * @throws IOException
      */
-    public String saveFromCSVFromPabo() throws IOException {
+    public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture) throws IOException {
+        assertNotNull(pInstanceLecture);
         InputStream is = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         ArrayList<String> lines = new ArrayList<>();
@@ -135,12 +145,18 @@ public class FileBean extends AbstractBean implements Serializable {
         }
         for (String theLine : lines) {
             String[] data = theLine.split(";");
-            if(userDao.getUserForMatrNr(data[0]) != null)
-            {
+            if (userDao.getUserForMatrNr(data[0].trim()) != null) {
+                User u = userDao.getUserForMatrNr(data[0].trim());
+                u.addAsStudentToIlv(pInstanceLecture);
+                pInstanceLecture.addExaminer(u);
+                try {
+                    instanceLectureDAO.update(pInstanceLecture);
+                } catch (final IllegalArgumentException e) {
+                    addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                            getTranslation("errorUserdataIncomplete"));
 
+                }
             }
-
-           
         }
         return "exams.xhtml";
     }
