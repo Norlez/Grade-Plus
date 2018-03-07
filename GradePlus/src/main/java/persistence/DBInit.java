@@ -85,8 +85,6 @@ public class DBInit {
     @Inject
     private LectureDAO lectureDAO;
 
-    @Inject
-    private InstanceLectureDAO instanceLectureDAO;
 
     @Inject
     private ExamDAO examDAO;
@@ -110,7 +108,6 @@ public class DBInit {
             final User pUser = new User();
             final User student = new User();
             final Lecture lecture = new Lecture();
-            final InstanceLecture instanceLecture = new InstanceLecture();
             // final Exam exam = new Exam();
             user.setUsername(DEFAULT_USER_NAME);
             user.setEmail(DEFAULT_USER_EMAIL);
@@ -133,10 +130,6 @@ public class DBInit {
             lecture.setVak("2035252-2");
             lecture.setEcts(9);
             lecture.setName("SWP-2");
-            instanceLecture.setLecture(lecture);
-            instanceLecture.addExaminer(pUser);
-            instanceLecture.setYear("2018");
-            instanceLecture.setSemester("WiSe");
             // exam.setInstanceLecture(instanceLecture);
             // exam.setLocalDateTime(LocalDateTime.of(2019, 10, 2, 4, 25));
             try {
@@ -144,7 +137,6 @@ public class DBInit {
                 userDAO.save(pUser);
                 userDAO.save(student);
                 lectureDAO.save(lecture);
-                instanceLectureDAO.save(instanceLecture);
                 // examDAO.save(exam);
             } catch (final DuplicateUsernameException ex) {
                 logger.fatal(
@@ -159,8 +151,6 @@ public class DBInit {
                                 DEFAULT_USER_EMAIL), ex);
                 throw new UnexpectedUniqueViolationException(ex);
             } catch (final DuplicateVakException ex) {
-                throw new UnexpectedUniqueViolationException(ex);
-            } catch (final DuplicateInstanceLectureException ex) {
                 throw new UnexpectedUniqueViolationException(ex);
             }
         }
