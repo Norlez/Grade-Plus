@@ -261,10 +261,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
             }
         }
         try {
+            user.addAsProfToIlv(instanceLecture);
             instanceLecture.setSemester(SemesterTime.toString(selectedTimes));
             instanceLecture.setYear(selectedYear);
             instanceLecture.setLecture(getSession().getSelectedLecture());
             instanceLectureDao.save(instanceLecture);
+            userDao.update(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInstanceLectureDataIncomplete"));
