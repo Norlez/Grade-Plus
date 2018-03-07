@@ -30,13 +30,11 @@ import java.util.Properties;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.mail.*;
+import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import common.model.InstanceLecture;
-import common.model.JoinExam;
-import common.model.Lecture;
-import common.model.User;
+import common.model.*;
 import org.apache.log4j.Logger;
 import sun.jvm.hotspot.oops.Instance;
 
@@ -264,10 +262,10 @@ public class SystemMailBean {
      * Sendet eine Mail von der Systemmail, an den übergebenen Empfänger und informiert darüber,
      * dass der Veranstalter der Lecture einen erstellten Termin, in dem ein User angemeldet war, geschlossen hat.
      * @param pUser Der User, der sich krank meldet.
-     * @param pLecture Der Empfänger, der über die Krankmeldung in Kentniss gesetzt werden soll
+     * @param pExam Der Empfänger, der über die Krankmeldung in Kentniss gesetzt werden soll
      */
 
-    public static void reportExam(User pUser, Lecture pLecture) {
+    public static void reportExamCancel(User pUser, Exam pExam) {
 
         try {
             init();
@@ -277,9 +275,9 @@ public class SystemMailBean {
             message.setText("Hallo"
                     + pUser.getSurname()
                     + ","
-                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Prüfung für " + pLecture.getName()
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Prüfung für " + pExam.getInstanceLecture().getLecture().getName()
                     + "\n\n vom Veranstelter gelöscht wurde. Für weitere Informationen kontaktieren Sie bitten den"
-                    + "\n\n Veranstalter von " + pLecture.getName());
+                    + "\n\n Veranstalter von " + pExam.getInstanceLecture().getLecture().getName());
             postInit();
         } catch (MessagingException e) {
             throw new RuntimeException(e);
