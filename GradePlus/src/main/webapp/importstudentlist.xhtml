@@ -17,19 +17,6 @@
         <ui:define name="content">
             <f:loadBundle basename="internationalization.admin.users" var="msg" />
 
-            <b:form>
-                <b:container styleClass="form-group">
-                    <!-- TITLE -->
-                    <b:row>
-                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                            <h1>
-                                <h:outputText value="#{msg['title']}" />
-                            </h1>
-                        </b:column>
-                    </b:row>
-                </b:container>
-            </b:form>
-
             <!-- REGISTER USER FROM A FILE  -->
             <b:form enctype="multipart/form-data">
                 <b:container class="form-group" >
@@ -37,140 +24,13 @@
                         <b:column span="6">
                             <b:panel collapsed="true">
                                 <f:facet name="heading">
-                                    <h:outputText value="#{msg['actionImportUser']}" />
+                                    <h:outputText value="#{msg['actionImportFromPabo']}" />
                                 </f:facet>
                                 <h:inputFile value="#{fileBean.file}" />
                                 <b:commandButton action="#{fileBean.saveFromCSVFromPabo(instanceLectureEditBean.instanceLecture)}" value="convert" />
                             </b:panel>
                         </b:column>
                     </b:row>
-                </b:container>
-            </b:form>
-
-
-            <b:form id="registerUser">
-                <b:container class="form-group">
-                    <!-- REGISTER ONE USER -->
-                    <b:row>
-                        <b:column span="6">
-                            <b:panel collapsed="true">
-                                <f:facet name="heading">
-                                    <h:outputText value="#{msg['actionCreateUser']}" />
-                                </f:facet>
-
-                                <!-- INPUT EMAIL -->
-                                <b:row>
-                                    <b:column span="6" colSm="12" colMd="12" colXs="24">
-                                        <b:inputText class="form-control" id="email" placeholder="#{msg['inputEmail']}"
-                                                     value="#{usersBean.user.email}" required="true" requiredMessage="#{msg['errorEmailRequired']}" />
-                                    </b:column>
-                                    <b:column>
-                                        <b:message for="email" />
-                                    </b:column>
-                                </b:row>
-
-                                <!-- INPUT SURNAME -->
-                                <b:row>
-                                    <b:column span="6" colSm="12" colMd="12" colXs="12">
-                                        <b:inputText class="form-control" id="surname" placeholder="#{msg['inputSurname']}"
-                                                     value="#{usersBean.user.surname}" required="true" requiredMessage="#{msg['errorSurnameRequired']}" />
-                                    </b:column>
-                                    <b:column>
-                                        <b:message for="surname" />
-                                    </b:column>
-                                </b:row>
-
-                                <!-- INPUT GIVEN NAME -->
-                                <b:row>
-                                    <b:column span="6" colSm="4" colMd="6" colXs="12">
-                                        <b:inputText class="form-control" id="givenName" placeholder="#{msg['inputGivenName']}"
-                                                     value="#{usersBean.user.givenName}" required="true" requiredMessage="#{msg['errorGivenNameRequired']}" />
-                                    </b:column>
-                                    <b:column>
-                                        <b:message for="givenName" />
-                                    </b:column>
-                                </b:row>
-
-                                <!-- INPUT PASSWORD -->
-                                <b:row>
-                                    <b:column span="6" colSm="4" colMd="6" colXs="12">
-                                        <b:inputSecret class="form-control" id="password" placeholder="#{msg['inputPassword']}"
-                                                       value="#{usersBean.user.password}" required="true" requiredMessage="#{msg['errorPasswordRequired']}" />
-                                    </b:column>
-                                    <b:column>
-                                        <b:message for="password" />
-                                    </b:column>
-                                </b:row>
-
-                                <!-- ROLE -->
-                                <b:row>
-                                    <b:column>
-                                        <h:outputLabel value="#{msg['outputRole']}"/>
-                                    </b:column>
-                                    <b:column span="4">
-                                        <b:selectOneMenu class="form-control" value="#{usersBean.selectedRole}">
-                                            <f:selectItems value="#{usersBean.roles}" />
-                                        </b:selectOneMenu>
-                                    </b:column>
-                                </b:row>
-
-                                <b:row styleClass="space50px"/>
-
-                                <!-- SAVE AND BACK BUTTON-->
-                                <b:row>
-                                    <b:column span="3" colSm="3" colMd="3" colXs="12">
-                                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionCreate']}" action="#{usersBean.save}" />
-                                    </b:column>
-                                    <b:column>
-                                        <b:message for="saveButton" />
-                                    </b:column>
-                                </b:row>
-                            </b:panel>
-                        </b:column>
-                    </b:row>
-
-                </b:container>
-            </b:form>
-
-            <b:form rendered="#{! empty usersBean.allUsers}">
-                <b:container class="form-group">
-
-                    <!-- SUBTITLE -->
-                    <b:row>
-                        <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
-                            <h2>
-                                <h:outputText value="#{msg['subtitleAllUsers']}" />
-                            </h2>
-                        </b:column>
-                    </b:row>
-
-                    <b:messages globalOnly="true"/>
-
-
-                    <b:dataTable span="8" value="#{usersBean.allUsers}" var="u"
-                                 excel="false"
-                                 csv="false"
-                                 pdf="false"
-                                 columnVisibility="false"
-                                 copy="false"
-                                 print="false">
-                        <b:dataTableColumn label="#{msg['outputId']}" value="#{u.id}" />
-                        <b:dataTableColumn label="#{msg['outputUsername']}" value="#{u.username}" />
-                        <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}" />
-                        <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}" />
-                        <b:dataTableColumn label="#{msg['outputStatus']}" value="#{u.active}" />
-
-                        <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
-                            <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{userEditBean.setSelectedUser(u)}" />
-                        </b:dataTableColumn>
-
-                        <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                            <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
-                        </b:dataTableColumn>
-
-
-
-                    </b:dataTable>
                 </b:container>
             </b:form>
 
