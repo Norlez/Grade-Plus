@@ -244,4 +244,24 @@ public class UserDAO extends JPADAO<User> implements Serializable {
         return getEm().createNamedQuery("User.findByRole", getClazz())
                 .setParameter("role", Role.EXAMINER).getResultList();
     }
+
+    /**
+     * Gibt den Benutzer mit der gegebenen MatrNr zurück. Falls es keinen Benutzer
+     * mit dem gegebenen Benutzernamen gibt, wird {@code null} zurückgegeben.
+     *
+     * @param pMatrNr
+     *            die MatrNr des gesuchten Benutzers
+     * @return Den Benutzer zur gegebenen MatrNr oder {@code null} falls es keinen
+     *         solchen Benutzer gibt.
+     * @throws IllegalArgumentException
+     *             Falls der gegebene Benutzername leer ist oder den Wert {@code null}
+     *             hat.
+     */
+    public User getUserForMatrNr(final String pMatrNr) {
+        Assertion.assertNotEmpty(pMatrNr);
+        final List<User> users = getEm()
+                .createNamedQuery("User.findByMatrNr", getClazz())
+                .setParameter("matrNr", pMatrNr).getResultList();
+        return users.isEmpty() ? null : users.get(0);
+    }
 }

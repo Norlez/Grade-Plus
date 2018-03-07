@@ -273,7 +273,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         examiners.add(getSession().getUser());
         exam.setExaminers(examiners);
         exam.getInstanceLecture().addExam(exam);
-        // examiners.forEach(e -> e.addAsProfToIlv(exam.getInstanceLecture())); TODO: fix
+       // examiners.forEach(e -> e.addAsProfToIlv(exam.getInstanceLecture()));
         // addAsProfToIlv pls
         examiners.forEach(exam.getInstanceLecture()::addExaminer);
         try {
@@ -288,6 +288,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         }
         for (User examiner : examiners) {
             try {
+                examiner.addExamAsProf(exam);
                 userDao.update(examiner);
             } catch (final DuplicateUsernameException e) {
                 addErrorMessageWithLogging("registerUserForm:username", e, logger,

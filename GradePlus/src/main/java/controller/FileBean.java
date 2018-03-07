@@ -118,4 +118,30 @@ public class FileBean extends AbstractBean implements Serializable {
         }
         return "users.xhtml";
     }
+
+    /**
+     * Speichert eine Menge von Usern aus einer CSV -Datei in die Applikation
+     *
+     * @return
+     * @throws IOException
+     */
+    public String saveFromCSVFromPabo() throws IOException {
+        InputStream is = file.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        ArrayList<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
+        }
+        for (String theLine : lines) {
+            String[] data = theLine.split(";");
+            if(userDao.getUserForMatrNr(data[0]) != null)
+            {
+
+            }
+
+           
+        }
+        return "exams.xhtml";
+    }
 }
