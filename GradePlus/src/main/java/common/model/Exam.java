@@ -442,5 +442,5 @@ public class Exam extends JPAEntity {
         }
         return getId().equals(((Exam) theObject).getId());
     }
-    
+
 }
