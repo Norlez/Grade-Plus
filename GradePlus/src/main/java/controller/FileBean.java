@@ -2,13 +2,11 @@ package controller;
 
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
-import common.model.InstanceLecture;
-import common.model.Role;
-import common.model.Session;
-import common.model.User;
+import common.model.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import persistence.InstanceLectureDAO;
+import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.enterprise.context.RequestScoped;
@@ -49,6 +47,12 @@ public class FileBean extends AbstractBean implements Serializable {
     private InstanceLectureDAO instanceLectureDAO;
 
     /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für JoinExam-Objekte
+     * übernimmt.
+     */
+    private JoinExamDAO joinExamDAO;
+
+    /**
      * Die zu verarbeitende Datei.
      */
     private Part file;
@@ -62,10 +66,11 @@ public class FileBean extends AbstractBean implements Serializable {
      *            Die UserDAO der zu erzeugenden FileBean.
      */
     @Inject
-    public FileBean(final Session pSession, final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDAO) {
+    public FileBean(final Session pSession, final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDAO, final  JoinExamDAO pJoinExamDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDao);
         instanceLectureDAO = assertNotNull(pInstanceLectureDAO);
+        joinExamDAO = assertNotNull(pJoinExamDAO);
     }
 
     /**
@@ -130,12 +135,12 @@ public class FileBean extends AbstractBean implements Serializable {
 
     /**
      * Trägt die Pabo-Liste in der ILV ein.
-     * TODO: Anmeldeart vermerken
+     *
      *
      * @return exams.xhtml als Weiterleitung
      * @throws IOException, falls die einzulesende Datei fehlerhaft ist.
      */
-    public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture) throws IOException {
+    public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture) throws IOException, DuplicateEmailException, DuplicateUsernameException {
         assertNotNull(pInstanceLecture);
         InputStream is = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -148,9 +153,17 @@ public class FileBean extends AbstractBean implements Serializable {
             String[] data = theLine.split(";");
             if (userDao.getUserForMatrNr(data[0].trim()) != null) {
                 User u = userDao.getUserForMatrNr(data[0].trim());
-                u.addAsStudentToIlv(pInstanceLecture);
-                pInstanceLecture.addExaminer(u);
-                instanceLectureDAO.update(pInstanceLecture);
+
+                if(!pInstanceLecture.getExaminers().contains(u)) {
+                    JoinExam j = new JoinExam();
+                    j.setKind(Anmeldeart.LISTE);
+                    j.setPruefling(u);
+                    joinExamDAO.save(j);
+                    u.addAsStudentToIlv(pInstanceLecture);
+                    pInstanceLecture.addExaminee(u);
+                    instanceLectureDAO.update(pInstanceLecture);
+                    userDao.update(u);
+                }
             }
         }
         return "exams.xhtml";
