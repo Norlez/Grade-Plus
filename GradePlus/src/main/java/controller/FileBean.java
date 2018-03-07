@@ -129,10 +129,11 @@ public class FileBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Speichert eine Menge von Usern aus einer CSV -Datei in die Applikation
+     * Trägt die Pabo-Liste in der ILV ein.
+     * TODO: Anmeldeart vermerken
      *
-     * @return
-     * @throws IOException
+     * @return exams.xhtml als Weiterleitung
+     * @throws IOException, falls die einzulesende Datei fehlerhaft ist.
      */
     public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture) throws IOException {
         assertNotNull(pInstanceLecture);
@@ -149,13 +150,7 @@ public class FileBean extends AbstractBean implements Serializable {
                 User u = userDao.getUserForMatrNr(data[0].trim());
                 u.addAsStudentToIlv(pInstanceLecture);
                 pInstanceLecture.addExaminer(u);
-                try {
-                    instanceLectureDAO.update(pInstanceLecture);
-                } catch (final IllegalArgumentException e) {
-                    addErrorMessageWithLogging(e, logger, Level.DEBUG,
-                            getTranslation("errorUserdataIncomplete"));
-
-                }
+                instanceLectureDAO.update(pInstanceLecture);
             }
         }
         return "exams.xhtml";
