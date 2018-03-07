@@ -26,8 +26,42 @@
                             </h1>
                         </b:column>
                     </b:row>
+
+                    <b:row>
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['outputInstanceLecture']}"/>
+                            </h2>
+                        </b:column>
+                    </b:row>
+
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputName']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.name}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputVak']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.vak}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputSemester']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.semesterToString()}"/>
+                        </b:column>
+                    </b:row>
                 </b:container>
             </b:form>
+
 
 
 
@@ -42,15 +76,19 @@
                                      columnVisibility="false"
                                      copy="false"
                                      print="true">
-                            <b:dataTableColumn label="martikelnummer" value="#{e.matrNr}" />
-                            <b:dataTableColumn label="name" value="#{e.surname}" />
-                            <b:dataTableColumn label="vorname" value="#{e.givenName}" />
+                            <b:dataTableColumn label="Martikelnummer" value="#{e.matrNr}" />
+                            <b:dataTableColumn label="Name" value="#{e.surname}" />
+                            <b:dataTableColumn label="Vorname" value="#{e.givenName}" />
+                            <b:dataTableColumn label="Noteneintragung">
+                                <b:selectOneMenu class="form-control" value="#{gradesBean.selectedGrade}">
+                                    <f:selectItems value="#{gradesBean.possibleGrades}" />
+                                </b:selectOneMenu>
+                            </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
                                 <b:commandButton value="#{msg['actionRemove']}" action="huhu" />
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:container>
-
                 </b:form>
 
                 <b:container>
@@ -73,3 +111,4 @@
 </h:body>
 
 </html>
+
