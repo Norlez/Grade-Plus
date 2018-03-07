@@ -36,7 +36,6 @@ import javax.mail.internet.MimeMessage;
 
 import common.model.*;
 import org.apache.log4j.Logger;
-import sun.jvm.hotspot.oops.Instance;
 
 import static common.util.Assertion.assertNotNull;
 
