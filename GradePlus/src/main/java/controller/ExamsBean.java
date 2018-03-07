@@ -120,7 +120,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
      * Falls eine Prüfung im gewählten Zeitraum bereits existiert, wird dieser Wert auf
-     * {@code true} gesetzt, und somit kann die Prüfung bei bedarf dennoch gespeichert
+     * {@code true} gesetzt, und somit kann die Prüfung bei Bedarf dennoch gespeichert
      * werden.
      */
     private boolean alreadyExists;
