@@ -130,6 +130,8 @@ public final class Math {
         throw new UnsupportedOperationException();
     }
 
+
+
     /**
      * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück. Diese werden
      * als Auswahl im Drop-Down Menu bei der erstellung einer ILV verfügbar sein.
@@ -144,9 +146,11 @@ public final class Math {
         return Collections.unmodifiableList(tmp);
     }
 
+
+
+
     /**
      * Liefert eine einfache Map mit den verfügbaren Semestern im System zurück.
-     * 
      * @return Eine einfache Map mit verfügbaren Semestern.
      */
     private Map<String, SemesterTime> calculateSemesterMap() {
@@ -157,14 +161,13 @@ public final class Math {
     }
 
     /**
-     * Liefert eine einfache Map mit allen bekannten Rollen innerhalb der Applikation
-     * zurück.
+     * Liefert eine einfache Map mit allen bekannten Rollen innerhalb der Applikation zurück.
      */
     public static Map<String, Role> calculateRoleMap() {
         final Map<String, Role> tmp = new LinkedHashMap<>();
         tmp.put("ADMIN", Role.ADMIN);
         tmp.put("EXAMINER", Role.EXAMINER);
-        // tmp.put("STUDENT", Role.STUDENT);
+        //tmp.put("STUDENT", Role.STUDENT);
         return Collections.unmodifiableMap(tmp);
     }
 }

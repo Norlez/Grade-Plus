@@ -57,31 +57,37 @@ public class JoinExamDAO extends JPADAO<JoinExam> implements Serializable {
         return getEm().createNamedQuery("JoinExams.getAll", getClazz()).getResultList();
     }
 
-    public List<JoinExam> getUsersForExam(Exam pExam) {
+    public List<JoinExam> getUsersForExam(Exam pExam)
+    {
         assertNotNull(pExam);
         final List<JoinExam> joinExams = getEm()
                 .createNamedQuery("JoinExams.getUsersForExam", getClazz())
                 .setParameter("exam", pExam).getResultList();
-        return joinExams.isEmpty() ? null : joinExams;
+        return joinExams.isEmpty() ? null :joinExams;
     }
 
-    public List<JoinExam> getJoinExamsForUser(User pUser) {
+    public List<JoinExam> getJoinExamsForUser(User pUser)
+    {
         assertNotNull(pUser);
         final List<JoinExam> joinExams = getEm()
                 .createNamedQuery("JoinExam.getJoinExamsForUser", getClazz())
                 .setParameter("pruefling", pUser).getResultList();
-        return joinExams.isEmpty() ? null : joinExams;
+        return joinExams.isEmpty() ? null :joinExams;
     }
 
-    public List<JoinExam> getNonExmptyJoinExamsForUser(User pUser) {
+    public List<JoinExam> getNonExmptyJoinExamsForUser(User pUser)
+    {
         assertNotNull(pUser);
         List<JoinExam> l = getJoinExamsForUser(pUser);
-        if (l == null) {
+        if(l == null)
+        {
             return null;
         }
         List<JoinExam> tmp = new ArrayList<JoinExam>();
-        for (JoinExam exam : l) {
-            if (exam.getExam() != null) {
+        for(JoinExam exam: l)
+        {
+            if(exam.getExam() != null)
+            {
                 tmp.add(exam);
             }
         }

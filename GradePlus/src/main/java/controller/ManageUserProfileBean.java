@@ -52,6 +52,7 @@ public class ManageUserProfileBean extends LoginIndependentBean {
      */
     private String username;
 
+
     /**
      * Erzeugt eine neue RegistrationBean.
      *

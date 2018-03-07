@@ -33,7 +33,8 @@ import static common.util.Assertion.assertNotNull;
         @NamedQuery(name = "Exam.findByInstanceLecture", query = "SELECT e FROM Exam e WHERE e.instanceLecture = :instanceLecture"),
         @NamedQuery(name = "Exam.findByExaminer", query = "SELECT e FROM Exam e WHERE :examiner MEMBER OF e.examiners"),
         @NamedQuery(name = "Exam.findByStudent", query = "SELECT e FROM Exam e, e.participants p WHERE :student = p.pruefling"),
-        @NamedQuery(name = "Exam.findByReleaseStatus", query = "SELECT e FROM Exam e WHERE e.isReleased = :isReleased") })
+        @NamedQuery(name = "Exam.findByReleaseStatus", query = "SELECT e FROM Exam e WHERE e.isReleased = :isReleased")
+})
 public class Exam extends JPAEntity {
 
     /**

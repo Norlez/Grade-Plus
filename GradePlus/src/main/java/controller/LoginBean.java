@@ -256,9 +256,9 @@ public class LoginBean extends AbstractBean {
             username = "";
             password = "";
             FacesContext.getCurrentInstance().getViewRoot().setLocale(getLanguage());
-            if (getSession().getUser().getRole().equals(Role.ADMIN)) {
+            if(getSession().getUser().getRole().equals(Role.ADMIN)) {
                 return "admin/users.xhtml";
-            } else if (getSession().getUser().getRole().equals(Role.EXAMINER)) {
+            } else if(getSession().getUser().getRole().equals(Role.EXAMINER)) {
                 return "lectures.xhtml";
             }
             return "dashboard.xhtml";

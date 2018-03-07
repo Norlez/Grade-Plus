@@ -203,11 +203,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return Alle Prüfungen, in denen der angemeldete Benutzer Prüfling ist.
      */
     public List<Exam> getExamsForStudent() {
-        return examDao.getAllExams().stream()
-                .filter(e -> e.getStudents().contains(getSession().getUser()))
-                .collect(Collectors.toList());
-        // return assertNotNull(examDao.getExamsForStudent(getSession().getUser()),
-        // "ExamsBean: getAllExams() -> examDao.getExamsForStudent(getSession().getUser())");
+        return assertNotNull(examDao.getExamsForStudent(getSession().getUser()),
+                "ExamsBean: getAllExams() -> examDao.getExamsForStudent(getSession().getUser())");
     }
 
     /**
@@ -316,11 +313,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
         try {
             Exam oldExam = examDao.getById(exam.getId());
             List<User> students = oldExam.getStudents();
-            if (!checked.isEmpty()) {
-                exam.setExaminers(checked.entrySet().stream().filter(Map.Entry::getValue)
-                        .map(Map.Entry::getKey).map(userDao::getById)
-                        .collect(Collectors.toList()));
-            }
+            exam.setExaminers(checked.entrySet().stream().filter(Map.Entry::getValue)
+                    .map(Map.Entry::getKey).map(userDao::getById)
+                    .collect(Collectors.toList()));
             examDao.update(exam);
             String message = String
                     .format("Die Daten des Prüfungstermins für %s am %s um %s Uhr, wurden angepasst.\n\nNeue Daten:\nDatum: %s\nUhrzeit: %s Uhr\nDauer: %d Minuten",
@@ -415,9 +410,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String registerAsStudent(final Exam pExam) {
         assertNotNull(pExam, "ExamsBean: registerAsStudent(Exam)");
         User user = getSession().getUser();
-        // if (!user.getAsStudent().contains(exam.getInstanceLecture())) {
-        // return "examregister.xhtml";
-        // }
+      //  if (!user.getAsStudent().contains(exam.getInstanceLecture())) {
+      //      return "examregister.xhtml";
+      //  }
         JoinExam joinExam = new JoinExam();
         joinExam.setExam(pExam);
         joinExam.setPruefling(user);
@@ -529,24 +524,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", pUser.getEmail());
         }
-        return "exams.xhtml";
-    }
-
-    /**
-     * Entfernt den aktuell eingeloggten Studenten aus der Liste der Prüfer des gegebenen
-     * Exams.
-     *
-     * @param pExam
-     *            Die gewählte Prüfung.
-     * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen
-     *         weiterzuleiten.
-     */
-    public String removeStudentAsExaminer(final Exam pExam) {
-        assertNotNull(pExam);
-        Exam theExam = exam;
-        exam = pExam;
-        removeExaminer(getSession().getUser());
-        exam = theExam;
         return "exams.xhtml";
     }
 
@@ -862,92 +839,63 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
      * Druck die Termine der übergebenen Liste von Exams im ICS Format.
-     * 
-     * @param examsOfStudent
-     *            Ist die Liste der Exams eines Studenten.
+     * @param examsOfStudent Ist die Liste der Exams eines Studenten.
      */
-    public void printDateAsICS(List<Exam> examsOfStudent) { // Muss hier ein Parameter
-                                                            // übergeben werden? Oder
-                                                            // reicht es examsOfStudent
-                                                            // von oben zu benutzen?
+    public void printDateAsICS(List<Exam> examsOfStudent) {  //Muss hier ein Parameter übergeben werden? Oder reicht es examsOfStudent von oben zu benutzen?
 
-        StringBuilder date = new StringBuilder();
-        date.append("BEGIN:VCALENDAR");
+    StringBuilder date = new StringBuilder();
+    date.append("BEGIN:VCALENDAR");
+    date.append("\n");
+    date.append("VERSION:2.0");
+    date.append("\n");
+    date.append("PRODID:");
+    date.append("gradeplus/exams"); // ID
+    date.append("\n");
+
+    for (Exam e : examsOfStudent) {
+        date.append("BEGIN:VEVENT");
         date.append("\n");
-        date.append("VERSION:2.0");
+        date.append("UID:");
+        date.append("Exam" + e.getId()); // UID
         date.append("\n");
-        date.append("PRODID:");
-        date.append("gradeplus/exams"); // ID
+        date.append("DTSTART:");
+        date.append(e.examDateToString());
         date.append("\n");
-
-        for (Exam e : examsOfStudent) {
-            date.append("BEGIN:VEVENT");
-            date.append("\n");
-            date.append("UID:");
-            date.append("Exam" + e.getId()); // UID
-            date.append("\n");
-            date.append("DTSTART:");
-            date.append(e.examDateToString());
-            date.append("\n");
-            date.append("DTEND:");
-            date.append(e.datePlusExamLengthToString());
-            date.append("\n");
-            date.append("SUMMARY: Exam-Date for ");
-            date.append(e.getInstanceLecture().getLecture().getName());
-            date.append("\n");
-            date.append("END:VEVENT");
-            date.append("\n");
-        }
-
-        date.append("END:VCALENDAR");
-
-        String name = new String("Exam-Dates");
-
-        BufferedWriter bw = null;
-
-        try {
-            File file = new File("/Exam-Dates.ics");
-
-            FileWriter fw = new FileWriter(file);
-            bw = new BufferedWriter(fw);
-            bw.write("" + date);
-            System.out.println("New File added");
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } finally {
-            try {
-                if (bw != null)
-                    bw.close();
-            } catch (Exception ex) {
-                System.out.println("Exceptiooooon: ICS EXPORT");
-            }
-        }// Auf welcher Seite ist das??? Muss evtl in eine andere
-         // Bean verschoben werden
+        date.append("DTEND:");
+        date.append(e.datePlusExamLengthToString());
+        date.append("\n");
+        date.append("SUMMARY: Exam-Date for ");
+        date.append(e.getInstanceLecture().getLecture().getName());
+        date.append("\n");
+        date.append("END:VEVENT");
+        date.append("\n");
     }
 
-    /**
-     * Wird vom Studenten aufgerufen, wenn er sich krankmeldet und markiert den
-     * eingeloggten Studenten in der gegebenen Prüfung als krank.
-     *
-     * @param pExam
-     *            Das Exam, an dem sich der Studen krankmeldet.
-     * @return "dashboard.xhtml", um auf das Facelet des Sahboards weiterzuleiten.
-     */
-    public String reportSick(final Exam pExam) {
-        assertNotNull(pExam);
-        JoinExam joinExam = pExam.getParticipants().stream()
-                .filter(j -> j.getPruefling().equals(getSession().getUser()))
-                .collect(Collectors.toList()).get(0);
-        joinExam.setKrank(true);
-        joinExamDao.update(joinExam);
+    date.append("END:VCALENDAR");
+
+    String name = new String("Exam-Dates");
+
+    BufferedWriter bw = null;
+
+    try {
+        File file = new File("/Exam-Dates.ics");
+
+        FileWriter fw = new FileWriter(file);
+        bw = new BufferedWriter(fw);
+        bw.write("" + date);
+        System.out.println("New File added");
+
+    } catch (IOException ioe) {
+        ioe.printStackTrace();
+    } finally {
         try {
-            pExam.getExaminers().forEach(
-                    e -> SystemMailBean.reportIllness(getSession().getUser(), e));
-        } catch (RuntimeException e) {
-            addErrorMessage("illnessReportCouldNotBeSent");
+            if (bw != null)
+                bw.close();
+        } catch (Exception ex) {
+            System.out.println("Exceptiooooon: ICS EXPORT");
         }
-        return "dashboard.xhtml";
-    }
+    }// Auf welcher Seite ist das??? Muss evtl in eine andere
+                          // Bean verschoben werden
+}
 
 }

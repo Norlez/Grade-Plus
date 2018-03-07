@@ -87,7 +87,7 @@ public class RegistrationBean extends LoginIndependentBean {
             // {
             // Überschreibt, das kurz benötigte Passwort mit einem leeren
             // String(Sicherheit)
-            // user.setTmpPassword("");
+            //user.setTmpPassword("");
             user.setRole(Role.STUDENT);
             user.setUsernameForUserMail();
             userDao.save(user);

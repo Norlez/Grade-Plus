@@ -1,9 +1,7 @@
 package controller;
 
 import businesslogic.Math;
-import common.exception.DuplicateEmailException;
 import common.exception.DuplicateInstanceLectureException;
-import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
 import persistence.InstanceLectureDAO;
@@ -18,7 +16,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -212,9 +209,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *         angemeldet ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminee() {
-        return allInstanceLectures.stream().filter(i -> i.getExaminees().contains(user))
-                .collect(Collectors.toList());
-        // return instanceLecturesOfExaminee;
+        return instanceLecturesOfExaminee;
     }
 
     /**
@@ -237,9 +232,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *         ist.
      */
     public List<InstanceLecture> getInstanceLecturesOfExaminer() {
-        return allInstanceLectures.stream().filter(i -> i.getExaminers().contains(user))
-                .collect(Collectors.toList());
-        // return instanceLecturesOfExaminer;
+        return instanceLecturesOfExaminer;
     }
 
     /**
@@ -249,26 +242,11 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu leiten.
      */
     public String save() {
-        List<InstanceLecture> instanceLecturesOfSameLecture = instanceLectureDao
-                .getAllInstanceLectures().stream()
-                .filter(i -> i.getLecture().equals(getSession().getSelectedLecture()))
-                .collect(Collectors.toList());
-        boolean alreadyExists = false;
-        for (InstanceLecture theInstanceLecture : instanceLecturesOfSameLecture) {
-            if (theInstanceLecture.getSemester().equals(
-                    SemesterTime.toString(selectedTimes))
-                    && theInstanceLecture.getYear().equals(selectedYear)) {
-                addErrorMessage("errorSemesterAlreadyExists");
-                return "semestercreate.xhtml";
-            }
-        }
         try {
-            user.addAsProfToIlv(instanceLecture);
-            instanceLecture.setSemester(SemesterTime.toString(selectedTimes));
+            instanceLecture.setSemester(selectedTimes.toString());
             instanceLecture.setYear(selectedYear);
             instanceLecture.setLecture(getSession().getSelectedLecture());
             instanceLectureDao.save(instanceLecture);
-            userDao.update(user);
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorInstanceLectureDataIncomplete"));
@@ -428,35 +406,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
             ilv.setYear(i + "");
             ilv.setSemester(pInstanceLecture.getSemester());
             ilv.addExaminer(user);
-            user.addAsProfToIlv(ilv);
             try {
                 instanceLectureDao.save(ilv);
-                userDao.update(user);
             } catch (DuplicateInstanceLectureException ex) {
                 throw new UnexpectedUniqueViolationException(ex);
-            } catch (DuplicateUsernameException e) {
-                e.printStackTrace();
-            } catch (DuplicateEmailException e) {
-                e.printStackTrace();
             }
         }
         return "semester.xhtml";
     }
-
-
-    /**
-     * Gibt alle ILVs der LV zurück, in denen der Benutzer Prüfer ist.
-     *
-     * @return Alle ILVs der LV, in denen der Benutzer Prüfer ist.
-     */
-    public List<InstanceLecture> getInstanceLecturesForExaminerForLecture() {
-        return allInstanceLectures.stream().filter(i -> i.getExaminers().contains(user))
-                .filter(i -> i.getLecture().equals(getSession().getSelectedLecture()))
-                .collect(Collectors.toList());
-    }
-
-    public Lecture getSelectedLecture() {
-        return getSession().getSelectedLecture();
-    }
-
 }

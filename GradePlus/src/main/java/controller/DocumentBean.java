@@ -7,7 +7,6 @@ import persistence.UserDAO;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import java.io.Serializable;
 
 import static common.util.Assertion.*;
@@ -54,17 +53,5 @@ public class DocumentBean extends AbstractBean implements Serializable {
     public String getMatrNrOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDAO.getUserForUsername(pStudent.getUsername()).getMatrNr();
-    }
-
-    public void printCertificateForStudent() throws IOException {
-        System.out.println("AE.ERZEUGTE ZUSTANDSMELDUNG");
-        Document document = new Document();
-        System.out.println("AE.ERZEUGTE ZUSTANDSMELDUNG 2");
-
-        try {
-            document.printCertificate("d","e");
-        } catch (IOException e) {
-            throw new IOException("Schon wieder was schief gelaufen!");
-        }
     }
 }

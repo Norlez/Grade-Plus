@@ -145,6 +145,7 @@ public class User extends JPAEntity implements Serializable {
     @OneToMany(mappedBy = "pruefling")
     private List<JoinExam> participation;
 
+
     /**
      * Gibt den Benutzernamen dieses Benutzers zurück.
      *
