@@ -246,7 +246,7 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     public String save() {
         try {
             user.addAsProfToIlv(instanceLecture);
-            instanceLecture.setSemester(selectedTimes.toString());
+            instanceLecture.setSemester(SemesterTime.toString(selectedTimes));
             instanceLecture.setYear(selectedYear);
             instanceLecture.setLecture(getSession().getSelectedLecture());
             instanceLectureDao.save(instanceLecture);
