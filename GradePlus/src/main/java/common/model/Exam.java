@@ -450,4 +450,13 @@ public class Exam extends JPAEntity {
         return getId().equals(otherExam.getId());
     }
 
+    /**
+     * output: Europe/Berlin:20151019T110000
+     *
+     * @return
+     */
+    public String dateTimeToIcsFormat() {
+        return "Europe/Berlin:" + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime.toLocalDate()).replaceAll("[-:]", "");
+    }
+
 }
