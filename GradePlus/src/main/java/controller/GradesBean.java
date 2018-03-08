@@ -39,7 +39,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import businesslogic.Math;
+import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUniqueFieldException;
+import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
 import persistence.ExamDAO;
@@ -278,7 +280,7 @@ public class GradesBean extends AbstractBean implements Serializable {
      *             Falls beim Aktualisieren des {@link User}-Objektes eine
      *             {@link DuplicateUniqueFieldException} ausgelöst wurde.
      */
-    public String save(Exam pExam) {
+    public String save(Exam pExam) throws DuplicateEmailException, DuplicateUsernameException {
         if (!isLoggedIn()) {
             return null;
         }
@@ -309,10 +311,13 @@ public class GradesBean extends AbstractBean implements Serializable {
                     || (tmp.compareTo(n0) == 0)) {
                 grade.setJoinExam(joinExam);
                 grade.setSubject(pExam.getInstanceLecture().getLecture().getName());
+                grade.setUser(joinExam.getPruefling());
+                joinExam.getPruefling().addGrade(grade);
                 gradeDAO.save(grade);
                 joinExamDAO.update(joinExam);
                 joinExam.setGrade(grade);
                 joinExamDAO.update(joinExam);
+                userDAO.update(joinExam.getPruefling());
                 logger.info("hats geklappt ?");
 
             } else {
