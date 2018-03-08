@@ -2,11 +2,13 @@ package controller;
 
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
+import common.model.InstanceLecture;
 import common.model.Lecture;
 import common.model.Session;
 import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import persistence.InstanceLectureDAO;
 import persistence.LectureDAO;
 
 import javax.enterprise.context.SessionScoped;
@@ -14,6 +16,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -30,6 +34,8 @@ public class LectureEditBean extends AbstractBean implements Serializable {
      * übernimmt.
      */
     private final LectureDAO LectureDao;
+
+    private final InstanceLectureDAO instanceLectureDao;
 
     /**
      * Die aktuell zu bearbeitende ILV.
@@ -58,9 +64,11 @@ public class LectureEditBean extends AbstractBean implements Serializable {
      *             sind.
      */
     @Inject
-    public LectureEditBean(final Session pSession, final LectureDAO pLectureDao) {
+    public LectureEditBean(final Session pSession, final LectureDAO pLectureDao,
+            final InstanceLectureDAO pInstanceLectureDao) {
         super(pSession);
         LectureDao = assertNotNull(pLectureDao);
+        instanceLectureDao = assertNotNull(pInstanceLectureDao);
         selectedLecture = new Lecture();
     }
 
@@ -138,6 +146,34 @@ public class LectureEditBean extends AbstractBean implements Serializable {
                     getTranslation("errorUserdataIncomplete"));
         }
         return "lectureedit.xhtml";
+    }
+
+    /**
+     * Setzt die gewählte Lehrveranstaltung auf den gegebenen Wert.
+     *
+     * @param pLecture
+     *            Die gewählte Lehrveranstaltung.
+     * @return "semesterdetails.xhtml", um auf das Facelet der Übersicht der ILV für
+     *         Prüflinge weiterzuleiten.
+     */
+    public String setLectureForStudent(final Lecture pLecture) {
+        lecture = assertNotNull(pLecture);
+        return "semesterdetails.xhtml";
+    }
+
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(final Lecture pLecture) {
+        lecture = assertNotNull(pLecture);
+    }
+
+    public List<InstanceLecture> getInstanceLecturesForLectureOfStudent() {
+        return instanceLectureDao.getAllInstanceLectures().stream()
+                .filter(i -> i.getLecture().getId().equals(lecture.getId()))
+                .filter(i -> i.getExaminees().contains(getSession().getUser()))
+                .collect(Collectors.toList());
     }
 
 }

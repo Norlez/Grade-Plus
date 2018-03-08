@@ -17,71 +17,72 @@
         <ui:define name="content">
             <f:loadBundle basename="internationalization.semester" var="msg" />
 
+            <!-- LECTURE -->
             <b:form>
                 <b:container class="form-group">
 
-                    <!-- TITLE -->
-                    <b:row>
-                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                            <h1>
-                                <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.name}" />
-                            </h1>
-                        </b:column>
-                    </b:row>
-
-                    <!-- SUBTITLE -->
+                    <!-- INFORMATIONEN DER ILV -->
                     <b:row>
                         <b:column span="4">
                             <h2>
-                                <h:outputText value="#{msg['subtitleGeneralInformations']}" />
+                                <h:outputText value="#{msg['outputInstanceLecture']}"/>
                             </h2>
                         </b:column>
                     </b:row>
 
-                    <!-- VAK -->
+                    <!-- NAME -->
                     <b:row>
-                        <b:column span="1">
-                            <h:outputLabel value="#{msg['outputVAK']}" />
-                        </b:column>
                         <b:column span="2">
-                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.vak}" />
+                            <h:outputLabel value="#{msg['outputName']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{lectureEditBean.lecture.name}"/>
                         </b:column>
                     </b:row>
 
-                    <!-- ECTS -->
+                    <!-- VAK-NUMBER -->
                     <b:row>
-                        <b:column span="1">
-                            <h:outputLabel value="#{msg['outputECTS']}" />
-                        </b:column>
                         <b:column span="2">
-                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.ects}" />
+                            <h:outputLabel value="#{msg['outputVak']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{lectureEditBean.lecture.vak}"/>
                         </b:column>
                     </b:row>
 
                     <!-- DESCRIPTION -->
                     <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputDescription']}"/>
+                        </b:column>
                         <b:column span="4">
-                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.description}" />
+                            <h:outputText rendered="#{! empty lectureEditBean.lecture.getDescription()}"
+                                          value="#{lectureEditBean.lecture.getDescription()}" />
+                            <h:outputText rendered="#{empty lectureEditBean.lecture.getDescription()}"
+                                          value="#{msg['outputNoDescription']}" />
                         </b:column>
                     </b:row>
 
-                    <!-- EXAM -->
+                </b:container>
+            </b:form>
+
+            <!-- INSTANCE LECTURES -->
+            <b:form>
+                <b:container>
+
+                    <!-- SEMESTER -->
                     <b:row>
                         <b:column span="4">
                             <h2>
-                                <h:outputText value="#{msg['subtitleExam']}" />
+                                <h:outputText value="#{msg['subtitleSemester']}" />
                             </h2>
-                        </b:column>
-                    </b:row>
-                    <b:row rendered="#{true}">
-                        <b:column span="2">
-                            <b:button class="btn" value="#{msg['actionExamRegister']}" outcome="examregister" />
                         </b:column>
                     </b:row>
                     <b:row class="space50px" />
                     <b:row rendered="#{true}">
                         <b:column span="12">
-                            <b:dataTable span="8" value="#{instanceLectureEditBean.getAllInstances(instanceLectureEditBean.instanceLecture.lecture)}" var="l"
+                            <b:dataTable span="8"
+                                         value="#{lectureEditBean.getInstanceLecturesForLectureOfStudent()}" var="l"
                                          excel="false"
                                          csv="false"
                                          pdf="false"
@@ -91,28 +92,10 @@
 
                                 <b:dataTableColumn label="#{msg['outputSemester']}" value="#{l.semester}" />
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
-
-                                <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
-                                    <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{instanceLectureEditBean.setInstanceLecture(l)}" />
+                                <b:dataTableColumn label="#{msg['actionRegisterForExam']}" orderable="false">
+                                    <b:commandButton value="#{msg['actionRegisterForExam']}"
+                                                     action="#{instanceLectureEditBean.setInstanceLectureForStudent(l)}" />
                                 </b:dataTableColumn>
-
-                                <b:dataTableColumn label="#{msg['actionRegister']}" rendered="#{usersBean.isStudent(profileBean.thisUser)}" orderable="false">
-                                    <b:commandButton rendered="#{true}" value="#{msg['actionRegister']}" action="#{instanceLecturesBean.instanceLecture.addExaminee(profileBean.thisUser)}" />
-                                </b:dataTableColumn>
-
-                                <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">
-                                <b:commandButton value="#{msg['actionDuplicate']}"
-                                                 action="#{instanceLecturesBean.duplicateInstanceLecture(l)}" />
-                                </b:dataTableColumn>
-
-                                <b:dataTableColumn label="#{msg['actionDelete']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
-                                    <b:commandButton value="#{msg['actionDelete']}" action="#{instanceLecturesBean.remove(l)}" />
-                                </b:dataTableColumn>
-
-                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{false}" orderable="false">
-                                    <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}" />
-                                </b:dataTableColumn>
-
                             </b:dataTable>
                         </b:column>
                     </b:row>

@@ -31,9 +31,9 @@
 
                 <b:row>
                     <b:column span="12" colSm="12" colMd="12" colXs="12">
-                        <b:dataTable rendered="#{!instanceLectureEditBean.studentRegisteredForExam}"
+                        <b:dataTable rendered="#{! instanceLectureEditBean.studentRegisteredForExam}"
                                      span="8"
-                                     value="#{instanceLectureEditBean.releasedExams}"
+                                     value="#{instanceLectureEditBean.getReleasedExamsForInstanceLecture()}"
                                      var="e"
                                      excel="false"
                                      csv="false"

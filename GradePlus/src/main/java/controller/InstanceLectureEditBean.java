@@ -119,7 +119,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     public String setInstanceLectureForStudent(final InstanceLecture pInstanceLecture) {
         instanceLecture = assertNotNull(pInstanceLecture);
-        return "semesterdetails.xhtml";
+        return "examregister.xhtml";
     }
 
     /**
@@ -260,6 +260,15 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         instanceLecture.getExams().forEach(
                 e -> allRegisteredUsers.addAll(e.getStudents()));
         return allRegisteredUsers.contains(getSession().getUser());
+    }
+
+    public List<Exam> getReleasedExamsForInstanceLecture() {
+        return examDAO
+                .getAllExams()
+                .stream()
+                .filter(e -> e.getReleased()
+                        && e.getInstanceLecture().getId().equals(instanceLecture.getId()))
+                .collect(Collectors.toList());
     }
 
 }
