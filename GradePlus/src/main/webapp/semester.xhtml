@@ -20,48 +20,55 @@
             <b:form>
                 <b:container class="form-group">
 
-                    <!-- TITLE -->
-                    <b:row>
-                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                            <h1>
-                                <h:outputText value="#{lectureEditBean.selectedLecture.name}" />
-                            </h1>
-                        </b:column>
-                    </b:row>
-
-                    <!-- SUBTITLE -->
+                    <!-- INFORMATIONEN DER ILV -->
                     <b:row>
                         <b:column span="4">
                             <h2>
-                                <h:outputText value="#{msg['subtitleGeneralInformations']}" />
+                                <h:outputText value="#{msg['outputInstanceLecture']}"/>
                             </h2>
                         </b:column>
                     </b:row>
 
-                    <!-- VAK -->
+                    <!-- NAME -->
                     <b:row>
-                        <b:column span="1">
-                            <h:outputLabel value="#{msg['outputVAK']}" />
-                        </b:column>
                         <b:column span="2">
-                            <h:outputText value="#{lecturesBean.lecture.vak}" />
+                            <h:outputLabel value="#{msg['outputName']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{lecturesBean.getSelectedLecture().getName()}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- VAK-NUMBER -->
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputVak']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{lecturesBean.getSelectedLecture().getVak()}"/>
                         </b:column>
                     </b:row>
 
                     <!-- ECTS -->
                     <b:row>
-                        <b:column span="1">
-                            <h:outputLabel value="#{msg['outputECTS']}" />
-                        </b:column>
                         <b:column span="2">
-                            <h:outputText value="#{lecturesBean.lecture.ects}" />
+                            <h:outputLabel value="#{msg['outputECTS']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{lecturesBean.getSelectedLecture().getEcts()}"/>
                         </b:column>
                     </b:row>
 
                     <!-- DESCRIPTION -->
                     <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputDescription']}"/>
+                        </b:column>
                         <b:column span="4">
-                            <h:outputText value="#{lecturesBean.lecture.description}" />
+                            <h:outputText rendered="#{! empty lecturesBean.getSelectedLecture().getDescription()}"
+                                          value="#{lecturesBean.getSelectedLecture().getDescription()}" />
+                            <h:outputText rendered="#{empty lecturesBean.getSelectedLecture().getDescription()}"
+                                          value="#{msg['errorNoDescription']}" />
                         </b:column>
                     </b:row>
 

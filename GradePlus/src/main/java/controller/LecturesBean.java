@@ -86,6 +86,15 @@ public class LecturesBean extends AbstractBean implements Serializable {
     }
 
     /**
+     * Gibt die anzuzeigende Lehrveranstaltung zurück.
+     *
+     * @return Die anzuzeigende Lehrveranstaltung.
+     */
+    public Lecture getSelectedLecture() {
+        return getSession().getSelectedLecture();
+    }
+
+    /**
      * Setzt die anzuzeigende Lehrveranstaltung auf den gegebenen Wert.
      *
      * @param pLecture
