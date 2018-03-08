@@ -85,7 +85,7 @@
                                 </b:selectOneMenu>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['actionSave']}" action="#{gradesBean.save}" />
+                                <b:commandButton value="#{msg['actionSave']}" action="#{gradesBean.save(examsBean.selectedExam)}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
                                 <b:commandButton value="#{msg['actionUpdate']}" action="huhu" />

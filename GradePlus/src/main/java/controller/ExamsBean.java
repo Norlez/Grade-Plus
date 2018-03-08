@@ -230,6 +230,14 @@ public class ExamsBean extends AbstractBean implements Serializable {
     }
 
     /**
+     * Gibt die temporär gespeicherte Exam zurück
+     * @return
+     */
+    public Exam getSelectedExam() {
+        return selectedExam;
+    }
+
+    /**
      * Setzt die aktuell gewählte ILV auf den gegebenen Wert.
      *
      * @param pInstanceLecture
@@ -982,4 +990,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
         selectedExam = pExam;
         return "grades.xhtml";
     }
+
+
+
+
+
+
+    //1000 Zeilen Code. 
 }
