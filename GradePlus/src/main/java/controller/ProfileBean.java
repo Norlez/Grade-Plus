@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
@@ -287,17 +288,23 @@ public class ProfileBean extends AbstractBean implements Serializable {
 
     public List<Exam> getExamForStudent()
     {
-       List<JoinExam> je = joinExamDAO.getJoinExamsForUser(thisUser);
-       if(je == null)
-       {
-           return null;
-       }
-       ArrayList<Exam> e = new ArrayList<Exam>();
-       for(JoinExam j: je )
-       {
-           e.add(j.getExam());
-       }
-       return e;
+        List<JoinExam> je = joinExamDAO.getAllJoinExams();
+
+        List<JoinExam> tmp = je.stream()
+                .filter(pFilter -> pFilter.getPruefling().equals(thisUser))
+                .collect(Collectors.toList());
+
+        if(je == null)
+        {
+            return null;
+        }
+        ArrayList<Exam> e = new ArrayList<Exam>();
+        for(JoinExam j: tmp )
+        {
+            e.add(j.getExam());
+        }
+        return e;
     }
+
 }
 

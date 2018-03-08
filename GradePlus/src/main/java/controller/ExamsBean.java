@@ -887,15 +887,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
      * Druck die Termine der übergebenen Liste von Exams im ICS Format.
-     * 
+     *
      * @param examsOfStudent
      *            Ist die Liste der Exams eines Studenten.
      */
     public void printDateAsICS(List<Exam> examsOfStudent) { // Muss hier ein Parameter
-                                                            // übergeben werden? Oder
-                                                            // reicht es examsOfStudent
-                                                            // von oben zu benutzen?
-
         StringBuilder date = new StringBuilder();
         date.append("BEGIN:VCALENDAR");
         date.append("\n");
@@ -904,34 +900,73 @@ public class ExamsBean extends AbstractBean implements Serializable {
         date.append("PRODID:");
         date.append("gradeplus/exams"); // ID
         date.append("\n");
+        date.append("METHOD:PUBLISH");
+        date.append("\n");
+        date.append("CALSCALE:GREGORIAN");
+        date.append("\n");
+        date.append("BEGIN:VTIMEZONE");
+        date.append("\n");
+        date.append("TZID:Europe/Berlin");
+        date.append("\n");
+        date.append("BEGIN:DAYLIGHT");
+        date.append("\n");
+        date.append("TZOFFSETFROM:+0100");
+        date.append("\n");
+        date.append("TZOFFSETTO:+0200");
+        date.append("\n");
+        date.append("TZNAME:CEST");
+        date.append("\n");
+        date.append("DTSTART:19700329T020000");
+        date.append("\n");
+        date.append("RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3");
+        date.append("\n");
+        date.append("END:DAYLIGHT");
+        date.append("\n");
+        date.append("BEGIN:STANDARD");
+        date.append("\n");
+        date.append("TZOFFSETFROM:+0200");
+        date.append("\n");
+        date.append("TZOFFSETTO:+0100");
+        date.append("\n");
+        date.append("TZNAME:CET");
+        date.append("\n");
+        date.append("DTSTART:19701025T030000");
+        date.append("\n");
+        date.append("RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10");
+        date.append("\n");
+        date.append("END:STANDARD");
+        date.append("\n");
+        date.append("END:VTIMEZONE");
+        date.append("\n");
 
         for (Exam e : examsOfStudent) {
             date.append("BEGIN:VEVENT");
             date.append("\n");
-            date.append("UID:");
-            date.append("Exam" + e.getId()); // UID
+            date.append("DTSTART:" +e.examDateToString());
             date.append("\n");
-            date.append("DTSTART:");
-            date.append(e.examDateToString());
+            date.append("DTEND:" + e.datePlusExamLengthToString());
             date.append("\n");
-            date.append("DTEND:");
-            date.append(e.datePlusExamLengthToString());
+            date.append("SUMMARY: Exam-Date for " + e.getInstanceLecture().getLecture().getName());
             date.append("\n");
-            date.append("SUMMARY: Exam-Date for ");
-            date.append(e.getInstanceLecture().getLecture().getName());
+            date.append("UID:" + "Exam" + e.getId());
             date.append("\n");
-            date.append("END:VEVENT");
+            date.append("CLASS:PRIVATE");
+            date.append("\n");
+            date.append("CATEGORIES:Exam");
+            date.append("\n");
+            date.append("PRIORITY:0");
+            date.append("\n");
+            date.append("LOCATION:" + e.getLocation());
+            date.append("\n");
+            date.append("RRULE:INTERVAL=1;BYDAY=MO;FREQ=WEEKLY");
             date.append("\n");
         }
-
         date.append("END:VCALENDAR");
-
         String name = new String("Exam-Dates");
-
         BufferedWriter bw = null;
-
         try {
-            File file = new File("/Exam-Dates.ics");
+            File file = new File(System.getProperty("user.home")+"/Exam-Dates.ics");
+            file.createNewFile();
 
             FileWriter fw = new FileWriter(file);
             bw = new BufferedWriter(fw);
@@ -947,9 +982,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
             } catch (Exception ex) {
                 System.out.println("Exceptiooooon: ICS EXPORT");
             }
-        }// Auf welcher Seite ist das??? Muss evtl in eine andere
-         // Bean verschoben werden
+        }
     }
+
 
     /**
      * Liefert eine einfache Map mit den verfügbaren Exam Typen im System zurück. Diese
