@@ -467,7 +467,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", pUser.getEmail());
         }
-        return "exams.xhtml";
+        return "dashboard.xhtml";
     }
 
     /**
