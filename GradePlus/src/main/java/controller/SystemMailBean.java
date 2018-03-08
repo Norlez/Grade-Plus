@@ -301,13 +301,13 @@ public class SystemMailBean {
                     + pUser.getSurname()
                     + ","
                     + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Prüfung für " + pOldExam.getInstanceLecture().getLecture().getName()
-                    + "\n\n vom Veranstelter geändert wurde. Die aktuellen Daten für ihre Prüfung sind folgende."
+                    + "\n\n vom Veranstalter geändert wurde. Die aktuellen Daten für ihre Prüfung sind folgende."
                     + "\n\n Altes Datum" + pOldExam.dateToString()
                     + "\n\n Neues Datum" + pNewExam.dateToString()
                     + "\n\n Alte Uhrzeit" + pOldExam.getLocalDateTime().getHour() +":" + pOldExam.getLocalDateTime().getMinute()
                     + "\n\n Neue Uhrzeit" + pNewExam.getLocalDateTime().getHour() +":" + pNewExam.getLocalDateTime().getMinute()
                     + "\n\n Alter Prüfungsort" + pOldExam.getLocation()
-                    + "\n\n Neuer Uhrzeit" +  pOldExam.getLocation());
+                    + "\n\n Neuer Prüfungsort" +  pOldExam.getLocation());
             postInit();
         } catch (MessagingException e) {
             throw new RuntimeException(e);
