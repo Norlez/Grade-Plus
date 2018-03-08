@@ -428,11 +428,20 @@ public class ExamsBean extends AbstractBean implements Serializable {
         // if (!user.getAsStudent().contains(exam.getInstanceLecture())) {
         // return "examregister.xhtml";
         // }
-        JoinExam joinExam = new JoinExam();
+        JoinExam joinExam = null;
+        List<JoinExam> joinExamList = joinExamDao.getJoinExamsForUser(user);
+        for(JoinExam j: joinExamList)
+        {
+            if(j.getInstanceLecture().getId() == pExam.getInstanceLecture().getId() && j.getExam() == null)
+            {
+                 joinExam = j;
+            }
+        }
+      //  JoinExam joinExam = new JoinExam();
         joinExam.setExam(pExam);
-        joinExam.setPruefling(user);
-        joinExam.setKind(Anmeldeart.BYPROF);
-        joinExamDao.save(joinExam);
+       // joinExam.setPruefling(user);
+      //  joinExam.setKind(Anmeldeart.BYPROF);
+        joinExamDao.update(joinExam);
         pExam.addParticipant(joinExam);
         examDao.update(pExam);
         return "dashboard.xhtml";
@@ -458,7 +467,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
         for (JoinExam theJoinExam : joinExams) {
             if (theJoinExam.getExam() != null && theJoinExam.getExam().equals(pExam)) {
                 joinExam = theJoinExam;
-                pUser.removeParticipation(joinExam);
                 pExam.removeParticipant(joinExam);
                 break;
             }
@@ -469,17 +477,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
                     getTranslation("someError"));
             return null;
         }
-        try {
-            userDao.update(pUser);
-            joinExamDao.remove(joinExam);
+
+            joinExam.setExam(null);
+            joinExamDao.update(joinExam);
             examDao.update(pExam);
-        } catch (final DuplicateUsernameException e) {
-            addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse", pUser.getUsername());
-        } catch (final DuplicateEmailException e) {
-            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse", pUser.getEmail());
-        }
+
         return "dashboard.xhtml";
     }
 
