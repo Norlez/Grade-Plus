@@ -282,18 +282,18 @@ public class GradesBean extends AbstractBean implements Serializable {
         if (!isLoggedIn()) {
             return null;
         }
-        final User user = getSession().getUser();
         JoinExam joinExam = null;
-        List<JoinExam> joinExams = joinExamDAO.getNonExmptyJoinExamsForUser(user);
+        List<JoinExam> joinExams = joinExamDAO.getAllJoinExams();
+        BigDecimal bd = BigDecimal.valueOf(selectedGrade);
         for(JoinExam j: joinExams)
         {
-            if(j.getExam().getId() == pExam.getId())
+            if(j.getExam() != null && j.getExam().getId() == pExam.getId())
             {
                 joinExam = j;
                 break;
             }
         }
-
+        grade.setMark(bd);
         BigDecimal theMark = grade.getMark();
         BigDecimal lowestMark = BigDecimal.valueOf(1);
         BigDecimal highestMark = BigDecimal.valueOf(4);
@@ -308,18 +308,15 @@ public class GradesBean extends AbstractBean implements Serializable {
             if ((tmp.compareTo(n3) == 0) || (tmp.compareTo(n7) == 0)
                     || (tmp.compareTo(n0) == 0)) {
                 grade.setJoinExam(joinExam);
-                user.addGrade(grade);
+                grade.setSubject(pExam.getInstanceLecture().getLecture().getName());
                 gradeDAO.save(grade);
+                joinExamDAO.update(joinExam);
                 joinExam.setGrade(grade);
+                joinExamDAO.update(joinExam);
                 logger.info("hats geklappt ?");
 
             } else {
                 return null;
-            }
-            try {
-                userDAO.update(user);
-            } catch (final DuplicateUniqueFieldException e) {
-                throw new UnexpectedUniqueViolationException(e);
             }
             init();
             return null;
