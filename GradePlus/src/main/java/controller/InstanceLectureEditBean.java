@@ -12,6 +12,8 @@ import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -176,6 +178,14 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     public String removeExaminer(final User pExaminer) {
         assertNotNull(pExaminer, "InstanceLectureEditBean: removeExaminer(User)");
+        for (Exam exam : examDAO.getAllExams()) {
+            if (exam.getInstanceLecture().getId().equals(instanceLecture.getId())) {
+                if (exam.getExaminers().contains(pExaminer)) {
+                    addErrorMessage("errorUserIsExaminerOfExam");
+                    return "exams.xhtml";
+                }
+            }
+        }
         if (instanceLecture.getExaminers().size() <= 1) {
             addErrorMessage("errorLastExaminer");
             return "exams.xhtml";
