@@ -283,6 +283,37 @@ public class SystemMailBean {
         }
     }
 
+    /**
+     * Sendet eine Mail von der Systemmail, an den übergebenen Empfänger und informiert darüber,
+     * dass der Veranstalter der Lecture einen Prüfungstermin geändert hat, in dem ein User angemeldet war.
+     * @param pUser Der User, der über die Änderungen informiert wird..
+     * @param pOldExam Die alte Prüfung.
+     * @param pNewExam Die neue Prüfung.
+     */
+
+    public static void examInfoChangedMail(User pUser, Exam pOldExam, Exam pNewExam) {
+        try {
+            init();
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("gradeplusbremen@gmail.com"));
+            message.setSubject("Systemnachricht: Änderung der Prüfungstermindaten");
+            message.setText("Hallo"
+                    + pUser.getSurname()
+                    + ","
+                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass die Prüfung für " + pOldExam.getInstanceLecture().getLecture().getName()
+                    + "\n\n vom Veranstelter geändert wurde. Die aktuellen Daten für ihre Prüfung sind folgende."
+                    + "\n\n Altes Datum" + pOldExam.dateToString()
+                    + "\n\n Neues Datum" + pNewExam.dateToString()
+                    + "\n\n Alte Uhrzeit" + pOldExam.getLocalDateTime().getHour() +":" + pOldExam.getLocalDateTime().getMinute()
+                    + "\n\n Neue Uhrzeit" + pNewExam.getLocalDateTime().getHour() +":" + pNewExam.getLocalDateTime().getMinute()
+                    + "\n\n Alter Prüfungsort" + pOldExam.getLocation()
+                    + "\n\n Neuer Uhrzeit" +  pOldExam.getLocation());
+            postInit();
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
 
