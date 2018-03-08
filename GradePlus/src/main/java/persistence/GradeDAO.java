@@ -34,6 +34,8 @@ import common.model.Grade;
 import common.model.User;
 import common.util.Assertion;
 
+import static common.util.Assertion.assertNotNull;
+
 /**
  * Dieses DAO verwaltet Objekte der Klasse {@link Grade}.
  *
@@ -49,7 +51,7 @@ public class GradeDAO extends JPADAO<Grade> {
     }
 
     @Override
-    public void save(final Grade pT) {
+    public synchronized void save(final Grade pT) {
         try { // TODO: Weiter ergaenzen
             super.save(pT);
         } catch (final DuplicateUniqueFieldException e) {
@@ -63,7 +65,8 @@ public class GradeDAO extends JPADAO<Grade> {
      * @param pGrade
      *            Die zu aktualisierende Note.
      */
-    public void update(Grade pGrade) {
+    public synchronized void update(Grade pGrade) {
+        assertNotNull(pGrade);
         try { // TODO: Weiter ergaenzen
             super.update(pGrade);
         } catch (final DuplicateUniqueFieldException e) {

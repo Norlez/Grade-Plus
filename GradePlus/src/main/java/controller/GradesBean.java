@@ -196,6 +196,7 @@ public class GradesBean extends AbstractBean implements Serializable {
         tmp.add(3.3);
         tmp.add(3.7);
         tmp.add(4.0);
+        tmp.add(5.0);
         return Collections.unmodifiableList(tmp);
     }
 
@@ -280,12 +281,12 @@ public class GradesBean extends AbstractBean implements Serializable {
      *             Falls beim Aktualisieren des {@link User}-Objektes eine
      *             {@link DuplicateUniqueFieldException} ausgelöst wurde.
      */
-    public String save(Exam pExam) throws DuplicateEmailException, DuplicateUsernameException {
+    public String save(Exam pExam, User pStudent) throws DuplicateEmailException, DuplicateUsernameException {
         if (!isLoggedIn()) {
             return null;
         }
         JoinExam joinExam = null;
-        List<JoinExam> joinExams = joinExamDAO.getAllJoinExams();
+        List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pStudent);
         BigDecimal bd = BigDecimal.valueOf(selectedGrade);
         for(JoinExam j: joinExams)
         {
@@ -298,7 +299,7 @@ public class GradesBean extends AbstractBean implements Serializable {
         grade.setMark(bd);
         BigDecimal theMark = grade.getMark();
         BigDecimal lowestMark = BigDecimal.valueOf(1);
-        BigDecimal highestMark = BigDecimal.valueOf(4);
+        BigDecimal highestMark = BigDecimal.valueOf(5);
 
         if (lowestMark.compareTo(theMark) > 0 || highestMark.compareTo(theMark) < 0) {
             return null;
@@ -318,6 +319,50 @@ public class GradesBean extends AbstractBean implements Serializable {
                 joinExam.setGrade(grade);
                 joinExamDAO.update(joinExam);
                 userDAO.update(joinExam.getPruefling());
+                logger.info("hats geklappt ?");
+
+            } else {
+                return null;
+            }
+            init();
+            return null;
+        }
+    }
+
+    /**
+     *
+     */
+    public String update(Exam pExam, User pStudent)
+    {
+        if (!isLoggedIn()) {
+            return null;
+        }
+        JoinExam joinExam = null;
+        List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pStudent);
+        BigDecimal bd = BigDecimal.valueOf(selectedGrade);
+        for(JoinExam j: joinExams)
+        {
+            if(j.getExam() != null && j.getExam().getId() == pExam.getId())
+            {
+                joinExam = j;
+                break;
+            }
+        }
+       joinExam.getGrade().setMark(bd);
+        BigDecimal theMark = joinExam.getGrade().getMark();
+        BigDecimal lowestMark = BigDecimal.valueOf(1);
+        BigDecimal highestMark = BigDecimal.valueOf(5);
+
+        if (lowestMark.compareTo(theMark) > 0 || highestMark.compareTo(theMark) < 0) {
+            return null;
+        } else {
+            BigDecimal tmp = theMark.remainder(new BigDecimal(1));
+            BigDecimal n3 = BigDecimal.valueOf(.3);
+            BigDecimal n7 = BigDecimal.valueOf(.7);
+            BigDecimal n0 = BigDecimal.valueOf(0);
+            if ((tmp.compareTo(n3) == 0) || (tmp.compareTo(n7) == 0)
+                    || (tmp.compareTo(n0) == 0)) {
+                gradeDAO.update(joinExam.getGrade());
                 logger.info("hats geklappt ?");
 
             } else {

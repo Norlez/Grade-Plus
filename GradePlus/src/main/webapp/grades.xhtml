@@ -85,10 +85,10 @@
                                 </b:selectOneMenu>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['actionSave']}" action="#{gradesBean.save(examsBean.selectedExam)}" />
+                                <b:commandButton value="#{msg['actionSave']}" action="#{gradesBean.save(examsBean.selectedExam, e)}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['actionUpdate']}" action="huhu" />
+                                <b:commandButton value="#{msg['actionUpdate']}" action="#{gradesBean.update(examsBean.selectedExam, e)}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
                                 <b:commandButton value="#{msg['createNachweis']}" action="huhu" />
