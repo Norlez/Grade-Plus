@@ -183,8 +183,7 @@ public class FileBean extends AbstractBean implements Serializable {
         date.append("\n");
         date.append("VERSION:2.0");
         date.append("\n");
-        date.append("PRODID:");
-        date.append("gradeplus/exams"); // ID
+        date.append("PRODID: EXAMDATEN DER STUDENTEN");
         date.append("\n");
         date.append("METHOD:PUBLISH");
         date.append("\n");
@@ -228,9 +227,9 @@ public class FileBean extends AbstractBean implements Serializable {
         for (Exam e : examsOfStudent) {
             date.append("BEGIN:VEVENT");
             date.append("\n");
-            date.append("DTSTART:" +e.dateTimeToIcsFormat());
+            date.append("DTSTART;TZID=" +e.dateTimeToIcsFormat());
             date.append("\n");
-            date.append("DTEND:" + e.dateTimeToIcsPlusExamLengthFormat());
+            date.append("DTEND;TZID=" + e.dateTimeToIcsPlusExamLengthFormat());
             date.append("\n");
             date.append("SUMMARY: Exam-Date for " + e.getInstanceLecture().getLecture().getName());
             date.append("\n");
@@ -246,13 +245,15 @@ public class FileBean extends AbstractBean implements Serializable {
             date.append("\n");
             date.append("RRULE:INTERVAL=1;BYDAY=MO;FREQ=WEEKLY");
             date.append("\n");
+            date.append("END:VEVENT");
+            date.append("\n");
         }
         date.append("END:VCALENDAR");
         String name = new String("Exam-Dates");
         BufferedWriter bw = null;
         try {
 
-            File file = new File(System.getProperty("user.home")+"/Exam-Dates.ics" + generateRandomString());
+            File file = new File(System.getProperty("user.home")+"/Exam-Dates-" + generateRandomString()+".ics");
             file.createNewFile();
 
             FileWriter fw = new FileWriter(file);
@@ -271,6 +272,7 @@ public class FileBean extends AbstractBean implements Serializable {
             }
         }
     }
+
 
     /**
      * Generiert einen zufälligen String, damit eine neue ICS erstellt wird und nicht immer die alte
