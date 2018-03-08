@@ -15,6 +15,8 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -168,5 +170,123 @@ public class FileBean extends AbstractBean implements Serializable {
         }
         return "importstudentlist.xhtml";
     }
+
+    /**
+     * Druck die Termine der übergebenen Liste von Exams im ICS Format.
+     *
+     * @param examsOfStudent
+     *            Ist die Liste der Exams eines Studenten.
+     */
+    public void printDateAsICS(List<Exam> examsOfStudent) {
+        StringBuilder date = new StringBuilder();
+        date.append("BEGIN:VCALENDAR");
+        date.append("\n");
+        date.append("VERSION:2.0");
+        date.append("\n");
+        date.append("PRODID:");
+        date.append("gradeplus/exams"); // ID
+        date.append("\n");
+        date.append("METHOD:PUBLISH");
+        date.append("\n");
+        date.append("CALSCALE:GREGORIAN");
+        date.append("\n");
+        date.append("BEGIN:VTIMEZONE");
+        date.append("\n");
+        date.append("TZID:Europe/Berlin");
+        date.append("\n");
+        date.append("BEGIN:DAYLIGHT");
+        date.append("\n");
+        date.append("TZOFFSETFROM:+0100");
+        date.append("\n");
+        date.append("TZOFFSETTO:+0200");
+        date.append("\n");
+        date.append("TZNAME:CEST");
+        date.append("\n");
+        date.append("DTSTART:19700329T020000");
+        date.append("\n");
+        date.append("RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3");
+        date.append("\n");
+        date.append("END:DAYLIGHT");
+        date.append("\n");
+        date.append("BEGIN:STANDARD");
+        date.append("\n");
+        date.append("TZOFFSETFROM:+0200");
+        date.append("\n");
+        date.append("TZOFFSETTO:+0100");
+        date.append("\n");
+        date.append("TZNAME:CET");
+        date.append("\n");
+        date.append("DTSTART:19701025T030000");
+        date.append("\n");
+        date.append("RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10");
+        date.append("\n");
+        date.append("END:STANDARD");
+        date.append("\n");
+        date.append("END:VTIMEZONE");
+        date.append("\n");
+
+        for (Exam e : examsOfStudent) {
+            date.append("BEGIN:VEVENT");
+            date.append("\n");
+            date.append("DTSTART:" +e.dateTimeToIcsFormat());
+            date.append("\n");
+            date.append("DTEND:" + e.dateTimeToIcsPlusExamLengthFormat());
+            date.append("\n");
+            date.append("SUMMARY: Exam-Date for " + e.getInstanceLecture().getLecture().getName());
+            date.append("\n");
+            date.append("UID:" + "Exam" + e.getId());
+            date.append("\n");
+            date.append("CLASS:PRIVATE");
+            date.append("\n");
+            date.append("CATEGORIES:Exam");
+            date.append("\n");
+            date.append("PRIORITY:0");
+            date.append("\n");
+            date.append("LOCATION:" + e.getLocation());
+            date.append("\n");
+            date.append("RRULE:INTERVAL=1;BYDAY=MO;FREQ=WEEKLY");
+            date.append("\n");
+        }
+        date.append("END:VCALENDAR");
+        String name = new String("Exam-Dates");
+        BufferedWriter bw = null;
+        try {
+
+            File file = new File(System.getProperty("user.home")+"/Exam-Dates.ics" + generateRandomString());
+            file.createNewFile();
+
+            FileWriter fw = new FileWriter(file);
+            bw = new BufferedWriter(fw);
+            bw.write("" + date);
+            System.out.println("New File added");
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+            try {
+                if (bw != null)
+                    bw.close();
+            } catch (Exception ex) {
+                System.out.println("Exceptiooooon: ICS EXPORT");
+            }
+        }
+    }
+
+    /**
+     * Generiert einen zufälligen String, damit eine neue ICS erstellt wird und nicht immer die alte
+     * überschrieben wird.
+     * @return
+     */
+    protected String generateRandomString() {
+        String pool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!&§$#";
+        StringBuilder tmp = new StringBuilder();
+        Random rnd = new Random();
+        while (tmp.length() < 10) {
+            int index = (int) (rnd.nextFloat() * pool.length());
+            tmp.append(pool.charAt(index));
+        }
+        return tmp.toString();
+    }
+
 }
 

@@ -50,7 +50,7 @@
                             </h2>
                         </b:column>
                         <b:column>
-                            <b:commandButton value="#{msg['outputIcs']}" action="#{examsBean.printDateAsICS(instanceLectureEditBean.getExams(profileBean.thisUser))}" />
+                            <b:commandButton value="#{msg['outputIcs']}" action="#{fileBean.printDateAsICS(instanceLectureEditBean.getExams(profileBean.thisUser))}" />
                         </b:column>
                     </b:row>
 
