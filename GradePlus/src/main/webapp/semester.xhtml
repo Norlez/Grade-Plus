@@ -68,7 +68,7 @@
                             <h:outputText rendered="#{! empty lecturesBean.getSelectedLecture().getDescription()}"
                                           value="#{lecturesBean.getSelectedLecture().getDescription()}" />
                             <h:outputText rendered="#{empty lecturesBean.getSelectedLecture().getDescription()}"
-                                          value="#{msg['errorNoDescription']}" />
+                                          value="#{msg['outputNoDescription']}" />
                         </b:column>
                     </b:row>
 
@@ -88,7 +88,9 @@
                     <b:row class="space50px" />
                     <b:row>
                         <b:column span="12">
-                            <b:dataTable span="8" value="#{instanceLecturesBean.instanceLecturesForLecture}" var="l"
+                            <b:dataTable rendered="#{! empty instanceLecturesBean.instanceLecturesForLecture}"
+                                         span="8"
+                                         value="#{instanceLecturesBean.instanceLecturesForLecture}" var="l"
                                          excel="false"
                                          csv="false"
                                          pdf="false"
@@ -107,7 +109,7 @@
                                     <b:commandButton rendered="#{true}" value="#{msg['actionRegister']}" action="#{instanceLecturesBean.instanceLecture.addExaminee(profileBean.thisUser)}" />
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn  rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">
+                                <b:dataTableColumn rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">
                                 <b:commandButton value="#{msg['actionDuplicate']}"
                                                  action="#{instanceLecturesBean.duplicateInstanceLecture(l)}" />
                                 </b:dataTableColumn>
@@ -116,11 +118,9 @@
                                     <b:commandButton value="#{msg['actionDelete']}" action="#{instanceLecturesBean.remove(l)}" />
                                 </b:dataTableColumn>
 
-                                <b:dataTableColumn label="#{msg['actionQuit']}" rendered="#{false}" orderable="false">
-                                    <b:commandButton value="#{msg['actionQuit']}" action="#{l.removeExaminee(instanceLecturesBean.user)}" />
-                                </b:dataTableColumn>
-
                             </b:dataTable>
+                            <h:outputLabel rendered="#{empty instanceLecturesBean.instanceLecturesForLecture}"
+                                           value="#{msg['outputNoInstanceLecture']}" />
                         </b:column>
                     </b:row>
 
