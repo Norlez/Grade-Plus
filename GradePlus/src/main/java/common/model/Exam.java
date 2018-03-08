@@ -456,7 +456,9 @@ public class Exam extends JPAEntity {
      * @return
      */
     public String dateTimeToIcsFormat() {
-        return "Europe/Berlin:" + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime.toLocalDate()).replaceAll("[-:]", "");
+        return "Europe/Berlin:"
+                + localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "T"
+                + localDateTime.format(DateTimeFormatter.ofPattern("HHmm00"));
     }
 
 }
