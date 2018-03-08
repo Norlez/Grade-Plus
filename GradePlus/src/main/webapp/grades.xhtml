@@ -103,20 +103,6 @@
                     </b:container>
                 </b:form>
 
-                <b:container>
-                    <b:row>
-                        <b:column span="8" offset="2">
-                            #{msg['outputAverage']}
-                            <h:outputText value="#{gradesBean.getGradeAverage()}" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column span="8" offset="2">
-                            #{msg['outputMedian']}
-                            <h:outputText value="#{gradesBean.getGradeMedian()}" />
-                        </b:column>
-                    </b:row>
-                </b:container>
             </h:panelGroup>
         </ui:define>
     </ui:composition>

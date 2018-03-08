@@ -229,23 +229,23 @@ public class GradesBean extends AbstractBean implements Serializable {
      * @return Den Durchschnittswert aller Noten des aktuell in der zugehörigen Session
      *         eingeloggten Benutzers als Zeichenkette.
      */
-    public String getGradeAverage() {
-        final List<BigDecimal> theDecimals = new ArrayList<>(allGrades.size());
-        for (final Grade g : allGrades) {
-            theDecimals.add(g.getMark());
-        }
-        final Configuration config = Configuration.getDefault();
-        final int scale = config.getScale();
-        final RoundingMode roundingMode = config.getRoundingMode();
-        try {
-            final BigDecimal average = Math.average(theDecimals, scale, roundingMode);
-            return average.stripTrailingZeros().toPlainString();
-        } catch (final ArithmeticException e) {
-            logger.debug(
-                    "Calculation of grade average has been called without any grades.", e);
-            return NO_GRADES_PRESENT;
-        }
-    }
+  //  public String getGradeAverage() {
+    //    final List<BigDecimal> theDecimals = new ArrayList<>(allGrades.size());
+      //  for (final Grade g : allGrades) {
+      //      theDecimals.add(g.getMark());
+      //  }
+      //  final Configuration config = Configuration.getDefault();
+      //  final int scale = config.getScale();
+      //  final RoundingMode roundingMode = config.getRoundingMode();
+      //  try {
+      //      final BigDecimal average = Math.average(theDecimals, scale, roundingMode);
+      //      return average.stripTrailingZeros().toPlainString();
+      //  } catch (final ArithmeticException e) {
+       //     logger.debug(
+        //            "Calculation of grade average has been called without any grades.", e);
+       //     return NO_GRADES_PRESENT;
+       // }
+   // }
 
     /**
      * Berechnet den Median aller Noten des aktuell in der zugehörigen Session
@@ -254,20 +254,20 @@ public class GradesBean extends AbstractBean implements Serializable {
      * @return Den Median aller Noten des aktuell in der zugehörigen Session eingeloggten
      *         Benutzers.
      */
-    public String getGradeMedian() {
-        final List<BigDecimal> theDecimals = new ArrayList<>(allGrades.size());
-        for (final Grade g : allGrades) {
-            theDecimals.add(g.getMark());
-        }
-        try {
-            final BigDecimal median = Math.median(theDecimals);
-            return median.stripTrailingZeros().toPlainString();
-        } catch (final ArithmeticException e) {
-            logger.debug(
-                    "Calculation of grades median has been called without any grades.", e);
-            return NO_GRADES_PRESENT;
-        }
-    }
+    //public String getGradeMedian() {
+    //    final List<Double> theDecimals = new ArrayList<>(allGrades.size());
+    //    for (final Grade g : allGrades) {
+     //       theDecimals.add(g.getMark());
+     //   }
+     //   try {
+     //       final Double median = Math.median(theDecimals);
+     //       return median.stripTrailingZeros().toPlainString();
+     //   } catch (final ArithmeticException e) {
+     //       logger.debug(
+     //               "Calculation of grades median has been called without any grades.", e);
+      //      return NO_GRADES_PRESENT;
+      //  }
+  //  }
 
     /**
      * Fügt die angezeigte Note der Liste aller Noten des aktuell in der zugehörigen
@@ -287,7 +287,6 @@ public class GradesBean extends AbstractBean implements Serializable {
         }
         JoinExam joinExam = null;
         List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pStudent);
-        BigDecimal bd = BigDecimal.valueOf(selectedGrade);
         for(JoinExam j: joinExams)
         {
             if(j.getExam() != null && j.getExam().getId() == pExam.getId())
@@ -296,20 +295,7 @@ public class GradesBean extends AbstractBean implements Serializable {
                 break;
             }
         }
-        grade.setMark(bd);
-        BigDecimal theMark = grade.getMark();
-        BigDecimal lowestMark = BigDecimal.valueOf(1);
-        BigDecimal highestMark = BigDecimal.valueOf(5);
-
-        if (lowestMark.compareTo(theMark) > 0 || highestMark.compareTo(theMark) < 0) {
-            return null;
-        } else {
-            BigDecimal tmp = theMark.remainder(new BigDecimal(1));
-            BigDecimal n3 = BigDecimal.valueOf(.3);
-            BigDecimal n7 = BigDecimal.valueOf(.7);
-            BigDecimal n0 = BigDecimal.valueOf(0);
-            if ((tmp.compareTo(n3) == 0) || (tmp.compareTo(n7) == 0)
-                    || (tmp.compareTo(n0) == 0)) {
+        grade.setMark(selectedGrade);
                 grade.setJoinExam(joinExam);
                 grade.setSubject(pExam.getInstanceLecture().getLecture().getName());
                 grade.setUser(joinExam.getPruefling());
@@ -321,13 +307,10 @@ public class GradesBean extends AbstractBean implements Serializable {
                 userDAO.update(joinExam.getPruefling());
                 logger.info("hats geklappt ?");
 
-            } else {
-                return null;
-            }
             init();
             return null;
-        }
     }
+
 
     /**
      *
@@ -339,7 +322,6 @@ public class GradesBean extends AbstractBean implements Serializable {
         }
         JoinExam joinExam = null;
         List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pStudent);
-        BigDecimal bd = BigDecimal.valueOf(selectedGrade);
         for(JoinExam j: joinExams)
         {
             if(j.getExam() != null && j.getExam().getId() == pExam.getId())
@@ -348,30 +330,15 @@ public class GradesBean extends AbstractBean implements Serializable {
                 break;
             }
         }
-       joinExam.getGrade().setMark(bd);
-        BigDecimal theMark = joinExam.getGrade().getMark();
-        BigDecimal lowestMark = BigDecimal.valueOf(1);
-        BigDecimal highestMark = BigDecimal.valueOf(5);
-
-        if (lowestMark.compareTo(theMark) > 0 || highestMark.compareTo(theMark) < 0) {
-            return null;
-        } else {
-            BigDecimal tmp = theMark.remainder(new BigDecimal(1));
-            BigDecimal n3 = BigDecimal.valueOf(.3);
-            BigDecimal n7 = BigDecimal.valueOf(.7);
-            BigDecimal n0 = BigDecimal.valueOf(0);
-            if ((tmp.compareTo(n3) == 0) || (tmp.compareTo(n7) == 0)
-                    || (tmp.compareTo(n0) == 0)) {
+       joinExam.getGrade().setMark(selectedGrade);
                 gradeDAO.update(joinExam.getGrade());
                 logger.info("hats geklappt ?");
 
-            } else {
-                return null;
-            }
+
             init();
             return null;
         }
-    }
+
 
     /**
      * Entfernt die übergebene Note aus der Liste aller Noten des aktuell in der

@@ -71,7 +71,7 @@ public class Grade extends JPAEntity implements Serializable {
      * Die Note dieser Noteneintragung.
      */
     @Column(nullable = false)
-    private BigDecimal mark;
+    private Double mark;
 
     @OneToOne
     private JoinExam joinExam;
@@ -124,7 +124,7 @@ public class Grade extends JPAEntity implements Serializable {
      *
      * @return Die Note dieses Noteneintrags.
      */
-    public BigDecimal getMark() {
+    public Double getMark() {
         return mark;
     }
 
@@ -136,7 +136,7 @@ public class Grade extends JPAEntity implements Serializable {
      * @throws IllegalArgumentException
      *             Falls die gegebene Note den Wert {@code null} hat.
      */
-    public void setMark(final BigDecimal pMark) {
+    public void setMark(final Double pMark) {
         mark = Assertion.assertNotNull(pMark);
     }
 
