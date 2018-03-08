@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -244,6 +245,17 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu leiten.
      */
     public String save() {
+        for (InstanceLecture il : getAllInstanceLectures()
+                .stream()
+                .filter(x -> x.getLecture().getId()
+                        .equals(getSession().getSelectedLecture().getId()))
+                .collect(Collectors.toList())) {
+            if (il.getYear().equals(selectedYear)
+                    && il.getSemester().equals(SemesterTime.toString(selectedTimes))) {
+                addErrorMessage("errorSemesterAlreadyExists");
+                return "semestercreate.xhtml";
+            }
+        }
         try {
             user.addAsProfToIlv(instanceLecture);
             instanceLecture.setSemester(SemesterTime.toString(selectedTimes));
