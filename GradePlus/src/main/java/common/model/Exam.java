@@ -437,10 +437,17 @@ public class Exam extends JPAEntity {
 
     @Override
     public boolean equals(final Object theObject) {
+        if (this == theObject) {
+            return true;
+        }
+        if (theObject == null) {
+            return false;
+        }
         if (!(theObject instanceof Exam)) {
             return false;
         }
-        return getId().equals(((Exam) theObject).getId());
+        final Exam otherExam = (Exam) theObject;
+        return getId().equals(otherExam.getId());
     }
 
 }
