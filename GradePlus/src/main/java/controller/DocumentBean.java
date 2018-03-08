@@ -34,6 +34,23 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
     private final ExamDAO examDAO;
 
+    private int pruefungsordnung;
+    private boolean wiederholungspruefung;
+    private String vak;
+    private String lecture;
+    private String name;
+    private String givenname;
+    private String matrnr;
+    private String ort;
+    private String date;
+    private String start;
+    private String examiner;
+    private String coexaminer;
+    private boolean beisitzer;
+    private String content;
+    private String end;
+    private String grade;
+
     /**
      * Erzeugt eine neue AbstractBean.
      *
@@ -83,10 +100,127 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page, true, true, true);
 
+            // Pruefungsordnung
+            if (pruefungsordnung == 1) {
+                contentStream.beginText();
+                contentStream.setFont(fontTimes,12);
+                contentStream.newLineAtOffset(80,500);
+                contentStream.showText("X");
+                contentStream.endText();
+            } else if(pruefungsordnung == 2) {
+                contentStream.beginText();
+                contentStream.setFont(fontTimes,12);
+                contentStream.newLineAtOffset(80,500);
+                contentStream.showText("X");
+                contentStream.endText();
+            } else if(pruefungsordnung == 3) {
+                contentStream.beginText();
+                contentStream.setFont(fontTimes,12);
+                contentStream.newLineAtOffset(80,500);
+                contentStream.showText("X");
+                contentStream.endText();
+            }
+
+            // Wiederholungspruefung
+            if(wiederholungspruefung == true) {
+                contentStream.beginText();
+                contentStream.setFont(fontTimes,12);
+                contentStream.newLineAtOffset(80,500);
+                contentStream.showText("X");
+                contentStream.endText();
+            }
+
+            // VAK
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(80,500);
-            contentStream.showText("Hello again");
+            contentStream.showText(vak);
+            contentStream.endText();
+
+            // Lecture
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(lecture);
+            contentStream.endText();
+
+            // Name, Vorname
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(name + ", " + givenname);
+            contentStream.endText();
+
+            // matrnr
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(matrnr);
+            contentStream.endText();
+
+            // Ort
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(ort);
+            contentStream.endText();
+
+            // Date
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(lecture);
+            contentStream.endText();
+
+            // Start
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(start);
+            contentStream.endText();
+
+            // Examiner
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(lecture);
+            contentStream.endText();
+
+            // CoExaminer
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(coexaminer);
+            contentStream.endText();
+
+            // Beisitzer
+            if(beisitzer == true) {
+                contentStream.beginText();
+                contentStream.setFont(fontTimes,12);
+                contentStream.newLineAtOffset(80,500);
+                contentStream.showText("X");
+                contentStream.endText();
+            }
+
+            // content
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(content);
+            contentStream.endText();
+
+            // End
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(end);
+            contentStream.endText();
+
+            // Grade
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,500);
+            contentStream.showText(grade);
             contentStream.endText();
 
             contentStream.close();
