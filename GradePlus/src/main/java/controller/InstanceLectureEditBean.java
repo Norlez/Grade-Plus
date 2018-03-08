@@ -193,7 +193,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
             pStudent.addAsStudentToIlv(instanceLecture);
             JoinExam joinExam = new JoinExam();
             joinExam.setPruefling(pStudent);
-            joinExam.setKind(Anmeldeart.LISTE);
+            joinExam.setKind(Anmeldeart.BYPROF);
             joinExamDAO.save(joinExam);
             update(pStudent);
         } else {

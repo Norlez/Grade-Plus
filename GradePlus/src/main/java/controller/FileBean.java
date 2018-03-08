@@ -156,7 +156,7 @@ public class FileBean extends AbstractBean implements Serializable {
 
                 if(!pInstanceLecture.getExaminers().contains(u)) {
                     JoinExam j = new JoinExam();
-                    j.setKind(Anmeldeart.LISTE);
+                    j.setKind(Anmeldeart.BYPABO);
                     j.setPruefling(u);
                     joinExamDAO.save(j);
                     u.addAsStudentToIlv(pInstanceLecture);

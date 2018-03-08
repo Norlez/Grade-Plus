@@ -422,7 +422,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
         JoinExam joinExam = new JoinExam();
         joinExam.setExam(pExam);
         joinExam.setPruefling(user);
-        joinExam.setKind(Anmeldeart.SELBER);
+        joinExam.setKind(Anmeldeart.BYPROF);
         joinExamDao.save(joinExam);
         pExam.addParticipant(joinExam);
         examDao.update(pExam);
