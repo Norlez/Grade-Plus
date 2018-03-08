@@ -16,7 +16,7 @@
     <ui:define name="content">
         <f:loadBundle basename="internationalization.exams" var="msg" />
 
-        <b:form>
+        <b:form enctype="multipart/form-data">
             <b:container class="form-group">
                 <b:row>
                     <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
@@ -141,6 +141,21 @@
 
                     <!-- PRÜFLINGE -->
                     <b:tab title="#{msg['tabtitleStudents']}">
+
+
+                        <!-- UPLOAD PABO LIST -->
+
+                        <b:row class="btn-paragraph">
+                            <b:column span="3">
+                                <b:panel collapsed="true">
+                                    <f:facet name="heading">
+                                        <h:outputText value="Aus Pabo hochladen" />
+                                    </f:facet>
+                                    <h:inputFile value="#{fileBean.file}" />
+                                    <b:commandButton action="#{fileBean.saveFromCSVFromPabo(instanceLectureEditBean.instanceLecture)}" value="convert" />
+                                </b:panel>
+                            </b:column>
+                        </b:row>
 
                         <!-- PRÜFLINGE HINZUFÜGEN -->
                         <b:row class="btn-paragraph">

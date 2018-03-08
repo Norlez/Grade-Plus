@@ -31,6 +31,8 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.*;
@@ -236,7 +238,12 @@ public class MailBean extends AbstractBean implements Serializable{
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorTransmitOfMessage", sender.getEmail());
         }
+        recipient ="";
+        topic = "";
+        content = "";
         init();
+        FacesMessage message = new FacesMessage("Ihre Nachricht wurde erfolgreich versendet!");
+        FacesContext.getCurrentInstance().addMessage(null, message);
         return "dashboard.xhtml";
     }
 
@@ -292,14 +299,19 @@ public class MailBean extends AbstractBean implements Serializable{
 
             message.setContent(multipart);
             Transport transport = session.getTransport("smtp");
-            transport.connect(smtp, "arbnor@uni-bremen.de", "PSCHT");
+            transport.connect(smtp, sender.getEmail(), getSession().getTmpPassword());
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (MessagingException e) {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorTransmitOfMessage", sender.getEmail());
         }
+        topic = "";
+        content = "";
+        recipient ="";
         init();
+        FacesMessage message = new FacesMessage("Ihre Nachricht wurde erfolgreich versendet!");
+        FacesContext.getCurrentInstance().addMessage(null, message);
         return "dashboard.xhtml";
     }
 
@@ -323,15 +335,15 @@ public class MailBean extends AbstractBean implements Serializable{
     /**
      * Versendet eine Systemnachricht an einen gewählten Benutzer.
 
-    public void sendSystemMail() {
-        sender = new User();
-        sender.setEmail("gradeplusbremen@gmail.com");
-        sender.setTmpPassword("Koschke123");
-        smtp = "smtp.gmail.com";
-        sendMail();
-        sender = getSession().getUser();
-    }
-    */
+     public void sendSystemMail() {
+     sender = new User();
+     sender.setEmail("gradeplusbremen@gmail.com");
+     sender.setTmpPassword("Koschke123");
+     smtp = "smtp.gmail.com";
+     sendMail();
+     sender = getSession().getUser();
+     }
+     */
 
     /**
      * Prüft, ob die Kombination der eingegebene Email mit dem dazugehörigem Passwort eine
@@ -365,3 +377,4 @@ public class MailBean extends AbstractBean implements Serializable{
     }
 
 }
+

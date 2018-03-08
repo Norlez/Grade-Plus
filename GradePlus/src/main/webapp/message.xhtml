@@ -19,8 +19,9 @@
             <f:loadBundle basename="internationalization.dashboard"
                           var="msg" />
 
-            <b:form>
-                <b:container styleClass="form-group">
+            <b:form enctype="multipart/form-data">
+                <b:container class="form-group">
+
                     <!-- TITLE -->
                     <b:row>
                         <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
@@ -29,20 +30,54 @@
                             </h1>
                         </b:column>
                     </b:row>
+
+
+
+                    <!-- RECEIVER -->
+                    <b:row>
+                        <b:column span="4" colSm="12" colMd="12" colXs="12">
+                            <b:inputText placeholder="receiver" id="receiver" required="true"
+                                         value="#{mailBean.recipient}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- TOPIC -->
+                    <b:row>
+                        <b:column span="4" colSm="12" colMd="12" colXs="12">
+                            <b:inputText placeholder="Topic" id="topic" required="true"
+                                         value="#{mailBean.topic}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- MESSAGE -->
+                    <b:row>
+                        <b:column span="4" colSm="12" colMd="12" colXs="12">
+                            <b:inputTextarea placeholder="Message" id="message" required="true"
+                                             value="#{mailBean.content}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- SEND BUTTON -->
+                    <b:row>
+                        <b:column span="4" colSm="12" colMd="12" colXs="12">
+                            <b:panel collapsed="true">
+                                <f:facet name="heading">
+                                    <h:outputText value="Datei auswählen" />
+                                </f:facet>
+                                <h:inputFile value="#{mailBean.file}" />
+                            </b:panel>
+                            <b:commandButton id="sendMessage"
+                                             value="send"
+                                             action="#{mailBean.decideWhichEmail}"/>
+                        </b:column>
+                    </b:row>
+
                 </b:container>
             </b:form>
 
-            <!-- REGISTER USER FROM A FILE  -->
-            <b:form enctype="multipart/form-data">
-                <b:container class="form-group" >
-                    <b:row>
-                       <h:inputFile value="#{mailBean.file}" />
-                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionCreate']}" action="#{mailBean.sendMailWithAttachment}" />
-                    </b:row>
-                </b:container>
-            </b:form>
 
         </ui:define>
     </ui:composition>
 </h:body>
 </html>
+
