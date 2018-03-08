@@ -363,6 +363,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
      */
     public String remove(final Exam pExam) {
         assertNotNull(pExam, "ExamsBean: remove(Exam)");
+        for (User theStudent : pExam.getStudents()) {
+            deregisterAsStudent(theStudent, pExam);
+        }
         examDao.remove(pExam);
         List<User> updatedUsers = new ArrayList<>();
         String message = String
@@ -370,18 +373,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
                         pExam.getInstanceLecture().getLecture().getName(), pExam
                                 .getLocalDateTime().toLocalDate().toString(), pExam
                                 .getLocalDateTime().toLocalTime().toString());
-        for (User student : pExam.getStudents()) {
-            List<JoinExam> joinExams = student.getParticipation();
-            for (JoinExam joinExam : joinExams) {
-                if (joinExam.getExam() != null && joinExam.getExam().equals(pExam)) {
-                    joinExams.remove(joinExam);
-                    joinExamDao.remove(joinExam);
-                    break;
-                }
-            }
-            updatedUsers.add(student);
-            notify(student, message);
-        }
         for (User examiner : pExam.getExaminers()) {
             examiner.removeExamAsProf(pExam);
             updatedUsers.add(examiner);
