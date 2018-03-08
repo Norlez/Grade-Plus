@@ -160,9 +160,11 @@ public class FileBean extends AbstractBean implements Serializable {
                     JoinExam j = new JoinExam();
                     j.setKind(Anmeldeart.BYPABO);
                     j.setPruefling(u);
+                    j.setInstanceLecture(pInstanceLecture);
                     joinExamDAO.save(j);
                     u.addAsStudentToIlv(pInstanceLecture);
                     pInstanceLecture.addExaminee(u);
+                    pInstanceLecture.addJoinExam(j);
                     instanceLectureDAO.update(pInstanceLecture);
                     userDao.update(u);
                 }

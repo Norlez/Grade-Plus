@@ -204,7 +204,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
             JoinExam joinExam = new JoinExam();
             joinExam.setPruefling(pStudent);
             joinExam.setKind(Anmeldeart.BYPROF);
+            joinExam.setInstanceLecture(instanceLecture);
             joinExamDAO.save(joinExam);
+            instanceLecture.addJoinExam(joinExam);
+            instanceLectureDao.update(instanceLecture);
             update(pStudent);
         } else {
             addErrorMessage("errorUserIsExaminer");

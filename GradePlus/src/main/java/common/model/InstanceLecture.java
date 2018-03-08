@@ -1,5 +1,7 @@
 package common.model;
 
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.inject.Named;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -64,6 +66,12 @@ public class InstanceLecture extends JPAEntity {
     private List<Exam> exams = new ArrayList<>();
 
     /**
+     * Referenziert auf die JoinExam, damit diese Wiedergefunden wird.
+     */
+    @OneToMany(mappedBy = "instanceLecture" )
+    private List<JoinExam> joinExam = new ArrayList<>();
+
+    /**
      * Gibt die LV der ILV zurück.
      *
      * @return Die LV der ILV.
@@ -80,6 +88,24 @@ public class InstanceLecture extends JPAEntity {
      */
     public void setLecture(final Lecture pLecture) {
         lecture = assertNotNull(pLecture);
+    }
+
+    public List<JoinExam> getJoinExam() {
+        return joinExam;
+    }
+
+    public void setJoinExam(List<JoinExam> joinExam) {
+        this.joinExam = joinExam;
+    }
+
+    public void addJoinExam(JoinExam j)
+    {
+        joinExam.add(j);
+    }
+
+    public void removeJoinExam(JoinExam j)
+    {
+        joinExam.remove(j);
     }
 
     // Prüfer

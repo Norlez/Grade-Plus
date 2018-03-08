@@ -41,6 +41,9 @@ public class JoinExam extends JPAEntity {
     @Column(nullable = true)
     private Anmeldeart kind;
 
+    @ManyToOne
+    private InstanceLecture instanceLecture;
+
     public Exam getExam() {
         return exam;
     }
@@ -79,6 +82,14 @@ public class JoinExam extends JPAEntity {
 
     public void setGrade(Grade grade) {
         this.grade = grade;
+    }
+
+    public InstanceLecture getInstanceLecture() {
+        return instanceLecture;
+    }
+
+    public void setInstanceLecture(InstanceLecture instanceLecture) {
+        this.instanceLecture = instanceLecture;
     }
 
     public String toCSV() {
