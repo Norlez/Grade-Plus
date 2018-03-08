@@ -318,9 +318,14 @@ public class ExamsBean extends AbstractBean implements Serializable {
             Exam oldExam = examDao.getById(exam.getId());
             List<User> students = oldExam.getStudents();
             if (!checked.isEmpty()) {
-                exam.setExaminers(checked.entrySet().stream().filter(Map.Entry::getValue)
-                        .map(Map.Entry::getKey).map(userDao::getById)
-                        .collect(Collectors.toList()));
+                for (User theExaminer : oldExam.getExaminers()) {
+                    removeExaminer(theExaminer);
+                }
+                for (User theExaminer : checked.entrySet().stream()
+                        .filter(Map.Entry::getValue).map(Map.Entry::getKey)
+                        .map(userDao::getById).collect(Collectors.toList())) {
+                    addExaminer(theExaminer);
+                }
             }
             examDao.update(exam);
             String message = String
