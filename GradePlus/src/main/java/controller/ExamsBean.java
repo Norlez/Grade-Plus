@@ -86,6 +86,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
     private Integer lengthOfBreaks;
 
     /**
+     * Speichert die ausgewählte Prüfung temporär.
+     */
+    private Exam selectedExam;
+
+    /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für {@link Exam}
      * -Objekte übernimmt.
      */
@@ -966,4 +971,15 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Speichert den Wert der Exam temporär.
+     * @param pExam, wird zwischengespeichert
+     * @return Die Notenverwaltung
+     */
+    public String setSelectedExam(final Exam pExam)
+    {
+        assertNotNull(pExam);
+        selectedExam = pExam;
+        return "grades.xhtml";
+    }
 }

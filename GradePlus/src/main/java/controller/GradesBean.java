@@ -41,14 +41,13 @@ import javax.inject.Named;
 import businesslogic.Math;
 import common.exception.DuplicateUniqueFieldException;
 import common.exception.UnexpectedUniqueViolationException;
-import common.model.Session;
+import common.model.*;
+import persistence.ExamDAO;
+import persistence.JoinExamDAO;
 import persistence.UserDAO;
 import common.util.Assertion;
 import org.apache.log4j.Logger;
 
-import common.model.Configuration;
-import common.model.Grade;
-import common.model.User;
 import persistence.GradeDAO;
 
 /**
@@ -104,6 +103,9 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     private List<Grade> allGrades;
 
+    private JoinExamDAO joinExamDAO;
+
+    private ExamDAO examDAO;
 
     public List<Double> getPossibleGrades() {
         return possibleGrades;
@@ -147,10 +149,12 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     @Inject
     public GradesBean(final Session pSession, final GradeDAO pGradeDAO,
-                      final UserDAO pUserDAO) {
+                      final UserDAO pUserDAO, final JoinExamDAO pJoinExamDAO, final ExamDAO pExamDAO) {
         super(pSession);
         gradeDAO = Assertion.assertNotNull(pGradeDAO);
         userDAO = Assertion.assertNotNull(pUserDAO);
+        joinExamDAO = Assertion.assertNotNull(pJoinExamDAO);
+        examDAO = Assertion.assertNotNull(pExamDAO);
     }
 
 
@@ -274,16 +278,21 @@ public class GradesBean extends AbstractBean implements Serializable {
      *             Falls beim Aktualisieren des {@link User}-Objektes eine
      *             {@link DuplicateUniqueFieldException} ausgelöst wurde.
      */
-    public String save() {
-        /*
-         * Übung: Noten können aktuell beliebige Zahlen sein - ändert das und fangt
-         * unsinnige Werte ab
-         */
+    public String save(Exam pExam) {
         if (!isLoggedIn()) {
             return null;
         }
         final User user = getSession().getUser();
-        grade.setUser(user);
+        JoinExam joinExam = null;
+        List<JoinExam> joinExams = joinExamDAO.getNonExmptyJoinExamsForUser(user);
+        for(JoinExam j: joinExams)
+        {
+            if(j.getExam().getId() == pExam.getId())
+            {
+                joinExam = j;
+                break;
+            }
+        }
 
         BigDecimal theMark = grade.getMark();
         BigDecimal lowestMark = BigDecimal.valueOf(1);
@@ -298,8 +307,10 @@ public class GradesBean extends AbstractBean implements Serializable {
             BigDecimal n0 = BigDecimal.valueOf(0);
             if ((tmp.compareTo(n3) == 0) || (tmp.compareTo(n7) == 0)
                     || (tmp.compareTo(n0) == 0)) {
+                grade.setJoinExam(joinExam);
                 user.addGrade(grade);
                 gradeDAO.save(grade);
+                joinExam.setGrade(grade);
                 logger.info("hats geklappt ?");
 
             } else {

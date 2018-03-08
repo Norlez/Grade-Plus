@@ -85,7 +85,19 @@
                                 </b:selectOneMenu>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['actionRemove']}" action="huhu" />
+                                <b:commandButton value="#{msg['actionSave']}" action="#{gradesBean.save}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Optionen">
+                                <b:commandButton value="#{msg['actionUpdate']}" action="huhu" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Optionen">
+                                <b:commandButton value="#{msg['createNachweis']}" action="huhu" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Optionen">
+                                <b:commandButton value="#{msg['createProtokoll']}" action="huhu" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Optionen">
+                                <b:commandButton value="#{msg['createQuittung']}" action="huhu" />
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:container>

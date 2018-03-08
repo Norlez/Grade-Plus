@@ -58,13 +58,13 @@ public class Grade extends JPAEntity implements Serializable {
     /**
      * Der Benutzer, dem dieser Noteneintrag zugeordnet ist.
      */
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private User user;
 
     /**
      * Das Schulfach dieser Noteneintragung.
      */
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String subject;
 
     /**
@@ -72,6 +72,9 @@ public class Grade extends JPAEntity implements Serializable {
      */
     @Column(nullable = false)
     private BigDecimal mark;
+
+    @OneToOne
+    private JoinExam joinExam;
 
     /**
      * Gibt den Benutzer zurück, dem dieser Noteneintrag zugeordnet ist.
@@ -135,6 +138,14 @@ public class Grade extends JPAEntity implements Serializable {
      */
     public void setMark(final BigDecimal pMark) {
         mark = Assertion.assertNotNull(pMark);
+    }
+
+    public void setJoinExam(JoinExam joinExam) {
+        this.joinExam = joinExam;
+    }
+
+    public JoinExam getJoinExam() {
+        return joinExam;
     }
 
     @Override

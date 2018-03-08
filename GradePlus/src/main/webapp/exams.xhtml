@@ -296,6 +296,10 @@
                                                          action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
+                                    <b:dataTableColumn label="#{msg['actionSetMark']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionSetMark']}" action="#{examsBean.setSelectedExam(e)}"/>
+                                    </b:dataTableColumn>
+
                                     <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
                                         <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.setExam(e)}"/>
                                     </b:dataTableColumn>
