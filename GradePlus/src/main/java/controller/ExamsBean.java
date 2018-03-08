@@ -532,6 +532,14 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return "exams.xhtml";
     }
 
+    public String deregisterAsExaminer(final Exam pExam) {
+        Exam theExam = exam;
+        exam = assertNotNull(pExam);
+        removeExaminer(getSession().getUser());
+        exam = theExam;
+        return "dashboard.xhtml";
+    }
+
     /**
      * Erzeugt {@link Exam}-Objekte mit gegebenen Stammdaten innerhalb des angegebenen
      * Zeitraums mit entsprechenden Pausen zwischen Prüfungen.
@@ -942,6 +950,20 @@ public class ExamsBean extends AbstractBean implements Serializable {
         tmp.add("Mündliche Prüfung");
         tmp.add("Fachgespräch");
         return Collections.unmodifiableList(tmp);
+    }
+
+    /**
+     * Gibt alle Prüfungen eines Studenten zurück, in denen er Prüfer ist.
+     *
+     * @return Alle Prüfungen eines Studenten, in denen er Prüfer ist.
+     */
+    public List<Exam> getExamsAsStudentExaminer() {
+        return getAllExams()
+                .stream()
+                .filter(e -> e.getExaminers().stream().map(User::getId)
+                        .collect(Collectors.toList())
+                        .contains(getSession().getUser().getId()))
+                .collect(Collectors.toList());
     }
 
 }

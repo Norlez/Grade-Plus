@@ -42,7 +42,7 @@
 
                 <b:container class="form-group">
 
-                    <!-- SUBTITLE -->
+                    <!-- LECTURES -->
                     <b:row>
                         <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
                             <h2>
@@ -90,6 +90,7 @@
                 </b:container>
             </b:form>
 
+            <!-- EXAMS -->
             <b:form>
                 <b:container class="form-group">
                     <b:row class="btn-paragraph">
@@ -137,6 +138,45 @@
                 </b:container>
             </b:form>
 
+            <!-- EXAMS AS EXAMINER -->
+            <b:form rendered="#{! empty examsBean.getExamsAsStudentExaminer()}">
+                <b:container class="form-group">
+                    <b:row class="btn-paragraph">
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleExamsAsExaminer']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="12">
+                            <b:dataTable span="8"
+                                         value="#{examsBean.getExamsAsStudentExaminer()}"
+                                         var="e"
+                                         excel="true"
+                                         csv="true"
+                                         pdf="false"
+                                         columnVisibility="false"
+                                         copy="false"
+                                         print="false">
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputType']}" value="#{e.type}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputLength']}" value="#{e.examLength}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputLocation']}">
+                                    <h:outputText rendered="#{! empty e.location}" value="#{e.location}" />
+                                    <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}" />
+                                </b:dataTableColumn>
+
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDeregister']}">
+                                    <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsExaminer(e)}"/>
+                                </b:dataTableColumn>
+
+                            </b:dataTable>
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </b:form>
 
             </h:panelGroup>
 
