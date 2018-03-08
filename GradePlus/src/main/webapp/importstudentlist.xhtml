@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
@@ -15,10 +15,47 @@
         <ui:param name="title" value="#{msg['title']}"/>
 
         <ui:define name="content">
-            <f:loadBundle basename="internationalization.admin.users" var="msg" />
+            <f:loadBundle basename="internationalization.exams" var="msg" />
 
             <!-- REGISTER USER FROM A FILE  -->
             <b:form enctype="multipart/form-data">
+                <b:container class="form-group" >
+
+                    <!-- INFORMATIONEN DER ILV -->
+                    <b:row>
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['outputInstanceLecture']}"/>
+                            </h2>
+                        </b:column>
+                    </b:row>
+
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputName']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.name}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputVak']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.vak}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputSemester']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.semesterToString()}"/>
+                        </b:column>
+                    </b:row>
+                </b:container>
+
                 <b:container class="form-group" >
                     <b:row>
                         <b:column span="6">
@@ -32,9 +69,60 @@
                         </b:column>
                     </b:row>
                 </b:container>
+
+                <b:container class="form-group" >
+                    <b:row class="btn-paragraph">
+                        <b:column span="3">
+                            <b:button class="btn" value="Zurück zur ILV" outcome="exams"/>
+                        </b:column>
+                    </b:row>
+                </b:container>
+
+
+                <b:container class="form-group" >
+                    <!-- PRÜFLINGE -->
+                    <b:row class="btn-paragraph">
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleStudents']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="12">
+                            <b:dataTable span="8"
+                                         rendered="#{!empty instanceLectureEditBean.instanceLecture.examinees}"
+                                         value="#{instanceLectureEditBean.instanceLecture.examinees}"
+                                         var="u"
+                                         excel="false"
+                                         csv="true"
+                                         pdf="false"
+                                         columnVisibility="false"
+                                         copy="false"
+                                         print="false">
+
+                                <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
+                                <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
+                                <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                                <b:dataTableColumn label="#{msg['outputState']}" orderable="false"/>
+                                <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
+                                <b:dataTableColumn label="#{msg['outputGrade']}"/>
+                                <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
+                                <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                    <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeStudent(u)}"/>
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                            <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
+                                           value="#{msg['outputNoStudents']}"/>
+                        </b:column>
+                    </b:row>
+                </b:container>
+
+
             </b:form>
 
         </ui:define>
     </ui:composition>
 </h:body>
 </html>
+
