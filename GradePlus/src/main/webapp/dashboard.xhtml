@@ -128,10 +128,11 @@
                                     <h:outputText rendered="#{empty examsBean.getJoinExamForUserOfExam(e).grade}" value="#{msg['outputNoGrade']}"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDeregister']}">
-                                    <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsStudent(profileBean.thisUser, e)}"/>
+                                    <b:commandButton rendered="#{!e.instanceLecture.termOfApplicationExceeded}" value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsStudent(profileBean.thisUser, e)}"/>
+                                    <h:outputText rendered="#{e.instanceLecture.termOfApplicationExceeded}" value="#{msg['outputTermOfApplicationExpired']}"/>
                                 </b:dataTableColumn>
-                                <b:dataTableColumn class="col" orderable="false" label="krankmelden">
-                                    <b:commandButton value="krankmelden" action="#{mailBean.prepareIllnessMail(profileBean.thisUser, e)}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputReportSick']}">
+                                    <b:commandButton value="#{msg['outputReportSick']}" action="#{mailBean.prepareIllnessMail(profileBean.thisUser, e)}"/>
                                 </b:dataTableColumn>
 
                             </b:dataTable>
