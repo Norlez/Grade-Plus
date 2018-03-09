@@ -960,13 +960,4 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .collect(Collectors.toList()).get(0);
     }
 
-    public boolean hasGrade(final User pStudent) {
-        return selectedExam
-                .getParticipants()
-                .stream()
-                .filter(j -> j.getPruefling().getId()
-                        .equals(assertNotNull(pStudent).getId()))
-                .collect(Collectors.toList()).get(0).getGrade() != null;
-    }
-
 }

@@ -24,6 +24,7 @@
  */
 package persistence;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -43,7 +44,7 @@ import static common.util.Assertion.assertNotNull;
  * @version 2016-07-12
  */
 @Stateless
-public class GradeDAO extends JPADAO<Grade> {
+public class GradeDAO extends JPADAO<Grade> implements Serializable {
 
     @Override
     Class<Grade> getClazz() {

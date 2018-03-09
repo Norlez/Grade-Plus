@@ -32,8 +32,11 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -64,7 +67,7 @@ import persistence.GradeDAO;
  * @version 2017-06-28
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class GradesBean extends AbstractBean implements Serializable {
 
     /**
@@ -94,6 +97,8 @@ public class GradesBean extends AbstractBean implements Serializable {
      * übernimmt.
      */
     private final UserDAO userDAO;
+
+    private Exam exam;
 
     /**
      * Die aktuell angezeigte Note.
@@ -299,6 +304,8 @@ public class GradesBean extends AbstractBean implements Serializable {
         joinExam.setGrade(grade);
         joinExamDAO.update(joinExam);
         userDAO.update(joinExam.getPruefling());
+        examDAO.update(pExam);
+        exam = examDAO.getById(pExam.getId());
         logger.info("hats geklappt ?");
 
         init();
@@ -413,4 +420,25 @@ public class GradesBean extends AbstractBean implements Serializable {
         }
         return e;
     }
+
+    public Exam getExam() {
+        return exam;
+    }
+
+    public String setExam(final Exam pExam) {
+        exam = assertNotNull(pExam);
+        return "grades.xhtml";
+    }
+
+    public boolean hasGrade(final User pStudent) {
+        return exam
+                .getParticipants()
+                .stream()
+                .filter(j -> j
+                        .getPruefling()
+                        .getId()
+                        .equals(assertNotNull(pStudent, "GradesBean: hasGrade(User)")
+                                .getId())).collect(Collectors.toList()).get(0).getGrade() != null;
+    }
+
 }

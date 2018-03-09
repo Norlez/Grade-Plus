@@ -282,4 +282,9 @@ public class InstanceLecture extends JPAEntity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm, dd.MM.yyyy");
         return simpleDateFormat.format(termOfApplication);
     }
+
+    public boolean isTermOfApplicationExceeded() {
+        return termOfApplication.compareTo(new Date()) < 0;
+    }
+
 }

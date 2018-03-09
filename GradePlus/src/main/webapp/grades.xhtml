@@ -70,8 +70,8 @@
 
                 <b:form>
                     <b:container class="form-group">
-                        <b:dataTable rendered="#{! empty examsBean.selectedExam.students}"
-                                     span="8" value="#{examsBean.selectedExam.students}" var="e"
+                        <b:dataTable rendered="#{! empty gradesBean.exam.students}"
+                                     span="8" value="#{gradesBean.exam.students}" var="e"
                                      excel="true"
                                      csv="true"
                                      pdf="true"
@@ -87,26 +87,35 @@
                                 </b:selectOneMenu>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputOptions']}">
-                                <b:commandButton rendered="#{!examsBean.hasGrade(e)}" value="#{msg['actionSave']}" action="#{gradesBean.save(examsBean.selectedExam, e)}" />
-                                <b:commandButton rendered="#{examsBean.hasGrade(e)}" value="#{msg['actionUpdate']}" action="#{gradesBean.update(examsBean.selectedExam, e)}" />
+                                <b:commandButton rendered="#{!gradesBean.hasGrade(e) and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                                 disabled="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                                 title="#{msg['outputTermOfApplicationNotExceeded']}"
+                                                 value="#{msg['actionSave']}"
+                                                 action="#{gradesBean.save(gradesBean.exam, e)}" />
+                                <b:commandButton rendered="#{!gradesBean.hasGrade(e) and instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                                 value="#{msg['actionSave']}"
+                                                 action="#{gradesBean.save(gradesBean.exam, e)}" />
+                                <b:commandButton rendered="#{gradesBean.hasGrade(e)}"
+                                                 value="#{msg['actionUpdate']}"
+                                                 action="#{gradesBean.update(gradesBean.exam, e)}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputCertificate']}">
                                 <p:commandButton value="#{msg['actionDownload']}" ajax="false">
-                                    <p:fileDownload value="#{documentBean.getCertificates(e, examsBean.selectedExam)}"/>
+                                    <p:fileDownload value="#{documentBean.getCertificates(e,gradesBean.exam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputProtocol']}">
                                 <p:commandButton value="#{msg['actionDownload']}" ajax="false">
-                                    <p:fileDownload value="#{documentBean.getProtocol(e,examsBean.selectedExam)}"/>
+                                    <p:fileDownload value="#{documentBean.getProtocol(e,gradesBean.exam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputRecipe']}">
                                 <p:commandButton value="#{msg['actionDownload']}" ajax="false">
-                                    <p:fileDownload value="#{documentBean.getReceipe(e,examsBean.selectedExam)}"/>
+                                    <p:fileDownload value="#{documentBean.getReceipe(e,gradesBean.exam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
                         </b:dataTable>
-                        <h:outputLabel rendered="#{empty examsBean.selectedExam.students}"
+                        <h:outputLabel rendered="#{empty gradesBean.exam.students}"
                                        value="#{msg['outputNoStudents']}"/>
                     </b:container>
                 </b:form>

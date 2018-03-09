@@ -314,7 +314,14 @@
                                     </b:dataTableColumn>
 
                                     <b:dataTableColumn label="#{msg['actionSetMark']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionSetMark']}" action="#{examsBean.setSelectedExam(e)}"/>
+                                        <b:commandButton rendered="#{!e.released}"
+                                                         disabled="#{!e.released}"
+                                                         title="#{msg['outputNotReleased']}"
+                                                         value="#{msg['actionSetMark']}"
+                                                         action="#{gradesBean.setExam(e)}"/>
+                                        <b:commandButton rendered="#{e.released}"
+                                                         value="#{msg['actionSetMark']}"
+                                                         action="#{gradesBean.setExam(e)}"/>
                                     </b:dataTableColumn>
 
                                     <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
