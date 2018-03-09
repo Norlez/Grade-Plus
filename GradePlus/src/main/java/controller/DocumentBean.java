@@ -185,19 +185,19 @@ public class DocumentBean extends AbstractBean implements Serializable {
             if (pruefungsordnung == 1) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(244,684);
                 contentStream.showText("X");
                 contentStream.endText();
             } else if(pruefungsordnung == 2) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(244,670);
                 contentStream.showText("X");
                 contentStream.endText();
             } else if(pruefungsordnung == 3) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(244,657);
                 contentStream.showText("X");
                 contentStream.endText();
             }
@@ -206,7 +206,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             if(wiederholungspruefung) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(73,630);
                 contentStream.showText("X");
                 contentStream.endText();
             }
@@ -214,63 +214,63 @@ public class DocumentBean extends AbstractBean implements Serializable {
             // VAK
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(160,605);
             contentStream.showText(vak);
             contentStream.endText();
 
             // Lecture
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(300,605);
             contentStream.showText(lecture);
             contentStream.endText();
 
             // Name, Vorname
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(160,578);
             contentStream.showText(name + ", " + givenname);
             contentStream.endText();
 
             // matrnr
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(400,578);
             contentStream.showText(matrnr);
             contentStream.endText();
 
             // Ort
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(160,549);
             contentStream.showText(ort);
             contentStream.endText();
 
             // Date
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(340,549);
             contentStream.showText(lecture);
             contentStream.endText();
 
             // Start
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(520,549);
             contentStream.showText(start);
             contentStream.endText();
 
             // Examiner
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(160,522);
             contentStream.showText(lecture);
             contentStream.endText();
 
             // CoExaminer
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(340,522);
             contentStream.showText(coexaminer);
             contentStream.endText();
 
@@ -278,7 +278,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             if(beisitzer) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(274,508);
                 contentStream.showText("X");
                 contentStream.endText();
             }
@@ -286,21 +286,21 @@ public class DocumentBean extends AbstractBean implements Serializable {
             // content
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(72,450);
             contentStream.showText(content);
             contentStream.endText();
 
             // End
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(180,87);
             contentStream.showText(end);
             contentStream.endText();
 
             // Grade
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(300,87);
             contentStream.showText(grade);
             contentStream.endText();
 
