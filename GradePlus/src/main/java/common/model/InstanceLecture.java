@@ -4,6 +4,7 @@ import jdk.nashorn.internal.scripts.JO;
 
 import javax.inject.Named;
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -275,5 +276,10 @@ public class InstanceLecture extends JPAEntity {
 
     public void setTermOfApplication(final Date pTermOfApplication) {
         termOfApplication = assertNotNull(pTermOfApplication);
+    }
+
+    public String termOfApplicationToString() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm, dd.MM.yyyy");
+        return simpleDateFormat.format(termOfApplication);
     }
 }
