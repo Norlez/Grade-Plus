@@ -505,6 +505,29 @@ public class DocumentBean extends AbstractBean implements Serializable {
         String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Certificate.pdf";
         File file = new File(relativeWebPath);
 
+        grade = "";
+        for(JoinExam j: joinExamDAO.getJoinExamsForUser(user))
+        {
+            if(j.getPruefling().getId() == user.getId() && j.getExam().getId() == exam.getId())
+            {
+                if(j.getGrade() != null)
+                {
+                    grade = j.getGrade().getMark()+"";
+                }
+            }
+        }
+
+        content = "";
+        if(exam.getInstanceLecture().getLecture().getDescription()!= null)
+        {
+            content = exam.getInstanceLecture().getLecture().getDescription();
+        }
+
+        if(exam.getParticipants().size()< 1)
+        {
+            groupe = true;
+        }
+
         try {
 
             PDDocument document = PDDocument.load(file);
@@ -553,7 +576,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(290,543);
-            contentStream.showText(semester + " " + year);
+            contentStream.showText(exam.getInstanceLecture().getSemester() + " " + exam.getInstanceLecture().getYear());
             contentStream.endText();
 
             // Wochenstunden
@@ -574,7 +597,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(80,483);
-            contentStream.showText(bemerkungen+"");
+            contentStream.showText(content);
             contentStream.endText();
 
             // Einzel, Gruppenleistung
@@ -596,14 +619,14 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(180,313);
-            contentStream.showText(contentExaminer);
+            contentStream.showText(exam.getType());
             contentStream.endText();
 
             // Pruefungsgebiet
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(180,193);
-            contentStream.showText(pruefungsgebiet);
+            contentStream.showText("");
             contentStream.endText();
 
             // Note
