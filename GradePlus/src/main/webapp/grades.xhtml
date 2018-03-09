@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <!-- Hier kann der Pruefer Noten eintragen, exportieren und Dokumente ausdrucken -->
@@ -91,13 +92,19 @@
                                 <b:commandButton value="#{msg['actionUpdate']}" action="#{gradesBean.update(examsBean.selectedExam, e)}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['createNachweis']}" action="huhu" />
+                                <p:commandButton value="Download" ajax="false">
+                                    <p:fileDownload value="#{documentBean.getProtocol()}"/>
+                                </p:commandButton>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['createProtokoll']}" action="huhu" />
+                                <p:commandButton value="Download" ajax="false">
+                                    <p:fileDownload value="#{documentBean.getProtocol()}"/>
+                                </p:commandButton>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Optionen">
-                                <b:commandButton value="#{msg['createQuittung']}" action="huhu" />
+                                <p:commandButton value="Download" ajax="false">
+                                    <p:fileDownload value="#{documentBean.receipe}"/>
+                                </p:commandButton>
                             </b:dataTableColumn>
                         </b:dataTable>
                     </b:container>
