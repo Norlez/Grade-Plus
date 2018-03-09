@@ -246,13 +246,13 @@ public class UserDAO extends JPADAO<User> implements Serializable {
     }
 
     /**
-     * Gibt den Benutzer mit der gegebenen MatrNr zurück. Falls es keinen Benutzer
-     * mit dem gegebenen Benutzernamen gibt, wird {@code null} zurückgegeben.
+     * Gibt den Benutzer mit der gegebenen MatrNr zurück. Falls es keinen Benutzer mit dem
+     * gegebenen Benutzernamen gibt, wird {@code null} zurückgegeben.
      *
      * @param pMatrNr
      *            die MatrNr des gesuchten Benutzers
-     * @return Den Benutzer zur gegebenen MatrNr oder {@code null} falls es keinen
-     *         solchen Benutzer gibt.
+     * @return Den Benutzer zur gegebenen MatrNr oder {@code null} falls es keinen solchen
+     *         Benutzer gibt.
      * @throws IllegalArgumentException
      *             Falls der gegebene Benutzername leer ist oder den Wert {@code null}
      *             hat.

@@ -451,8 +451,8 @@ public class Exam extends JPAEntity {
     }
 
     /**
-     * Formatiert die gegebene LocalDateTime um, damit sie für die ICS-Datei richtig gespeichert wird.
-     * Dies ist der Anfang der Prüfung.
+     * Formatiert die gegebene LocalDateTime um, damit sie für die ICS-Datei richtig
+     * gespeichert wird. Dies ist der Anfang der Prüfung.
      *
      * @return
      */
@@ -461,16 +461,20 @@ public class Exam extends JPAEntity {
                 + localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "T"
                 + localDateTime.format(DateTimeFormatter.ofPattern("HHmm00"));
     }
+
     /**
-     * Formatiert die gegebene LocalDateTime um, damit sie für die ICS-Datei richtig gespeichert wird.
-     * Dies ist das Ende der Prüfung.
+     * Formatiert die gegebene LocalDateTime um, damit sie für die ICS-Datei richtig
+     * gespeichert wird. Dies ist das Ende der Prüfung.
      *
      * @return
      */
     public String dateTimeToIcsPlusExamLengthFormat() {
         return "Europe/Berlin:"
-                + localDateTime.plusMinutes(getExamLength()).format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "T"
-                + localDateTime.plusMinutes(getExamLength()).format(DateTimeFormatter.ofPattern("HHmm00"));
+                + localDateTime.plusMinutes(getExamLength()).format(
+                        DateTimeFormatter.ofPattern("yyyyMMdd"))
+                + "T"
+                + localDateTime.plusMinutes(getExamLength()).format(
+                        DateTimeFormatter.ofPattern("HHmm00"));
     }
 
 }

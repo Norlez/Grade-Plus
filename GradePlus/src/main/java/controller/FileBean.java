@@ -45,8 +45,8 @@ public class FileBean extends AbstractBean implements Serializable {
     private UserDAO userDao;
 
     /**
-     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für InstanceLecture-Objekte
-     * übernimmt.
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
+     * InstanceLecture-Objekte übernimmt.
      */
     private InstanceLectureDAO instanceLectureDAO;
 
@@ -70,7 +70,8 @@ public class FileBean extends AbstractBean implements Serializable {
      *            Die UserDAO der zu erzeugenden FileBean.
      */
     @Inject
-    public FileBean(final Session pSession, final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDAO, final  JoinExamDAO pJoinExamDAO) {
+    public FileBean(final Session pSession, final UserDAO pUserDao,
+            final InstanceLectureDAO pInstanceLectureDAO, final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDao);
         instanceLectureDAO = assertNotNull(pInstanceLectureDAO);
@@ -142,9 +143,11 @@ public class FileBean extends AbstractBean implements Serializable {
      *
      *
      * @return exams.xhtml als Weiterleitung
-     * @throws IOException, falls die einzulesende Datei fehlerhaft ist.
+     * @throws IOException
+     *             , falls die einzulesende Datei fehlerhaft ist.
      */
-    public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture) throws IOException, DuplicateEmailException, DuplicateUsernameException {
+    public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture)
+            throws IOException, DuplicateEmailException, DuplicateUsernameException {
         assertNotNull(pInstanceLecture);
         InputStream is = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -158,7 +161,7 @@ public class FileBean extends AbstractBean implements Serializable {
             if (userDao.getUserForMatrNr(data[0].trim()) != null) {
                 User u = userDao.getUserForMatrNr(data[0].trim());
 
-                if(!pInstanceLecture.getExaminers().contains(u)) {
+                if (!pInstanceLecture.getExaminers().contains(u)) {
                     JoinExam j = new JoinExam();
                     j.setKind(Anmeldeart.BYPABO);
                     j.setPruefling(u);
@@ -231,11 +234,12 @@ public class FileBean extends AbstractBean implements Serializable {
         for (Exam e : examsOfStudent) {
             date.append("BEGIN:VEVENT");
             date.append("\n");
-            date.append("DTSTART;TZID=" +e.dateTimeToIcsFormat());
+            date.append("DTSTART;TZID=" + e.dateTimeToIcsFormat());
             date.append("\n");
             date.append("DTEND;TZID=" + e.dateTimeToIcsPlusExamLengthFormat());
             date.append("\n");
-            date.append("SUMMARY: Exam-Date for " + e.getInstanceLecture().getLecture().getName());
+            date.append("SUMMARY: Exam-Date for "
+                    + e.getInstanceLecture().getLecture().getName());
             date.append("\n");
             date.append("UID:" + "Exam" + e.getId());
             date.append("\n");
@@ -257,7 +261,8 @@ public class FileBean extends AbstractBean implements Serializable {
         BufferedWriter bw = null;
         try {
 
-            File file = new File(System.getProperty("user.home")+"/Exam-Dates-" + generateRandomString()+".ics");
+            File file = new File(System.getProperty("user.home") + "/Exam-Dates-"
+                    + generateRandomString() + ".ics");
             file.createNewFile();
 
             FileWriter fw = new FileWriter(file);
@@ -275,15 +280,16 @@ public class FileBean extends AbstractBean implements Serializable {
                 System.out.println("Exceptiooooon: ICS EXPORT");
             }
         }
-        FacesMessage message = new FacesMessage("Ihre ICS wurde auf folgendes Verzeichnis gespeichert:" +System.getProperty("user.home") );
+        FacesMessage message = new FacesMessage(
+                "Ihre ICS wurde auf folgendes Verzeichnis gespeichert:"
+                        + System.getProperty("user.home"));
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-
-
     /**
-     * Generiert einen zufälligen String, damit eine neue ICS erstellt wird und nicht immer die alte
-     * überschrieben wird.
+     * Generiert einen zufälligen String, damit eine neue ICS erstellt wird und nicht
+     * immer die alte überschrieben wird.
+     * 
      * @return
      */
     protected String generateRandomString() {
@@ -298,4 +304,3 @@ public class FileBean extends AbstractBean implements Serializable {
     }
 
 }
-

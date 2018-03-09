@@ -16,8 +16,7 @@ import java.util.List;
         @NamedQuery(name = "JoinExams.getAll", query = "SELECT j FROM JoinExam j"),
         @NamedQuery(name = "JoinExams.getKrank", query = "SELECT j FROM JoinExam j WHERE j.krank = TRUE"),
         @NamedQuery(name = "JoinExams.getUsersForExam", query = "SELECT j FROM JoinExam j WHERE j.exam = :exam"),
-        @NamedQuery(name = "JoinExam.getJoinExamsForUser", query = "SELECT j FROM JoinExam j WHERE j.pruefling = :pruefling")
-})
+        @NamedQuery(name = "JoinExam.getJoinExamsForUser", query = "SELECT j FROM JoinExam j WHERE j.pruefling = :pruefling") })
 public class JoinExam extends JPAEntity {
 
     @ManyToOne(optional = true)

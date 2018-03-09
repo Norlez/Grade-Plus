@@ -107,7 +107,7 @@ public class DBInit {
             final User pUser = new User();
             final User student = new User();
             final Lecture lecture = new Lecture();
-           // final Exam exam = new Exam();
+            // final Exam exam = new Exam();
             user.setUsername(DEFAULT_USER_NAME);
             user.setEmail(DEFAULT_USER_EMAIL);
             user.setPassword(DEFAULT_USER_PASSWORD);
@@ -130,14 +130,14 @@ public class DBInit {
             lecture.setVak("2035252-2");
             lecture.setEcts(9);
             lecture.setName("SWP-2");
-          //  exam.setInstanceLecture(instanceLecture);
-          //  exam.setLocalDateTime(LocalDateTime.of(2019, 10, 2, 4, 25));
+            // exam.setInstanceLecture(instanceLecture);
+            // exam.setLocalDateTime(LocalDateTime.of(2019, 10, 2, 4, 25));
             try {
                 userDAO.save(user);
                 userDAO.save(pUser);
                 userDAO.save(student);
                 lectureDAO.save(lecture);
-            //    examDAO.save(exam);
+                // examDAO.save(exam);
             } catch (final DuplicateUsernameException ex) {
                 logger.fatal(
                         String.format(

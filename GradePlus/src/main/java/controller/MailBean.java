@@ -225,8 +225,7 @@ public class MailBean extends AbstractBean implements Serializable {
     public String sendMail() {
         try {
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,
-                    getRecipientsAddresses(recipient));
+            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
             message.setText(content);
@@ -253,7 +252,7 @@ public class MailBean extends AbstractBean implements Serializable {
 
     /**
      * Wandelt Part file in io.File um.
-     * 
+     *
      * @throws IOException
      */
     public File copyPartToFile() throws IOException {
@@ -283,8 +282,7 @@ public class MailBean extends AbstractBean implements Serializable {
         try {
             filetosend = copyPartToFile();
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,
-                    getRecipientsAddresses(recipient));
+            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
 
@@ -367,7 +365,7 @@ public class MailBean extends AbstractBean implements Serializable {
 
     /**
      * Liefert alle Empfänger-Mails als ein Array von InternetAdress zurück.
-     * 
+     *
      * @param pRecipients
      *            Die Mails der Empfänger getrennt durch ein Komma.
      * @return InternetAdress Liste aller Empfänger.
@@ -403,3 +401,4 @@ public class MailBean extends AbstractBean implements Serializable {
     }
 
 }
+

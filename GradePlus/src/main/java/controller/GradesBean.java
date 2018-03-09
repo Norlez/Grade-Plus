@@ -122,7 +122,6 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     private List<Double> possibleGrades;
 
-
     public Double getSelectedGrade() {
         return selectedGrade;
     }
@@ -151,16 +150,13 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     @Inject
     public GradesBean(final Session pSession, final GradeDAO pGradeDAO,
-                      final UserDAO pUserDAO, final JoinExamDAO pJoinExamDAO, final ExamDAO pExamDAO) {
+            final UserDAO pUserDAO, final JoinExamDAO pJoinExamDAO, final ExamDAO pExamDAO) {
         super(pSession);
         gradeDAO = Assertion.assertNotNull(pGradeDAO);
         userDAO = Assertion.assertNotNull(pUserDAO);
         joinExamDAO = Assertion.assertNotNull(pJoinExamDAO);
         examDAO = Assertion.assertNotNull(pExamDAO);
     }
-
-
-
 
     /**
      * Initialisiert die Attribute {@link #grade} und {@link #allGrades}, sodass
@@ -176,7 +172,6 @@ public class GradesBean extends AbstractBean implements Serializable {
         allGrades = getSession().getUser().getGrades();
         possibleGrades = calculatePossibleGradesList();
     }
-
 
     /**
      * Liefert eine einfache Map mit den verfügbaren Jahren im System zurück. Diese werden
@@ -229,23 +224,23 @@ public class GradesBean extends AbstractBean implements Serializable {
      * @return Den Durchschnittswert aller Noten des aktuell in der zugehörigen Session
      *         eingeloggten Benutzers als Zeichenkette.
      */
-  //  public String getGradeAverage() {
-    //    final List<BigDecimal> theDecimals = new ArrayList<>(allGrades.size());
-      //  for (final Grade g : allGrades) {
-      //      theDecimals.add(g.getMark());
-      //  }
-      //  final Configuration config = Configuration.getDefault();
-      //  final int scale = config.getScale();
-      //  final RoundingMode roundingMode = config.getRoundingMode();
-      //  try {
-      //      final BigDecimal average = Math.average(theDecimals, scale, roundingMode);
-      //      return average.stripTrailingZeros().toPlainString();
-      //  } catch (final ArithmeticException e) {
-       //     logger.debug(
-        //            "Calculation of grade average has been called without any grades.", e);
-       //     return NO_GRADES_PRESENT;
-       // }
-   // }
+    // public String getGradeAverage() {
+    // final List<BigDecimal> theDecimals = new ArrayList<>(allGrades.size());
+    // for (final Grade g : allGrades) {
+    // theDecimals.add(g.getMark());
+    // }
+    // final Configuration config = Configuration.getDefault();
+    // final int scale = config.getScale();
+    // final RoundingMode roundingMode = config.getRoundingMode();
+    // try {
+    // final BigDecimal average = Math.average(theDecimals, scale, roundingMode);
+    // return average.stripTrailingZeros().toPlainString();
+    // } catch (final ArithmeticException e) {
+    // logger.debug(
+    // "Calculation of grade average has been called without any grades.", e);
+    // return NO_GRADES_PRESENT;
+    // }
+    // }
 
     /**
      * Berechnet den Median aller Noten des aktuell in der zugehörigen Session
@@ -254,20 +249,20 @@ public class GradesBean extends AbstractBean implements Serializable {
      * @return Den Median aller Noten des aktuell in der zugehörigen Session eingeloggten
      *         Benutzers.
      */
-    //public String getGradeMedian() {
-    //    final List<Double> theDecimals = new ArrayList<>(allGrades.size());
-    //    for (final Grade g : allGrades) {
-     //       theDecimals.add(g.getMark());
-     //   }
-     //   try {
-     //       final Double median = Math.median(theDecimals);
-     //       return median.stripTrailingZeros().toPlainString();
-     //   } catch (final ArithmeticException e) {
-     //       logger.debug(
-     //               "Calculation of grades median has been called without any grades.", e);
-      //      return NO_GRADES_PRESENT;
-      //  }
-  //  }
+    // public String getGradeMedian() {
+    // final List<Double> theDecimals = new ArrayList<>(allGrades.size());
+    // for (final Grade g : allGrades) {
+    // theDecimals.add(g.getMark());
+    // }
+    // try {
+    // final Double median = Math.median(theDecimals);
+    // return median.stripTrailingZeros().toPlainString();
+    // } catch (final ArithmeticException e) {
+    // logger.debug(
+    // "Calculation of grades median has been called without any grades.", e);
+    // return NO_GRADES_PRESENT;
+    // }
+    // }
 
     /**
      * Fügt die angezeigte Note der Liste aller Noten des aktuell in der zugehörigen
@@ -281,64 +276,57 @@ public class GradesBean extends AbstractBean implements Serializable {
      *             Falls beim Aktualisieren des {@link User}-Objektes eine
      *             {@link DuplicateUniqueFieldException} ausgelöst wurde.
      */
-    public String save(Exam pExam, User pStudent) throws DuplicateEmailException, DuplicateUsernameException {
+    public String save(Exam pExam, User pStudent) throws DuplicateEmailException,
+            DuplicateUsernameException {
         if (!isLoggedIn()) {
             return null;
         }
         JoinExam joinExam = null;
         List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pStudent);
-        for(JoinExam j: joinExams)
-        {
-            if(j.getExam() != null && j.getExam().getId() == pExam.getId())
-            {
+        for (JoinExam j : joinExams) {
+            if (j.getExam() != null && j.getExam().getId() == pExam.getId()) {
                 joinExam = j;
                 break;
             }
         }
         grade.setMark(selectedGrade);
-                grade.setJoinExam(joinExam);
-                grade.setSubject(pExam.getInstanceLecture().getLecture().getName());
-                grade.setUser(joinExam.getPruefling());
-                joinExam.getPruefling().addGrade(grade);
-                gradeDAO.save(grade);
-                joinExamDAO.update(joinExam);
-                joinExam.setGrade(grade);
-                joinExamDAO.update(joinExam);
-                userDAO.update(joinExam.getPruefling());
-                logger.info("hats geklappt ?");
+        grade.setJoinExam(joinExam);
+        grade.setSubject(pExam.getInstanceLecture().getLecture().getName());
+        grade.setUser(joinExam.getPruefling());
+        joinExam.getPruefling().addGrade(grade);
+        gradeDAO.save(grade);
+        joinExamDAO.update(joinExam);
+        joinExam.setGrade(grade);
+        joinExamDAO.update(joinExam);
+        userDAO.update(joinExam.getPruefling());
+        logger.info("hats geklappt ?");
 
-            init();
-            return null;
+        init();
+        return null;
     }
-
 
     /**
      *
      */
-    public String update(Exam pExam, User pStudent)
-    {
+    public String update(Exam pExam, User pStudent) {
         if (!isLoggedIn()) {
             return null;
         }
         JoinExam joinExam = null;
         List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pStudent);
-        for(JoinExam j: joinExams)
-        {
-            if(j.getExam() != null && j.getExam().getId() == pExam.getId())
-            {
+        for (JoinExam j : joinExams) {
+            if (j.getExam() != null && j.getExam().getId() == pExam.getId()) {
                 joinExam = j;
                 break;
             }
         }
-       joinExam.getGrade().setMark(selectedGrade);
-                gradeDAO.update(joinExam.getGrade());
-                logger.info("hats geklappt ?");
+        joinExam.getGrade().setMark(selectedGrade);
+        gradeDAO.update(joinExam.getGrade());
+        logger.info("hats geklappt ?");
 
-
-            init();
-            return null;
-        }
-
+        init();
+        return null;
+    }
 
     /**
      * Entfernt die übergebene Note aus der Liste aller Noten des aktuell in der
@@ -407,25 +395,22 @@ public class GradesBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt alle Exams für einen User zurück. TODO: Ungetestet
+     * 
      * @param pUser
      * @return Liste von Exams.
      */
-    public List<Exam> getAllExamsOfUser(final User pUser)
-    {
+    public List<Exam> getAllExamsOfUser(final User pUser) {
         assertNotNull(pUser);
         List<Exam> e = new ArrayList<Exam>();
         List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pUser);
-        if(joinExams == null)
-        {
+        if (joinExams == null) {
             return null;
         }
-        for(JoinExam j: joinExams)
-        {
-            if(j.getExam() != null) {
+        for (JoinExam j : joinExams) {
+            if (j.getExam() != null) {
                 e.add(j.getExam());
             }
         }
         return e;
     }
 }
-
