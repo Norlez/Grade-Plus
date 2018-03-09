@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+    <!-- Seite gibt eine Uebersicht der aktuellen User in einer Tabelle aus -->
+    <title>User</title>
+</h:head>
+
+<body>
+    <ui:composition template="/WEB-INF/template.xhtml">
+        <ui:param name="#{msg['titleStudentList']}" value="#{msg['title']}"/>
+
+        <ui:define name="content">
+            <f:loadBundle basename="internationalization.import" var="msg" />
+
+            <!-- REGISTER USER FROM A FILE  -->
+            <b:form>
+                <b:container class="form-group" >
+
+                    <!-- INFORMATIONEN DER ILV -->
+                    <b:row>
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['outputInstanceLecture']}"/>
+                            </h2>
+                        </b:column>
+                    </b:row>
+
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputName']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.name}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputVak']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.vak}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputSemester']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <h:outputText value="#{instanceLectureEditBean.instanceLecture.semesterToString()}"/>
+                        </b:column>
+                    </b:row>
+                </b:container>
+
+                <b:container class="form-group" >
+
+                    <b:formGroup rendered="#{true}">
+
+                        <!-- START DATE TIME PICKER -->
+                        <b:row>
+                            <b:column span="4" offset="2">
+                                <b:message for="startDateTime"/>
+                            </b:column>
+                        </b:row>
+                        <b:row class="btn-paragraph">
+                            <b:column span="2">
+                                <h:outputLabel value="#{msg['outputStartDateTime']}"/>
+                            </b:column>
+                            <b:column span="4">
+                                <b:dateTimePicker placeholder="#{msg['inputStartDateTime']}"
+                                                  id="startDateTime"
+                                                  value="#{documentBean.startOfTimeFrame}"
+                                                  format="DD.MM.YYYY HH:mm"
+                                                  required="true"
+                                                  requiredMessage="#{msg['errorStartDateTimeRequired']}"/>
+                            </b:column>
+                        </b:row>
+
+                        <!-- END DATE TIME PICKER -->
+                        <b:row>
+                            <b:column span="4" offset="2">
+                                <b:message for="endDateTime"/>
+                            </b:column>
+                        </b:row>
+                        <b:row class="btn-paragraph">
+                            <b:column span="2">
+                                <h:outputLabel value="#{msg['outputEndDateTime']}"/>
+                            </b:column>
+                            <b:column span="4">
+                                <b:dateTimePicker placeholder="#{msg['inputEndDateTime']}"
+                                                  id="endDateTime"
+                                                  value="#{documentBean.endOfTimeFrame}"
+                                                  format="DD.MM.YYYY HH:mm"
+                                                  required="true"
+                                                  requiredMessage="#{msg['errorEndDateTimeRequired']}"/>
+                            </b:column>
+                        </b:row>
+
+                        <!-- DOCUMENTS PANEL -->
+                        <b:row>
+                            <b:column span="2">
+                                <h:outputLabel value="#{msg['outputSelectDocuments']}"/>
+                            </b:column>
+                            <b:column span="7">
+                                <b:panel>
+                                    <b:dataTable value="#{documentBean.getAvailableDocuments()}"
+                                                 var="d"
+                                                 excel="false"
+                                                 csv="false"
+                                                 pdf="false"
+                                                 columnVisibility="false"
+                                                 copy="false"
+                                                 print="false"
+                                                 searching="false"
+                                                 paginated="false">
+                                        <b:dataTableColumn label="#{msg['outputDocument']}" value="#{d}"/>
+                                        <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
+                                            <h:selectBooleanCheckbox value="#{documentBean.checked[d]}"/>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panel>
+                            </b:column>
+                        </b:row>
+
+                        <!-- DOWNLOAD BUTTON -->
+                        <b:row class="btn-paragraph">
+                            <b:column span="1">
+                                <b:commandButton id="upload"
+                                                 value="#{msg['actionUpload']}"
+                                                 action="#{documentBean.getDocumentsForTimeFrame(instanceLectureEditBean.instanceLecture)}"/>
+                            </b:column>
+                            <b:column span="1">
+                                <b:button value="#{msg['linkBack']}" outcome="exams"/>
+                            </b:column>
+                        </b:row>
+                    </b:formGroup>
+                </b:container>
+
+
+                <b:container class="form-group" >
+                    <!-- PRÜFLINGE -->
+                    <b:row class="btn-paragraph">
+                        <b:column span="4">
+                            <h2>
+                                <h:outputText value="#{msg['subtitleStudents']}" />
+                            </h2>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="12">
+                            <b:dataTable span="8"
+                                         rendered="#{!empty instanceLectureEditBean.instanceLecture.examinees}"
+                                         value="#{instanceLectureEditBean.instanceLecture.examinees}"
+                                         var="u"
+                                         excel="false"
+                                         csv="true"
+                                         pdf="false"
+                                         columnVisibility="false"
+                                         copy="false"
+                                         print="false">
+
+                                <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
+                                <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
+                                <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                            </b:dataTable>
+                            <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
+                                           value="#{msg['outputNoStudents']}"/>
+                        </b:column>
+                    </b:row>
+
+                </b:container>
+            </b:form>
+
+        </ui:define>
+    </ui:composition>
+</body>
+</html>
+

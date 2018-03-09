@@ -14,14 +14,15 @@ import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static common.util.Assertion.*;
 
@@ -32,7 +33,7 @@ import static common.util.Assertion.*;
  * @version 2018-03-01
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class DocumentBean extends AbstractBean implements Serializable {
 
     private final UserDAO userDAO;
@@ -50,10 +51,12 @@ public class DocumentBean extends AbstractBean implements Serializable {
     private boolean wiederholungspruefung = false;
 
     /**
-     * Diese Map wird benötigt, um Prüfer oder Prüflinge mittels Checkbox auswählen zu
-     * können.
+     * Diese Map wird benötigt, um festzustellen, welche Dokumente gedruckt werden sollen.
      */
-    private Map<String, Boolean> checked;
+    private Map<String, Boolean> checked = new HashMap<>();
+
+    private Date startOfTimeFrame;
+    private Date endOfTimeFrame;
 
     // Beinhaltet VAK
     private String vak = "343636343";
@@ -133,8 +136,8 @@ public class DocumentBean extends AbstractBean implements Serializable {
     // Name des Pruefungsgebiets
     private String pruefungsgebiet = "343636343";
 
-    java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat(
-            "dd-MM-yyyy");
+    java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat("dd-MM-yyyy");
+
     /**
      * Erzeugt eine neue AbstractBean.
      *
@@ -144,7 +147,8 @@ public class DocumentBean extends AbstractBean implements Serializable {
      *             Falls {@code theSession} {@code null} ist.
      */
     @Inject
-    public DocumentBean(Session theSession, UserDAO pUserDao, ExamDAO pExamDao, JoinExamDAO pJoinExamDAo, InstanceLectureDAO pInstanceLectureDao) {
+    public DocumentBean(Session theSession, UserDAO pUserDao, ExamDAO pExamDao,
+            JoinExamDAO pJoinExamDAo, InstanceLectureDAO pInstanceLectureDao) {
         super(theSession);
         userDAO = assertNotNull(pUserDao);
         examDAO = pExamDao;
@@ -156,8 +160,24 @@ public class DocumentBean extends AbstractBean implements Serializable {
         return checked;
     }
 
-    public void setChecked(Map<String, Boolean> checked) {
-        this.checked = checked;
+    public void setChecked(final Map<String, Boolean> pChecked) {
+        checked = assertNotNull(pChecked);
+    }
+
+    public Date getStartOfTimeFrame() {
+        return startOfTimeFrame;
+    }
+
+    public void setStartOfTimeFrame(final Date startOfTimeFrame) {
+        this.startOfTimeFrame = startOfTimeFrame;
+    }
+
+    public Date getEndOfTimeFrame() {
+        return endOfTimeFrame;
+    }
+
+    public void setEndOfTimeFrame(final Date endOfTimeFrame) {
+        this.endOfTimeFrame = endOfTimeFrame;
     }
 
     public String getNameOfStudent(User pStudent) {
@@ -175,12 +195,12 @@ public class DocumentBean extends AbstractBean implements Serializable {
         return userDAO.getUserForUsername(pStudent.getUsername()).getMatrNr();
     }
 
-
     /**
      * Methode zum Drucken des Protokolls
      *
      */
-    public StreamedContent getProtocol (final User pUser, final Exam pExam) throws IOException {
+    public StreamedContent getProtocol(final User pUser, final Exam pExam)
+            throws IOException {
 
         final User user = pUser;
         final Exam exam = pExam;
@@ -188,24 +208,23 @@ public class DocumentBean extends AbstractBean implements Serializable {
         List<User> u = pExam.getExaminers();
         User examiner = u.get(0);
         String s = new String();
-        for(int i = 1; i < u.size(); i++)
-        {
-            s += u.get(i).getSurname()+", " + u.get(i).getGivenName() +"; ";
+        for (int i = 1; i < u.size(); i++) {
+            s += u.get(i).getSurname() + ", " + u.get(i).getGivenName() + "; ";
         }
 
         grade = "";
-        for(JoinExam j: joinExamDAO.getJoinExamsForUser(user))
-        {
-            if(j.getPruefling().getId() == user.getId() && j.getExam().getId() == exam.getId())
-            {
-                if(j.getGrade() != null)
-                {
-                    grade = j.getGrade().getMark()+"";
+        for (JoinExam j : joinExamDAO.getJoinExamsForUser(user)) {
+            if (j.getPruefling().getId() == user.getId()
+                    && j.getExam().getId() == exam.getId()) {
+                if (j.getGrade() != null) {
+                    grade = j.getGrade().getMark() + "";
                 }
             }
         }
 
-        String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Protocol.pdf";
+        String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext()).getRealPath("/resources/")
+                + "/documents/Protocol.pdf";
         File file = new File(relativeWebPath);
 
         try {
@@ -215,128 +234,130 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
             PDFont fontTimes = PDType1Font.TIMES_ROMAN;
 
-            PDPageContentStream contentStream = new PDPageContentStream(document, page, true, true, true);
+            PDPageContentStream contentStream = new PDPageContentStream(document, page,
+                    true, true, true);
 
             // Pruefungsordnung
             if (pruefungsordnung == 1) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(244,684);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(244, 684);
                 contentStream.showText(" ");
                 contentStream.endText();
-            } else if(pruefungsordnung == 2) {
+            } else if (pruefungsordnung == 2) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(244,670);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(244, 670);
                 contentStream.showText(" ");
                 contentStream.endText();
-            } else if(pruefungsordnung == 3) {
+            } else if (pruefungsordnung == 3) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(244,657);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(244, 657);
                 contentStream.showText(" ");
                 contentStream.endText();
             }
 
             // Wiederholungspruefung
-            if(wiederholungspruefung) {
+            if (wiederholungspruefung) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,630);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 630);
                 contentStream.showText("X");
                 contentStream.endText();
             }
 
             // VAK
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,605);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 605);
             contentStream.showText(exam.getInstanceLecture().getLecture().getVak());
             contentStream.endText();
 
             // Lecture
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(300,605);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(300, 605);
             contentStream.showText(exam.getInstanceLecture().getLecture().getName());
             contentStream.endText();
 
             // Name, Vorname
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,578);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 578);
             contentStream.showText(user.getSurname() + ", " + user.getGivenName());
             contentStream.endText();
 
             // matrnr
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(400,578);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(400, 578);
             contentStream.showText(user.getMatrNr());
             contentStream.endText();
 
             // Ort
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,549);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 549);
             contentStream.showText(ort);
             contentStream.endText();
 
             // Date
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(340,549);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(340, 549);
             contentStream.showText(exam.dateToString());
             contentStream.endText();
 
             // Start
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(520,549);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(520, 549);
             contentStream.showText(exam.timeToString());
             contentStream.endText();
 
             // Examiner
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,522);
-            contentStream.showText(examiner.getGivenName() +", " +examiner.getSurname());
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 522);
+            contentStream
+                    .showText(examiner.getGivenName() + ", " + examiner.getSurname());
             contentStream.endText();
 
             // CoExaminer
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(340,522);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(340, 522);
             contentStream.showText(s);
             contentStream.endText();
 
             // Beisitzer
-            if(beisitzer) {
+            if (beisitzer) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(274,508);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(274, 508);
                 contentStream.showText("X");
                 contentStream.endText();
             }
 
             // content
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(72,450);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(72, 450);
             contentStream.showText(" ");
             contentStream.endText();
 
             // End
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(180,87);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(180, 87);
             contentStream.showText(exam.endOfExam());
             contentStream.endText();
 
             // Grade
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(300,87);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(300, 87);
             contentStream.showText(grade);
             contentStream.endText();
 
@@ -345,9 +366,11 @@ public class DocumentBean extends AbstractBean implements Serializable {
             document.save(outputStream);
             document.close();
 
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(
+                    outputStream.toByteArray());
 
-            return new DefaultStreamedContent(inputStream, "application/pdf", "Protocol.pdf");
+            return new DefaultStreamedContent(inputStream, "application/pdf",
+                    "Protocol.pdf");
 
         } catch (IOException e) {
             throw new IOException("File not saved");
@@ -358,31 +381,30 @@ public class DocumentBean extends AbstractBean implements Serializable {
      * Methode zum Drucken der Quittung
      *
      */
-    public StreamedContent getReceipe (final User pUser, final Exam pExam) throws IOException {
+    public StreamedContent getReceipe(final User pUser, final Exam pExam)
+            throws IOException {
 
         final User user = pUser;
         final Exam exam = pExam;
         grade = "";
-        for(JoinExam j: joinExamDAO.getJoinExamsForUser(user))
-        {
-            if(j.getPruefling().getId() == user.getId() && j.getExam().getId() == exam.getId())
-            {
-                if(j.getGrade() != null)
-                {
-                    grade = j.getGrade().getMark()+"";
+        for (JoinExam j : joinExamDAO.getJoinExamsForUser(user)) {
+            if (j.getPruefling().getId() == user.getId()
+                    && j.getExam().getId() == exam.getId()) {
+                if (j.getGrade() != null) {
+                    grade = j.getGrade().getMark() + "";
                 }
             }
         }
 
-        if(exam.getType().equals("Mündliche Prüfung"))
-        {
+        if (exam.getType().equals("Mündliche Prüfung")) {
             pruefungsordnung = 2;
-        }
-        else{
+        } else {
             pruefungsordnung = 1;
         }
 
-        String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Receipe.pdf";
+        String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext()).getRealPath("/resources/")
+                + "/documents/Receipe.pdf";
         File file = new File(relativeWebPath);
 
         try {
@@ -392,107 +414,109 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
             PDFont fontTimes = PDType1Font.TIMES_ROMAN;
 
-            PDPageContentStream contentStream = new PDPageContentStream(document, page, true, true, true);
+            PDPageContentStream contentStream = new PDPageContentStream(document, page,
+                    true, true, true);
 
             // Name, Vorname
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,715);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 715);
             contentStream.showText(user.getSurname() + ", " + user.getGivenName());
             contentStream.endText();
 
             // Matrikelnummer
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,682);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 682);
             contentStream.showText(user.getMatrNr());
             contentStream.endText();
 
             // Datum
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,648);
-            contentStream.showText(exam.dateToString()); //Vielleicht fehlt die Zeit?
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 648);
+            contentStream.showText(exam.dateToString()); // Vielleicht fehlt die Zeit?
             contentStream.endText();
 
             // Pruefungsart
             if (pruefungsordnung == 1) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,612);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 612);
                 contentStream.showText("X");
                 contentStream.endText();
-            } else if(pruefungsordnung == 2) {
+            } else if (pruefungsordnung == 2) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,589);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 589);
                 contentStream.showText("X");
                 contentStream.endText();
-            } else if(pruefungsordnung == 3) {
+            } else if (pruefungsordnung == 3) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,566);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 566);
                 contentStream.showText("X");
-                contentStream.newLineAtOffset(120,566);
+                contentStream.newLineAtOffset(120, 566);
                 contentStream.showText(sonstigePruefungsart);
                 contentStream.endText();
             }
 
             // Lecture
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,495);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 495);
             contentStream.showText(exam.getInstanceLecture().getLecture().getName());
             contentStream.endText();
 
             // VAK
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,473);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 473);
             contentStream.showText(exam.getInstanceLecture().getLecture().getVak());
             contentStream.endText();
 
             // Grade
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(130,441);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(130, 441);
             contentStream.showText(grade);
             contentStream.endText();
 
             // Bemerkungen
             if (bemerkungen == 1) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,382);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 382);
                 contentStream.showText("X");
                 contentStream.endText();
-            } else if(bemerkungen == 2) {
+            } else if (bemerkungen == 2) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,359);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 359);
                 contentStream.showText("X");
                 contentStream.endText();
-            } else if(bemerkungen == 3) {
+            } else if (bemerkungen == 3) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,336);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 336);
                 contentStream.showText("X");
                 contentStream.endText();
-            } else if(bemerkungen == 4) {
+            } else if (bemerkungen == 4) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(73,313);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(73, 313);
                 contentStream.showText("X");
-                contentStream.newLineAtOffset(120,313);
+                contentStream.newLineAtOffset(120, 313);
                 contentStream.showText(sonstigeBemerkung);
                 contentStream.endText();
             }
 
             // Ort, Datum
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(73,235);
-            contentStream.showText(ort + ", " + todaysDate.format((java.util.Calendar.getInstance()).getTime()));
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(73, 235);
+            contentStream.showText(ort + ", "
+                    + todaysDate.format((java.util.Calendar.getInstance()).getTime()));
             contentStream.endText();
 
             contentStream.close();
@@ -500,9 +524,11 @@ public class DocumentBean extends AbstractBean implements Serializable {
             document.save(outputStream);
             document.close();
 
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(
+                    outputStream.toByteArray());
 
-            return new DefaultStreamedContent(inputStream, "application/pdf", "Receipe.pdf");
+            return new DefaultStreamedContent(inputStream, "application/pdf",
+                    "Receipe.pdf");
 
         } catch (IOException e) {
             throw new IOException("File not saved");
@@ -513,34 +539,33 @@ public class DocumentBean extends AbstractBean implements Serializable {
      * Methode zum Drucken des Leistungsnachweise
      *
      */
-    public StreamedContent getCertificates (final User pUser, final Exam pExams) throws IOException {
+    public StreamedContent getCertificates(final User pUser, final Exam pExams)
+            throws IOException {
 
         User user = pUser;
         Exam exam = pExams;
 
-        String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Certificate.pdf";
+        String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext()).getRealPath("/resources/")
+                + "/documents/Certificate.pdf";
         File file = new File(relativeWebPath);
 
         grade = "";
-        for(JoinExam j: joinExamDAO.getJoinExamsForUser(user))
-        {
-            if(j.getPruefling().getId() == user.getId() && j.getExam().getId() == exam.getId())
-            {
-                if(j.getGrade() != null)
-                {
-                    grade = j.getGrade().getMark()+"";
+        for (JoinExam j : joinExamDAO.getJoinExamsForUser(user)) {
+            if (j.getPruefling().getId() == user.getId()
+                    && j.getExam().getId() == exam.getId()) {
+                if (j.getGrade() != null) {
+                    grade = j.getGrade().getMark() + "";
                 }
             }
         }
 
         content = "";
-        if(exam.getInstanceLecture().getLecture().getDescription()!= null)
-        {
+        if (exam.getInstanceLecture().getLecture().getDescription() != null) {
             content = exam.getInstanceLecture().getLecture().getDescription();
         }
 
-        if(exam.getParticipants().size()< 1)
-        {
+        if (exam.getParticipants().size() < 1) {
             groupe = true;
         }
 
@@ -551,127 +576,163 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
             PDFont fontTimes = PDType1Font.TIMES_ROMAN;
 
-            PDPageContentStream contentStream = new PDPageContentStream(document, page, true, true, true);
+            PDPageContentStream contentStream = new PDPageContentStream(document, page,
+                    true, true, true);
 
             // Name, Vorname
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(90,623);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(90, 623);
             contentStream.showText(user.getSurname() + " " + user.getGivenName());
             contentStream.endText();
 
             // Matrikelnummer
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(475,623);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(475, 623);
             contentStream.showText(user.getMatrNr());
             contentStream.endText();
 
             // Lehrveranstaltung
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,603);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 603);
             contentStream.showText(exam.getInstanceLecture().getLecture().getName());
             contentStream.endText();
 
             // ECTS
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(475,563);
-            contentStream.showText(exam.getInstanceLecture().getLecture().getEcts()+"");
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(475, 563);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getEcts() + "");
             contentStream.endText();
 
             // VAK
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(160,543);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(160, 543);
             contentStream.showText(exam.getInstanceLecture().getLecture().getVak());
             contentStream.endText();
 
             // Semester
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(290,543);
-            contentStream.showText(exam.getInstanceLecture().getSemester() + " " + exam.getInstanceLecture().getYear());
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(290, 543);
+            contentStream.showText(exam.getInstanceLecture().getSemester() + " "
+                    + exam.getInstanceLecture().getYear());
             contentStream.endText();
 
             // Wochenstunden
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(475,543);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(475, 543);
             contentStream.showText("");
             contentStream.endText();
 
             // Studiengang
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(290,523);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(290, 523);
             contentStream.showText(" ");
             contentStream.endText();
 
             // Inhalt
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,483);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(80, 483);
             contentStream.showText(content);
             contentStream.endText();
 
             // Einzel, Gruppenleistung
-            if(groupe == false) {
+            if (groupe == false) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(122,338);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(122, 338);
                 contentStream.showText("X");
                 contentStream.endText();
-            } else if(groupe == true) {
+            } else if (groupe == true) {
                 contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(282,338);
+                contentStream.setFont(fontTimes, 12);
+                contentStream.newLineAtOffset(282, 338);
                 contentStream.showText("X");
                 contentStream.endText();
             }
 
             // Inhalt Pruefer
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(180,313);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(180, 313);
             contentStream.showText(exam.getType());
             contentStream.endText();
 
             // Pruefungsgebiet
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(180,193);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(180, 193);
             contentStream.showText("");
             contentStream.endText();
 
             // Note
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(290,167);
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(290, 167);
             contentStream.showText(grade);
             contentStream.endText();
 
             // Aktuelles Datum
             contentStream.beginText();
-            contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(100,87);
-            contentStream.showText(todaysDate.format((java.util.Calendar.getInstance()).getTime()));
+            contentStream.setFont(fontTimes, 12);
+            contentStream.newLineAtOffset(100, 87);
+            contentStream.showText(todaysDate.format((java.util.Calendar.getInstance())
+                    .getTime()));
             contentStream.endText();
-
 
             contentStream.close();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             document.save(outputStream);
             document.close();
 
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(
+                    outputStream.toByteArray());
 
-            return new DefaultStreamedContent(inputStream, "application/pdf", "Certificate.pdf");
+            return new DefaultStreamedContent(inputStream, "application/pdf",
+                    "Certificate.pdf");
 
         } catch (IOException e) {
             throw new IOException("File not saved");
         }
     }
-    
+
+    public List<String> getAvailableDocuments() {
+        List<String> availableDocuments = new ArrayList<>();
+        availableDocuments.add("Protokoll");
+        availableDocuments.add("Quittung");
+        availableDocuments.add("Zertifikat");
+        return availableDocuments;
+    }
+
+    /**
+     * Lädt alle gewählten Dokumente für den gewählten Zeitraum herunter.
+     *
+     * @return "exams.xhtml", um auf das Facelet der Übersicht der ILV weiterzuleiten.
+     */
+    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture) {
+        assertNotNull(pInstanceLecture);
+        List<String> selectedDocuments = checked.entrySet().stream()
+                .filter(Map.Entry::getValue).map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        if (selectedDocuments.contains("Protokoll")) {
+            // MACH SACHEN
+        }
+        if (selectedDocuments.contains("Quittung")) {
+            // WAS MACHEN
+        }
+        if (selectedDocuments.contains("Zertifikat")) {
+            // WAS MACHEN SACHEN
+        }
+
+        return "exams.xhtml";
+    }
+
 }

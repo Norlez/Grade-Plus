@@ -286,9 +286,14 @@
                             <b:column span="3">
                                 <b:commandButton value="#{msg['outputIcs']}" action="#{fileBean.printDateAsICS(instanceLectureEditBean.instanceLecture.exams)}" />
                             </b:column>
-                            <b:messages globalOnly="false" errorStyle="color: red" infoStyle="color: orange" />
                         </b:row>
-                        <!-- commandbutton MailBean.broadcast(ILV)-->
+
+                        <!-- EXPORT DOCUMENTS -->
+                        <b:row class="btn-paragraph">
+                            <b:column span="3">
+                                <b:button value="#{msg['outputExportDocuments']}" outcome="exportdocuments" />
+                            </b:column>
+                        </b:row>
 
                         <!-- PRÜFUNGEN -->
                         <b:row class="btn-paragraph">
