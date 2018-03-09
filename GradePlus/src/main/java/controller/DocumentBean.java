@@ -81,7 +81,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
     private String end = "343636343";
 
     // Ausgestellte Note der Pruefung
-    private String grade = "343636343";
+    private String grade = "1,7";
 
     // Angabe der sonstigen Pruefungsart
     private String sonstigePruefungsart = "343636343";
@@ -392,27 +392,27 @@ public class DocumentBean extends AbstractBean implements Serializable {
             if (bemerkungen == 1) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(73,382);
                 contentStream.showText("X");
                 contentStream.endText();
             } else if(bemerkungen == 2) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(73,359);
                 contentStream.showText("X");
                 contentStream.endText();
             } else if(bemerkungen == 3) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(73,336);
                 contentStream.showText("X");
                 contentStream.endText();
             } else if(bemerkungen == 4) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(73,313);
                 contentStream.showText("X");
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(120,313);
                 contentStream.showText(sonstigeBemerkung);
                 contentStream.endText();
             }
@@ -420,7 +420,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             // Ort, Datum
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
-            contentStream.newLineAtOffset(80,500);
+            contentStream.newLineAtOffset(73,235);
             contentStream.showText(ort + ", " + datetoday);
             contentStream.endText();
 
