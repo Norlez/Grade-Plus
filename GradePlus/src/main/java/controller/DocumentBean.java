@@ -326,6 +326,25 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
         final User user = pUser;
         final Exam exam = pExam;
+        grade = "";
+        for(JoinExam j: joinExamDAO.getJoinExamsForUser(user))
+        {
+            if(j.getPruefling().getId() == user.getId() && j.getExam().getId() == exam.getId())
+            {
+                if(j.getGrade() != null)
+                {
+                    grade = j.getGrade().getMark()+"";
+                }
+            }
+        }
+
+        if(exam.getType().equals("Mündliche Prüfung"))
+        {
+            pruefungsordnung = 2;
+        }
+        else{
+            pruefungsordnung = 1;
+        }
 
         String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Receipe.pdf";
         File file = new File(relativeWebPath);
