@@ -412,8 +412,8 @@ public class MailBean extends AbstractBean implements Serializable {
     public String prepareIllnessMail(User pUser, final Exam pExam) {
         assertNotNull(pExam);
         String seperator = "";
-        topic = "Krankmeldung für " + pExam.getInstanceLecture().getLecture().getName()+ " Prüfung am " + pExam.dateToString()+ "um "
-                + pExam.dateToString() ;
+        topic = "Krankmeldung für " + pExam.getInstanceLecture().getLecture().getName()+ " Prüfung am " + pExam.dateToString()+ " um "
+                + pExam.timeToString() ;
         StringBuilder sb = new StringBuilder();
         List<User> pruefer = pExam.getExaminers();
         for (User r : pruefer) {
