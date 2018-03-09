@@ -100,7 +100,7 @@
 
                                 <b:dataTableColumn label="#{msg['outputSemester']}" value="#{l.semester}" />
                                 <b:dataTableColumn label="#{msg['outputYear']}" value="#{l.year}" />
-                                <b:dataTableColumn label="#{msg['outputTermOfApplication']}" value="#{l.termOfApplication}" />
+                                <b:dataTableColumn label="#{msg['outputTermOfApplication']}" value="#{l.termOfApplicationToString()}" />
 
                                 <b:dataTableColumn label="#{msg['actionSelect']}" rendered="#{usersBean.isExaminer(profileBean.thisUser)}" orderable="false">
                                     <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{instanceLectureEditBean.setInstanceLecture(l)}" />
