@@ -147,6 +147,12 @@ public class User extends JPAEntity implements Serializable {
     private List<JoinExam> participation;
 
     /**
+     * Loggt die Atkionen des Users.
+     */
+    @Column(nullable = true)
+    private String loggingString;
+
+    /**
      * Gibt den Benutzernamen dieses Benutzers zurück.
      *
      * @return Den Benutzernamen dieses Benutzers.
@@ -342,6 +348,14 @@ public class User extends JPAEntity implements Serializable {
         } else {
             isActive = true;
         }
+    }
+
+    public String getLoggingString() {
+        return loggingString;
+    }
+
+    public void setLoggingString(String loggingString) {
+        this.loggingString = loggingString;
     }
 
     public Role getRole() {
