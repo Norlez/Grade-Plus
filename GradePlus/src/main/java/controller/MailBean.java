@@ -42,6 +42,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.Part;
 
+import common.model.InstanceLecture;
 import common.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -56,7 +57,7 @@ import static common.util.Assertion.assertNotNull;
  */
 @Named
 @RequestScoped
-public class MailBean extends AbstractBean implements Serializable{
+public class MailBean extends AbstractBean implements Serializable {
 
     /**
      * Der Logger für diese Klasse.
@@ -72,7 +73,6 @@ public class MailBean extends AbstractBean implements Serializable{
      * Der Absender der Nachricht.
      */
     private User sender;
-
 
     /**
      * Die Nachricht, die versendet wird.
@@ -198,9 +198,10 @@ public class MailBean extends AbstractBean implements Serializable{
     @PostConstruct
     public void init() {
         sender = getSession().getUser();
-        //sender.setEmail("gradeplusbremen@gmail.com"); //TODO: ENTFERNEN
-        //sender.setTmpPassword("Koschke123"); //TODO: ENTFERNEN
-        smtp = "smtp."+ sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1);
+        // sender.setEmail("gradeplusbremen@gmail.com"); //TODO: ENTFERNEN
+        // sender.setTmpPassword("Koschke123"); //TODO: ENTFERNEN
+        smtp = "smtp."
+                + sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1);
         Properties props;
 
         props = new Properties();
@@ -224,7 +225,8 @@ public class MailBean extends AbstractBean implements Serializable{
     public String sendMail() {
         try {
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
+            message.setRecipients(Message.RecipientType.TO,
+                    getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
             message.setText(content);
@@ -237,11 +239,12 @@ public class MailBean extends AbstractBean implements Serializable{
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorTransmitOfMessage", sender.getEmail());
         }
-        recipient ="";
+        recipient = "";
         topic = "";
         content = "";
         init();
-        FacesMessage message = new FacesMessage("Ihre Nachricht wurde erfolgreich versendet!");
+        FacesMessage message = new FacesMessage(
+                "Ihre Nachricht wurde erfolgreich versendet!");
         FacesContext.getCurrentInstance().addMessage(null, message);
         return "dashboard.xhtml";
     }
@@ -250,12 +253,13 @@ public class MailBean extends AbstractBean implements Serializable{
 
     /**
      * Wandelt Part file in io.File um.
+     * 
      * @throws IOException
      */
-    public File copyPartToFile() throws IOException{
+    public File copyPartToFile() throws IOException {
         InputStream inputStream = file.getInputStream();
         String contentType = file.getContentType();
-        String suffix = "."+contentType.substring(contentType.lastIndexOf('/') +1);
+        String suffix = "." + contentType.substring(contentType.lastIndexOf('/') + 1);
         File tempFile = File.createTempFile("tmpFile", suffix);
         OutputStream outputStream = new FileOutputStream(tempFile);
         try {
@@ -272,8 +276,6 @@ public class MailBean extends AbstractBean implements Serializable{
         }
     }
 
-
-
     /**
      * Email mit Anhang.
      */
@@ -281,7 +283,8 @@ public class MailBean extends AbstractBean implements Serializable{
         try {
             filetosend = copyPartToFile();
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
+            message.setRecipients(Message.RecipientType.TO,
+                    getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
 
@@ -306,25 +309,27 @@ public class MailBean extends AbstractBean implements Serializable{
         }
         topic = "";
         content = "";
-        recipient ="";
+        recipient = "";
         init();
-        FacesMessage message = new FacesMessage("Ihre Nachricht wurde erfolgreich versendet!");
+        FacesMessage message = new FacesMessage(
+                "Ihre Nachricht wurde erfolgreich versendet!");
         FacesContext.getCurrentInstance().addMessage(null, message);
         return "dashboard.xhtml";
     }
 
     /**
-     * Je nachdem, ob eine Datei ausgewählt wurde, wird eine Mail mit Anhang oder eine ohne versendet.
+     * Je nachdem, ob eine Datei ausgewählt wurde, wird eine Mail mit Anhang oder eine
+     * ohne versendet.
      */
-    public void decideWhichEmail(){
-        try{
-            if(file == null){
+    public void decideWhichEmail() {
+        try {
+            if (file == null) {
 
                 sendMail();
-            }else{
+            } else {
                 sendMailWithAttachment();
             }
-        }catch (IOException e ){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -362,10 +367,12 @@ public class MailBean extends AbstractBean implements Serializable{
 
     /**
      * Liefert alle Empfänger-Mails als ein Array von InternetAdress zurück.
-     * @param pRecipients Die Mails der Empfänger getrennt durch ein Komma.
+     * 
+     * @param pRecipients
+     *            Die Mails der Empfänger getrennt durch ein Komma.
      * @return InternetAdress Liste aller Empfänger.
      */
-    public InternetAddress[] getRecipientsAddresses(String pRecipients){
+    public InternetAddress[] getRecipientsAddresses(String pRecipients) {
         String[] recipientList = pRecipients.split(",");
         InternetAddress[] recipientAddress = new InternetAddress[recipientList.length];
         try {
@@ -379,11 +386,20 @@ public class MailBean extends AbstractBean implements Serializable{
                     "errorTransmitOfMessage", sender.getEmail());
         }
         return recipientAddress;
-        //message.setRecipients(Message.RecipientType.TO, recipientAddress);
+        // message.setRecipients(Message.RecipientType.TO, recipientAddress);
+    }
+
+    public String sendBroadcastMail(final InstanceLecture pInstanceLecture) {
+        assertNotNull(pInstanceLecture);
+        String seperator = "";
+        StringBuilder sb = new StringBuilder();
+        for (User r : pInstanceLecture.getExaminees()) {
+            sb.append(seperator);
+            seperator = ", ";
+            sb.append(r.getEmail());
+        }
+        recipient = sb.toString();
+        return "message.xhtml";
     }
 
 }
-
-
-
-

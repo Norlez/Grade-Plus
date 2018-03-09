@@ -160,7 +160,7 @@
 
                         <b:row class="btn-paragraph">
                             <b:column span="8">
-                                <b:panel  collapsed="true" rendered="#{!empty instanceLectureEditBean.unregisteredStudents}" >
+                                <b:panel  collapsed="true" rendered="#{! empty instanceLectureEditBean.unregisteredStudents}" >
                                     <f:facet name="heading">
                                         <h:outputText value="#{msg['outputAddStudents']}" />
                                     </f:facet>
@@ -194,7 +194,7 @@
                         <b:row class="btn-paragraph">
                             <b:column span="12">
                                 <b:dataTable span="8"
-                                             rendered="#{!empty instanceLectureEditBean.instanceLecture.examinees}"
+                                             rendered="#{! empty instanceLectureEditBean.instanceLecture.examinees}"
                                              value="#{instanceLectureEditBean.instanceLecture.examinees}"
                                              var="u"
                                              excel="false"
@@ -218,6 +218,13 @@
                                 </b:dataTable>
                                 <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
                                                value="#{msg['outputNoStudents']}"/>
+                            </b:column>
+                        </b:row>
+
+                        <!-- SEND BROADCAST MAIL -->
+                        <b:row rendered="#{! empty instanceLectureEditBean.instanceLecture.examinees}" class="btn-paragraph">
+                            <b:column span="3">
+                                <b:commandButton value="#{msg['actionSendBroadcastMail']}" action="#{mailBean.sendBroadcastMail(instanceLectureEditBean.instanceLecture)}" />
                             </b:column>
                         </b:row>
                     </b:tab>
@@ -263,6 +270,7 @@
                             </b:column>
                             <b:messages globalOnly="false" errorStyle="color: red" infoStyle="color: orange" />
                         </b:row>
+                        <!-- commandbutton MailBean.broadcast(ILV)-->
 
                         <!-- PRÜFUNGEN -->
                         <b:row class="btn-paragraph">
@@ -275,7 +283,7 @@
                         <b:row class="btn-paragraph">
                             <b:column span="12">
                                 <b:dataTable span="8"
-                                             rendered="#{!empty instanceLectureEditBean.instanceLecture.exams}"
+                                             rendered="#{! empty instanceLectureEditBean.instanceLecture.exams}"
                                              value="#{instanceLectureEditBean.instanceLecture.exams}"
                                              var="e"
                                              excel="true"
