@@ -91,17 +91,17 @@
                             <b:dataTableColumn label="Optionen">
                                 <b:commandButton value="#{msg['actionUpdate']}" action="#{gradesBean.update(examsBean.selectedExam, e)}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Optionen">
+                            <b:dataTableColumn label="Certificate">
+                                <p:commandButton value="Download" ajax="false">
+                                    <p:fileDownload value="#{documentBean.getProtocol}"/>
+                                </p:commandButton>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Protocol">
                                 <p:commandButton value="Download" ajax="false">
                                     <p:fileDownload value="#{documentBean.getProtocol()}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Optionen">
-                                <p:commandButton value="Download" ajax="false">
-                                    <p:fileDownload value="#{documentBean.getProtocol()}"/>
-                                </p:commandButton>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="Optionen">
+                            <b:dataTableColumn label="Receipe">
                                 <p:commandButton value="Download" ajax="false">
                                     <p:fileDownload value="#{documentBean.receipe}"/>
                                 </p:commandButton>
