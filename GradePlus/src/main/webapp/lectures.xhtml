@@ -40,12 +40,12 @@
                 </b:container>
             </b:form>
 
-            <b:form rendered="#{! empty lecturesBean.allLectures}">
+            <b:form>
                 <b:container class="form-group">
 
                     <!-- SUBTITLE -->
                 <b:row>
-                    <b:column class="subtitle" span="4" colSm="12" colMd="12" colXs="12">
+                    <b:column class="subtitle" span="8" colSm="12" colMd="12" colXs="12">
                         <h2>
                             <h:outputText value="#{msg['subtitleLectures']}" />
                         </h2>
@@ -53,7 +53,8 @@
                 </b:row>
                 <b:row>
                     <b:column span="12" colSm="12" colMd="12" colXs="12">
-                        <b:dataTable span="8" value="#{lecturesBean.allLectures}" var="l"
+                        <b:dataTable rendered="#{! empty lecturesBean.allLectures}"
+                                     span="8" value="#{lecturesBean.allLectures}" var="l"
                                      excel="false"
                                      csv="false"
                                      pdf="false"
@@ -80,6 +81,8 @@
                                                  action="#{lecturesBean.remove(l)}" />
                             </b:dataTableColumn>
                         </b:dataTable>
+                        <h:outputLabel rendered="#{empty lecturesBean.allLectures}"
+                                       value="#{msg['outputNoLectures']}" />
                     </b:column>
                 </b:row>
 
