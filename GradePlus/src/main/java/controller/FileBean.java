@@ -335,7 +335,7 @@ public class FileBean extends AbstractBean implements Serializable {
     /**
      * Importiert eine Notenliste und vergibt die Endnoten an die Prüflinge für diese ILV.
      */
-    public String importGradesForInstanceLecture(InstanceLecture pInstanceLecture) throws IOException {
+    public String importGradesFromInstanceLecture(InstanceLecture pInstanceLecture) throws IOException {
         assertNotNull(pInstanceLecture);
         InputStream is = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
