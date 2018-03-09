@@ -29,8 +29,8 @@
                         <b:navLink id="UserLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkUser']}" outcome="/admin/users" />
                         <b:navLink id="backupLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkBackup']}" outcome="/admin/backup" />
                         <b:navLink id="LectureLink" value="#{templateMsg['actionLinkLecture']}" outcome="/lectures" rendered="#{usersBean.isExaminer(profileBean.thisUser)}"/>
-                        <b:navLink id="messageLink" value="#{templateMsg['actionLinkMessage']}" outcome="/message" />
-                        <b:navLink id="historyLink" value="#{templateMsg['actionLinkHistory']}" outcome="/history" />
+                        <b:navLink id="messageLink" rendered="#{!usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkMessage']}" outcome="/message" />
+                        <b:navLink id="historyLink" rendered="#{!usersBean.isAdmin(profileBean.thisUser) and !usersBean.isExaminer(profileBean.thisUser)}" value="#{templateMsg['actionLinkHistory']}" outcome="/history" />
                     </b:navbarLinks>
                     <b:navbarLinks pull="right">
 

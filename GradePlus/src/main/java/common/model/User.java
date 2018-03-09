@@ -151,7 +151,7 @@ public class User extends JPAEntity implements Serializable {
      */
     @Lob
     @Column(nullable = true)
-    private String loggingString;
+    private String loggingString ="";
 
     /**
      * Gibt den Benutzernamen dieses Benutzers zurück.
