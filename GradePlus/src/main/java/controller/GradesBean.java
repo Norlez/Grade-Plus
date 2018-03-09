@@ -404,5 +404,28 @@ public class GradesBean extends AbstractBean implements Serializable {
     public void setFinalGrade() {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Gibt alle Exams für einen User zurück. TODO: Ungetestet
+     * @param pUser
+     * @return Liste von Exams.
+     */
+    public List<Exam> getAllExamsOfUser(final User pUser)
+    {
+        assertNotNull(pUser);
+        List<Exam> e = new ArrayList<Exam>();
+        List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pUser);
+        if(joinExams == null)
+        {
+            return null;
+        }
+        for(JoinExam j: joinExams)
+        {
+            if(j.getExam() != null) {
+                e.add(j.getExam());
+            }
+        }
+        return e;
+    }
 }
 

@@ -93,7 +93,7 @@
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Certificate">
                                 <p:commandButton value="Download" ajax="false">
-                                    <p:fileDownload value="#{documentBean.getProtocol}"/>
+                                    <p:fileDownload value="#{documentBean.getCertificates(gradesBean.getAllExamsOfUser(e))}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Protocol">
