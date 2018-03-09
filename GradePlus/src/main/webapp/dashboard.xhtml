@@ -112,15 +112,21 @@
                                          columnVisibility="false"
                                          copy="false"
                                          print="false">
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{e.instanceLecture.lecture.name}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSemester']}" value="#{e.instanceLecture.semester}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputYear']}" value="#{e.instanceLecture.year}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputType']}" value="#{e.type}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputLength']}" value="#{e.examLength}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputLocation']}">
-                                    <h:outputText rendered="#{! empty e.location}" value="#{e.location}" />
-                                    <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}" />
+                                    <h:outputText rendered="#{! empty e.location}" value="#{e.location}"/>
+                                    <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}"/>
                                 </b:dataTableColumn>
-
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputGrade']}">
+                                    <h:outputText rendered="#{! empty examsBean.getJoinExamForUserOfExam(e).grade}" value="#{examsBean.getJoinExamForUserOfExam(e).grade.mark}"/>
+                                    <h:outputText rendered="#{empty examsBean.getJoinExamForUserOfExam(e).grade}" value="#{msg['outputNoGrade']}"/>
+                                </b:dataTableColumn>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDeregister']}">
                                     <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsStudent(profileBean.thisUser, e)}"/>
                                 </b:dataTableColumn>
@@ -154,15 +160,17 @@
                                          columnVisibility="false"
                                          copy="false"
                                          print="false">
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{e.instanceLecture.lecture.name}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSemester']}" value="#{e.instanceLecture.semester}"/>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputYear']}" value="#{e.instanceLecture.year}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputType']}" value="#{e.type}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputLength']}" value="#{e.examLength}"/>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputLocation']}">
-                                    <h:outputText rendered="#{! empty e.location}" value="#{e.location}" />
-                                    <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}" />
+                                    <h:outputText rendered="#{! empty e.location}" value="#{e.location}"/>
+                                    <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}"/>
                                 </b:dataTableColumn>
-
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDeregister']}">
                                     <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsExaminer(e)}"/>
                                 </b:dataTableColumn>

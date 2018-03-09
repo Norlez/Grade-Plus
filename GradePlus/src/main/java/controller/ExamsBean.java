@@ -231,6 +231,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt die temporär gespeicherte Exam zurück
+     * 
      * @return
      */
     public Exam getSelectedExam() {
@@ -430,17 +431,16 @@ public class ExamsBean extends AbstractBean implements Serializable {
         // }
         JoinExam joinExam = null;
         List<JoinExam> joinExamList = joinExamDao.getJoinExamsForUser(user);
-        for(JoinExam j: joinExamList)
-        {
-            if(j.getInstanceLecture().getId() == pExam.getInstanceLecture().getId() && j.getExam() == null)
-            {
-                 joinExam = j;
+        for (JoinExam j : joinExamList) {
+            if (j.getInstanceLecture().getId() == pExam.getInstanceLecture().getId()
+                    && j.getExam() == null) {
+                joinExam = j;
             }
         }
-      //  JoinExam joinExam = new JoinExam();
+        // JoinExam joinExam = new JoinExam();
         joinExam.setExam(pExam);
-       // joinExam.setPruefling(user);
-      //  joinExam.setKind(Anmeldeart.BYPROF);
+        // joinExam.setPruefling(user);
+        // joinExam.setKind(Anmeldeart.BYPROF);
         joinExamDao.update(joinExam);
         pExam.addParticipant(joinExam);
         examDao.update(pExam);
@@ -478,9 +478,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
             return null;
         }
 
-            joinExam.setExam(null);
-            joinExamDao.update(joinExam);
-            examDao.update(pExam);
+        joinExam.setExam(null);
+        joinExamDao.update(joinExam);
+        examDao.update(pExam);
 
         return "dashboard.xhtml";
     }
@@ -887,7 +887,6 @@ public class ExamsBean extends AbstractBean implements Serializable {
         alreadyExists = !alreadyExists;
     }
 
-
     /**
      * Liefert eine einfache Map mit den verfügbaren Exam Typen im System zurück. Diese
      * werden als Auswahl im Drop-Down Menu bei der erstellung einer Prüfung verfügbar
@@ -918,11 +917,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
      * Speichert den Wert der Exam temporär.
-     * @param pExam, wird zwischengespeichert
+     * 
+     * @param pExam
+     *            , wird zwischengespeichert
      * @return Die Notenverwaltung
      */
-    public String setSelectedExam(final Exam pExam)
-    {
+    public String setSelectedExam(final Exam pExam) {
         assertNotNull(pExam);
         selectedExam = pExam;
         return "grades.xhtml";
@@ -930,30 +930,34 @@ public class ExamsBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt die Anmeldeart des Studenten zurück.
-     * @param pUser, für den die Anmledeart ausgegeben werden soll für diese ILV
+     * 
+     * @param pUser
+     *            , für den die Anmledeart ausgegeben werden soll für diese ILV
      * @return Gibt die Anmeldeart zurück
      */
-    public JoinExam getWayOfRegister(final User pUser, final InstanceLecture pInstanceLecture)
-    {
+    public JoinExam getWayOfRegister(final User pUser,
+            final InstanceLecture pInstanceLecture) {
         JoinExam joinE = null;
         List<JoinExam> joinExam = joinExamDao.getJoinExamsForUser(pUser);
-        if(joinExam == null)
-        {
-            throw new IllegalArgumentException("Ein Student wurde fehlerhaft hinzugefügt.");
+        if (joinExam == null) {
+            throw new IllegalArgumentException(
+                    "Ein Student wurde fehlerhaft hinzugefügt.");
         }
-        for(JoinExam j: joinExam)
-        {
-            if(j.getInstanceLecture().getId() == pInstanceLecture.getId())
-            {
+        for (JoinExam j : joinExam) {
+            if (j.getInstanceLecture().getId() == pInstanceLecture.getId()) {
                 joinE = j;
             }
         }
         return joinE;
     }
 
+    public JoinExam getJoinExamForUserOfExam(final Exam pExam) {
+        return assertNotNull(pExam)
+                .getParticipants()
+                .stream()
+                .filter(j -> j.getPruefling().getId()
+                        .equals(getSession().getUser().getId()))
+                .collect(Collectors.toList()).get(0);
+    }
 
-
-
-
-    //1000 Zeilen Code. 
 }
