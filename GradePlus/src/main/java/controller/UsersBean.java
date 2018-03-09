@@ -477,4 +477,14 @@ public class UsersBean extends AbstractBean implements Serializable {
                 .filter(pFilter -> pFilter.getRole().equals(Role.EXAMINER))
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Ändert den Aktivitätsstatus des Benutzers
+     * @param pUser, der verändert werden soll
+     */
+    public void changeActive(final User pUser) throws DuplicateEmailException, DuplicateUsernameException {
+        assertNotNull(pUser);
+        pUser.setActive();
+        userDao.update(pUser);
+    }
 }

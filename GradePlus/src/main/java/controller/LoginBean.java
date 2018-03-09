@@ -247,8 +247,8 @@ public class LoginBean extends AbstractBean {
             return null;
         }
         final User registeredUser = userDAO.getUserForUsername(username);
-        if (registeredUser == null) {
-            addErrorMessage(loginButton, "errorUnknownUsername");
+        if (registeredUser == null || !registeredUser.isActive()) {
+            addErrorMessage(loginButton, "errorUnknownUsername or User is deactivated");
             password = "";
             return null;
         }

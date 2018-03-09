@@ -164,8 +164,8 @@
                             <b:commandButton rendered="#{true}" value="#{msg['actionSelect']}" action="#{userEditBean.setSelectedUser(u)}" />
                         </b:dataTableColumn>
 
-                        <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                            <b:commandButton value="#{msg['actionRemove']}" action="#{usersBean.remove(u)}" />
+                        <b:dataTableColumn  label="#{msg['actionChange']}" orderable="false">
+                            <b:commandButton value="#{msg['actionChange']}" action="#{usersBean.changeActive(u)}" />
                         </b:dataTableColumn>
 
 
