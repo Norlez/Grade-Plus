@@ -26,7 +26,10 @@ package controller;
 
 import static common.util.Assertion.assertNotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -34,8 +37,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import common.exception.DuplicateEmailException;
+import common.exception.DuplicateUsernameException;
 import common.model.Role;
 import common.model.Session;
+import org.apache.log4j.Level;
 import persistence.UserDAO;
 import common.util.Assertion;
 import org.apache.log4j.Logger;
@@ -260,6 +266,21 @@ public class LoginBean extends AbstractBean {
                 return "admin/users.xhtml";
             } else if (getSession().getUser().getRole().equals(Role.EXAMINER)) {
                 return "lectures.xhtml";
+            }
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            registeredUser.setLoggingString( date.toString()+ ": Anmeldung im System.\n");
+            try {
+                userDAO.update(registeredUser);
+            } catch (final IllegalArgumentException e) {
+                addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                        getTranslation("errorUserdataIncomplete"));
+            } catch (final DuplicateUsernameException e) {
+                addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                        Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+            } catch (final DuplicateEmailException e) {
+                addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                        "errorEmailAlreadyInUse",registeredUser.getEmail());
             }
             return "dashboard.xhtml";
         } else {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
 
 <h:outputStylesheet library = "css" name="style.css" position="last"/>
@@ -15,33 +15,35 @@
     </h:head>
     <h:body rendered="#{profileBean.isLoggedIn()}">
         <div id="top" class="top">
+
             <h:form>
-            <b:navBar>
-                <div>
-                    <h:graphicImage style="float: left; width: 100px; height: auto" id="logo" library="images" name="logo_gradeplus_small.png"/>
+                <b:navBar>
+                    <div>
+                        <h:graphicImage style="float: left; width: 100px; height: auto" id="logo" library="images" name="logo_gradeplus_small.png"/>
 
-                </div>
-                <b:navbarLinks>
+                    </div>
+                    <b:navbarLinks>
 
-                    <b:navLink id="dashboardLink" rendered="#{usersBean.isStudent(profileBean.thisUser)}" value="#{templateMsg['actionLinkDashboard']}" outcome="/dashboard" />
-                    <b:navLink id="gradesLink" value="#{templateMsg['actionLinkGrades']}" outcome="/grades" rendered="#{usersBean.isExaminer(profileBean.thisUser)}"/>
-                    <b:navLink id="UserLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkUser']}" outcome="/admin/users" />
-                    <b:navLink id="backupLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkBackup']}" outcome="/admin/backup" />
-                    <b:navLink id="LectureLink" value="#{templateMsg['actionLinkLecture']}" outcome="/lectures" rendered="#{usersBean.isExaminer(profileBean.thisUser)}"/>
-                    <b:navLink id="messageLink" value="#{templateMsg['actionLinkMessage']}" outcome="/message" />
-                </b:navbarLinks>
-                <b:navbarLinks pull="right">
+                        <b:navLink id="dashboardLink" rendered="#{usersBean.isStudent(profileBean.thisUser)}" value="#{templateMsg['actionLinkDashboard']}" outcome="/dashboard" />
+                        <b:navLink id="gradesLink" value="#{templateMsg['actionLinkGrades']}" outcome="/grades" rendered="#{usersBean.isExaminer(profileBean.thisUser)}"/>
+                        <b:navLink id="UserLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkUser']}" outcome="/admin/users" />
+                        <b:navLink id="backupLink" rendered="#{usersBean.isAdmin(profileBean.thisUser)}" value="#{templateMsg['actionLinkBackup']}" outcome="/admin/backup" />
+                        <b:navLink id="LectureLink" value="#{templateMsg['actionLinkLecture']}" outcome="/lectures" rendered="#{usersBean.isExaminer(profileBean.thisUser)}"/>
+                        <b:navLink id="messageLink" value="#{templateMsg['actionLinkMessage']}" outcome="/message" />
+                        <b:navLink id="historyLink" value="#{templateMsg['actionLinkHistory']}" outcome="/history" />
+                    </b:navbarLinks>
+                    <b:navbarLinks pull="right">
 
-                    <b:dropMenu value="User" iconAwesome="user">
+                        <b:dropMenu value="User" iconAwesome="user">
 
                             <b:navLink id="profileLink" value="#{templateMsg['actionLinkProfile']}"
-                                   outcome="/profile" />
+                                       outcome="/profile" />
 
                             <b:navCommandLink id="logoutButton" value="#{templateMsg['actionLogout']}"
                                               action="#{profileBean.logout()}" />
                         </b:dropMenu>
-                </b:navbarLinks>
-            </b:navBar>
+                    </b:navbarLinks>
+                </b:navBar>
             </h:form>
         </div>
         <div id="main_content" class="main_content">
