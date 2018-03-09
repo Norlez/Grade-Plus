@@ -73,6 +73,12 @@ public class Grade extends JPAEntity implements Serializable {
     @Column(nullable = false)
     private Double mark;
 
+    /**
+     * Die Endnote für das Fach
+     */
+    @Column(nullable = true)
+    private Double endMark;
+
     @OneToOne
     private JoinExam joinExam;
 
@@ -146,6 +152,14 @@ public class Grade extends JPAEntity implements Serializable {
 
     public JoinExam getJoinExam() {
         return joinExam;
+    }
+
+    public Double getEndMark() {
+        return endMark;
+    }
+
+    public void setEndMark(Double endMark) {
+        this.endMark = endMark;
     }
 
     @Override

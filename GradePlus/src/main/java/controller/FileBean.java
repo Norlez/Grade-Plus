@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.criteria.Join;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.ArrayList;
@@ -321,7 +322,7 @@ public class FileBean extends AbstractBean implements Serializable {
             String[] s = new String[1];
             for (int i = 0; i < joinExamList.size(); i++) {
                 JoinExam tmp = joinExamList.get(i);
-                s[0] = tmp.getPruefling().getMatrNr()+";"+tmp.getGrade().getMark();
+                s[0] = tmp.getPruefling().getMatrNr()+";"+tmp.getGrade().getMark() + ";" + tmp.getGrade().getJoinExam().getExam().getType();
                 csvWriter.writeNext(s);
             }
             csvWriter.flush();
@@ -329,6 +330,40 @@ public class FileBean extends AbstractBean implements Serializable {
         } catch (java.io.IOException e) {
             System.out.print("Ein Fehler beim Schreiben der Datei.");
         }
+    }
+
+    /**
+     * Importiert eine Notenliste und vergibt die Endnoten an die Prüflinge für diese ILV.
+     */
+    public String importGradesForInstanceLecture(InstanceLecture pInstanceLecture) throws IOException {
+        assertNotNull(pInstanceLecture);
+        InputStream is = file.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        ArrayList<String> lines = new ArrayList<>();
+        String line;
+        JoinExam joinExam = null;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
+        }
+        for (String theLine : lines) {
+            String[] data = theLine.split(";");
+            if (userDao.getUserForMatrNr(data[0].trim()) != null) {
+                User u = userDao.getUserForMatrNr(data[0].trim());
+                for(JoinExam j: joinExamDAO.getJoinExamsForUser(u))
+                {
+                    if(j.getExam() != null && j.getExam().getInstanceLecture().getId() == pInstanceLecture.getId())
+                    {
+                        joinExam = j;
+                        break;
+                    }
+                }
+                Double grade = Double.parseDouble(data[1].trim());
+                joinExam.getGrade().setEndMark(grade);
+                joinExamDAO.update(joinExam);
+            }
+
+        }
+        return null;
     }
 }
 
