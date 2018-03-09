@@ -19,7 +19,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static common.util.Assertion.*;
 
@@ -46,6 +48,12 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
     // Ist Pruefung Wiederholungspruefung
     private boolean wiederholungspruefung = false;
+
+    /**
+     * Diese Map wird benötigt, um Prüfer oder Prüflinge mittels Checkbox auswählen zu
+     * können.
+     */
+    private Map<String, Boolean> checked;
 
     // Beinhaltet VAK
     private String vak = "343636343";
@@ -142,6 +150,14 @@ public class DocumentBean extends AbstractBean implements Serializable {
         examDAO = pExamDao;
         joinExamDAO = pJoinExamDAo;
         instanceLectureDAO = pInstanceLectureDao;
+    }
+
+    public Map<String, Boolean> getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Map<String, Boolean> checked) {
+        this.checked = checked;
     }
 
     public String getNameOfStudent(User pStudent) {
@@ -657,4 +673,5 @@ public class DocumentBean extends AbstractBean implements Serializable {
             throw new IOException("File not saved");
         }
     }
+    
 }
