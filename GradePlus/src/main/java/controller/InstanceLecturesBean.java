@@ -6,6 +6,7 @@ import common.exception.DuplicateInstanceLectureException;
 import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
+import persistence.ExamDAO;
 import persistence.InstanceLectureDAO;
 
 import org.apache.log4j.Level;
@@ -48,6 +49,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * -Objekte übernimmt.
      */
     private final UserDAO userDao;
+
+    private final ExamDAO examDao;
 
     /**
      * Der eingeloggte Benutzer, der Methoden dieser Klasse aufruft. Wird benötigt, um
@@ -109,10 +112,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     @Inject
     public InstanceLecturesBean(final Session pSession,
-            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao) {
+            final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao,
+            final ExamDAO pExamDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
+        examDao = assertNotNull(pExamDao);
         user = assertNotNull(getSession().getUser());
         times = calculateSemesterMap();
         years = calculateYearList();
@@ -288,6 +293,15 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     public String remove(final InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
+        if (!examDao
+                .getAllExams()
+                .stream()
+                .filter(e -> e.getInstanceLecture().getId()
+                        .equals(pInstanceLecture.getId())).collect(Collectors.toList())
+                .isEmpty()) {
+            addErrorMessage("errorExamsExist");
+            return null;
+        }
         instanceLectureDao.remove(pInstanceLecture);
         init();
         return null;
@@ -402,7 +416,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * 
      * @return Die Seite mit allen ILVs
      */
-    // TODO: Bug mehrmaliges Duplizieren mit gleichen Werten ist möglich
     public String duplicateInstanceLecture(InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
         InstanceLecture ilv = new InstanceLecture();
