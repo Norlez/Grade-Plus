@@ -498,63 +498,63 @@ public class DocumentBean extends AbstractBean implements Serializable {
                 // Name, Vorname
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(90,623);
                 contentStream.showText(givenname + " " + name);
                 contentStream.endText();
 
                 // Matrikelnummer
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(475,623);
                 contentStream.showText(matrnr);
                 contentStream.endText();
 
                 // Lehrveranstaltung
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(160,603);
                 contentStream.showText(lecture);
                 contentStream.endText();
 
                 // ECTS
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(475,563);
                 contentStream.showText(ects);
                 contentStream.endText();
 
                 // VAK
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(160,543);
                 contentStream.showText(vak);
                 contentStream.endText();
 
                 // Semester
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(290,543);
                 contentStream.showText(semester + " " + year);
                 contentStream.endText();
 
                 // Wochenstunden
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(475,543);
                 contentStream.showText(hours);
                 contentStream.endText();
 
                 // Studiengang
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(290,523);
                 contentStream.showText(course);
                 contentStream.endText();
 
                 // Inhalt
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(80,483);
                 contentStream.showText(content);
                 contentStream.endText();
 
@@ -562,13 +562,13 @@ public class DocumentBean extends AbstractBean implements Serializable {
                 if(groupe == false) {
                     contentStream.beginText();
                     contentStream.setFont(fontTimes,12);
-                    contentStream.newLineAtOffset(80,500);
+                    contentStream.newLineAtOffset(122,338);
                     contentStream.showText("X");
                     contentStream.endText();
                 } else if(groupe == true) {
                     contentStream.beginText();
                     contentStream.setFont(fontTimes,12);
-                    contentStream.newLineAtOffset(80,500);
+                    contentStream.newLineAtOffset(282,338);
                     contentStream.showText("X");
                     contentStream.endText();
                 }
@@ -576,28 +576,28 @@ public class DocumentBean extends AbstractBean implements Serializable {
                 // Inhalt Pruefer
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(180,313);
                 contentStream.showText(contentExaminer);
                 contentStream.endText();
 
                 // Pruefungsgebiet
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(180,193);
                 contentStream.showText(pruefungsgebiet);
                 contentStream.endText();
 
                 // Note
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(290,167);
                 contentStream.showText(grade);
                 contentStream.endText();
 
                 // Aktuelles Datum
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,500);
+                contentStream.newLineAtOffset(100,87);
                 contentStream.showText(datetoday);
                 contentStream.endText();
             }
