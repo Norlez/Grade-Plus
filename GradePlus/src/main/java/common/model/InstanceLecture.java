@@ -4,7 +4,9 @@ import jdk.nashorn.internal.scripts.JO;
 
 import javax.inject.Named;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static common.util.Assertion.assertNotNegative;
@@ -68,8 +70,14 @@ public class InstanceLecture extends JPAEntity {
     /**
      * Referenziert auf die JoinExam, damit diese Wiedergefunden wird.
      */
-    @OneToMany(mappedBy = "instanceLecture" )
+    @OneToMany(mappedBy = "instanceLecture")
     private List<JoinExam> joinExam = new ArrayList<>();
+
+    /**
+     * Die Anmeldefrist für Prüfungen dieser Veranstaltung.
+     */
+    @Column(nullable = false)
+    private Date termOfApplication;
 
     /**
      * Gibt die LV der ILV zurück.
@@ -98,13 +106,11 @@ public class InstanceLecture extends JPAEntity {
         this.joinExam = joinExam;
     }
 
-    public void addJoinExam(JoinExam j)
-    {
+    public void addJoinExam(JoinExam j) {
         joinExam.add(j);
     }
 
-    public void removeJoinExam(JoinExam j)
-    {
+    public void removeJoinExam(JoinExam j) {
         joinExam.remove(j);
     }
 
@@ -261,5 +267,13 @@ public class InstanceLecture extends JPAEntity {
     public String toCSV() {
         return String.format("%d; %s; %s; %s", getId(), semester, theYear, lecture);
 
+    }
+
+    public Date getTermOfApplication() {
+        return termOfApplication;
+    }
+
+    public void setTermOfApplication(final Date pTermOfApplication) {
+        termOfApplication = assertNotNull(pTermOfApplication);
     }
 }
