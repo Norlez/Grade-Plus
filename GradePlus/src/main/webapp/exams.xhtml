@@ -71,14 +71,14 @@
                     <b:tab title="#{msg['tabtitleExaminers']}">
 
                         <!-- PRÜFER HINZUFÜGEN -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="4">
                                 <h2>
                                     <h:outputText value="#{msg['subtitleAddExaminers']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="8">
                                 <b:panel  collapsed="true" rendered="#{!empty usersBean.getAllStudentsAndExaminerWhichAreNotChosenInILV(usersBean.allStudentsAndExaminer, instanceLectureEditBean.instanceLecture.examiners)}" >
                                     <f:facet name="heading">
@@ -129,8 +129,9 @@
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeExaminer(u)}"/>
+                                    <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRemove']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRemove']}"
+                                                         action="#{instanceLectureEditBean.removeExaminer(u)}"/>
                                     </b:dataTableColumn>
                                     <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examiners}"
                                                    value="#{msg['outputNoExaminers']}"/>
@@ -143,7 +144,7 @@
                     <b:tab title="#{msg['tabtitleStudents']}">
 
                         <!-- PRÜFLINGE HINZUFÜGEN -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="4">
                                 <h2>
                                     <h:outputText value="#{msg['subtitleAddStudents']}" />
@@ -152,13 +153,13 @@
                         </b:row>
 
                         <!-- UPLOAD PABO LIST -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="3">
                                 <b:button class="btn" value="#{msg['actionImportPabo']}" outcome="importstudentlist"/>
                             </b:column>
                         </b:row>
 
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="8">
                                 <b:panel  collapsed="true" rendered="#{! empty instanceLectureEditBean.unregisteredStudents}" >
                                     <f:facet name="heading">
@@ -207,13 +208,14 @@
                                     <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
-                                    <b:dataTableColumn label="#{msg['outputAnmeldung']}" value="#{examsBean.getWayOfRegister(u,instanceLectureEditBean.instanceLecture).kind}"/>
+                                    <b:dataTableColumn label="#{msg['outputRegistration']}" value="#{examsBean.getWayOfRegister(u,instanceLectureEditBean.instanceLecture).kind}"/>
                                     <b:dataTableColumn label="#{msg['outputState']}" orderable="false"/>
                                     <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
                                     <b:dataTableColumn label="#{msg['outputGrade']}"/>
                                     <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeStudent(u)}"/>
+                                    <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRemove']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRemove']}"
+                                                         action="#{instanceLectureEditBean.removeStudent(u)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
                                 <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
@@ -233,20 +235,20 @@
                     <b:tab title="#{msg['tabtitleExams']}">
 
                         <!-- PRÜFUNGEN HINZUFÜGEN -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="4">
                                 <h2>
                                     <h:outputText value="#{msg['subtitleAddExams']}" />
                                 </h2>
                             </b:column>
                         </b:row>
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="3">
                                 <h:commandButton class="btn" value="#{msg['actionCreateNewExam']}" action="#{examsBean.setInstanceLectureForExam(instanceLectureEditBean.getInstanceLecture())}">
                                 </h:commandButton>
                             </b:column>
                         </b:row>
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="3">
                                 <h:commandButton class="btn" value="#{msg['actionCreateNewExams']}" action="#{examsBean.setInstanceLectureForExams(instanceLectureEditBean.getInstanceLecture())}">
                                 </h:commandButton>
@@ -255,10 +257,26 @@
 
                         <b:row class="space25px" />
 
+                        <!-- NOTEN -->
+                        <b:row class="btn-paragraph" rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleGrades']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+
                         <!-- UPLOAD GRADES LIST -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="3">
-                                <b:button class="btn" value="#{msg['actionImportGrades']}" outcome="grades"/>
+                                <b:commandButton class="btn" value="#{msg['actionImportGrades']}" action="#{fileBean.importGradesFromInstanceLecture(instanceLectureEditBean.instanceLecture)}" />
+                            </b:column>
+                        </b:row>
+
+                        <!-- EXPORT GRADE LIST -->
+                        <b:row class="btn-paragraph" rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
+                            <b:column span="3">
+                                <b:commandButton class="btn" value="#{msg['actionExportGrade']}" action="#{fileBean.exportGradesFromInstanceLecture(instanceLectureEditBean.instanceLecture)}" />
                             </b:column>
                         </b:row>
                         <b:row class="space25px" />
@@ -304,16 +322,16 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
 
-                                    <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
-                                        <b:commandButton rendered="#{!e.getReleased()}"
-                                                         value="#{msg['actionRelease']}"
+                                    <b:dataTableColumn rendered="#{!e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRelease']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRelease']}"
                                                          action="#{examsBean.releaseExam(e)}"/>
-                                        <b:commandButton rendered="#{e.getReleased()}"
-                                                         value="#{msg['actionClose']}"
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn rendered="#{e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRelease']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionClose']}"
                                                          action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionGrades']}" orderable="false">
+                                    <b:dataTableColumn rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionGrades']}" orderable="false">
                                         <b:commandButton rendered="#{!e.released}"
                                                          disabled="#{!e.released}"
                                                          title="#{msg['outputNotReleased']}"
@@ -324,11 +342,11 @@
                                                          action="#{gradesBean.setExam(e)}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
+                                    <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionEdit']}" orderable="false">
                                         <b:commandButton value="#{msg['actionEdit']}" action="#{examsBean.setExam(e)}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
+                                    <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRemove']}" orderable="false">
                                         <b:commandButton value="#{msg['actionRemove']}" action="#{examsBean.remove(e)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
