@@ -307,7 +307,9 @@ public class FileBean extends AbstractBean implements Serializable {
     {
         assertNotNull(pInstanceLecture);
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter("Noten.csv"));
+            File file = new File(System.getProperty("user.home")+"/Downloads/Noten.csv");
+            file.createNewFile();
+            BufferedWriter out = new BufferedWriter(new FileWriter(file.getPath()));
             CSVWriter csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
             List<JoinExam> j = assertNotNull(joinExamDAO.getAllJoinExams());

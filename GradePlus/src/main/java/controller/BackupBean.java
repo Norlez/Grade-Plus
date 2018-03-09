@@ -3,10 +3,7 @@ package controller;
 import common.model.*;
 import common.util.Assertion;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.Serializable;
-import java.io.Writer;
+import java.io.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -118,11 +115,13 @@ public class BackupBean extends AbstractBean implements Serializable {
      * Erstellt für den aktuellen Stand der Datenbank ein Backup.
      *
      */
-    public void createBackup() throws SQLException {
+    public void createBackup() throws SQLException, IOException {
+        File file = new File(System.getProperty("user.home")+"/Downloads/");
+        file.createNewFile();
         Connection conn = getConnection();
         java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat(
                 "yyyy-MM-dd");
-        String backupdirectory = "C:/Users/marvi/Documents/GradePlus/GradePlus/backup/"
+        String backupdirectory = file.getPath() + '\\'+ "DatabaseBackup-"
                 + todaysDate.format((java.util.Calendar.getInstance()).getTime());
         CallableStatement cs = conn
                 .prepareCall("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)");
