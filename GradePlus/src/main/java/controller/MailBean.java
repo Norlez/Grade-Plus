@@ -85,7 +85,7 @@ public class MailBean extends AbstractBean implements Serializable{
     private javax.mail.Session session;
 
     /**
-     * Die Email-Adresse des Empfängers der Nachricht.
+     * Die Email-Adresse des Empfängers/ der Empfänger der Nachricht.
      */
     private String recipient;
 
@@ -224,8 +224,7 @@ public class MailBean extends AbstractBean implements Serializable{
     public String sendMail() {
         try {
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(recipient));
+            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
             message.setText(content);
@@ -282,8 +281,7 @@ public class MailBean extends AbstractBean implements Serializable{
         try {
             filetosend = copyPartToFile();
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(recipient));
+            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
 
@@ -362,6 +360,30 @@ public class MailBean extends AbstractBean implements Serializable{
         return false;
     }
 
+    /**
+     * Liefert alle Empfänger-Mails als ein Array von InternetAdress zurück.
+     * @param pRecipients Die Mails der Empfänger getrennt durch ein Komma.
+     * @return InternetAdress Liste aller Empfänger.
+     */
+    public InternetAddress[] getRecipientsAddresses(String pRecipients){
+        String[] recipientList = pRecipients.split(",");
+        InternetAddress[] recipientAddress = new InternetAddress[recipientList.length];
+        try {
+            int counter = 0;
+            for (String recipient : recipientList) {
+                recipientAddress[counter] = new InternetAddress(recipient.trim());
+                counter++;
+            }
+        } catch (MessagingException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorTransmitOfMessage", sender.getEmail());
+        }
+        return recipientAddress;
+        //message.setRecipients(Message.RecipientType.TO, recipientAddress);
+    }
+
 }
+
+
 
 
