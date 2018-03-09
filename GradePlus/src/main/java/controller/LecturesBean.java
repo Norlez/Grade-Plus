@@ -5,6 +5,7 @@ import common.model.Lecture;
 import common.model.Session;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import persistence.InstanceLectureDAO;
 import persistence.LectureDAO;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -37,6 +39,8 @@ public class LecturesBean extends AbstractBean implements Serializable {
      */
     private final LectureDAO lectureDao;
 
+    private final InstanceLectureDAO instanceLectureDao;
+
     /**
      * Die aktuell angezeigte Lehrveranstaltung, dessen Attribute durch die UIKomponenten
      * des Facelets geschrieben und gelesen werden.
@@ -60,9 +64,11 @@ public class LecturesBean extends AbstractBean implements Serializable {
      *             Falls {@code pSession} {@code null} ist.
      */
     @Inject
-    public LecturesBean(Session pSession, LectureDAO pLectureDao) {
+    public LecturesBean(Session pSession, LectureDAO pLectureDao,
+            final InstanceLectureDAO pInstanceLectureDao) {
         super(pSession);
         lectureDao = assertNotNull(pLectureDao);
+        instanceLectureDao = assertNotNull(pInstanceLectureDao);
     }
 
     /**
@@ -179,6 +185,13 @@ public class LecturesBean extends AbstractBean implements Serializable {
      *             Falls die übergebene Lehrveranstaltung den Wert {@code null} hat.
      */
     public String remove(final Lecture pLecture) {
+        assertNotNull(pLecture);
+        if (!instanceLectureDao.getAllInstanceLectures().stream()
+                .filter(i -> i.getLecture().getId().equals(pLecture.getId()))
+                .collect(Collectors.toList()).isEmpty()) {
+            addErrorMessage("errorInstanceLecturesExist");
+            return null;
+        }
         lectureDao.remove(pLecture);
         init();
         return null;
