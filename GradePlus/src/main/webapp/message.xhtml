@@ -69,9 +69,9 @@
                             <b:commandButton id="sendMessage"
                                              value="send"
                                              action="#{mailBean.decideWhichEmail}"/>
+                            <b:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
                         </b:column>
                     </b:row>
-
                 </b:container>
             </b:form>
 
@@ -80,4 +80,5 @@
     </ui:composition>
 </h:body>
 </html>
+
 

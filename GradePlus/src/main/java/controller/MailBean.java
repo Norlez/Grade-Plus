@@ -281,14 +281,14 @@ public class MailBean extends AbstractBean implements Serializable{
     public String sendMailWithAttachment() throws IOException {
         try {
             filetosend = copyPartToFile();
-            message.setFrom(new InternetAddress("arbnor@uni-bremen.de"));
+            message.setFrom(new InternetAddress(sender.getEmail()));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("arbnor@uni-bremen.de"));
+                    InternetAddress.parse(recipient));
             message.setSentDate(new Date());
-            message.setSubject("TEST");
+            message.setSubject(topic);
 
             MimeBodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText("PFA");
+            messageBodyPart.setText(content);
 
             MimeBodyPart attachmentBodyPart = new MimeBodyPart();
             attachmentBodyPart.attachFile(filetosend);
@@ -331,20 +331,6 @@ public class MailBean extends AbstractBean implements Serializable{
         }
     }
 
-
-    /**
-     * Versendet eine Systemnachricht an einen gewählten Benutzer.
-
-     public void sendSystemMail() {
-     sender = new User();
-     sender.setEmail("gradeplusbremen@gmail.com");
-     sender.setTmpPassword("Koschke123");
-     smtp = "smtp.gmail.com";
-     sendMail();
-     sender = getSession().getUser();
-     }
-     */
-
     /**
      * Prüft, ob die Kombination der eingegebene Email mit dem dazugehörigem Passwort eine
      * Verbindung zum smpt Server aufbauen und damit gültig sind.
@@ -377,4 +363,5 @@ public class MailBean extends AbstractBean implements Serializable{
     }
 
 }
+
 

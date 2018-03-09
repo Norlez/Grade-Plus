@@ -10,6 +10,8 @@ import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
@@ -273,7 +275,10 @@ public class FileBean extends AbstractBean implements Serializable {
                 System.out.println("Exceptiooooon: ICS EXPORT");
             }
         }
+        FacesMessage message = new FacesMessage("Ihre ICS wurde auf folgendes Verzeichnis gespeichert:" +System.getProperty("user.home") );
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
+
 
 
     /**
