@@ -190,6 +190,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # Latex
-*.pdf
+
 *.gz
 # End of https://www.gitignore.io/api/linux,macos,windows,eclipse,intellij

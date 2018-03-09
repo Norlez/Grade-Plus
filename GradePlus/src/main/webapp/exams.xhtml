@@ -207,6 +207,7 @@
                                     <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                                    <b:dataTableColumn label="#{msg['outputAnmeldung']}" value="#{examsBean.getWayOfRegister(u,instanceLectureEditBean.instanceLecture).kind}"/>
                                     <b:dataTableColumn label="#{msg['outputState']}" orderable="false"/>
                                     <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
                                     <b:dataTableColumn label="#{msg['outputGrade']}"/>

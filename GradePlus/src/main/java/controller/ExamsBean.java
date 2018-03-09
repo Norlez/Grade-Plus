@@ -928,6 +928,28 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return "grades.xhtml";
     }
 
+    /**
+     * Gibt die Anmeldeart des Studenten zurück.
+     * @param pUser, für den die Anmledeart ausgegeben werden soll für diese ILV
+     * @return Gibt die Anmeldeart zurück
+     */
+    public JoinExam getWayOfRegister(final User pUser, final InstanceLecture pInstanceLecture)
+    {
+        JoinExam joinE = null;
+        List<JoinExam> joinExam = joinExamDao.getJoinExamsForUser(pUser);
+        if(joinExam == null)
+        {
+            throw new IllegalArgumentException("Ein Student wurde fehlerhaft hinzugefügt.");
+        }
+        for(JoinExam j: joinExam)
+        {
+            if(j.getInstanceLecture().getId() == pInstanceLecture.getId())
+            {
+                joinE = j;
+            }
+        }
+        return joinE;
+    }
 
 
 
