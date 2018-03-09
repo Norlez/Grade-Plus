@@ -31,7 +31,7 @@
 
                 <b:row>
                     <b:column span="12" colSm="12" colMd="12" colXs="12">
-                        <b:dataTable rendered="#{! instanceLectureEditBean.studentRegisteredForExam}"
+                        <b:dataTable rendered="#{! instanceLectureEditBean.studentRegisteredForExam and ! instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
                                      span="8"
                                      value="#{instanceLectureEditBean.getReleasedExamsForInstanceLecture()}"
                                      var="e"
@@ -57,8 +57,11 @@
 
                         </b:dataTable>
 
-                        <h:outputLabel rendered="#{instanceLectureEditBean.studentRegisteredForExam}"
-                                       value="#{msg['outputNoExamsAvailable']}"/>
+                        <h:outputLabel rendered="#{instanceLectureEditBean.studentRegisteredForExam and ! instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                       value="#{msg['outputNoExamsAvailable']}" />
+
+                        <h:outputLabel rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                       value="#{msg['outputTermOfApplicationExceeded']}" />
 
                     </b:column>
                 </b:row>
