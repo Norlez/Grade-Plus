@@ -12,10 +12,10 @@
 
 <h:body>
     <ui:composition template="/WEB-INF/template.xhtml">
-        <ui:param name="title" value="#{msg['title']}"/>
+        <ui:param name="#{msg['titleStudentList']}" value="#{msg['title']}"/>
 
         <ui:define name="content">
-            <f:loadBundle basename="internationalization.exams" var="msg" />
+            <f:loadBundle basename="internationalization.import" var="msg" />
 
             <!-- REGISTER USER FROM A FILE  -->
             <b:form enctype="multipart/form-data">
@@ -61,10 +61,10 @@
                         <b:column span="6">
                             <b:panel collapsed="true">
                                 <f:facet name="heading">
-                                    <h:outputText value="#{msg['actionImportFromPabo']}" />
+                                    <h:outputText value="#{msg['outputImportFromPabo']}" />
                                 </f:facet>
                                 <h:inputFile value="#{fileBean.file}" />
-                                <b:commandButton action="#{fileBean.saveFromCSVFromPabo(instanceLectureEditBean.instanceLecture)}" value="convert" />
+                                <b:commandButton action="#{fileBean.saveFromCSVFromPabo(instanceLectureEditBean.instanceLecture)}" value="#{msg['actionUpload']}" />
                             </b:panel>
                         </b:column>
                     </b:row>
@@ -73,7 +73,7 @@
                 <b:container class="form-group" >
                     <b:row class="btn-paragraph">
                         <b:column span="3">
-                            <b:button class="btn" value="Zurück zur ILV" outcome="exams"/>
+                            <b:button class="btn" value="#{msg['linkBack']}" outcome="exams"/>
                         </b:column>
                     </b:row>
                 </b:container>
@@ -104,13 +104,6 @@
                                 <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
                                 <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                 <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
-                                <b:dataTableColumn label="#{msg['outputState']}" orderable="false"/>
-                                <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
-                                <b:dataTableColumn label="#{msg['outputGrade']}"/>
-                                <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
-                                <b:dataTableColumn label="#{msg['actionRemove']}" orderable="false">
-                                    <b:commandButton value="#{msg['actionRemove']}" action="#{instanceLectureEditBean.removeStudent(u)}"/>
-                                </b:dataTableColumn>
                             </b:dataTable>
                             <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
                                            value="#{msg['outputNoStudents']}"/>

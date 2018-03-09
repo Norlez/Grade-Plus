@@ -266,10 +266,10 @@
                             </b:column>
                         </b:row>
 
-                        <!-- UPLOAD GRADES LIST -->
+                        <!-- IMPORT GRADE LIST -->
                         <b:row class="btn-paragraph" rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="3">
-                                <b:commandButton class="btn" value="#{msg['actionImportGrades']}" action="#{fileBean.importGradesFromInstanceLecture(instanceLectureEditBean.instanceLecture)}" />
+                                <b:button class="btn" value="#{msg['actionImportGrades']}" outcome="importgradelist" />
                             </b:column>
                         </b:row>
 
