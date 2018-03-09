@@ -45,7 +45,7 @@
                     <!-- SETZE JAHR -->
                     <b:row>
                         <b:column>
-                             <h:outputLabel value="Jahr auswählen"/>
+                             <h:outputLabel value="#{msg['outputSelectYear']}"/>
                         </b:column>
                         <b:column span="4">
                             <b:selectOneMenu class="form-control" value="#{instanceLecturesBean.selectedYear}">
@@ -58,12 +58,33 @@
                     <!-- SETZE SEMESTER -->
                     <b:row>
                         <b:column>
-                            <h:outputLabel value="Semester auswählen"/>
+                            <h:outputLabel value="#{msg['outputSelectSemester']}"/>
                         </b:column>
                         <b:column span="4">
                             <b:selectOneMenu class="form-control" value="#{instanceLecturesBean.selectedTimes}">
                                 <f:selectItems value="#{instanceLecturesBean.times}" />
                             </b:selectOneMenu>
+                        </b:column>
+                    </b:row>
+
+
+                    <!-- ANMELDEFRIST -->
+                    <b:row>
+                        <b:column>
+                            <b:message for="termOfApplication"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column>
+                            <h:outputLabel value="#{msg['outputSelectTermOfApplication']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <b:dateTimePicker placeholder="#{msg['inputDate']}"
+                                              id="termOfApplication"
+                                              value="#{instanceLecturesBean.instanceLecture.termOfApplication}"
+                                              format="DD.MM.YYYY HH:mm"
+                                              required="true"
+                                              requiredMessage="#{msg['errorTermOfApplicationRequired']}"/>
                         </b:column>
                     </b:row>
 
