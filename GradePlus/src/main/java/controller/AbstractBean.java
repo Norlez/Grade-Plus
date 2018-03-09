@@ -27,10 +27,9 @@ package controller;
 import static common.util.Assertion.assertNotNull;
 import static common.util.Assertion.assertWithoutNull;
 
-import java.util.IllegalFormatException;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -38,6 +37,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import common.exception.DuplicateEmailException;
+import common.exception.DuplicateUsernameException;
 import common.model.Session;
 import common.util.Assertion;
 import org.apache.log4j.Level;
@@ -110,25 +111,7 @@ public abstract class AbstractBean {
         session.setUser(Assertion.assertNotNull(pUser));
     }
 
-    /**
-     * Loggt den aktuell in der zugehörigen Session eingeloggten Benutzer aus (falls
-     * jemand eingeloggt ist) und gibt den Namen des Facelets, zu dem im Erfolgsfall
-     * navigiert werden soll, zurück. Wenn niemand eingeloggt ist, passiert nichts.
-     *
-     * @return Den Namen des Facelets, zu dem im Erfolgsfall navigiert werden soll oder
-     *         {@code null} falls niemand in der zugehörigen Session eingeloggt war.
-     */
-    public String logout() {
-        if (isLoggedIn()) {
-            if (logger.isInfoEnabled()) {
-                logger.info(String.format("User %s logged out.", getSession().getUser()
-                        .getUsername()));
-            }
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-            return "/index.xhtml?faces-redirect=true";
-        }
-        return null;
-    }
+
 
     /**
      * Meldet die Fehlermeldung an das gegebene Ziel im gegebenen Kontext.

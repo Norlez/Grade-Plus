@@ -29,14 +29,9 @@ import static common.util.Assertion.assertNotNull;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.RequestScoped;
@@ -49,7 +44,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import businesslogic.Math;
+import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUniqueFieldException;
+import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
 import persistence.JoinExamDAO;
@@ -302,6 +299,43 @@ public class ProfileBean extends AbstractBean implements Serializable {
             e.add(j.getExam());
         }
         return e;
+
+
+ }
+    /**
+     * Loggt den aktuell in der zugehörigen Session eingeloggten Benutzer aus (falls
+     * jemand eingeloggt ist) und gibt den Namen des Facelets, zu dem im Erfolgsfall
+     * navigiert werden soll, zurück. Wenn niemand eingeloggt ist, passiert nichts.
+     *
+     * @return Den Namen des Facelets, zu dem im Erfolgsfall navigiert werden soll oder
+     *         {@code null} falls niemand in der zugehörigen Session eingeloggt war.
+     */
+    public String logout() {
+        if (isLoggedIn()) {
+            if (logger.isInfoEnabled()) {
+                logger.info(String.format("User %s logged out.", getSession().getUser()
+                        .getUsername()));
+            }
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            User registeredUser = getSession().getUser();
+            registeredUser.setLoggingString( date.toString()+ ": Abmeldung im System.\n");
+            try {
+                userDao.update(registeredUser);
+            } catch (final IllegalArgumentException e) {
+                addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                        getTranslation("errorUserdataIncomplete"));
+            } catch (final DuplicateUsernameException e) {
+                addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                        Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+            } catch (final DuplicateEmailException e) {
+                addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                        "errorEmailAlreadyInUse",registeredUser.getEmail());
+            }
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            return "/index.xhtml?faces-redirect=true";
+        }
+        return null;
     }
 
 }
