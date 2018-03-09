@@ -302,7 +302,7 @@ public class GradesBean extends AbstractBean implements Serializable {
         logger.info("hats geklappt ?");
 
         init();
-        return null;
+        return "grades.xhtml";
     }
 
     /**

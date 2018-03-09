@@ -186,19 +186,19 @@ public class DocumentBean extends AbstractBean implements Serializable {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
                 contentStream.newLineAtOffset(244,684);
-                contentStream.showText("X");
+                contentStream.showText(" ");
                 contentStream.endText();
             } else if(pruefungsordnung == 2) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
                 contentStream.newLineAtOffset(244,670);
-                contentStream.showText("X");
+                contentStream.showText(" ");
                 contentStream.endText();
             } else if(pruefungsordnung == 3) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
                 contentStream.newLineAtOffset(244,657);
-                contentStream.showText("X");
+                contentStream.showText(" ");
                 contentStream.endText();
             }
 
@@ -215,28 +215,28 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,605);
-            contentStream.showText(vak);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getVak());
             contentStream.endText();
 
             // Lecture
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(300,605);
-            contentStream.showText(lecture);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getName());
             contentStream.endText();
 
             // Name, Vorname
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,578);
-            contentStream.showText(name + ", " + givenname);
+            contentStream.showText(user.getSurname() + ", " + user.getGivenName());
             contentStream.endText();
 
             // matrnr
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(400,578);
-            contentStream.showText(matrnr);
+            contentStream.showText(user.getMatrNr());
             contentStream.endText();
 
             // Ort
@@ -287,7 +287,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(72,450);
-            contentStream.showText(content);
+            contentStream.showText(" ");
             contentStream.endText();
 
             // End
@@ -477,7 +477,10 @@ public class DocumentBean extends AbstractBean implements Serializable {
      * Methode zum Drucken des Leistungsnachweise
      *
      */
-    public StreamedContent getCertificates (List<Exam> exams) throws IOException {
+    public StreamedContent getCertificates (final User pUser, final Exam pExams) throws IOException {
+
+        User user = pUser;
+        Exam exam = pExams;
 
         String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Certificate.pdf";
         File file = new File(relativeWebPath);
@@ -491,116 +494,112 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page, true, true, true);
 
-            for(Exam e: exams) {
+            // Name, Vorname
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(90,623);
+            contentStream.showText(user.getSurname() + " " + user.getGivenName());
+            contentStream.endText();
 
-                document.addPage(page);
+            // Matrikelnummer
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(475,623);
+            contentStream.showText(user.getMatrNr());
+            contentStream.endText();
 
-                // Name, Vorname
+            // Lehrveranstaltung
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(160,603);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getName());
+            contentStream.endText();
+
+            // ECTS
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(475,563);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getEcts()+"");
+            contentStream.endText();
+
+            // VAK
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(160,543);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getVak());
+            contentStream.endText();
+
+            // Semester
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(290,543);
+            contentStream.showText(semester + " " + year);
+            contentStream.endText();
+
+            // Wochenstunden
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(475,543);
+            contentStream.showText("");
+            contentStream.endText();
+
+            // Studiengang
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(290,523);
+            contentStream.showText(" ");
+            contentStream.endText();
+
+            // Inhalt
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(80,483);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getDescription());
+            contentStream.endText();
+
+            // Einzel, Gruppenleistung
+            if(groupe == false) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(90,623);
-                contentStream.showText(givenname + " " + name);
+                contentStream.newLineAtOffset(122,338);
+                contentStream.showText("X");
                 contentStream.endText();
-
-                // Matrikelnummer
+            } else if(groupe == true) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(475,623);
-                contentStream.showText(matrnr);
-                contentStream.endText();
-
-                // Lehrveranstaltung
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(160,603);
-                contentStream.showText(lecture);
-                contentStream.endText();
-
-                // ECTS
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(475,563);
-                contentStream.showText(ects);
-                contentStream.endText();
-
-                // VAK
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(160,543);
-                contentStream.showText(vak);
-                contentStream.endText();
-
-                // Semester
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(290,543);
-                contentStream.showText(semester + " " + year);
-                contentStream.endText();
-
-                // Wochenstunden
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(475,543);
-                contentStream.showText(hours);
-                contentStream.endText();
-
-                // Studiengang
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(290,523);
-                contentStream.showText(course);
-                contentStream.endText();
-
-                // Inhalt
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(80,483);
-                contentStream.showText(content);
-                contentStream.endText();
-
-                // Einzel, Gruppenleistung
-                if(groupe == false) {
-                    contentStream.beginText();
-                    contentStream.setFont(fontTimes,12);
-                    contentStream.newLineAtOffset(122,338);
-                    contentStream.showText("X");
-                    contentStream.endText();
-                } else if(groupe == true) {
-                    contentStream.beginText();
-                    contentStream.setFont(fontTimes,12);
-                    contentStream.newLineAtOffset(282,338);
-                    contentStream.showText("X");
-                    contentStream.endText();
-                }
-
-                // Inhalt Pruefer
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(180,313);
-                contentStream.showText(contentExaminer);
-                contentStream.endText();
-
-                // Pruefungsgebiet
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(180,193);
-                contentStream.showText(pruefungsgebiet);
-                contentStream.endText();
-
-                // Note
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(290,167);
-                contentStream.showText(grade);
-                contentStream.endText();
-
-                // Aktuelles Datum
-                contentStream.beginText();
-                contentStream.setFont(fontTimes,12);
-                contentStream.newLineAtOffset(100,87);
-                contentStream.showText(datetoday);
+                contentStream.newLineAtOffset(282,338);
+                contentStream.showText("X");
                 contentStream.endText();
             }
+
+            // Inhalt Pruefer
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(180,313);
+            contentStream.showText(contentExaminer);
+            contentStream.endText();
+
+            // Pruefungsgebiet
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(180,193);
+            contentStream.showText(pruefungsgebiet);
+            contentStream.endText();
+
+            // Note
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(290,167);
+            contentStream.showText(grade);
+            contentStream.endText();
+
+            // Aktuelles Datum
+            contentStream.beginText();
+            contentStream.setFont(fontTimes,12);
+            contentStream.newLineAtOffset(100,87);
+            contentStream.showText(todaysDate.format((java.util.Calendar.getInstance()).getTime()));
+            contentStream.endText();
+
 
             contentStream.close();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
