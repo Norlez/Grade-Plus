@@ -477,4 +477,13 @@ public class Exam extends JPAEntity {
                         DateTimeFormatter.ofPattern("HHmm00"));
     }
 
+    /**
+     * Gibt das Ende der Prüfung als String zurück.
+     * @return Ende der Prüfung
+     */
+    public String endOfExam()
+    {
+        return localDateTime.plusMinutes(getExamLength()).format(
+                DateTimeFormatter.ofPattern("HH:mm"));
+    }
 }

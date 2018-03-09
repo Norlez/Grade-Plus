@@ -169,6 +169,26 @@ public class DocumentBean extends AbstractBean implements Serializable {
         final User user = pUser;
         final Exam exam = pExam;
 
+        List<User> u = pExam.getExaminers();
+        User examiner = u.get(0);
+        String s = new String();
+        for(int i = 1; i < u.size(); i++)
+        {
+            s += u.get(i).getSurname()+", " + u.get(i).getGivenName() +"; ";
+        }
+
+        grade = "";
+        for(JoinExam j: joinExamDAO.getJoinExamsForUser(user))
+        {
+            if(j.getPruefling().getId() == user.getId() && j.getExam().getId() == exam.getId())
+            {
+                if(j.getGrade() != null)
+                {
+                    grade = j.getGrade().getMark()+"";
+                }
+            }
+        }
+
         String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Protocol.pdf";
         File file = new File(relativeWebPath);
 
@@ -250,28 +270,28 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(340,549);
-            contentStream.showText(lecture);
+            contentStream.showText(exam.dateToString());
             contentStream.endText();
 
             // Start
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(520,549);
-            contentStream.showText(start);
+            contentStream.showText(exam.timeToString());
             contentStream.endText();
 
             // Examiner
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,522);
-            contentStream.showText(lecture);
+            contentStream.showText(examiner.getGivenName() +", " +examiner.getSurname());
             contentStream.endText();
 
             // CoExaminer
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(340,522);
-            contentStream.showText(coexaminer);
+            contentStream.showText(s);
             contentStream.endText();
 
             // Beisitzer
@@ -294,7 +314,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(180,87);
-            contentStream.showText(end);
+            contentStream.showText(exam.endOfExam());
             contentStream.endText();
 
             // Grade
@@ -554,7 +574,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(80,483);
-            contentStream.showText(exam.getInstanceLecture().getLecture().getDescription());
+            contentStream.showText(bemerkungen+"");
             contentStream.endText();
 
             // Einzel, Gruppenleistung
