@@ -130,6 +130,9 @@
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDeregister']}">
                                     <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsStudent(profileBean.thisUser, e)}"/>
                                 </b:dataTableColumn>
+                                <b:dataTableColumn class="col" orderable="false" label="krankmelden">
+                                    <b:commandButton value="krankmelden" action="#{mailBean.prepareIllnessMail(profileBean.thisUser, e)}"/>
+                                </b:dataTableColumn>
 
                             </b:dataTable>
                             <h:outputLabel rendered="#{empty instanceLectureEditBean.getExams(profileBean.thisUser)}"

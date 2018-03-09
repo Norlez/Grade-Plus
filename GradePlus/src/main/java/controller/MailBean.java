@@ -27,6 +27,7 @@ package controller;
 
 import java.io.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +43,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.Part;
 
+import common.model.Exam;
 import common.model.InstanceLecture;
 import common.model.User;
 import org.apache.log4j.Level;
@@ -400,5 +402,36 @@ public class MailBean extends AbstractBean implements Serializable {
         return "message.xhtml";
     }
 
+
+    /**
+     * Erstellt die nötigen Daten für den Betreff und den Empängern für die Sendung einer Krankmelde-Mail.
+     * @param pExam Die Prüfung, zu dem der zugehörige User gehört.
+     * @Param pUser der User, der die Mail versendet.
+     * @return das Facelet message.xhtml
+     */
+    public String prepareIllnessMail(User pUser, final Exam pExam) {
+        assertNotNull(pExam);
+        String seperator = "";
+        topic = "Krankmeldung für " + pExam.getInstanceLecture().getLecture().getName()+ " Prüfung am " + pExam.dateToString()+ "um "
+                + pExam.dateToString() ;
+        StringBuilder sb = new StringBuilder();
+        List<User> pruefer = pExam.getExaminers();
+        for (User r : pruefer) {
+            sb.append(seperator);
+            seperator = ", ";
+            sb.append(r.getEmail());
+        }
+        recipient = sb.toString();
+        content = "Martikelnummer: " + pUser.getMatrNr()
+                + "\n Vorname: " + pUser.getGivenName()
+                + "\n Nachname: " + pUser.getSurname()
+                + "\n Username: " + pUser.getUsername()
+                + "\n Email: " + pUser.getEmail()
+                + "\n Anmerkung: "  ;
+        return "message.xhtml";
+    }
+
+
 }
+
 

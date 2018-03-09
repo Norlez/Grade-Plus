@@ -1,0 +1,60 @@
+\select@language {ngerman}
+\select@language {ngerman}
+\contentsline {section}{\numberline {1}Einf\IeC {\"u}hrung}{4}{section.1}
+\contentsline {subsection}{\numberline {1.1}Was ist Gradeplus?}{4}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Rollen}{4}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Definitionen, Akronyme und Abk\IeC {\"u}rzungen}{4}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}\IeC {\"U}bersicht \IeC {\"u}ber das Dokument}{5}{subsection.1.4}
+\contentsline {section}{\numberline {2}Installation und Registrierung}{6}{section.2}
+\contentsline {subsection}{\numberline {2.1}Installation}{6}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Registrierung}{6}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Pr\IeC {\"u}fling}{6}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Admin}{6}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Pr\IeC {\"u}fer}{6}{subsubsection.2.2.3}
+\contentsline {subsection}{\numberline {2.3}Login}{6}{subsection.2.3}
+\contentsline {section}{\numberline {3}Admin}{7}{section.3}
+\contentsline {subsection}{\numberline {3.1}Dashboard}{7}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Nutzerverwaltung}{7}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Registrierung von Pr\IeC {\"u}fer und Admins}{7}{subsubsection.3.2.1}
+\contentsline {subsection}{\numberline {3.3}Backup}{7}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Backup erstellen}{7}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Backup einspielen}{7}{subsubsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.3}Backup l\IeC {\"o}schen}{7}{subsubsection.3.3.3}
+\contentsline {subsection}{\numberline {3.4}Nachricht versenden}{7}{subsection.3.4}
+\contentsline {section}{\numberline {4}Pr\IeC {\"u}flinge}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Dashboard}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Stammdaten \IeC {\"a}ndern}{8}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}ILVs}{8}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Anmelden in einer ILV}{8}{subsubsection.4.3.1}
+\contentsline {subsection}{\numberline {4.4}Pr\IeC {\"u}fungstermine}{8}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Als Pr\IeC {\"u}fer an einem Pr\IeC {\"u}fungstermin teilnehmen}{8}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Als Pr\IeC {\"u}fling an einem Pr\IeC {\"u}fungstermin teilnehmen}{8}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Termindaten im ICS-Format exportieren}{8}{subsubsection.4.4.3}
+\contentsline {subsubsection}{\numberline {4.4.4}F\IeC {\"u}r den Pr\IeC {\"u}fungstermin Krankmelden}{8}{subsubsection.4.4.4}
+\contentsline {subsubsection}{\numberline {4.4.5}Suchen nach Pr\IeC {\"u}fungsterminen}{8}{subsubsection.4.4.5}
+\contentsline {subsubsection}{\numberline {4.4.6}Austragen aus einem Pr\IeC {\"u}fungstermin}{8}{subsubsection.4.4.6}
+\contentsline {subsection}{\numberline {4.5}Nachricht versenden}{8}{subsection.4.5}
+\contentsline {section}{\numberline {5}Pr\IeC {\"u}fer}{8}{section.5}
+\contentsline {subsection}{\numberline {5.1}Dashboard}{9}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Lehrveranstaltung}{9}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Erstellen einer Lehrveranstaltung}{9}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Anpassen einer Lehrveranstaltung}{9}{subsubsection.5.2.2}
+\contentsline {subsection}{\numberline {5.3}ILVs}{9}{subsection.5.3}
+\contentsline {subsubsection}{\numberline {5.3.1}Erstellen einer ILV}{9}{subsubsection.5.3.1}
+\contentsline {subsubsection}{\numberline {5.3.2}Pr\IeC {\"u}flinge einf\IeC {\"u}gen und l\IeC {\"o}schen}{9}{subsubsection.5.3.2}
+\contentsline {subsubsection}{\numberline {5.3.3}Pr\IeC {\"u}fer eintragen und l\IeC {\"o}schen}{10}{subsubsection.5.3.3}
+\contentsline {subsubsection}{\numberline {5.3.4}Art der Anmeldung in die ILV eingrenzen}{10}{subsubsection.5.3.4}
+\contentsline {subsubsection}{\numberline {5.3.5}Suchen nach einer ILV}{10}{subsubsection.5.3.5}
+\contentsline {subsection}{\numberline {5.4}Pr\IeC {\"u}fungstermine}{10}{subsection.5.4}
+\contentsline {subsubsection}{\numberline {5.4.1}Erstellen von Pr\IeC {\"u}fungsterminen}{10}{subsubsection.5.4.1}
+\contentsline {subsubsection}{\numberline {5.4.2}Pr\IeC {\"u}fer in Pr\IeC {\"u}fungstermine einf\IeC {\"u}gen und l\IeC {\"o}schen}{10}{subsubsection.5.4.2}
+\contentsline {subsubsection}{\numberline {5.4.3}Pr\IeC {\"u}fungstermine ver\IeC {\"o}ffentlichen}{10}{subsubsection.5.4.3}
+\contentsline {subsubsection}{\numberline {5.4.4}Pr\IeC {\"u}fungstermin bearbeiten}{10}{subsubsection.5.4.4}
+\contentsline {subsubsection}{\numberline {5.4.5}Pr\IeC {\"u}fungstermin absagen}{10}{subsubsection.5.4.5}
+\contentsline {subsubsection}{\numberline {5.4.6}Pr\IeC {\"u}fungstermin verschieben}{10}{subsubsection.5.4.6}
+\contentsline {subsubsection}{\numberline {5.4.7}Pr\IeC {\"u}fungsergebnisse exportieren}{10}{subsubsection.5.4.7}
+\contentsline {subsubsection}{\numberline {5.4.8}Termindaten im ICS-Format exportieren}{10}{subsubsection.5.4.8}
+\contentsline {subsection}{\numberline {5.5}Vorlage f\IeC {\"u}r das Pr\IeC {\"u}fungsprotokoll drucken}{10}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}Quittung drucken}{10}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}Nachricht versenden}{10}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}Pr\IeC {\"u}fungsprotokolls hochladen}{10}{subsection.5.8}
