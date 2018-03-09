@@ -124,6 +124,7 @@ public class DBInit {
             student.setGivenName("Horst");
             student.setSurname("Hubert");
             student.setRole(Role.STUDENT);
+            student.setMatrNr("1415352");
             student.setPassword("123");
             student.setEmail("horstIsOffline@offline.de");
             lecture.setVak("2035252-2");

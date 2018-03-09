@@ -9,6 +9,8 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import persistence.ExamDAO;
+import persistence.InstanceLectureDAO;
+import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.faces.bean.RequestScoped;
@@ -35,6 +37,10 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
     private final ExamDAO examDAO;
 
+    private final JoinExamDAO joinExamDAO;
+
+    private final InstanceLectureDAO instanceLectureDAO;
+
     // Gibt an, welche Pruefungsordnung benutzt wird
     private int pruefungsordnung = 3;
 
@@ -57,7 +63,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
     private String matrnr = "343636343";
 
     // Pruefungsort
-    private String ort = "343636343";
+    private String ort = "Bremen";
 
     // Datum der Pruefung
     private String date = "343636343";
@@ -119,6 +125,8 @@ public class DocumentBean extends AbstractBean implements Serializable {
     // Name des Pruefungsgebiets
     private String pruefungsgebiet = "343636343";
 
+    java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat(
+            "dd-MM-yyyy");
     /**
      * Erzeugt eine neue AbstractBean.
      *
@@ -128,10 +136,12 @@ public class DocumentBean extends AbstractBean implements Serializable {
      *             Falls {@code theSession} {@code null} ist.
      */
     @Inject
-    public DocumentBean(Session theSession, UserDAO pUserDao, ExamDAO pExamDao) {
+    public DocumentBean(Session theSession, UserDAO pUserDao, ExamDAO pExamDao, JoinExamDAO pJoinExamDAo, InstanceLectureDAO pInstanceLectureDao) {
         super(theSession);
         userDAO = assertNotNull(pUserDao);
         examDAO = pExamDao;
+        joinExamDAO = pJoinExamDAo;
+        instanceLectureDAO = pInstanceLectureDao;
     }
 
     public String getNameOfStudent(User pStudent) {
@@ -154,7 +164,10 @@ public class DocumentBean extends AbstractBean implements Serializable {
      * Methode zum Drucken des Protokolls
      *
      */
-    public StreamedContent getProtocol () throws IOException {
+    public StreamedContent getProtocol (final User pUser, final Exam pExam) throws IOException {
+
+        final User user = pUser;
+        final Exam exam = pExam;
 
         String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Protocol.pdf";
         File file = new File(relativeWebPath);
@@ -309,7 +322,10 @@ public class DocumentBean extends AbstractBean implements Serializable {
      * Methode zum Drucken der Quittung
      *
      */
-    public StreamedContent getReceipe () throws IOException {
+    public StreamedContent getReceipe (final User pUser, final Exam pExam) throws IOException {
+
+        final User user = pUser;
+        final Exam exam = pExam;
 
         String relativeWebPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/") + "/documents/Receipe.pdf";
         File file = new File(relativeWebPath);
@@ -327,21 +343,21 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,715);
-            contentStream.showText(name + ", " + givenname);
+            contentStream.showText(user.getSurname() + ", " + user.getGivenName());
             contentStream.endText();
 
             // Matrikelnummer
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,682);
-            contentStream.showText(matrnr);
+            contentStream.showText(user.getMatrNr());
             contentStream.endText();
 
             // Datum
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,648);
-            contentStream.showText(date);
+            contentStream.showText(exam.dateToString()); //Vielleicht fehlt die Zeit?
             contentStream.endText();
 
             // Pruefungsart
@@ -371,14 +387,14 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,495);
-            contentStream.showText(lecture);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getName());
             contentStream.endText();
 
             // VAK
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(160,473);
-            contentStream.showText(vak);
+            contentStream.showText(exam.getInstanceLecture().getLecture().getVak());
             contentStream.endText();
 
             // Grade
@@ -421,7 +437,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.beginText();
             contentStream.setFont(fontTimes,12);
             contentStream.newLineAtOffset(73,235);
-            contentStream.showText(ort + ", " + datetoday);
+            contentStream.showText(ort + ", " + todaysDate.format((java.util.Calendar.getInstance()).getTime()));
             contentStream.endText();
 
             contentStream.close();

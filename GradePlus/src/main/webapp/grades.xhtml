@@ -98,12 +98,12 @@
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Protocol">
                                 <p:commandButton value="Download" ajax="false">
-                                    <p:fileDownload value="#{documentBean.getProtocol()}"/>
+                                    <p:fileDownload value="#{documentBean.getProtocol(e,examsBean.selectedExam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="Receipe">
                                 <p:commandButton value="Download" ajax="false">
-                                    <p:fileDownload value="#{documentBean.receipe}"/>
+                                    <p:fileDownload value="#{documentBean.getReceipe(e,examsBean.selectedExam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
                         </b:dataTable>
