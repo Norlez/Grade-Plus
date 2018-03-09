@@ -102,7 +102,7 @@
                     </b:row>
                     <b:row class="btn-paragraph">
                         <b:column span="12">
-                            <b:dataTable rendered="#{! empty instanceLectureEditBean.instanceLecture.exams}"
+                            <b:dataTable rendered="#{! empty instanceLectureEditBean.getExams(profileBean.thisUser)}"
                                          span="8"
                                          value="#{instanceLectureEditBean.getExams(profileBean.thisUser)}"
                                          var="e"
@@ -126,7 +126,7 @@
                                 </b:dataTableColumn>
 
                             </b:dataTable>
-                            <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
+                            <h:outputLabel rendered="#{empty instanceLectureEditBean.getExams(profileBean.thisUser)}"
                                            value="#{msg['outputNoExams']}"/>
                         </b:column>
                     </b:row>
