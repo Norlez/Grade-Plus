@@ -313,14 +313,14 @@
                                                          action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionSetMark']}" orderable="false">
+                                    <b:dataTableColumn label="#{msg['actionGrades']}" orderable="false">
                                         <b:commandButton rendered="#{!e.released}"
                                                          disabled="#{!e.released}"
                                                          title="#{msg['outputNotReleased']}"
-                                                         value="#{msg['actionSetMark']}"
+                                                         value="#{msg['actionGrades']}"
                                                          action="#{gradesBean.setExam(e)}"/>
                                         <b:commandButton rendered="#{e.released}"
-                                                         value="#{msg['actionSetMark']}"
+                                                         value="#{msg['actionGrades']}"
                                                          action="#{gradesBean.setExam(e)}"/>
                                     </b:dataTableColumn>
 
