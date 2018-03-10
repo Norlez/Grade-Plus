@@ -1004,4 +1004,18 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .collect(Collectors.toList()).get(0);
     }
 
+    public String setExamGroupSize(final int pGroupSize)
+    {
+        if(pGroupSize < 1)
+        {
+            return null;
+        }
+        else
+        {
+            selectedExam.setGroupSize(pGroupSize);
+            examDao.update(selectedExam);
+        }
+        return null;
+    }
+
 }

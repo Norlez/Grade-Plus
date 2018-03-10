@@ -97,6 +97,12 @@ public class Exam extends JPAEntity {
     private boolean isReleased;
 
     /**
+     * Die erlaubte Gruppengröße in der Prüfung
+     */
+    @Column
+    private int groupSize;
+
+    /**
      * Erzeugt ein neues {@link Exam}-Objekt mit leeren Daten.
      */
     public Exam() {
@@ -131,6 +137,7 @@ public class Exam extends JPAEntity {
         location = pExam.getLocation();
         type = pExam.getType();
         comment = pExam.getComment();
+        groupSize = pExam.getGroupSize();
     }
 
     /**
@@ -204,6 +211,15 @@ public class Exam extends JPAEntity {
     public void setParticipants(final List<JoinExam> pParticipants) {
         participants = assertNotNull(participants,
                 "Exam: setParticipants(List<JoinExam>)");
+    }
+
+
+    public void setGroupSize(int groupSize) {
+            this.groupSize = groupSize;
+    }
+
+    public int getGroupSize() {
+        return groupSize;
     }
 
     /**
