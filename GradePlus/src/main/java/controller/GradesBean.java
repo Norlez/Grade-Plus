@@ -29,6 +29,8 @@ import static common.util.Assertion.assertNotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,6 +49,7 @@ import common.exception.DuplicateUniqueFieldException;
 import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
 import common.model.*;
+import org.apache.log4j.Level;
 import persistence.ExamDAO;
 import persistence.JoinExamDAO;
 import persistence.UserDAO;
@@ -155,7 +158,7 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     @Inject
     public GradesBean(final Session pSession, final GradeDAO pGradeDAO,
-            final UserDAO pUserDAO, final JoinExamDAO pJoinExamDAO, final ExamDAO pExamDAO) {
+                      final UserDAO pUserDAO, final JoinExamDAO pJoinExamDAO, final ExamDAO pExamDAO) {
         super(pSession);
         gradeDAO = Assertion.assertNotNull(pGradeDAO);
         userDAO = Assertion.assertNotNull(pUserDAO);
@@ -309,6 +312,23 @@ public class GradesBean extends AbstractBean implements Serializable {
         logger.info("hats geklappt ?");
 
         init();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        java.util.Date date = new java.util.Date();
+        pStudent.setLoggingString( date.toString()+ ": Für Ihre Prüfung in " + pExam.getInstanceLecture().getLecture().getName()
+                + " vom " + pExam.getLocalDateTime().toString() + " hat Ihr Prüfer Ihnen eine Note zugeteilt.\n");
+        try {
+            userDAO.update(pStudent);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse",pStudent.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse",pStudent.getEmail());
+        }
         return "grades.xhtml";
     }
 
@@ -332,6 +352,22 @@ public class GradesBean extends AbstractBean implements Serializable {
         logger.info("hats geklappt ?");
 
         init();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        java.util.Date date = new java.util.Date();
+        pStudent.setLoggingString( date.toString()+ ": Für Ihre Prüfung in " + pExam.getInstanceLecture().getLecture().getName()
+                + " vom " + pExam.getLocalDateTime().toString() + " hat Ihr Prüfer ihre Note geändert.\n");
+        try {
+            userDAO.update(pStudent);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse",pStudent.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse",pStudent.getEmail());
+        }
         return null;
     }
 
@@ -402,7 +438,7 @@ public class GradesBean extends AbstractBean implements Serializable {
 
     /**
      * Gibt alle Exams für einen User zurück. TODO: Ungetestet
-     * 
+     *
      * @param pUser
      * @return Liste von Exams.
      */
