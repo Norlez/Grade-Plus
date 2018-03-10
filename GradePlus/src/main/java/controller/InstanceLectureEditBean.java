@@ -17,6 +17,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -323,14 +325,28 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,  Map<String, Boolean> pChecked) {
 
-        Date start = pStart;
-        Date end = pEnd;
+        //Date start = pStart;
+        //Date end = pEnd;
         Map<String, Boolean> checked = pChecked;
+        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(), ZoneId.systemDefault());
+        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(), ZoneId.systemDefault());
 
         assertNotNull(pInstanceLecture);
         List<String> selectedDocuments = checked.entrySet().stream()
                 .filter(Map.Entry::getValue).map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+        ArrayList<Exam> exams = new ArrayList<Exam>();
+
+        List<Exam> pisse = examDAO.getExamsForInstanceLecture(pInstanceLecture);
+
+        for(Exam e: pisse) {
+            LocalDateTime ldtExam = e.getLocalDateTime();
+
+            
+            if (ldtExam.isAfter(start) && ldtExam.isBefore(end)) {
+                exams.add(e);
+            }
+        }
 
         if (selectedDocuments.contains("Protokoll")) {
             // MACH SACHEN
