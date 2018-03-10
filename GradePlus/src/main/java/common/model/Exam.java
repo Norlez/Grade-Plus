@@ -509,4 +509,8 @@ public class Exam extends JPAEntity {
         return localDateTime.plusMinutes(getExamLength()).format(
                 DateTimeFormatter.ofPattern("HH:mm"));
     }
+
+    public String emptySpotsToString() {
+        return getAvailableSpots() + "/" + groupSize;
+    }
 }
