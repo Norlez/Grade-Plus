@@ -310,7 +310,7 @@
                         </b:row>
 
                         <!-- EXPORT DOCUMENTS -->
-                        <b:row class="btn-paragraph">
+                        <b:row class="btn-paragraph" rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
                             <b:column span="3">
                                 <b:button value="#{msg['outputExportDocuments']}" outcome="exportdocuments" />
                             </b:column>
