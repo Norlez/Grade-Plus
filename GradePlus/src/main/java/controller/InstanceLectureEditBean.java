@@ -161,7 +161,6 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     private boolean editChecker = false;
 
-
     /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Join-Exams-Objekte
      * übernimmt.
@@ -169,7 +168,8 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     private JoinExamDAO joinExamDAO;
 
     /**
-     * Stellt ein StreamedContent dar, der durch Primefaces per download-tag runtergeladen werden kann.
+     * Stellt ein StreamedContent dar, der durch Primefaces per download-tag runtergeladen
+     * werden kann.
      */
     private DefaultStreamedContent severalFiles;
 
@@ -948,10 +948,14 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return availableDocuments;
     }
 
-    public StreamedContent getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,  Map<String, Boolean> pChecked) throws IOException {
+    public StreamedContent getDocumentsForTimeFrame(
+            final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,
+            Map<String, Boolean> pChecked) throws IOException {
         Map<String, Boolean> checked = pChecked;
-        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(), ZoneId.systemDefault());
-        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(), ZoneId.systemDefault());
+        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(),
+                ZoneId.systemDefault());
+        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(),
+                ZoneId.systemDefault());
 
         assertNotNull(pInstanceLecture);
         List<String> selectedDocuments = checked.entrySet().stream()
@@ -961,30 +965,31 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         ArrayList<JoinExam> joinExams = new ArrayList<JoinExam>();
         List<Exam> doof = examDAO.getExamsForInstanceLecture(pInstanceLecture);
 
-        for(Exam e: doof) {
+        for (Exam e : doof) {
             LocalDateTime ldtExam = e.getLocalDateTime();
-
 
             if (ldtExam.isAfter(start) && ldtExam.isBefore(end)) {
                 exams.add(e); // Nur zum Debuggen
                 List<JoinExam> tmp = joinExamDAO.getUsersForExam(e);
-                if(tmp != null)
-                {
+                if (tmp != null) {
                     joinExams.addAll(tmp);
                 }
             }
         }
         List<StreamedContent> streamedContents = new ArrayList<StreamedContent>();
-        for(JoinExam gtfo: joinExams) {
+        for (JoinExam gtfo : joinExams) {
             if (gtfo.getExam() != null && gtfo.getPruefling() != null) {
                 if (selectedDocuments.contains("Protokoll")) {
-                    streamedContents.add(getProtocol(gtfo.getPruefling(), gtfo.getExam()));
+                    streamedContents
+                            .add(getProtocol(gtfo.getPruefling(), gtfo.getExam()));
                 }
                 if (selectedDocuments.contains("Quittung")) {
-                    streamedContents.add((getReceipe(gtfo.getPruefling(), gtfo.getExam())));
+                    streamedContents
+                            .add((getReceipe(gtfo.getPruefling(), gtfo.getExam())));
                 }
                 if (selectedDocuments.contains("Zertifikat")) {
-                    streamedContents.add(getCertificates(gtfo.getPruefling(),gtfo.getExam()));
+                    streamedContents.add(getCertificates(gtfo.getPruefling(),
+                            gtfo.getExam()));
                 }
             }
         }
@@ -992,7 +997,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         List<InputStream> resultInputContents = new ArrayList<InputStream>();
         List<File> resultFiles = new ArrayList<File>();
 
-        for(StreamedContent s : streamedContents){
+        for (StreamedContent s : streamedContents) {
             resultFiles.add(streamToPDFTempFile(s.getStream()));
         }
 
@@ -1000,23 +1005,27 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return severalFiles;
     }
 
-
     /**
      * Erstellt aus einer Liste von Dateien einen StreamedContent-Zip-File für Primefaces.
-     * @param pFile die ZipFile
+     * 
+     * @param pFile
+     *            die ZipFile
      */
-    public void saveDocumentsToZip(List<File> pFile){
+    public void saveDocumentsToZip(List<File> pFile) {
         ByteArrayInputStream bis = new ByteArrayInputStream(zipBytes(pFile));
         InputStream stream = bis;
-        severalFiles = new DefaultStreamedContent(stream, "application/zip", "documents.zip",  Charsets.UTF_8.name());
+        severalFiles = new DefaultStreamedContent(stream, "application/zip",
+                "documents.zip", Charsets.UTF_8.name());
     }
 
     /**
      * Erstellt aus einer Liste aus Dateien einen byteArray.
-     * @param pFile Die Liste der Files
+     * 
+     * @param pFile
+     *            Die Liste der Files
      * @return array aus Bytes.
      */
-    private byte[] zipBytes (List<File> pFile) {
+    private byte[] zipBytes(List<File> pFile) {
         ByteArrayOutputStream tmpByteArrayOutputStream = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream(tmpByteArrayOutputStream);
         FileInputStream fis = null;
@@ -1035,15 +1044,15 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 fis.close();
             }
             zos.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return tmpByteArrayOutputStream.toByteArray();
     }
 
-
     /**
      * Erstellt aus einem InputStream eine temporäre Datei.
+     * 
      * @param pInputStream
      * @return die erstellte Files
      * @throws IOException
@@ -1064,18 +1073,19 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         }
     }
 
-
     public Double getSubRating(final User pUser, final InstanceLecture pInstanceLecture) {
-        List<JoinExam> joinExams = assertNotNull(pInstanceLecture).getJoinExam().stream()
-                .filter(j -> j.getPruefling().getId().equals(pUser.getId()))
+        List<JoinExam> joinExams = assertNotNull(
+                instanceLectureDao.getById(pInstanceLecture.getId())).getJoinExam()
+                .stream().filter(j -> j.getPruefling().getId().equals(pUser.getId()))
                 .collect(Collectors.toList());
         return joinExams.get(0).getGrade() == null ? null : joinExams.get(0).getGrade()
                 .getMark();
     }
 
     public Double getFinalScore(final User pUser, final InstanceLecture pInstanceLecture) {
-        List<JoinExam> joinExams = assertNotNull(pInstanceLecture).getJoinExam().stream()
-                .filter(j -> j.getPruefling().getId().equals(pUser.getId()))
+        List<JoinExam> joinExams = assertNotNull(
+                instanceLectureDao.getById(pInstanceLecture.getId())).getJoinExam()
+                .stream().filter(j -> j.getPruefling().getId().equals(pUser.getId()))
                 .collect(Collectors.toList());
         return joinExams.get(0).getGrade() == null
                 || joinExams.get(0).getGrade().getEndMark() == null ? null : joinExams
