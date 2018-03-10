@@ -336,17 +336,23 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .filter(Map.Entry::getValue).map(Map.Entry::getKey)
                 .collect(Collectors.toList());
         ArrayList<Exam> exams = new ArrayList<Exam>();
+        ArrayList<JoinExam> joinExams = new ArrayList<JoinExam>();
+        List<Exam> doof = examDAO.getExamsForInstanceLecture(pInstanceLecture);
 
-        List<Exam> pisse = examDAO.getExamsForInstanceLecture(pInstanceLecture);
-
-        for(Exam e: pisse) {
+        for(Exam e: doof) {
             LocalDateTime ldtExam = e.getLocalDateTime();
 
             
             if (ldtExam.isAfter(start) && ldtExam.isBefore(end)) {
-                exams.add(e);
+                exams.add(e); // Nur zum Debuggen
+                List<JoinExam> tmp = joinExamDAO.getUsersForExam(e);
+                if(tmp != null)
+                {
+                    joinExams.addAll(tmp);
+                }
             }
         }
+        
 
         if (selectedDocuments.contains("Protokoll")) {
             // MACH SACHEN
