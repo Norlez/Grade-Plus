@@ -231,7 +231,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     @PostConstruct
     public void init() {
-        instancesForUser = getSession().getUser().getAsStudent();
+        instancesForUser = getUniuqueIlvs();
     }
 
     /**
@@ -1119,5 +1119,19 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     public void setInstancesForUser(List<InstanceLecture> instancesForUser) {
         this.instancesForUser = instancesForUser;
+    }
+
+    public List<InstanceLecture> getUniuqueIlvs()
+    {
+        List<InstanceLecture> tmp = new ArrayList<InstanceLecture>();
+        List<InstanceLecture> j = getSession().getUser().getAsStudent();
+        for(InstanceLecture je: j)
+        {
+            if(!tmp.contains(je.getLecture().getId()))
+            {
+                tmp.add(je);
+            }
+        }
+        return tmp;
     }
 }
