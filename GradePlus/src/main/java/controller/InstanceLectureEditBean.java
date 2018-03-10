@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.common.base.Charsets;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.exception.UnexpectedUniqueViolationException;
@@ -29,6 +30,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -158,7 +161,17 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     private boolean editChecker = false;
 
+
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Join-Exams-Objekte
+     * übernimmt.
+     */
     private JoinExamDAO joinExamDAO;
+
+    /**
+     * Stellt ein StreamedContent dar, der durch Primefaces per download-tag runtergeladen werden kann.
+     */
+    private DefaultStreamedContent severalFiles;
 
     /**
      * Diese Map wird benötigt, um festzustellen, welche Dokumente gedruckt werden sollen.
@@ -935,16 +948,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return availableDocuments;
     }
 
-    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture,
-            Date pStart, Date pEnd, Map<String, Boolean> pChecked) throws IOException {
-
-        // Date start = pStart;
-        // Date end = pEnd;
+    public StreamedContent getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,  Map<String, Boolean> pChecked) throws IOException {
         Map<String, Boolean> checked = pChecked;
-        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(),
-                ZoneId.systemDefault());
-        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(),
-                ZoneId.systemDefault());
+        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(), ZoneId.systemDefault());
+        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(), ZoneId.systemDefault());
 
         assertNotNull(pInstanceLecture);
         List<String> selectedDocuments = checked.entrySet().stream()
@@ -954,37 +961,109 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         ArrayList<JoinExam> joinExams = new ArrayList<JoinExam>();
         List<Exam> doof = examDAO.getExamsForInstanceLecture(pInstanceLecture);
 
-        for (Exam e : doof) {
+        for(Exam e: doof) {
             LocalDateTime ldtExam = e.getLocalDateTime();
+
 
             if (ldtExam.isAfter(start) && ldtExam.isBefore(end)) {
                 exams.add(e); // Nur zum Debuggen
                 List<JoinExam> tmp = joinExamDAO.getUsersForExam(e);
-                if (tmp != null) {
+                if(tmp != null)
+                {
                     joinExams.addAll(tmp);
                 }
             }
         }
-
-        for (JoinExam gtfo : joinExams) {
+        List<StreamedContent> streamedContents = new ArrayList<StreamedContent>();
+        for(JoinExam gtfo: joinExams) {
             if (gtfo.getExam() != null && gtfo.getPruefling() != null) {
                 if (selectedDocuments.contains("Protokoll")) {
-                    // MACH SACHEN
-                    getProtocol(gtfo.getPruefling(), gtfo.getExam());
+                    streamedContents.add(getProtocol(gtfo.getPruefling(), gtfo.getExam()));
                 }
                 if (selectedDocuments.contains("Quittung")) {
-                    // WAS MACHEN
-                    getReceipe(gtfo.getPruefling(), gtfo.getExam());
+                    streamedContents.add((getReceipe(gtfo.getPruefling(), gtfo.getExam())));
                 }
                 if (selectedDocuments.contains("Zertifikat")) {
-                    // WAS MACHEN SACHEN
-                    getCertificates(gtfo.getPruefling(), gtfo.getExam());
+                    streamedContents.add(getCertificates(gtfo.getPruefling(),gtfo.getExam()));
                 }
             }
         }
+        List<DefaultStreamedContent> resultStreamedContents = new ArrayList<DefaultStreamedContent>();
+        List<InputStream> resultInputContents = new ArrayList<InputStream>();
+        List<File> resultFiles = new ArrayList<File>();
 
-        return "exams.xhtml";
+        for(StreamedContent s : streamedContents){
+            resultFiles.add(streamToPDFTempFile(s.getStream()));
+        }
+
+        saveDocumentsToZip(resultFiles);
+        return severalFiles;
     }
+
+
+    /**
+     * Erstellt aus einer Liste von Dateien einen StreamedContent-Zip-File für Primefaces.
+     * @param pFile die ZipFile
+     */
+    public void saveDocumentsToZip(List<File> pFile){
+        ByteArrayInputStream bis = new ByteArrayInputStream(zipBytes(pFile));
+        InputStream stream = bis;
+        severalFiles = new DefaultStreamedContent(stream, "application/zip", "documents.zip",  Charsets.UTF_8.name());
+    }
+
+    /**
+     * Erstellt aus einer Liste aus Dateien einen byteArray.
+     * @param pFile Die Liste der Files
+     * @return array aus Bytes.
+     */
+    private byte[] zipBytes (List<File> pFile) {
+        ByteArrayOutputStream tmpByteArrayOutputStream = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream(tmpByteArrayOutputStream);
+        FileInputStream fis = null;
+        try {
+            for (File f : pFile) {
+                fis = new FileInputStream(f);
+                ZipEntry entry = new ZipEntry(f.getName());
+                zos.putNextEntry(entry);
+
+                byte[] data = new byte[4 * 1024];
+                int size = 0;
+                while ((size = fis.read(data)) != -1) {
+                    zos.write(data, 0, size);
+                }
+                zos.flush();
+                fis.close();
+            }
+            zos.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return tmpByteArrayOutputStream.toByteArray();
+    }
+
+
+    /**
+     * Erstellt aus einem InputStream eine temporäre Datei.
+     * @param pInputStream
+     * @return die erstellte Files
+     * @throws IOException
+     */
+    public File streamToPDFTempFile(InputStream pInputStream) throws IOException {
+        File tempFile = File.createTempFile("tmpFilePDF", ".pdf");
+        OutputStream outputStream = new FileOutputStream(tempFile);
+        try {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = pInputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+        } finally {
+            pInputStream.close();
+            outputStream.close();
+            return tempFile;
+        }
+    }
+
 
     public Double getSubRating(final User pUser, final InstanceLecture pInstanceLecture) {
         List<JoinExam> joinExams = assertNotNull(pInstanceLecture).getJoinExam().stream()
