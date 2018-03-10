@@ -1,27 +1,25 @@
-\textbf{Autor: Andreas}\\
 \subsection{Was ist Gradeplus?} %ReviewReady
-
-{  In diesem Dokument wird die Architektur des Prüfungsverwaltungssystem \glqq{}Grade+\grqq{} 
-beschrieben. Das Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  wird im Rahmen der Veranstaltung Software-Projekt 2 2017/18 entwickelt. Es handelt sich bei dem Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  um eine Weblösung in der Prüfungstermine organisiert und verwaltet werden können.  \\
-}
+In diesem Dokument wird die Architektur des Prüfungsverwaltungssystem \glqq{}Grade+\grqq{} 
+beschrieben. Das Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  wird im Rahmen der Veranstaltung Software-Projekt 2 2017/18 entwickelt. Es handelt sich bei dem Prüfungsverwaltungssystem \glqq{}Grade+\grqq{}  um eine Weblösung in der Prüfungstermine organisiert und verwaltet werden können. 
 
 \subsection{Rollen}
-%
-% Definitionen, Akronyme und Abkürzungen
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Definitionen, Akronyme und Abkürzungen}
-{ 
-\textbf{Pabo:}  Das Prüfungsamt Bremen Online ist für die elektronische Erfassung der Prüfungsnoten an der Universität Bremen zuständig.\\
-\textbf{Responsive-Design:}  gestalterisches und technische Denkweise zur Erstellung von Websites, so dass diese auf Eigenschaften des jeweils benutzten Endgeräts, vor allem Smartphones reagieren können.\\
+Nutzer in dem System können drei veschiedenen Rollen besitzen.\\
+\\
 \textbf{Prüfer:} erstellt und leitet Lehrveranstaltungen und Prüfungstermine in dem Softwaresystem. \\ 
 \textbf{Prüfling:} nimmt an Prüfungsterminen teil und wird in der gewählten ILV geprüft und benotet. \\ 
 \textbf{Admin:} verwaltet den Nutzer- und Datenbestand. Ist für das Anlegen von Back-Ups und Prüfern verantwortlich. \\
-\textbf{Lehrveranstaltung:} ein grobes Schema für eine angebotene Lehrveranstaltung, die als Vorlage für konkrete Ausprägungen genutzt werden kann. Ist editierbar und erstellbar durch den Prüfer. \\
-\textbf{ILV:} eine konkrete Ausprägung (Instanz) einer Lehrveranstaltung. Prüflinge können sich für die ILV anmelden und ihren Prüfungstermin auswählen. Prüfer können Prüfungstermine anlegen und verwalten in einer ILV. \\
-\textbf{Scope:} Die Lebenszeit eines Objekts kann in JSF durch Scopes angegeben werden, z.B. Session, falls alle Objekte der View nach einer Session zerstört werden sollen.\\
-\textbf{JPA:} Die Java Persistence API (JPA) ist eine Schnittstelle für Java-Anwendungen, die die Datenbankzugriffe und die objektrelationale Zuordnung vereinfacht.
-}
+\\
+Im folgenden werden Anwendungsbeipsiele und -anleitungen getrennt nach den Rollen beschrieben.
+
+% Definitionen, Akronyme und Abkürzungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Definitionen, Akronyme und Abkürzungen}
+\textbf{Pabo}:  Das Prüfungsamt Bremen Online ist für die elektronische Erfassung der Prüfungsnoten an der Universität Bremen zuständig.\\
+%\textbf{Responsive-Design:}  gestalterisches und technische Denkweise zur Erstellung von Websites, so dass diese auf Eigenschaften des jeweils benutzten Endgeräts, vor allem Smartphones reagieren können.\\
+\textbf{LV}(Lehrveranstaltung): Ein grobes Schema für eine angebotene Lehrveranstaltung, die als Vorlage für konkrete Ausprägungen genutzt werden kann. Ist editierbar und erstellbar durch den Prüfer. \\
+\textbf{ILV} (Instanz einer Lehrveranstaltung): Eine konkrete Ausprägung (Instanz) einer Lehrveranstaltung. Prüflinge können sich für die ILV anmelden und ihren Prüfungstermin auswählen. Prüfer können Prüfungstermine anlegen und verwalten in einer ILV. \\
+%\textbf{Scope:} Die Lebenszeit eines Objekts kann in JSF durch Scopes angegeben werden, z.B. Session, falls alle Objekte der View nach einer Session zerstört werden sollen.\\
+%\textbf{JPA:} Die Java Persistence API (JPA) ist eine Schnittstelle für Java-Anwendungen, die die Datenbankzugriffe und die objektrelationale Zuordnung vereinfacht.
 
 % Dokumentenübersicht
 \subsection{Übersicht über das Dokument}
@@ -31,7 +29,7 @@ Dieses Dokument ist folgendermaßen gegliedert:\\
 \textbf{Kapitel \ref{sec:einführung}: Einführung} %ReviewReady
 \\
 \\
-{  Das erste Kapitel erläutert gibt einen Überblick...}
+Das erste Kapitel erläutert den Zweck dieses Dokuments, erläuternt grundlegende Begriffe und gibt einen Überblick über das System.
 \\
 \\
 
@@ -66,3 +64,8 @@ Dieses Dokument ist folgendermaßen gegliedert:\\
 {In dem diesem Kapitel werden die Aufgaben und Funktionen eines Nutzers mit der Rolle Prüfling aufgeführt.}
 \\
 \\
+\subsection{Instruktionen für Problemberichte}
+Grade+ ist ein neuses System.
+Trotz unserer sorgfälltigen Überprüfungen, können auch uns Fehler entgehen.
+Jegliche Art von Kritik und vor allem das Melden gefundener Fehler ist bei den Mitarbeitern von Grade+ sehr willkommen.
+Falls Sie bei der Nutzung von Grade+ Fehler finden oder ... bitte schicken Sie eine E-Mail an den Admin, der dann Grade+ direkt kontaktieren kann.
