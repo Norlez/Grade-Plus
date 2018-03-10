@@ -410,6 +410,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String remove(final Exam pExam) {
         assertNotNull(pExam, "ExamsBean: remove(Exam)");
         for (User theStudent : pExam.getStudents()) {
+            SystemMailBean.reportExamCancel(theStudent, pExam);
             deregisterAsStudent(theStudent, pExam);
         }
         examDao.remove(pExam);
