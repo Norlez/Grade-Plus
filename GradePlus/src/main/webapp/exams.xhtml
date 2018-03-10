@@ -320,6 +320,7 @@
                                     <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
                                     <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
                                     <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}"/>
+                                    <b:dataTableColumn label="#{msg['outputGroupSize']}" value="#{e.groupSize}"/>
                                     <b:dataTableColumn label="#{msg['outputExaminer']}">
                                         <b:selectOneMenu value="#{msg['outputExaminer']}">
                                             <f:selectItems value="#{examsBean.examinersToStringList(e)}"/>

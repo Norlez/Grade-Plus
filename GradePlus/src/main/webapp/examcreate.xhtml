@@ -117,7 +117,33 @@
                                          id="examLength"
                                          value="#{examsBean.exam.examLength}"
                                          required="true"
-                                         requiredMessage="#{msg['errorExamLengthRequired']}"/>
+                                         requiredMessage="#{msg['errorExamLengthRequired']}"
+                                         validatorMessage="#{msg['errorExamLengthNotPositive']}">
+                                <f:validateLongRange minimum = "1"/>
+                            </b:inputText>
+                        </b:column>
+                    </b:row>
+
+                    <!-- GROUP SIZE -->
+                    <b:row>
+                        <b:column span="4" offset="2">
+                            <b:message for="groupSize"/>
+                        </b:column>
+                    </b:row>
+                    <b:row class="btn-paragraph">
+                        <b:column span="2">
+                            <h:outputLabel value="#{msg['outputGroupSize']}"/>
+                        </b:column>
+                        <b:column span="4">
+                            <b:inputText mask="integer"
+                                         placeholder="#{msg['inputGroupSize']}"
+                                         id="groupSize"
+                                         value="#{examsBean.exam.groupSize}"
+                                         required="true"
+                                         requiredMessage="#{msg['errorGroupSizeRequired']}"
+                                         validatorMessage="#{msg['errorGroupSizeNotPositive']}">
+                                <f:validateLongRange minimum = "1"/>
+                            </b:inputText>
                         </b:column>
                     </b:row>
 

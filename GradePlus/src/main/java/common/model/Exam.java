@@ -100,7 +100,7 @@ public class Exam extends JPAEntity {
      * Die erlaubte Gruppengröße in der Prüfung
      */
     @Column
-    private int groupSize;
+    private Integer groupSize;
 
     /**
      * Erzeugt ein neues {@link Exam}-Objekt mit leeren Daten.
@@ -213,12 +213,11 @@ public class Exam extends JPAEntity {
                 "Exam: setParticipants(List<JoinExam>)");
     }
 
-
-    public void setGroupSize(int groupSize) {
-            this.groupSize = groupSize;
+    public void setGroupSize(final Integer pGroupSize) {
+        groupSize = assertNotNull(pGroupSize);
     }
 
-    public int getGroupSize() {
+    public Integer getGroupSize() {
         return groupSize;
     }
 
@@ -495,10 +494,10 @@ public class Exam extends JPAEntity {
 
     /**
      * Gibt das Ende der Prüfung als String zurück.
+     * 
      * @return Ende der Prüfung
      */
-    public String endOfExam()
-    {
+    public String endOfExam() {
         return localDateTime.plusMinutes(getExamLength()).format(
                 DateTimeFormatter.ofPattern("HH:mm"));
     }
