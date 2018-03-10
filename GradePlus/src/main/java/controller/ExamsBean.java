@@ -446,6 +446,28 @@ public class ExamsBean extends AbstractBean implements Serializable {
         joinExamDao.update(joinExam);
         pExam.addParticipant(joinExam);
         examDao.update(pExam);
+
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        java.util.Date date = new java.util.Date();
+        User registeredUser = getSession().getUser();
+        registeredUser.setLoggingString( date.toString()+ ": Anmeldung für " +
+                pExam.getInstanceLecture().getLecture().getName()+
+                " Prüfung am " + pExam.dateToString()+ " um "
+                + pExam.timeToString()+"\n");
+        try {
+            userDao.update(registeredUser);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse",registeredUser.getEmail());
+        }
+
         return "dashboard.xhtml";
     }
 
