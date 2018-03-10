@@ -81,7 +81,19 @@
                             <b:dataTableColumn label="#{msg['outputMatriculationNumber']}" value="#{e.matrNr}" />
                             <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}" />
                             <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{e.givenName}" />
-                            <b:dataTableColumn label="#{msg['outputGrade']}">
+                            <b:dataTableColumn label="#{msg['outputSubRating']}">
+                                <h:outputText rendered="#{! empty instanceLectureEditBean.getSubRating(e, instanceLectureEditBean.instanceLecture)}"
+                                              value="#{instanceLectureEditBean.getSubRating(e, instanceLectureEditBean.instanceLecture)}" />
+                                <h:outputText rendered="#{empty instanceLectureEditBean.getSubRating(e, instanceLectureEditBean.instanceLecture)}"
+                                              value="#{msg['outputNoSubRating']}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="#{msg['outputFinalScore']}">
+                                <h:outputText rendered="#{! empty instanceLectureEditBean.getFinalScore(e, instanceLectureEditBean.instanceLecture)}"
+                                              value="#{instanceLectureEditBean.getFinalScore(e, instanceLectureEditBean.instanceLecture)}" />
+                                <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(e, instanceLectureEditBean.instanceLecture)}"
+                                              value="#{msg['outputNoFinalScore']}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="#{msg['outputSetGrade']}">
                                 <b:selectOneMenu class="form-control" value="#{gradesBean.selectedGrade}">
                                     <f:selectItems value="#{gradesBean.possibleGrades}" />
                                 </b:selectOneMenu>
