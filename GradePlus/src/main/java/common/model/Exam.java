@@ -213,12 +213,20 @@ public class Exam extends JPAEntity {
                 "Exam: setParticipants(List<JoinExam>)");
     }
 
+    public Integer getGroupSize() {
+        return groupSize;
+    }
+
     public void setGroupSize(final Integer pGroupSize) {
         groupSize = assertNotNull(pGroupSize);
     }
 
-    public Integer getGroupSize() {
-        return groupSize;
+    public Integer getAvailableSpots() {
+        return groupSize - getParticipants().size();
+    }
+
+    public boolean isSpotAvailable() {
+        return getAvailableSpots() > 0;
     }
 
     /**

@@ -46,12 +46,17 @@
                             <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}" />
                             <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}" />
                             <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}" />
+                            <b:dataTableColumn label="#{msg['outputAvailableSpots']}">
+                                <h:outputText rendered="#{e.isSpotAvailable()}" value="#{e.getAvailableSpots()}" />
+                                <h:outputText rendered="#{! e.isSpotAvailable()}" value="#{msg['outputNoAvailableSpots']}" />
+                            </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputLocation']}">
                                 <h:outputText rendered="#{! empty e.location}" value="#{e.location}" />
                                 <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputRegister']}">
-                                <b:commandButton value="#{msg['actionRegister']}"
+                                <b:commandButton disabled="#{!e.isSpotAvailable()}"
+                                                 value="#{msg['actionRegister']}"
                                                  action="#{examsBean.registerAsStudent(e)}" />
                             </b:dataTableColumn>
 

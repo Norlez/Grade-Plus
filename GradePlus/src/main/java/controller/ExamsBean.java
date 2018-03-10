@@ -323,6 +323,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
      */
     public String update() {
+        if (exam.getParticipants().size() > exam.getGroupSize()) {
+            addErrorMessage("errorGroupSizeSmallerThanExaminees");
+            return null;
+        }
         if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                 .plusMinutes(exam.getExamLength()))) {
             alreadyExists = !alreadyExists;
@@ -447,14 +451,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
         pExam.addParticipant(joinExam);
         examDao.update(pExam);
 
-
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         java.util.Date date = new java.util.Date();
         User registeredUser = getSession().getUser();
-        registeredUser.setLoggingString( date.toString()+ ": Anmeldung für " +
-                pExam.getInstanceLecture().getLecture().getName()+
-                " Prüfung am " + pExam.dateToString()+ " um "
-                + pExam.timeToString()+"\n");
+        registeredUser.setLoggingString(date.toString() + ": Anmeldung für "
+                + pExam.getInstanceLecture().getLecture().getName() + " Prüfung am "
+                + pExam.dateToString() + " um " + pExam.timeToString() + "\n");
         try {
             userDao.update(registeredUser);
         } catch (final IllegalArgumentException e) {
@@ -462,10 +464,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
                     getTranslation("errorUserdataIncomplete"));
         } catch (final DuplicateUsernameException e) {
             addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+                    Level.DEBUG, "errorUsernameAlreadyInUse",
+                    registeredUser.getUsername());
         } catch (final DuplicateEmailException e) {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse",registeredUser.getEmail());
+                    "errorEmailAlreadyInUse", registeredUser.getEmail());
         }
 
         return "dashboard.xhtml";
@@ -509,10 +512,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         java.util.Date date = new java.util.Date();
         User registeredUser = getSession().getUser();
-        registeredUser.setLoggingString( date.toString()+ ": Abmeldung für " +
-                pExam.getInstanceLecture().getLecture().getName()+
-                " Prüfung am " + pExam.dateToString()+ " um "
-                + pExam.timeToString()+"\n");
+        registeredUser.setLoggingString(date.toString() + ": Abmeldung für "
+                + pExam.getInstanceLecture().getLecture().getName() + " Prüfung am "
+                + pExam.dateToString() + " um " + pExam.timeToString() + "\n");
         try {
             userDao.update(registeredUser);
         } catch (final IllegalArgumentException e) {
@@ -520,10 +522,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
                     getTranslation("errorUserdataIncomplete"));
         } catch (final DuplicateUsernameException e) {
             addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+                    Level.DEBUG, "errorUsernameAlreadyInUse",
+                    registeredUser.getUsername());
         } catch (final DuplicateEmailException e) {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse",registeredUser.getEmail());
+                    "errorEmailAlreadyInUse", registeredUser.getEmail());
         }
 
         return "dashboard.xhtml";
@@ -1004,14 +1007,10 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .collect(Collectors.toList()).get(0);
     }
 
-    public String setExamGroupSize(final int pGroupSize)
-    {
-        if(pGroupSize < 1)
-        {
+    public String setExamGroupSize(final int pGroupSize) {
+        if (pGroupSize < 1) {
             return null;
-        }
-        else
-        {
+        } else {
             selectedExam.setGroupSize(pGroupSize);
             examDao.update(selectedExam);
         }
