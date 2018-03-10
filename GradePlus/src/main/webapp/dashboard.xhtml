@@ -61,7 +61,7 @@
                             <b:dataTable rendered="#{! empty instanceLecturesBean.lecturesOfStudent}"
                                          class="table"
                                          span="8"
-                                         value="#{instanceLecturesBean.lecturesOfStudent}"
+                                         value="#{instanceLectureEditBean.instancesForUser}"
                                          var="g"
                                          excel="false"
                                          csv="false"
@@ -69,16 +69,16 @@
                                          columnVisibility="false"
                                          copy="false"
                                          print="false">
-                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{g.name}" />
-                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.vak}" />
-                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.ects}" />
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputName']}" value="#{g.lecture.name}" />
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputVak']}" value="#{g.lecture.vak}" />
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputEcts']}" value="#{g.lecture.ects}" />
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['outputDescription']}">
-                                    <h:outputText rendered="#{! empty g.description}" value="#{g.description}" />
-                                    <h:outputText rendered="#{empty g.description}" value="#{msg['outputNoDescription']}" />
+                                    <h:outputText rendered="#{! empty g.lecture.description}" value="#{g.lecture.description}" />
+                                    <h:outputText rendered="#{empty g.lecture.description}" value="#{msg['outputNoDescription']}" />
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDetail']}">
-                                    <b:commandButton value="#{msg['actionDetail']}" action="#{lectureEditBean.setLectureForStudent(g)}" />
+                                    <b:commandButton value="#{msg['actionDetail']}" action="#{lectureEditBean.setLectureForStudent(g.lecture)}" />
                                 </b:dataTableColumn>
 
                             </b:dataTable>
