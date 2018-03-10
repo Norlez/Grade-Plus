@@ -352,12 +352,12 @@
                                         <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn rendered="#{!e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRelease']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRelease']}"
+                                    <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
+                                        <b:commandButton rendered="#{!e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                                         value="#{msg['actionRelease']}"
                                                          action="#{examsBean.releaseExam(e)}"/>
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn rendered="#{e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRelease']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionClose']}"
+                                        <b:commandButton rendered="#{e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                                         value="#{msg['actionClose']}"
                                                          action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
 
