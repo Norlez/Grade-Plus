@@ -263,7 +263,7 @@ public class FileBean extends AbstractBean implements Serializable {
         BufferedWriter bw = null;
         try {
 
-            File file = new File(System.getProperty("user.home") + "/Exam-Dates-"
+            File file = new File(System.getProperty("user.home") + "/Downloads/Exam-Dates-"
                     + generateRandomString() + ".ics");
             file.createNewFile();
 
@@ -284,7 +284,7 @@ public class FileBean extends AbstractBean implements Serializable {
         }
         FacesMessage message = new FacesMessage(
                 "Ihre ICS wurde auf folgendes Verzeichnis gespeichert:"
-                        + System.getProperty("user.home"));
+                        + System.getProperty("user.home")+"/Downloads");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
