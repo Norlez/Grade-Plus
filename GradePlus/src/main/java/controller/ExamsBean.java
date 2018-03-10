@@ -274,6 +274,15 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *         leiten.
      */
     public String save() {
+        if (startOfTimeSlot == null
+                && endOfTimeSlot == null
+                && exam.getLocalDateTime().compareTo(
+                        LocalDateTime.ofInstant(exam.getInstanceLecture()
+                                .getTermOfApplication().toInstant(),
+                                ZoneId.systemDefault())) < 0) {
+            addErrorMessage("errorStartOfExamBeforeTermOfApplication");
+            return null;
+        }
         if (!isTimeSlotEmpty(exam.getLocalDateTime(), exam.getLocalDateTime()
                 .plusMinutes(exam.getExamLength()))) {
             alreadyExists = !alreadyExists;
@@ -323,6 +332,12 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
      */
     public String update() {
+        if (exam.getLocalDateTime().compareTo(
+                LocalDateTime.ofInstant(exam.getInstanceLecture().getTermOfApplication()
+                        .toInstant(), ZoneId.systemDefault())) < 0) {
+            addErrorMessage("errorStartOfExamBeforeTermOfApplication");
+            return null;
+        }
         if (exam.getParticipants().size() > exam.getGroupSize()) {
             addErrorMessage("errorGroupSizeSmallerThanExaminees");
             return null;
@@ -619,6 +634,15 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
      */
     public String createExamsForTimeFrame() {
+        if (startOfTimeSlot.compareTo(LocalDateTime.ofInstant(exam.getInstanceLecture()
+                .getTermOfApplication().toInstant(), ZoneId.systemDefault())) < 0) {
+            addErrorMessage("errorStartOfTimeFrameBeforeTermOfApplication");
+            return null;
+        }
+        if (startOfTimeSlot.compareTo(endOfTimeSlot) >= 0) {
+            addErrorMessage("errorEndOfTimeFrameNotAfterStartOfTimeFrame");
+            return null;
+        }
         if (startOfTimeSlot == null || endOfTimeSlot == null || lengthOfBreaks == null) {
             addErrorMessageWithLogging(new IllegalArgumentException(
                     "startOfTimeSlot, endOfTimeSlot or lengthOfBreaks is NULL."), logger,
