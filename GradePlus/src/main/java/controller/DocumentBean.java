@@ -716,7 +716,12 @@ public class DocumentBean extends AbstractBean implements Serializable {
      *
      * @return "exams.xhtml", um auf das Facelet der Übersicht der ILV weiterzuleiten.
      */
-    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture) {
+    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,  Map<String, Boolean> pChecked) {
+
+        Date start = pStart;
+        Date end = pEnd;
+        Map<String, Boolean> checked = pChecked;
+
         assertNotNull(pInstanceLecture);
         List<String> selectedDocuments = checked.entrySet().stream()
                 .filter(Map.Entry::getValue).map(Map.Entry::getKey)

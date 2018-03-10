@@ -73,7 +73,7 @@
                             <b:column span="4">
                                 <b:dateTimePicker placeholder="#{msg['inputStartDateTime']}"
                                                   id="startDateTime"
-                                                  value="#{documentBean.startOfTimeFrame}"
+                                                  value="#{instanceLectureEditBean.startOfTimeFrame}"
                                                   format="DD.MM.YYYY HH:mm"
                                                   required="true"
                                                   requiredMessage="#{msg['errorStartDateTimeRequired']}"/>
@@ -93,7 +93,7 @@
                             <b:column span="4">
                                 <b:dateTimePicker placeholder="#{msg['inputEndDateTime']}"
                                                   id="endDateTime"
-                                                  value="#{documentBean.endOfTimeFrame}"
+                                                  value="#{instanceLectureEditBean.endOfTimeFrame}"
                                                   format="DD.MM.YYYY HH:mm"
                                                   required="true"
                                                   requiredMessage="#{msg['errorEndDateTimeRequired']}"/>
@@ -107,7 +107,7 @@
                             </b:column>
                             <b:column span="7">
                                 <b:panel>
-                                    <b:dataTable value="#{documentBean.getAvailableDocuments()}"
+                                    <b:dataTable value="#{instanceLectureEditBean.getAvailableDocuments()}"
                                                  var="d"
                                                  excel="false"
                                                  csv="false"
@@ -119,7 +119,7 @@
                                                  paginated="false">
                                         <b:dataTableColumn label="#{msg['outputDocument']}" value="#{d}"/>
                                         <b:dataTableColumn label="#{msg['actionSelect']}" orderable="false">
-                                            <h:selectBooleanCheckbox value="#{documentBean.checked[d]}"/>
+                                            <h:selectBooleanCheckbox value="#{instanceLectureEditBean.checked[d]}"/>
                                         </b:dataTableColumn>
                                     </b:dataTable>
                                 </b:panel>
@@ -131,7 +131,9 @@
                             <b:column span="1">
                                 <b:commandButton id="upload"
                                                  value="#{msg['actionUpload']}"
-                                                 action="#{documentBean.getDocumentsForTimeFrame(instanceLectureEditBean.instanceLecture)}"/>
+                                                 action="#{instanceLectureEditBean.getDocumentsForTimeFrame(instanceLectureEditBean.instanceLecture,
+                                                 instanceLectureEditBean.startOfTimeFrame,
+                                                 instanceLectureEditBean.endOfTimeFrame, instanceLectureEditBean.checked)}"/>
                             </b:column>
                             <b:column span="1">
                                 <b:button value="#{msg['linkBack']}" outcome="exams"/>

@@ -17,8 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
@@ -64,6 +63,44 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     private boolean editChecker = false;
 
     private JoinExamDAO joinExamDAO;
+
+
+
+
+    /**
+     * Diese Map wird benötigt, um festzustellen, welche Dokumente gedruckt werden sollen.
+     */
+    private Map<String, Boolean> checked = new HashMap<>();
+
+    private Date startOfTimeFrame;
+    private Date endOfTimeFrame;
+
+
+
+    public Map<String, Boolean> getChecked() {
+        return checked;
+    }
+
+    public void setChecked(final Map<String, Boolean> pChecked) {
+        checked = assertNotNull(pChecked);
+    }
+
+    public Date getStartOfTimeFrame() {
+        return startOfTimeFrame;
+    }
+
+    public void setStartOfTimeFrame(final Date startOfTimeFrame) {
+        this.startOfTimeFrame = startOfTimeFrame;
+    }
+
+    public Date getEndOfTimeFrame() {
+        return endOfTimeFrame;
+    }
+
+    public void setEndOfTimeFrame(final Date endOfTimeFrame) {
+        this.endOfTimeFrame = endOfTimeFrame;
+    }
+
 
     /**
      * Erzeugt eine neue InstanceLectureEditBean.
@@ -272,6 +309,40 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .filter(e -> e.getReleased()
                         && e.getInstanceLecture().getId().equals(instanceLecture.getId()))
                 .collect(Collectors.toList());
+    }
+
+
+    public List<String> getAvailableDocuments() {
+        List<String> availableDocuments = new ArrayList<>();
+        availableDocuments.add("Protokoll");
+        availableDocuments.add("Quittung");
+        availableDocuments.add("Zertifikat");
+        return availableDocuments;
+    }
+
+
+    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,  Map<String, Boolean> pChecked) {
+
+        Date start = pStart;
+        Date end = pEnd;
+        Map<String, Boolean> checked = pChecked;
+
+        assertNotNull(pInstanceLecture);
+        List<String> selectedDocuments = checked.entrySet().stream()
+                .filter(Map.Entry::getValue).map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        if (selectedDocuments.contains("Protokoll")) {
+            // MACH SACHEN
+        }
+        if (selectedDocuments.contains("Quittung")) {
+            // WAS MACHEN
+        }
+        if (selectedDocuments.contains("Zertifikat")) {
+            // WAS MACHEN SACHEN
+        }
+
+        return "exams.xhtml";
     }
 
 }
