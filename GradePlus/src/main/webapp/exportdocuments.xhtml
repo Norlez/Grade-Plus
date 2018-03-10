@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <!-- Seite gibt eine Uebersicht der aktuellen User in einer Tabelle aus -->
@@ -128,13 +129,12 @@
 
                         <!-- DOWNLOAD BUTTON -->
                         <b:row class="btn-paragraph">
-                            <b:column span="1">
-                                <b:commandButton id="upload"
-                                                 value="#{msg['actionUpload']}"
-                                                 action="#{instanceLectureEditBean.getDocumentsForTimeFrame(instanceLectureEditBean.instanceLecture,
+
+                            <p:commandButton value="#{msg['actionDownload']}" ajax="false">
+                                <p:fileDownload value="#{instanceLectureEditBean.getDocumentsForTimeFrame(instanceLectureEditBean.instanceLecture,
                                                  instanceLectureEditBean.startOfTimeFrame,
                                                  instanceLectureEditBean.endOfTimeFrame, instanceLectureEditBean.checked)}"/>
-                            </b:column>
+                            </p:commandButton>
                             <b:column span="1">
                                 <b:button value="#{msg['linkBack']}" outcome="exams"/>
                             </b:column>
@@ -169,6 +169,7 @@
                                 <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                 <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                             </b:dataTable>
+
                             <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
                                            value="#{msg['outputNoStudents']}"/>
                         </b:column>
