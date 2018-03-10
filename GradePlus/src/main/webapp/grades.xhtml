@@ -142,6 +142,17 @@
                         <h:outputLabel rendered="#{empty gradesBean.exam.students}"
                                        value="#{msg['outputNoStudents']}"/>
                     </b:container>
+
+                    <b:container>
+                        <!-- LINK BACK -->
+                        <b:row class="space25px" />
+                        <b:row>
+                            <b:column span="1" colSm="12" colMd="12" colXs="12">
+                                <b:button class="btn" id="back" value="#{msg['linkBack']}" outcome="exams" />
+                            </b:column>
+                        </b:row>
+
+                    </b:container>
                 </b:form>
 
             </h:panelGroup>

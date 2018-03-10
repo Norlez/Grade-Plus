@@ -72,6 +72,14 @@
                         <h:outputText value="#{instanceLectureEditBean.instanceLecture.semesterToString()}"/>
                     </b:column>
                 </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputTermOfApplication']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{instanceLectureEditBean.instanceLecture.termOfApplicationToString()}"/>
+                    </b:column>
+                </b:row>
             </b:container>
 
             <b:row class="space25px" />
@@ -137,8 +145,6 @@
                                              columnVisibility="false"
                                              copy="false"
                                              print="false">
-
-                                    <b:dataTableColumn label="#{msg['outputId']}" value="#{u.id}"/>
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
@@ -217,7 +223,6 @@
                                              columnVisibility="false"
                                              copy="false"
                                              print="false">
-
                                     <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
@@ -325,8 +330,8 @@
                             </b:column>
                         </b:row>
                         <b:row class="btn-paragraph">
-                            <b:column span="12">
-                                <b:dataTable span="8"
+                            <b:column span="13">
+                                <b:dataTable span="12"
                                              rendered="#{! empty instanceLectureEditBean.getExamsOfInstanceLectureForExaminer()}"
                                              value="#{instanceLectureEditBean.getExamsOfInstanceLectureForExaminer()}"
                                              var="e"
@@ -336,7 +341,6 @@
                                              columnVisibility="false"
                                              copy="false"
                                              print="false">
-                                    <b:dataTableColumn label="#{msg['outputId']}" value="#{e.id}"/>
                                     <b:dataTableColumn label="#{msg['outputType']}" value="#{e.type}"/>
                                     <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}"/>
                                     <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
@@ -349,7 +353,7 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputLocation']}">
                                         <h:outputText rendered="#{! empty e.location}" value="#{e.location}"/>
-                                        <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}"/>
+                                        <h:outputText rendered="#{empty e.location}" value="#{msg['outputNotSpecified']}"/>
                                     </b:dataTableColumn>
 
                                     <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
@@ -388,8 +392,16 @@
                         </b:row>
                     </b:tab>
                 </b:tabView>
+            </b:container>
 
-
+            <b:container>
+                <!-- LINK BACK -->
+                <b:row class="space25px" />
+                <b:row>
+                    <b:column span="1" colSm="12" colMd="12" colXs="12">
+                        <b:button class="btn" id="back" value="#{msg['linkBack']}" outcome="semester" />
+                    </b:column>
+                </b:row>
 
             </b:container>
         </b:form>
