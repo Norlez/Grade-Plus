@@ -123,9 +123,13 @@
                                     <h:outputText rendered="#{! empty e.location}" value="#{e.location}"/>
                                     <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}"/>
                                 </b:dataTableColumn>
-                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputGrade']}">
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputSubRating']}">
                                     <h:outputText rendered="#{! empty examsBean.getJoinExamForUserOfExam(e).grade}" value="#{examsBean.getJoinExamForUserOfExam(e).grade.mark}"/>
-                                    <h:outputText rendered="#{empty examsBean.getJoinExamForUserOfExam(e).grade}" value="#{msg['outputNoGrade']}"/>
+                                    <h:outputText rendered="#{empty examsBean.getJoinExamForUserOfExam(e).grade}" value="#{msg['outputNoSubRating']}"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn class="col" orderable="false" label="#{msg['outputGrade']}">
+                                    <h:outputText rendered="#{! empty examsBean.getJoinExamForUserOfExam(e).grade and ! empty examsBean.getJoinExamForUserOfExam(e).grade.endMark}" value="#{examsBean.getJoinExamForUserOfExam(e).grade.endMark}"/>
+                                    <h:outputText rendered="#{empty examsBean.getJoinExamForUserOfExam(e).grade or empty examsBean.getJoinExamForUserOfExam(e).grade.endMark}" value="#{msg['outputNoGrade']}"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDeregister']}">
                                     <b:commandButton rendered="#{!e.instanceLecture.termOfApplicationExceeded}" value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsStudent(profileBean.thisUser, e)}"/>
