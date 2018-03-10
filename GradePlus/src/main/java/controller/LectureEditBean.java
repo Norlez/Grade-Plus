@@ -137,6 +137,13 @@ public class LectureEditBean extends AbstractBean implements Serializable {
      * @return "user.xhtml", um auf das Facelet der Benutzerbearbeitung weiterzuleiten.
      */
     public String update() {
+        List<String> ls = LectureDao.getAllLectures().stream()
+                .filter(l -> !l.getId().equals(selectedLecture.getId()))
+                .map(Lecture::getVak).collect(Collectors.toList());
+        if (ls.contains(selectedLecture.getVak())) {
+            addErrorMessage("errorVakAlreadyExists");
+            return "lectureedit.xhtml";
+        }
         try {
             final Lecture pLecture = selectedLecture;
             LectureDao.update(pLecture);
@@ -145,7 +152,7 @@ public class LectureEditBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorUserdataIncomplete"));
         }
-        return "lectureedit.xhtml";
+        return "lectures.xhtml";
     }
 
     /**

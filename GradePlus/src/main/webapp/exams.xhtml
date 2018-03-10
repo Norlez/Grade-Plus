@@ -18,13 +18,6 @@
 
         <b:form>
             <b:container class="form-group">
-                <b:row>
-                    <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
-                        <h1>
-                            <h:outputText value="#{instanceLecturesBean.instanceLecture.lecture.name} #{instanceLecturesBean.instanceLecture.semester} #{instanceLecturesBean.instanceLecture.year}" />
-                        </h1>
-                    </b:column>
-                </b:row>
 
                 <!-- INFORMATIONEN DER ILV -->
                 <b:row>
@@ -49,6 +42,26 @@
                     </b:column>
                     <b:column span="4">
                         <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.vak}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputEcts']}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputText value="#{instanceLectureEditBean.instanceLecture.lecture.ects}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputLabel value="#{msg['outputDescription']}"/>
+                    </b:column>
+
+                    <b:column span="4">
+                        <h:outputText rendered="#{! empty instanceLectureEditBean.instanceLecture.lecture.getDescription()}"
+                                      value="#{instanceLectureEditBean.instanceLecture.lecture.getDescription()}" />
+                        <h:outputText rendered="#{empty instanceLectureEditBean.instanceLecture.lecture.getDescription()}"
+                                      value="#{msg['outputNoDescription']}" />
                     </b:column>
                 </b:row>
                 <b:row>
@@ -199,7 +212,7 @@
                                              value="#{instanceLectureEditBean.instanceLecture.examinees}"
                                              var="u"
                                              excel="false"
-                                             csv="true"
+                                             csv="false"
                                              pdf="false"
                                              columnVisibility="false"
                                              copy="false"
@@ -209,10 +222,18 @@
                                     <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
                                     <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
                                     <b:dataTableColumn label="#{msg['outputRegistration']}" value="#{examsBean.getWayOfRegister(u,instanceLectureEditBean.instanceLecture).kind}"/>
-                                    <b:dataTableColumn label="#{msg['outputState']}" orderable="false"/>
-                                    <b:dataTableColumn label="#{msg['outputRegisterDate']}"/>
-                                    <b:dataTableColumn label="#{msg['outputGrade']}"/>
-                                    <b:dataTableColumn label="#{msg['outputNote']}" orderable="false"/>
+                                    <b:dataTableColumn label="#{msg['outputState']}">
+                                        <h:outputText rendered="#{u.active}" value="#{msg['outputActive']}"/>
+                                        <h:outputText rendered="#{!u.active}" value="#{msg['outputInactive']}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['outputSubRating']}">
+                                        <h:outputText rendered="#{! empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}"/>
+                                        <h:outputText rendered="#{empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNoSubRating']}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['outputFinalScore']}">
+                                        <h:outputText rendered="#{! empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}"/>
+                                        <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNoFinalScore']}"/>
+                                    </b:dataTableColumn>
                                     <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRemove']}" orderable="false">
                                         <b:commandButton value="#{msg['actionRemove']}"
                                                          action="#{instanceLectureEditBean.removeStudent(u)}"/>
@@ -326,7 +347,10 @@
                                             <f:selectItems value="#{examsBean.examinersToStringList(e)}"/>
                                         </b:selectOneMenu>
                                     </b:dataTableColumn>
-                                    <b:dataTableColumn label="#{msg['outputLocation']}" value="#{e.location}"/>
+                                    <b:dataTableColumn label="#{msg['outputLocation']}">
+                                        <h:outputText rendered="#{! empty e.location}" value="#{e.location}"/>
+                                        <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}"/>
+                                    </b:dataTableColumn>
 
                                     <b:dataTableColumn rendered="#{!e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRelease']}" orderable="false">
                                         <b:commandButton value="#{msg['actionRelease']}"

@@ -47,8 +47,8 @@ public class FileBean extends AbstractBean implements Serializable {
     private UserDAO userDao;
 
     /**
-     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für InstanceLecture-Objekte
-     * übernimmt.
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
+     * InstanceLecture-Objekte übernimmt.
      */
     private InstanceLectureDAO instanceLectureDAO;
 
@@ -72,7 +72,8 @@ public class FileBean extends AbstractBean implements Serializable {
      *            Die UserDAO der zu erzeugenden FileBean.
      */
     @Inject
-    public FileBean(final Session pSession, final UserDAO pUserDao, final InstanceLectureDAO pInstanceLectureDAO, final  JoinExamDAO pJoinExamDAO) {
+    public FileBean(final Session pSession, final UserDAO pUserDao,
+            final InstanceLectureDAO pInstanceLectureDAO, final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDao);
         instanceLectureDAO = assertNotNull(pInstanceLectureDAO);
@@ -144,9 +145,11 @@ public class FileBean extends AbstractBean implements Serializable {
      *
      *
      * @return exams.xhtml als Weiterleitung
-     * @throws IOException, falls die einzulesende Datei fehlerhaft ist.
+     * @throws IOException
+     *             , falls die einzulesende Datei fehlerhaft ist.
      */
-    public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture) throws IOException, DuplicateEmailException, DuplicateUsernameException {
+    public String saveFromCSVFromPabo(InstanceLecture pInstanceLecture)
+            throws IOException, DuplicateEmailException, DuplicateUsernameException {
         assertNotNull(pInstanceLecture);
         InputStream is = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -160,7 +163,7 @@ public class FileBean extends AbstractBean implements Serializable {
             if (userDao.getUserForMatrNr(data[0].trim()) != null) {
                 User u = userDao.getUserForMatrNr(data[0].trim());
 
-                if(!pInstanceLecture.getExaminers().contains(u)) {
+                if (!pInstanceLecture.getExaminers().contains(u)) {
                     JoinExam j = new JoinExam();
                     j.setKind(Anmeldeart.BYPABO);
                     j.setPruefling(u);
@@ -233,11 +236,12 @@ public class FileBean extends AbstractBean implements Serializable {
         for (Exam e : examsOfStudent) {
             date.append("BEGIN:VEVENT");
             date.append("\n");
-            date.append("DTSTART;TZID=" +e.dateTimeToIcsFormat());
+            date.append("DTSTART;TZID=" + e.dateTimeToIcsFormat());
             date.append("\n");
             date.append("DTEND;TZID=" + e.dateTimeToIcsPlusExamLengthFormat());
             date.append("\n");
-            date.append("SUMMARY: Exam-Date for " + e.getInstanceLecture().getLecture().getName());
+            date.append("SUMMARY: Exam-Date for "
+                    + e.getInstanceLecture().getLecture().getName());
             date.append("\n");
             date.append("UID:" + "Exam" + e.getId());
             date.append("\n");
@@ -259,7 +263,8 @@ public class FileBean extends AbstractBean implements Serializable {
         BufferedWriter bw = null;
         try {
 
-            File file = new File(System.getProperty("user.home")+"/Exam-Dates-" + generateRandomString()+".ics");
+            File file = new File(System.getProperty("user.home") + "/Exam-Dates-"
+                    + generateRandomString() + ".ics");
             file.createNewFile();
 
             FileWriter fw = new FileWriter(file);
@@ -277,15 +282,16 @@ public class FileBean extends AbstractBean implements Serializable {
                 System.out.println("Exceptiooooon: ICS EXPORT");
             }
         }
-        FacesMessage message = new FacesMessage("Ihre ICS wurde auf folgendes Verzeichnis gespeichert:" +System.getProperty("user.home") );
+        FacesMessage message = new FacesMessage(
+                "Ihre ICS wurde auf folgendes Verzeichnis gespeichert:"
+                        + System.getProperty("user.home"));
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-
-
     /**
-     * Generiert einen zufälligen String, damit eine neue ICS erstellt wird und nicht immer die alte
-     * überschrieben wird.
+     * Generiert einen zufälligen String, damit eine neue ICS erstellt wird und nicht
+     * immer die alte überschrieben wird.
+     * 
      * @return
      */
     protected String generateRandomString() {
@@ -303,28 +309,28 @@ public class FileBean extends AbstractBean implements Serializable {
      * Schreibt die Noten für die gegebene Liste von JoinExams in eine CSV.
      *
      */
-    public void exportGradesFromInstanceLecture(final InstanceLecture pInstanceLecture)
-    {
+    public void exportGradesFromInstanceLecture(final InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
         try {
-            File file = new File(System.getProperty("user.home")+"/Downloads/Noten.csv");
+            File file = new File(System.getProperty("user.home") + "/Downloads/Noten.csv");
             file.createNewFile();
             BufferedWriter out = new BufferedWriter(new FileWriter(file.getPath()));
             CSVWriter csvWriter = new CSVWriter(out, ';', CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END); // LIne-End-Problem
             List<JoinExam> j = assertNotNull(joinExamDAO.getAllJoinExams());
             List<JoinExam> joinExamList = new ArrayList<JoinExam>();
-            for(JoinExam joinExam: j)
-            {
-                if(joinExam.getExam() != null &&joinExam.getExam().getInstanceLecture().getId() == pInstanceLecture.getId())
-                {
+            for (JoinExam joinExam : j) {
+                if (joinExam.getExam() != null
+                        && joinExam.getExam().getInstanceLecture().getId() == pInstanceLecture
+                                .getId()) {
                     joinExamList.add(joinExam);
                 }
             }
             String[] s = new String[1];
             for (int i = 0; i < joinExamList.size(); i++) {
                 JoinExam tmp = joinExamList.get(i);
-                s[0] = tmp.getPruefling().getMatrNr()+";"+tmp.getGrade().getMark() + ";" + tmp.getGrade().getJoinExam().getExam().getType();
+                s[0] = tmp.getPruefling().getMatrNr() + ";" + tmp.getGrade().getMark()
+                        + ";" + tmp.getGrade().getJoinExam().getExam().getType();
                 csvWriter.writeNext(s);
             }
             csvWriter.flush();
@@ -337,7 +343,8 @@ public class FileBean extends AbstractBean implements Serializable {
     /**
      * Importiert eine Notenliste und vergibt die Endnoten an die Prüflinge für diese ILV.
      */
-    public String importGradesFromInstanceLecture(InstanceLecture pInstanceLecture) throws IOException {
+    public String importGradesFromInstanceLecture(InstanceLecture pInstanceLecture)
+            throws IOException {
         assertNotNull(pInstanceLecture);
         InputStream is = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -351,10 +358,10 @@ public class FileBean extends AbstractBean implements Serializable {
             String[] data = theLine.split(";");
             if (userDao.getUserForMatrNr(data[0].trim()) != null) {
                 User u = userDao.getUserForMatrNr(data[0].trim());
-                for(JoinExam j: joinExamDAO.getJoinExamsForUser(u))
-                {
-                    if(j.getExam() != null && j.getExam().getInstanceLecture().getId() == pInstanceLecture.getId())
-                    {
+                for (JoinExam j : joinExamDAO.getJoinExamsForUser(u)) {
+                    if (j.getExam() != null
+                            && j.getExam().getInstanceLecture().getId() == pInstanceLecture
+                                    .getId()) {
                         joinExam = j;
                         break;
                     }
@@ -368,4 +375,3 @@ public class FileBean extends AbstractBean implements Serializable {
         return null;
     }
 }
-

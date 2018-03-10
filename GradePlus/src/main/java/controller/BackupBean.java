@@ -116,12 +116,12 @@ public class BackupBean extends AbstractBean implements Serializable {
      *
      */
     public void createBackup() throws SQLException, IOException {
-        File file = new File(System.getProperty("user.home")+"/Downloads/");
+        File file = new File(System.getProperty("user.home") + "/Downloads/");
         file.createNewFile();
         Connection conn = getConnection();
         java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat(
                 "yyyy-MM-dd");
-        String backupdirectory = file.getPath() + '\\'+ "DatabaseBackup-"
+        String backupdirectory = file.getPath() + '\\' + "DatabaseBackup-"
                 + todaysDate.format((java.util.Calendar.getInstance()).getTime());
         CallableStatement cs = conn
                 .prepareCall("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)");

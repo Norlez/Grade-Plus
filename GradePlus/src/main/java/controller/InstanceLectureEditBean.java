@@ -68,7 +68,6 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     // Ist Pruefung Wiederholungspruefung
     private boolean wiederholungspruefung = false;
 
-
     // Beinhaltet VAK
     private String vak = "343636343";
 
@@ -161,9 +160,6 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     private JoinExamDAO joinExamDAO;
 
-
-
-
     /**
      * Diese Map wird benötigt, um festzustellen, welche Dokumente gedruckt werden sollen.
      */
@@ -171,8 +167,6 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     private Date startOfTimeFrame;
     private Date endOfTimeFrame;
-
-
 
     public Map<String, Boolean> getChecked() {
         return checked;
@@ -197,7 +191,6 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     public void setEndOfTimeFrame(final Date endOfTimeFrame) {
         this.endOfTimeFrame = endOfTimeFrame;
     }
-
 
     /**
      * Erzeugt eine neue InstanceLectureEditBean.
@@ -409,7 +402,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     /*
-    * Duplicated Code
+     * Duplicated Code
      */
     public String getNameOfStudent(User pStudent) {
         assertNotNull(pStudent);
@@ -933,6 +926,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
             throw new IOException("File not saved");
         }
     }
+
     public List<String> getAvailableDocuments() {
         List<String> availableDocuments = new ArrayList<>();
         availableDocuments.add("Protokoll");
@@ -941,14 +935,16 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return availableDocuments;
     }
 
+    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture,
+            Date pStart, Date pEnd, Map<String, Boolean> pChecked) throws IOException {
 
-    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,  Map<String, Boolean> pChecked) throws IOException {
-
-        //Date start = pStart;
-        //Date end = pEnd;
+        // Date start = pStart;
+        // Date end = pEnd;
         Map<String, Boolean> checked = pChecked;
-        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(), ZoneId.systemDefault());
-        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(), ZoneId.systemDefault());
+        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(),
+                ZoneId.systemDefault());
+        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(),
+                ZoneId.systemDefault());
 
         assertNotNull(pInstanceLecture);
         List<String> selectedDocuments = checked.entrySet().stream()
@@ -958,21 +954,19 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         ArrayList<JoinExam> joinExams = new ArrayList<JoinExam>();
         List<Exam> doof = examDAO.getExamsForInstanceLecture(pInstanceLecture);
 
-        for(Exam e: doof) {
+        for (Exam e : doof) {
             LocalDateTime ldtExam = e.getLocalDateTime();
 
-            
             if (ldtExam.isAfter(start) && ldtExam.isBefore(end)) {
                 exams.add(e); // Nur zum Debuggen
                 List<JoinExam> tmp = joinExamDAO.getUsersForExam(e);
-                if(tmp != null)
-                {
+                if (tmp != null) {
                     joinExams.addAll(tmp);
                 }
             }
         }
 
-        for(JoinExam gtfo: joinExams) {
+        for (JoinExam gtfo : joinExams) {
             if (gtfo.getExam() != null && gtfo.getPruefling() != null) {
                 if (selectedDocuments.contains("Protokoll")) {
                     // MACH SACHEN
@@ -984,12 +978,29 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 }
                 if (selectedDocuments.contains("Zertifikat")) {
                     // WAS MACHEN SACHEN
-                    getCertificates(gtfo.getPruefling(),gtfo.getExam());
+                    getCertificates(gtfo.getPruefling(), gtfo.getExam());
                 }
             }
         }
 
         return "exams.xhtml";
+    }
+
+    public Double getSubRating(final User pUser, final InstanceLecture pInstanceLecture) {
+        List<JoinExam> joinExams = assertNotNull(pInstanceLecture).getJoinExam().stream()
+                .filter(j -> j.getPruefling().getId().equals(pUser.getId()))
+                .collect(Collectors.toList());
+        return joinExams.get(0).getGrade() == null ? null : joinExams.get(0).getGrade()
+                .getMark();
+    }
+
+    public Double getFinalScore(final User pUser, final InstanceLecture pInstanceLecture) {
+        List<JoinExam> joinExams = assertNotNull(pInstanceLecture).getJoinExam().stream()
+                .filter(j -> j.getPruefling().getId().equals(pUser.getId()))
+                .collect(Collectors.toList());
+        return joinExams.get(0).getGrade() == null
+                || joinExams.get(0).getGrade().getEndMark() == null ? null : joinExams
+                .get(0).getGrade().getMark();
     }
 
 }

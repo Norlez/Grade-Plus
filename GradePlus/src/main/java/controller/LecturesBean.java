@@ -146,9 +146,11 @@ public class LecturesBean extends AbstractBean implements Serializable {
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
                     getTranslation("errorLecturedataIncomplete"));
+            return "lecturecreate.xhtml";
         } catch (final DuplicateVakException e) {
             addErrorMessageWithLogging("registerUserForm:username", e, logger,
                     Level.DEBUG, "errorVakAlreadyInUse", lecture.getVak());
+            return "lecturecreate.xhtml";
         }
         init();
         return "lectures.xhtml";

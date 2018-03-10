@@ -269,7 +269,7 @@ public class LoginBean extends AbstractBean {
             }
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            registeredUser.setLoggingString( date.toString()+ ": Anmeldung im System.\n");
+            registeredUser.setLoggingString(date.toString() + ": Anmeldung im System.\n");
             try {
                 userDAO.update(registeredUser);
             } catch (final IllegalArgumentException e) {
@@ -277,10 +277,11 @@ public class LoginBean extends AbstractBean {
                         getTranslation("errorUserdataIncomplete"));
             } catch (final DuplicateUsernameException e) {
                 addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                        Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+                        Level.DEBUG, "errorUsernameAlreadyInUse",
+                        registeredUser.getUsername());
             } catch (final DuplicateEmailException e) {
-                addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                        "errorEmailAlreadyInUse",registeredUser.getEmail());
+                addErrorMessageWithLogging("registerUserForm:email", e, logger,
+                        Level.DEBUG, "errorEmailAlreadyInUse", registeredUser.getEmail());
             }
             return "dashboard.xhtml";
         } else {

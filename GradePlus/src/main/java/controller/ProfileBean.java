@@ -300,8 +300,8 @@ public class ProfileBean extends AbstractBean implements Serializable {
         }
         return e;
 
+    }
 
- }
     /**
      * Loggt den aktuell in der zugehörigen Session eingeloggten Benutzer aus (falls
      * jemand eingeloggt ist) und gibt den Namen des Facelets, zu dem im Erfolgsfall
@@ -319,7 +319,8 @@ public class ProfileBean extends AbstractBean implements Serializable {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             User registeredUser = getSession().getUser();
-            registeredUser.setLoggingString( date.toString()+ ": Abmeldung vom System.\n");
+            registeredUser
+                    .setLoggingString(date.toString() + ": Abmeldung vom System.\n");
             try {
                 userDao.update(registeredUser);
             } catch (final IllegalArgumentException e) {
@@ -327,10 +328,11 @@ public class ProfileBean extends AbstractBean implements Serializable {
                         getTranslation("errorUserdataIncomplete"));
             } catch (final DuplicateUsernameException e) {
                 addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                        Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+                        Level.DEBUG, "errorUsernameAlreadyInUse",
+                        registeredUser.getUsername());
             } catch (final DuplicateEmailException e) {
-                addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                        "errorEmailAlreadyInUse",registeredUser.getEmail());
+                addErrorMessageWithLogging("registerUserForm:email", e, logger,
+                        Level.DEBUG, "errorEmailAlreadyInUse", registeredUser.getEmail());
             }
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             return "/index.xhtml?faces-redirect=true";

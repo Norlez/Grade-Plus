@@ -37,72 +37,94 @@
                     </b:column>
                 </b:row>
 
+                <b:row class="space25px" />
+
                 <!-- NAME -->
+                <b:row>
+                    <b:column span="3" offset="2">
+                        <b:message for="lname"/>
+                    </b:column>
+                </b:row>
                 <b:row>
                     <b:column span="2">
                         <h:outputLabel value="#{msg['inputName']}" />
                     </b:column>
                     <b:column span="3">
-                        <h:outputText rendered="#{!lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.name}" />
-                        <b:inputText rendered="#{lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.name}" id="lname" />
+                        <b:inputText placeholder="#{msg['inputName']}"
+                                     value="#{lectureEditBean.selectedLecture.name}"
+                                     id="lname"
+                                     required="true"
+                                     requiredMessage="#{msg['errorNameRequired']}"/>
                     </b:column>
                 </b:row>
 
                 <!-- VAK -->
                 <b:row>
+                    <b:column span="3" offset="2">
+                        <b:message for="vak"/>
+                    </b:column>
+                </b:row>
+                <b:row>
                     <b:column span="2">
                         <h:outputLabel value="#{msg['inputVak']}" />
                     </b:column>
                     <b:column span="3">
-                        <h:outputText rendered="#{!lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.vak}" />
-                        <b:inputText rendered="#{lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.vak}" id="vak" />
+                        <b:inputText placeholder="#{msg['inputVak']}"
+                                     value="#{lectureEditBean.selectedLecture.vak}"
+                                     id="vak"
+                                     required="true"
+                                     requiredMessage="#{msg['errorVakRequired']}"/>
                     </b:column>
                 </b:row>
 
-
                 <!-- ECTS -->
+                <b:row>
+                    <b:column span="3" offset="2">
+                        <b:message for="ects"/>
+                    </b:column>
+                </b:row>
                 <b:row>
                     <b:column span="2">
                         <h:outputLabel value="#{msg['inputEcts']}" />
                     </b:column>
                     <b:column span="3">
-                        <h:outputText rendered="#{!lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.ects}" />
-                        <b:inputText rendered="#{lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.ects}" id="etcs" />
+                        <b:inputText mask="integer"
+                                     placeholder="#{msg['inputEcts']}"
+                                     value="#{lectureEditBean.selectedLecture.ects}"
+                                     id="ects"
+                                     required="true"
+                                     requiredMessage="#{msg['errorEctsRequired']}"/>
                     </b:column>
                 </b:row>
 
                 <!-- DESCRIPTION -->
-
                 <b:row>
                     <b:column span="2">
                         <h:outputLabel value="#{msg['inputDescription']}" />
                     </b:column>
                     <b:column span="3">
-                        <h:outputText rendered="#{!lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.description}" />
-                        <b:inputTextarea rendered="#{lectureEditBean.getEditChecker()}" value="#{lectureEditBean.selectedLecture.description}" id="description" />
+                        <b:inputTextarea placeholder="#{msg['inputDescription']}"
+                                         value="#{lectureEditBean.selectedLecture.description}"
+                                         id="description" />
                     </b:column>
                 </b:row>
 
 
                 <!-- BUTTONS SAVE AND BACK -->
                 <b:row>
-                    <!-- EDIT -->
-                    <b:column span="1" colSm="3" colMd="3" colXs="12">
-                        <b:commandButton rendered="#{!lectureEditBean.getEditChecker()}" class="btn-green" id="editButton" value="#{msg['actionEdit']}" action="#{lectureEditBean.setEditChecker(lectureEditBean.selectedLecture)}" />
-                    </b:column>
-                </b:row>
-                <b:row>
                     <!-- UPDATE -->
                     <b:column span="1" colSm="3" colMd="3" colXs="12">
-                        <b:commandButton rendered="#{lectureEditBean.getEditChecker()}" class="btn-green" id="saveButton" value="#{msg['actionSave']}" action="#{lectureEditBean.update}" />
+                        <b:commandButton class="btn" id="saveButton" value="#{msg['actionSave']}" action="#{lectureEditBean.update}" />
                     </b:column>
                     <!-- CANCEL -->
                     <b:column span="2">
-                        <b:commandButton rendered="#{lectureEditBean.getEditChecker()}" class="btn-green" value="#{msg['actionCancel']}" action="#{userEditBean.setEditCheckerWithoutUser()}" />
+                        <b:button class="btn" value="#{msg['actionCancel']}" outcome="lectures" />
                     </b:column>
                 </b:row>
             </b:container>
         </b:form>
+
+        <b:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
 
     </ui:define>
 </ui:composition>

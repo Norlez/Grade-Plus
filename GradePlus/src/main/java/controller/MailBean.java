@@ -188,7 +188,6 @@ public class MailBean extends AbstractBean implements Serializable {
         content = assertNotNull(pContent);
     }
 
-
     /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
      * übernimmt.
@@ -241,7 +240,8 @@ public class MailBean extends AbstractBean implements Serializable {
     public String sendMail() {
         try {
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
+            message.setRecipients(Message.RecipientType.TO,
+                    getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
             message.setText(content);
@@ -298,7 +298,8 @@ public class MailBean extends AbstractBean implements Serializable {
         try {
             filetosend = copyPartToFile();
             message.setFrom(new InternetAddress(sender.getEmail()));
-            message.setRecipients(Message.RecipientType.TO,getRecipientsAddresses(recipient));
+            message.setRecipients(Message.RecipientType.TO,
+                    getRecipientsAddresses(recipient));
             message.setSentDate(new Date());
             message.setSubject(topic);
 
@@ -416,18 +417,20 @@ public class MailBean extends AbstractBean implements Serializable {
         return "message.xhtml";
     }
 
-
     /**
-     * Erstellt die nötigen Daten für den Betreff und den Empängern für die Sendung einer Krankmelde-Mail.
-     * @param pExam Die Prüfung, zu dem der zugehörige User gehört.
+     * Erstellt die nötigen Daten für den Betreff und den Empängern für die Sendung einer
+     * Krankmelde-Mail.
+     * 
+     * @param pExam
+     *            Die Prüfung, zu dem der zugehörige User gehört.
      * @Param pUser der User, der die Mail versendet.
      * @return das Facelet message.xhtml
      */
     public String prepareIllnessMail(User pUser, final Exam pExam) {
         assertNotNull(pExam);
         String seperator = "";
-        topic = "Krankmeldung für " + pExam.getInstanceLecture().getLecture().getName()+ " Prüfung am " + pExam.dateToString()+ " um "
-                + pExam.timeToString() ;
+        topic = "Krankmeldung für " + pExam.getInstanceLecture().getLecture().getName()
+                + " Prüfung am " + pExam.dateToString() + " um " + pExam.timeToString();
         StringBuilder sb = new StringBuilder();
         List<User> pruefer = pExam.getExaminers();
         for (User r : pruefer) {
@@ -436,19 +439,16 @@ public class MailBean extends AbstractBean implements Serializable {
             sb.append(r.getEmail());
         }
         recipient = sb.toString();
-        content = "Martikelnummer: " + pUser.getMatrNr()
-                + "\n Vorname: " + pUser.getGivenName()
-                + "\n Nachname: " + pUser.getSurname()
-                + "\n Username: " + pUser.getUsername()
-                + "\n Email: " + pUser.getEmail()
-                + "\n Anmerkung: "  ;
+        content = "Martikelnummer: " + pUser.getMatrNr() + "\n Vorname: "
+                + pUser.getGivenName() + "\n Nachname: " + pUser.getSurname()
+                + "\n Username: " + pUser.getUsername() + "\n Email: " + pUser.getEmail()
+                + "\n Anmerkung: ";
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         User registeredUser = getSession().getUser();
-        registeredUser.setLoggingString( date.toString()+ ": Krankmeldung für " +
-                pExam.getInstanceLecture().getLecture().getName()+
-                " Prüfung am " + pExam.dateToString()+ " um "
-                + pExam.timeToString()+"\n");
+        registeredUser.setLoggingString(date.toString() + ": Krankmeldung für "
+                + pExam.getInstanceLecture().getLecture().getName() + " Prüfung am "
+                + pExam.dateToString() + " um " + pExam.timeToString() + "\n");
         try {
             userDao.update(registeredUser);
         } catch (final IllegalArgumentException e) {
@@ -456,15 +456,13 @@ public class MailBean extends AbstractBean implements Serializable {
                     getTranslation("errorUserdataIncomplete"));
         } catch (final DuplicateUsernameException e) {
             addErrorMessageWithLogging("registerUserForm:username", e, logger,
-                    Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+                    Level.DEBUG, "errorUsernameAlreadyInUse",
+                    registeredUser.getUsername());
         } catch (final DuplicateEmailException e) {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
-                    "errorEmailAlreadyInUse",registeredUser.getEmail());
+                    "errorEmailAlreadyInUse", registeredUser.getEmail());
         }
         return "message.xhtml";
     }
 
-
 }
-
-

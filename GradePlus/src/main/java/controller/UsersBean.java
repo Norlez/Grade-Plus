@@ -480,9 +480,12 @@ public class UsersBean extends AbstractBean implements Serializable {
 
     /**
      * Ändert den Aktivitätsstatus des Benutzers
-     * @param pUser, der verändert werden soll
+     * 
+     * @param pUser
+     *            , der verändert werden soll
      */
-    public void changeActive(final User pUser) throws DuplicateEmailException, DuplicateUsernameException {
+    public void changeActive(final User pUser) throws DuplicateEmailException,
+            DuplicateUsernameException {
         assertNotNull(pUser);
         pUser.setActive();
         userDao.update(pUser);

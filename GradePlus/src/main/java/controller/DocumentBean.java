@@ -718,38 +718,39 @@ public class DocumentBean extends AbstractBean implements Serializable {
      *
      * @return "exams.xhtml", um auf das Facelet der Übersicht der ILV weiterzuleiten.
      */
-    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,  Map<String, Boolean> pChecked) {
+    public String getDocumentsForTimeFrame(final InstanceLecture pInstanceLecture,
+            Date pStart, Date pEnd, Map<String, Boolean> pChecked) {
 
-       // Date start = pStart;
-        //Date end = pEnd;
+        // Date start = pStart;
+        // Date end = pEnd;
         Map<String, Boolean> checked = pChecked;
-        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(), ZoneId.systemDefault());
-        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(), ZoneId.systemDefault());
+        LocalDateTime start = LocalDateTime.ofInstant(pStart.toInstant(),
+                ZoneId.systemDefault());
+        LocalDateTime end = LocalDateTime.ofInstant(pEnd.toInstant(),
+                ZoneId.systemDefault());
 
         assertNotNull(pInstanceLecture);
         List<String> selectedDocuments = checked.entrySet().stream()
                 .filter(Map.Entry::getValue).map(Map.Entry::getKey)
                 .collect(Collectors.toList());
         ArrayList<Exam> exams = new ArrayList<Exam>();
-        for(Exam e: examDAO.getExamsForInstanceLecture(pInstanceLecture)) {
+        for (Exam e : examDAO.getExamsForInstanceLecture(pInstanceLecture)) {
             LocalDateTime ldtExam = e.getLocalDateTime();
             if (ldtExam.isAfter(start) && ldtExam.isBefore(end)) {
                 exams.add(e);
             }
         }
 
+        if (selectedDocuments.contains("Protokoll")) {
 
-
-            if (selectedDocuments.contains("Protokoll")) {
-
-            }
-            if (selectedDocuments.contains("Quittung")) {
-                // WAS MACHEN
-            }
-            if (selectedDocuments.contains("Zertifikat")) {
-                // WAS MACHEN SACHEN
-            }
-      //  }
+        }
+        if (selectedDocuments.contains("Quittung")) {
+            // WAS MACHEN
+        }
+        if (selectedDocuments.contains("Zertifikat")) {
+            // WAS MACHEN SACHEN
+        }
+        // }
 
         return "exams.xhtml";
     }

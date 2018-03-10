@@ -111,8 +111,6 @@ public abstract class AbstractBean {
         session.setUser(Assertion.assertNotNull(pUser));
     }
 
-
-
     /**
      * Meldet die Fehlermeldung an das gegebene Ziel im gegebenen Kontext.
      * 
