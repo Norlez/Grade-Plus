@@ -218,22 +218,27 @@ public class SystemMailBean {
      * 
      * @param pUser
      *            Der User, der informiert wird.
-     * @param pIlvName
-     *            Die Lehrveranstaltung, in die sich der User eingetragen hat
+     * @param pExam
+     *            Die Prüfung
      */
-    public static void joinExamMail(User pUser, String pIlvName) {
+    public static void joinExamMail(User pUser, Exam pExam) {
 
         try {
             init();
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(pUser.getEmail()));
             message.setSubject("Systemnachricht: Anmeldung zur Prüfung für die Lehrveranstaltung "
-                    + pIlvName);
-            message.setText("Hallo"
-                    + pUser.getGivenName()
-                    + ","
-                    + "\n\n Mit dieser Mail, benachrichtigen wir Sie, dass Sie zur Prüfung für die  Lehrveranstaltung "
-                    + pIlvName + "\n\n am 01.01.1995 hinzugefügt wurden.");
+                    + pExam.getInstanceLecture().getLecture().getName());
+            message.setText(String
+                    .format("Hallo %s %s,\n\nHiermit informieren wir Sie, dass Sie sich erfolgreich für eine Prüfung der Lehrveranstaltung %s angemeldet haben.\n\n\nDaten der Prüfung:\n\nDatum: %s\nUhrzeit: %s\nDauer: %d Min.\nOrt: %s",
+                            pUser.getGivenName(),
+                            pUser.getSurname(),
+                            pExam.getInstanceLecture().getLecture().getName(),
+                            pExam.dateToString(),
+                            pExam.timeToString(),
+                            pExam.getExamLength(),
+                            pExam.getLocation().isEmpty() ? "Keine Angabe" : pExam
+                                    .getLocation()));
             postInit();
 
         } catch (MessagingException e) {

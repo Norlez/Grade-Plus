@@ -378,7 +378,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
             if (!oldExam.getLocalDateTime().equals(exam.getLocalDateTime())
                     || !oldExam.getExamLength().equals(exam.getExamLength())
                     || !oldExam.getLocation().equals(exam.getLocation())) {
-                students.forEach(s -> notify(s, message));
+                students.forEach(s -> SystemMailBean
+                        .examInfoChangedMail(s, oldExam, exam));
             }
         } catch (final IllegalArgumentException e) {
             addErrorMessageWithLogging(e, logger, Level.DEBUG,
@@ -492,7 +493,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", registeredUser.getEmail());
         }
-
+        SystemMailBean.joinExamMail(getSession().getUser(), pExam);
         return "dashboard.xhtml";
     }
 
