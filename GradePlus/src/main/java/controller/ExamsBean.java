@@ -332,8 +332,9 @@ public class ExamsBean extends AbstractBean implements Serializable {
      * @return "exams.xhtml", um auf das Facelet der Übersicht der Prüfungen zu leiten.
      */
     public String update() {
-        if (checked.entrySet().stream().filter(Map.Entry::getValue)
-                .collect(Collectors.toList()).isEmpty()) {
+        if (!checked.isEmpty()
+                && checked.entrySet().stream().filter(Map.Entry::getValue)
+                        .collect(Collectors.toList()).isEmpty()) {
             addErrorMessage("errorNoExaminersInExam");
             return null;
         }

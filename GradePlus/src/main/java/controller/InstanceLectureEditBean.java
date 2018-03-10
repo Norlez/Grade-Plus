@@ -356,8 +356,16 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     public String removeStudent(final User pStudent) {
-        instanceLecture.removeExaminee(assertNotNull(pStudent,
-                "InstanceLectureEditBean: removeStudent(User)"));
+        assertNotNull(pStudent, "InstanceLectureEditBean: removeStudent(User)");
+        for (Exam exam : examDAO.getAllExams()) {
+            if (exam.getInstanceLecture().getId().equals(instanceLecture.getId())) {
+                if (exam.getStudents().contains(pStudent)) {
+                    addErrorMessage("errorUserIsExamineeOfExam");
+                    return "exams.xhtml";
+                }
+            }
+        }
+        instanceLecture.removeExaminee(pStudent);
         pStudent.removeStudentFromIlv(instanceLecture);
         update(pStudent);
         return "exams.xhtml";
