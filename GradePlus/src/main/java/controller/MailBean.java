@@ -26,6 +26,7 @@
 package controller;
 
 import java.io.*;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -273,9 +274,10 @@ public class MailBean extends AbstractBean implements Serializable {
      */
     public File copyPartToFile() throws IOException {
         InputStream inputStream = file.getInputStream();
-        String contentType = file.getContentType();
-        String suffix = "." + contentType.substring(contentType.lastIndexOf('/') + 1);
-        File tempFile = File.createTempFile("tmpFile", suffix);
+        String filename = getFileName(file);
+        String prefix = filename.substring(0, filename.lastIndexOf('.'));
+        String suffix = "." + filename.substring(filename.lastIndexOf('.') + 1);
+        File tempFile = File.createTempFile(prefix, suffix);
         OutputStream outputStream = new FileOutputStream(tempFile);
         try {
             byte[] buffer = new byte[1024];
@@ -289,6 +291,22 @@ public class MailBean extends AbstractBean implements Serializable {
             outputStream.close();
             return tempFile;
         }
+    }
+
+    /**
+     * Holt sich den originalen Namen des hochgeladenen Part-Objektes
+     * Quelle : https://gist.github.com/cengizIO/2067999
+     * @param part Das Part-Objekt, dessen Name ermittelt werden soll.
+     * @return den Namen des Part-Objektes
+     */
+    private String getFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                return cd.substring(cd.indexOf('=') + 1).trim()
+                        .replace("\"", "");
+            }
+        }
+        return null;
     }
 
     /**
@@ -420,7 +438,7 @@ public class MailBean extends AbstractBean implements Serializable {
     /**
      * Erstellt die nötigen Daten für den Betreff und den Empängern für die Sendung einer
      * Krankmelde-Mail.
-     * 
+     *
      * @param pExam
      *            Die Prüfung, zu dem der zugehörige User gehört.
      * @Param pUser der User, der die Mail versendet.
@@ -466,3 +484,4 @@ public class MailBean extends AbstractBean implements Serializable {
     }
 
 }
+
