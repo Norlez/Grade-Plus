@@ -342,6 +342,10 @@
                                     <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}"/>
                                     <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}"/>
                                     <b:dataTableColumn label="#{msg['outputGroupSize']}" value="#{e.groupSize}"/>
+                                    <b:dataTableColumn label="#{msg['outputAvailableSpots']}">
+                                        <h:outputText rendered="#{e.isSpotAvailable()}" value="#{e.getAvailableSpots()}" />
+                                        <h:outputText rendered="#{! e.isSpotAvailable()}" value="#{msg['outputNoAvailableSpots']}" />
+                                    </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputExaminer']}">
                                         <b:selectOneMenu value="#{msg['outputExaminer']}">
                                             <f:selectItems value="#{examsBean.examinersToStringList(e)}"/>
