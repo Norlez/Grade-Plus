@@ -19,6 +19,7 @@ import persistence.InstanceLectureDAO;
 import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -178,6 +179,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     private Map<String, Boolean> checked = new HashMap<>();
 
+    private List<InstanceLecture> instancesForUser;
     private Date startOfTimeFrame;
     private Date endOfTimeFrame;
 
@@ -225,6 +227,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         userDao = assertNotNull(pUserDao);
         joinExamDAO = assertNotNull(pJoinExamDAO);
         examDAO = assertNotNull(pExamDao);
+    }
+
+    @PostConstruct
+    public void init() {
+        instancesForUser = getSession().getUser().getAsStudent();
     }
 
     /**
@@ -1106,4 +1113,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .collect(Collectors.toList());
     }
 
+    public List<InstanceLecture> getInstancesForUser() {
+        return instancesForUser;
+    }
+
+    public void setInstancesForUser(List<InstanceLecture> instancesForUser) {
+        this.instancesForUser = instancesForUser;
+    }
 }
