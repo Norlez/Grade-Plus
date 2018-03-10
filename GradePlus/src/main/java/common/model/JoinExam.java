@@ -2,6 +2,8 @@ package common.model;
 
 import javax.inject.Named;
 import javax.persistence.*;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +47,9 @@ public class JoinExam extends JPAEntity {
 
     @Column
     private String commentary;
+
+    @Column
+    private String hitMeBabyOneMoreTime;
 
     public Exam getExam() {
         return exam;
@@ -105,5 +110,13 @@ public class JoinExam extends JPAEntity {
     public String toCSV() {
         return String.format("%d; %s; %s; %s; %s, %f", getId(), kind, krank, exam,
                 pruefling, grade);
+    }
+
+    public String getHitMeBabyOneMoreTime() {
+        return hitMeBabyOneMoreTime;
+    }
+
+    public void setHitMeBabyOneMoreTime(String hitMeBabyOneMoreTime) {
+        this.hitMeBabyOneMoreTime = hitMeBabyOneMoreTime;
     }
 }
