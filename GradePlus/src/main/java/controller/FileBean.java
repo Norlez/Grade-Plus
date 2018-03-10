@@ -6,6 +6,7 @@ import common.exception.DuplicateUsernameException;
 import common.model.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import persistence.GradeDAO;
 import persistence.InstanceLectureDAO;
 import persistence.JoinExamDAO;
 import persistence.UserDAO;
@@ -63,6 +64,8 @@ public class FileBean extends AbstractBean implements Serializable {
      */
     private Part file;
 
+    private final GradeDAO gradeDAO;
+
     /**
      * Erzeugt eine neue FileBean.
      *
@@ -72,12 +75,13 @@ public class FileBean extends AbstractBean implements Serializable {
      *            Die UserDAO der zu erzeugenden FileBean.
      */
     @Inject
-    public FileBean(final Session pSession, final UserDAO pUserDao,
+    public FileBean(final Session pSession, final UserDAO pUserDao, final GradeDAO pGradeDao,
             final InstanceLectureDAO pInstanceLectureDAO, final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDao);
         instanceLectureDAO = assertNotNull(pInstanceLectureDAO);
         joinExamDAO = assertNotNull(pJoinExamDAO);
+        gradeDAO = pGradeDao;
     }
 
     /**
@@ -368,7 +372,7 @@ public class FileBean extends AbstractBean implements Serializable {
                 }
                 Double grade = Double.parseDouble(data[1].trim());
                 joinExam.getGrade().setEndMark(grade);
-                joinExamDAO.update(joinExam);
+                gradeDAO.update(joinExam.getGrade());
             }
 
         }
