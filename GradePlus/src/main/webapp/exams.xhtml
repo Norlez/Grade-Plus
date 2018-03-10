@@ -327,8 +327,8 @@
                         <b:row class="btn-paragraph">
                             <b:column span="12">
                                 <b:dataTable span="8"
-                                             rendered="#{! empty instanceLectureEditBean.instanceLecture.exams}"
-                                             value="#{instanceLectureEditBean.instanceLecture.exams}"
+                                             rendered="#{! empty instanceLectureEditBean.getExamsOfInstanceLectureForExaminer()}"
+                                             value="#{instanceLectureEditBean.getExamsOfInstanceLectureForExaminer()}"
                                              var="e"
                                              excel="true"
                                              csv="true"
@@ -380,8 +380,10 @@
                                         <b:commandButton value="#{msg['actionRemove']}" action="#{examsBean.remove(e)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
-                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.exams}"
+                                <h:outputLabel rendered="#{empty instanceLectureEditBean.getExamsOfInstanceLectureForExaminer() and empty instanceLectureEditBean.instanceLecture.exams}"
                                                value="#{msg['outputNoExams']}"/>
+                                <h:outputLabel rendered="#{empty instanceLectureEditBean.getExamsOfInstanceLectureForExaminer() and ! empty instanceLectureEditBean.instanceLecture.exams}"
+                                               value="#{msg['outputNoExamsAsExaminer']}"/>
                             </b:column>
                         </b:row>
                     </b:tab>

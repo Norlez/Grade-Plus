@@ -1003,4 +1003,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .get(0).getGrade().getMark();
     }
 
+    public List<Exam> getExamsOfInstanceLectureForExaminer() {
+        return instanceLecture.getExams().stream()
+                .filter(e -> e.getExaminers().contains(getSession().getUser()))
+                .collect(Collectors.toList());
+    }
+
 }
