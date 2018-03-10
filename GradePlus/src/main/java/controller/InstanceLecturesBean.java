@@ -435,6 +435,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
             ilv.setYear(i + "");
             ilv.setSemester(pInstanceLecture.getSemester());
             ilv.addExaminer(user);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(pInstanceLecture.getTermOfApplication());
+            cal.add(Calendar.YEAR, 1);
+            ilv.setTermOfApplication(cal.getTime());
+
             user.addAsProfToIlv(ilv);
             try {
                 instanceLectureDao.save(ilv);
@@ -446,6 +452,9 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
             } catch (DuplicateEmailException e) {
                 e.printStackTrace();
             }
+        } else {
+            addErrorMessage("errorYearAndSemesterAlreadyExists",
+                    new String[] { i.toString() });
         }
         return "semester.xhtml";
     }

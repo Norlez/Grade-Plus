@@ -111,7 +111,7 @@
                                 </b:dataTableColumn>
 
                                 <b:dataTableColumn rendered="#{usersBean.isExaminer(profileBean.thisUser)}" label="#{msg['actionDuplicate']}" orderable="false">
-                                <b:commandButton value="#{msg['actionDuplicate']}"
+                                <b:commandButton id="duplicate" value="#{msg['actionDuplicate']}"
                                                  action="#{instanceLecturesBean.duplicateInstanceLecture(l)}" />
                                 </b:dataTableColumn>
 
