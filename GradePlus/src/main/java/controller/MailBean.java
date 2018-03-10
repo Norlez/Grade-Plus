@@ -26,6 +26,8 @@
 package controller;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -43,11 +45,15 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.Part;
 
+import common.exception.DuplicateEmailException;
+import common.exception.DuplicateUsernameException;
 import common.model.Exam;
 import common.model.InstanceLecture;
 import common.model.User;
+import common.util.Assertion;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import persistence.UserDAO;
 
 import static common.util.Assertion.assertNotNull;
 
@@ -182,6 +188,13 @@ public class MailBean extends AbstractBean implements Serializable {
         content = assertNotNull(pContent);
     }
 
+
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Benutzer-Objekte
+     * übernimmt.
+     */
+    private final UserDAO userDao;
+
     /**
      * Erzeugt eine neue MailBean.
      *
@@ -189,8 +202,9 @@ public class MailBean extends AbstractBean implements Serializable {
      *            Die Session der zu erzeugenden MailBean.
      */
     @Inject
-    public MailBean(final common.model.Session pSession) {
+    public MailBean(final common.model.Session pSession, final UserDAO pUserDAO) {
         super(assertNotNull(pSession));
+        userDao = Assertion.assertNotNull(pUserDAO);
     }
 
     /**
@@ -428,6 +442,25 @@ public class MailBean extends AbstractBean implements Serializable {
                 + "\n Username: " + pUser.getUsername()
                 + "\n Email: " + pUser.getEmail()
                 + "\n Anmerkung: "  ;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        User registeredUser = getSession().getUser();
+        registeredUser.setLoggingString( date.toString()+ ": Krankmeldung für " +
+                pExam.getInstanceLecture().getLecture().getName()+
+                " Prüfung am " + pExam.dateToString()+ " um "
+                + pExam.timeToString()+"\n");
+        try {
+            userDao.update(registeredUser);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse",registeredUser.getEmail());
+        }
         return "message.xhtml";
     }
 

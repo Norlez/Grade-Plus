@@ -319,7 +319,7 @@ public class ProfileBean extends AbstractBean implements Serializable {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             User registeredUser = getSession().getUser();
-            registeredUser.setLoggingString( date.toString()+ ": Abmeldung im System.\n");
+            registeredUser.setLoggingString( date.toString()+ ": Abmeldung vom System.\n");
             try {
                 userDao.update(registeredUser);
             } catch (final IllegalArgumentException e) {
