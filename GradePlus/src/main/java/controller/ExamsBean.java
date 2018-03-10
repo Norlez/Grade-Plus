@@ -17,6 +17,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -482,6 +484,26 @@ public class ExamsBean extends AbstractBean implements Serializable {
         joinExamDao.update(joinExam);
         examDao.update(pExam);
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        java.util.Date date = new java.util.Date();
+        User registeredUser = getSession().getUser();
+        registeredUser.setLoggingString( date.toString()+ ": Abmeldung für " +
+                pExam.getInstanceLecture().getLecture().getName()+
+                " Prüfung am " + pExam.dateToString()+ " um "
+                + pExam.timeToString()+"\n");
+        try {
+            userDao.update(registeredUser);
+        } catch (final IllegalArgumentException e) {
+            addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                    getTranslation("errorUserdataIncomplete"));
+        } catch (final DuplicateUsernameException e) {
+            addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                    Level.DEBUG, "errorUsernameAlreadyInUse",registeredUser.getUsername());
+        } catch (final DuplicateEmailException e) {
+            addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
+                    "errorEmailAlreadyInUse",registeredUser.getEmail());
+        }
+
         return "dashboard.xhtml";
     }
 
@@ -757,7 +779,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *            Die zu sendende Nachricht.
      */
     private void notify(final User pUser, final String pMessage) {
-        MailBean sender = new MailBean(getSession());
+        MailBean sender = new MailBean(getSession(), userDao);
         /*
          * sender.getMail().setTopic("Änderungen an einem Prüfungstermin");
          * sender.getMail().setContent( assertNotNull(pMessage,
