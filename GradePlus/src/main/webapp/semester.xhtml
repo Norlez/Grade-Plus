@@ -88,9 +88,9 @@
                     <b:row class="space50px" />
                     <b:row>
                         <b:column span="12">
-                            <b:dataTable rendered="#{! empty instanceLecturesBean.instanceLecturesForLecture}"
+                            <b:dataTable rendered="#{! empty instanceLecturesBean.getAllInstanceLecturesOfExaminer()}"
                                          span="8"
-                                         value="#{instanceLecturesBean.instanceLecturesForLecture}" var="l"
+                                         value="#{instanceLecturesBean.getAllInstanceLecturesOfExaminer()}" var="l"
                                          excel="false"
                                          csv="false"
                                          pdf="false"
@@ -120,8 +120,10 @@
                                 </b:dataTableColumn>
 
                             </b:dataTable>
-                            <h:outputLabel rendered="#{empty instanceLecturesBean.instanceLecturesForLecture}"
+                            <h:outputLabel rendered="#{empty instanceLecturesBean.getAllInstanceLecturesOfExaminer() and empty instanceLecturesBean.allInstanceLectures}"
                                            value="#{msg['outputNoInstanceLecture']}" />
+                            <h:outputLabel rendered="#{empty instanceLecturesBean.getAllInstanceLecturesOfExaminer() and ! empty instanceLecturesBean.allInstanceLectures}"
+                                           value="#{msg['outputNoInstanceLectureForExaminer']}" />
                         </b:column>
                     </b:row>
 

@@ -467,4 +467,11 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
                         .stream().collect(Collectors.toList());
     }
 
+    public List<InstanceLecture> getAllInstanceLecturesOfExaminer() {
+        return getInstanceLecturesForLecture() == null ? null
+                : getInstanceLecturesForLecture().stream()
+                        .filter(i -> i.getExaminers().contains(getSession().getUser()))
+                        .collect(Collectors.toList());
+    }
+
 }
