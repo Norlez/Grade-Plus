@@ -110,6 +110,8 @@
                                 <b:commandButton rendered="#{gradesBean.hasGrade(e)}"
                                                  value="#{msg['actionUpdate']}"
                                                  action="#{gradesBean.update(gradesBean.exam, e)}" />
+                                <b:commandButton value="#{msg['actionSetComment']}"
+                                                 action="#{gradesBean.setComment(gradesBean.getJoinExamForUser(gradesBean.exam,e))}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputCertificate']}">
                                 <p:commandButton value="#{msg['actionDownload']}" ajax="false">

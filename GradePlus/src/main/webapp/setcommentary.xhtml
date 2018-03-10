@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xml:lang="en" lang="en">
+<head>
+    <!-- Auf dieser Seite kann der Student Nachrichten oder Krankmeldungen an
+            den Pruefer senden
+    -->
+    <title>Title</title>
+</head>
+<h:body>
+    <ui:composition template="/WEB-INF/template.xhtml">
+        <ui:param name="title" value="#{msg['title']}"/>
+
+        <ui:define name="content">
+            <f:loadBundle basename="internationalization.message"
+                          var="msg" />
+
+            <b:form enctype="multipart/form-data">
+                <b:container class="form-group">
+
+                    <!-- TITLE -->
+                    <b:row>
+                        <b:column class="title" span="4" colSm="12" colMd="12" colXs="12">
+                            <h1>
+                                <h:outputText value="#{msg['Hier Steht Kacke']}" />
+                            </h1>
+                        </b:column>
+                    </b:row>
+
+
+                    <!-- MESSAGE -->
+                    <b:row>
+                        <b:column span="8" rows="100" cols="100" colSm="12" colMd="12" colXs="12">
+                            <b:inputTextarea style="height: 300px" placeholder="#{msg['inputMessage']}" id="message" required="true"
+                                             value="#{gradesBean.toConfigure.commentary}"/>
+                        </b:column>
+                    </b:row>
+
+                    <!-- SEND BUTTON -->
+                    <b:row>
+                        <b:column span="4" colSm="12" colMd="12" colXs="12">
+                            <b:commandButton id="sendMessage"
+                                             value="#{msg['sendMail']}"
+                                             action="#{gradesBean.enterComment(gradesBean.toConfigure)}"/>
+                            <b:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </b:form>
+
+            <b:messages globalOnly="true" errorStyle="color: red" infoStyle="color: orange" />
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
+
+

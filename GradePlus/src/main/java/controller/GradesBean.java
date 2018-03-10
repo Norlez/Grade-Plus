@@ -103,6 +103,8 @@ public class GradesBean extends AbstractBean implements Serializable {
 
     private Exam exam;
 
+    private JoinExam toConfigure;
+
     /**
      * Die aktuell angezeigte Note.
      */
@@ -179,6 +181,7 @@ public class GradesBean extends AbstractBean implements Serializable {
         grade = new Grade();
         allGrades = getSession().getUser().getGrades();
         possibleGrades = calculatePossibleGradesList();
+        toConfigure = new JoinExam();
     }
 
     /**
@@ -210,6 +213,14 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     public Grade getGrade() {
         return grade;
+    }
+
+    public JoinExam getToConfigure() {
+        return toConfigure;
+    }
+
+    public void setToConfigure(JoinExam toConfigure) {
+        this.toConfigure = toConfigure;
     }
 
     /**
@@ -481,4 +492,31 @@ public class GradesBean extends AbstractBean implements Serializable {
                                 .getId())).collect(Collectors.toList()).get(0).getGrade() != null;
     }
 
+    public String enterComment(final JoinExam pJoinExam)
+    {
+        joinExamDAO.update(pJoinExam);
+        return "grades.xhtml";
+    }
+
+    public String setComment(final JoinExam pJoinExam)
+    {
+        assertNotNull(pJoinExam);
+        toConfigure = pJoinExam;
+        return "setcommentary.xhtml";
+    }
+
+    public JoinExam getJoinExamForUser(Exam e, User u)
+    {
+        JoinExam tmp = null;
+        List<JoinExam> j = joinExamDAO.getJoinExamsForUser(u);
+        for(JoinExam join: j)
+        {
+            if(join.getExam() != null && join.getExam().getId() == exam.getId())
+            {
+                tmp = join;
+                break;
+            }
+        }
+        return tmp;
+    }
 }

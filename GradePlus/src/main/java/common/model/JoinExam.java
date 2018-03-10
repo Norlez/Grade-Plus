@@ -43,6 +43,9 @@ public class JoinExam extends JPAEntity {
     @ManyToOne
     private InstanceLecture instanceLecture;
 
+    @Column
+    private String commentary;
+
     public Exam getExam() {
         return exam;
     }
@@ -73,6 +76,14 @@ public class JoinExam extends JPAEntity {
 
     public void setKrank(boolean krank) {
         this.krank = krank;
+    }
+
+    public String getCommentary() {
+        return commentary;
+    }
+
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
     }
 
     public Grade getGrade() {
