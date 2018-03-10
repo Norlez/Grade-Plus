@@ -81,6 +81,7 @@
                             <b:dataTableColumn label="#{msg['outputMatriculationNumber']}" value="#{e.matrNr}" />
                             <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}" />
                             <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{e.givenName}" />
+                            <b:dataTableColumn label="#{msg['outputComment']}" value="#{e.givenName}" />
                             <b:dataTableColumn label="#{msg['outputSubRating']}">
                                 <h:outputText rendered="#{! empty instanceLectureEditBean.getSubRating(e, instanceLectureEditBean.instanceLecture)}"
                                               value="#{instanceLectureEditBean.getSubRating(e, instanceLectureEditBean.instanceLecture)}" />
@@ -110,6 +111,8 @@
                                 <b:commandButton rendered="#{gradesBean.hasGrade(e)}"
                                                  value="#{msg['actionUpdate']}"
                                                  action="#{gradesBean.update(gradesBean.exam, e)}" />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="#{msg['comment']}">
                                 <b:commandButton value="#{msg['actionSetComment']}"
                                                  action="#{gradesBean.setComment(gradesBean.getJoinExamForUser(gradesBean.exam,e))}" />
                             </b:dataTableColumn>
