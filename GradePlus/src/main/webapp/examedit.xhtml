@@ -173,8 +173,8 @@
                             <h:outputLabel value="#{msg['outputSelectExaminers']}"/>
                         </b:column>
                         <b:column span="7">
-                            <b:panel rendered="#{!empty examsBean.getPossibleExaminersWithoutUser()}">
-                                <b:dataTable value="#{examsBean.getPossibleExaminersWithoutUser()}" var="u"
+                            <b:panel rendered="#{!empty examsBean.exam.instanceLecture.examiners}">
+                                <b:dataTable value="#{examsBean.exam.instanceLecture.examiners}" var="u"
                                              excel="false"
                                              csv="false"
                                              pdf="false"
@@ -189,7 +189,7 @@
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>
-                            <h:outputLabel rendered="#{empty examsBean.getPossibleExaminersWithoutUser()}"
+                            <h:outputLabel rendered="#{empty examsBean.exam.instanceLecture.examiners}"
                                            value="#{msg['outputNoExaminers']}"/>
                         </b:column>
                     </b:row>
