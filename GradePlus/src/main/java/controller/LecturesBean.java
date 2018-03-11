@@ -199,4 +199,9 @@ public class LecturesBean extends AbstractBean implements Serializable {
         return null;
     }
 
+    public String duplicate(final Lecture pLecture) {
+        lecture = new Lecture(assertNotNull(pLecture, "LecturesBean: duplicate(Lecture)"));
+        return "lecturecreate.xhtml";
+    }
+
 }

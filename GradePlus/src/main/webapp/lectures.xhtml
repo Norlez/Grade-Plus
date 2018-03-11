@@ -71,6 +71,11 @@
                                                  action="#{lecturesBean.setLecture(l)}" />
                             </b:dataTableColumn>
 
+                            <b:dataTableColumn label="#{msg['actionDuplicate']}" orderable="false">
+                                <b:commandButton value="#{msg['actionDuplicate']}"
+                                                 action="#{lecturesBean.duplicate(l)}" />
+                            </b:dataTableColumn>
+
                             <b:dataTableColumn label="#{msg['actionEdit']}" orderable="false">
                                 <b:commandButton value="#{msg['actionEdit']}"
                                                  action="#{lectureEditBean.setSelectedLecture(l)}" />

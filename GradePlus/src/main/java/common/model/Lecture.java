@@ -54,6 +54,26 @@ public class Lecture extends JPAEntity {
     private Set<InstanceLecture> instanceLectures;
 
     /**
+     * Erzeugt eine neue Lehrveranstaltung.
+     */
+    public Lecture() {
+    }
+
+    /**
+     * Erzeugt eine neue Lehrveranstaltung mit den Werten der gegebenen Veranstaltung.
+     *
+     * @param pLecture
+     *            Die Lehrveranstaltung, aus der die Daten übernommen werden sollen.
+     */
+    public Lecture(final Lecture pLecture) {
+        assertNotNull(pLecture, "Lecture: Lecture(Lecture)");
+        name = pLecture.getName();
+        vak = pLecture.getVak();
+        ects = pLecture.getEcts();
+        description = pLecture.getDescription();
+    }
+
+    /**
      * Gibt den Namen der Lehrveranstaltung zurück.
      *
      * @return Den Namen der Lehrveranstaltung.
