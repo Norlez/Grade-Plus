@@ -75,19 +75,21 @@ public class FileBean extends AbstractBean implements Serializable {
     private Part file;
 
     /**
-     * File, das für den jeweiligen Prüfer für eine Prüfung und dem dazugehörigen Studenten im System
-     * hochgeladen wird.
+     * File, das für den jeweiligen Prüfer für eine Prüfung und dem dazugehörigen
+     * Studenten im System hochgeladen wird.
      */
     private UploadedFile uploadFile;
 
-
     /**
      * Setzt den übergebenen String für das jeweilige Attribut in der JoinExam.
-     * @param pByte zu setzende String.
-     * @param pJoinExam Die JoinExam, dessen String attribut durch pString gesetzt werden soll.
+     * 
+     * @param pByte
+     *            zu setzende String.
+     * @param pJoinExam
+     *            Die JoinExam, dessen String attribut durch pString gesetzt werden soll.
      */
-    public String setJoinExamUploadedFile(final byte[] pByte, JoinExam pJoinExam){
-        if(file == null){
+    public String setJoinExamUploadedFile(final byte[] pByte, JoinExam pJoinExam) {
+        if (file == null) {
             addErrorMessage("errorFileEmpty");
             return null;
         }
@@ -99,29 +101,32 @@ public class FileBean extends AbstractBean implements Serializable {
 
     /**
      * Wandelt den InputStream eines UploadedFile-Objektes in einen String um.
-     * @param pFile die File die hochgeladen werden soll.
+     * 
+     * @param pFile
+     *            die File die hochgeladen werden soll.
      * @return der aus dem InputStream erzeugte String
      * @throws IOException
      */
-    public byte[] saveDocumentForUserInDatabaseGaaahdDayum(final UploadedFile pFile) throws IOException{
+    public byte[] saveDocumentForUserInDatabaseGaaahdDayum(final UploadedFile pFile)
+            throws IOException {
         InputStream inputStream = pFile.getInputstream();
-        return  IOUtils.toByteArray(inputStream);
+        return IOUtils.toByteArray(inputStream);
     }
 
     /**
-     * Wandelt einen gegebenen String in einen InputSteam um, der wiederrum in ein StreamedContent objekt gewandelt wird,
-     * damit er vom User runtergeladen werden kann.
+     * Wandelt einen gegebenen String in einen InputSteam um, der wiederrum in ein
+     * StreamedContent objekt gewandelt wird, damit er vom User runtergeladen werden kann.
+     * 
      * @param pJoinExam
      * @return Streamedcontent mit dem neuen Protokoll
      */
-    public StreamedContent downloadUploadedFile(final JoinExam pJoinExam){
+    public StreamedContent downloadUploadedFile(final JoinExam pJoinExam) {
         assertNotNull(pJoinExam.getSavedDocument());
         byte[] tmp = pJoinExam.getSavedDocument();
-        java.io.InputStream inputStream =  new ByteArrayInputStream(tmp);
-        return new DefaultStreamedContent(inputStream, "application/pdf",
-                "Protocol" + pJoinExam.getPruefling().getMatrNr()+ ".pdf");
+        java.io.InputStream inputStream = new ByteArrayInputStream(tmp);
+        return new DefaultStreamedContent(inputStream, "application/pdf", "Protocol"
+                + pJoinExam.getPruefling().getMatrNr() + ".pdf");
     }
-
 
     /**
      * Erzeugt eine neue FileBean.
@@ -130,17 +135,18 @@ public class FileBean extends AbstractBean implements Serializable {
      *            Die Session der zu erzeugenden FileBean.
      * @param pUserDao
      *            Die UserDAO der zu erzeugenden FileBean.
-     *            @param pUserDao
+     * @param pUserDao
      *            Die UserDao der zu erzeugenden FileBean
-     *            @param pGradeDao
+     * @param pGradeDao
      *            Die GradeDao der zu erzeugenden FileBean.
-     *            @param pInstanceLectureDAO
+     * @param pInstanceLectureDAO
      *            Die InstanceLectureDao der zu erzeugenden FileBean.
      *
      */
     @Inject
-    public FileBean(final Session pSession, final UserDAO pUserDao, final GradeDAO pGradeDao,
-            final InstanceLectureDAO pInstanceLectureDAO, final JoinExamDAO pJoinExamDAO) {
+    public FileBean(final Session pSession, final UserDAO pUserDao,
+            final GradeDAO pGradeDao, final InstanceLectureDAO pInstanceLectureDAO,
+            final JoinExamDAO pJoinExamDAO) {
         super(pSession);
         userDao = assertNotNull(pUserDao);
         instanceLectureDAO = assertNotNull(pInstanceLectureDAO);
@@ -148,9 +154,9 @@ public class FileBean extends AbstractBean implements Serializable {
         gradeDAO = pGradeDao;
     }
 
-
     /**
      * Gibt den hochgeladenen UplaodedFile zurück.
+     * 
      * @return
      */
     public UploadedFile getUploadFile() {
@@ -159,10 +165,11 @@ public class FileBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den hochgeladenen File durch den übergebenen Parameter
+     * 
      * @Param die UploadedFile
      */
     public void setUploadFile(UploadedFile uploadFile) {
-        this.uploadFile = assertNotNull(uploadFile) ;
+        this.uploadFile = assertNotNull(uploadFile);
     }
 
     /**
@@ -348,8 +355,8 @@ public class FileBean extends AbstractBean implements Serializable {
         BufferedWriter bw = null;
         try {
 
-            File file = new File(System.getProperty("user.home") + "/Downloads/Exam-Dates-"
-                    + generateRandomString() + ".ics");
+            File file = new File(System.getProperty("user.home")
+                    + "/Downloads/Exam-Dates-" + generateRandomString() + ".ics");
             file.createNewFile();
 
             FileWriter fw = new FileWriter(file);
@@ -369,7 +376,7 @@ public class FileBean extends AbstractBean implements Serializable {
         }
         FacesMessage message = new FacesMessage(
                 "Ihre ICS wurde auf folgendes Verzeichnis gespeichert:"
-                        + System.getProperty("user.home")+"/Downloads");
+                        + System.getProperty("user.home") + "/Downloads");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
@@ -392,7 +399,9 @@ public class FileBean extends AbstractBean implements Serializable {
 
     /**
      * Schreibt die Noten für die gegebene ILV in eine CSV.
-     * @param pInstanceLecture für die die Noten exportiert werden sollen
+     * 
+     * @param pInstanceLecture
+     *            für die die Noten exportiert werden sollen
      *
      */
     public void exportGradesFromInstanceLecture(final InstanceLecture pInstanceLecture) {
@@ -421,6 +430,8 @@ public class FileBean extends AbstractBean implements Serializable {
             }
             csvWriter.flush();
             csvWriter.close();
+            addErrorMessage("outputSaveLocation",
+                    new String[] { System.getProperty("user.home") + "\\Downloads" });
         } catch (java.io.IOException e) {
             System.out.print("Ein Fehler beim Schreiben der Datei.");
         }
@@ -429,7 +440,8 @@ public class FileBean extends AbstractBean implements Serializable {
     /**
      * Importiert eine Notenliste und vergibt die Endnoten an die Prüflinge für diese ILV.
      *
-     * @param pInstanceLecture für die Noten vergeben werden sollen
+     * @param pInstanceLecture
+     *            für die Noten vergeben werden sollen
      *
      * @return null, da keine neue Seite geladen wird
      */
