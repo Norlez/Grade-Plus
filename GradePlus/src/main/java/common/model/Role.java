@@ -4,6 +4,9 @@ import static common.util.Assertion.assertNotNull;
 
 /**
  * Repräsentiert die möglichen Rollen eines Benutzers.
+ * Admin für die Administratoren des Systems.
+ * Examiner für die Prüfer im System.
+ * Student für die Prüflinge im System.
  * 
  * @author Torben Groß
  * @version 2018-02-27

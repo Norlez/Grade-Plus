@@ -40,8 +40,8 @@ import javax.persistence.*;
  *
  * Zwei Noteneintragungen sind äquivalent, wenn sie die gleiche ID besitzen.
  *
- * @author Dennis Schürholz, Karsten Hölscher, Sebastian Offermann
- * @version 2016-07-22
+ * @author Dennis Schürholz, Karsten Hölscher, Sebastian Offermann, Marvin Kampen
+ * @version 2018-03-11
  */
 @Entity
 @Table(name = "grades")
@@ -79,6 +79,9 @@ public class Grade extends JPAEntity implements Serializable {
     @Column(nullable = true)
     private Double endMark;
 
+    /**
+     * Erhält eine Referenz auf die JoinExam, der die Note zugeordnet werden soll.
+     */
     @OneToOne
     private JoinExam joinExam;
 
@@ -162,6 +165,7 @@ public class Grade extends JPAEntity implements Serializable {
         this.endMark = endMark;
     }
 
+    
     @Override
     public boolean equals(final Object theObject) {
         if (!(theObject instanceof Grade)) {

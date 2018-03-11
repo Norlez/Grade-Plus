@@ -9,12 +9,14 @@ import static common.util.Assertion.assertNotEmpty;
 import static common.util.Assertion.assertNotNull;
 
 /**
+ * Nutzen wir nicht.
+ *
  * Repräsentiert einen Kommentar, der von Benutzern auf einem Dokument wie beispielsweise
  * einem Prüfungsprotokoll hinterlassen werden kann. Zu jedem Kommentar ein Autor, sowie
  * der Inhalt und das Erstellungsdatum.
  *
  * @author Torben Groß, Marvin Kampen
- * @version 2018-02-08
+ * @version 2018-03-11
  */
 public class Comment extends JPAEntity {
 

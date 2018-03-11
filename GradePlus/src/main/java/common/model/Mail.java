@@ -3,10 +3,12 @@ package common.model;
 import static common.util.Assertion.assertNotNull;
 
 /**
+ * Nutzen wir nicht.
+ *
  * Repräsentiert eine Nachricht und enthält entsprechende Informationen.
  *
  * @author Torben Groß
- * @version 2018-02-24
+ * @version 2018-03-11
  */
 public class Mail {
 

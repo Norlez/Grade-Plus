@@ -8,9 +8,10 @@ import java.util.List;
 
 /**
  * Für die Speicherung der jeweiligen Einzelnoten und Gesundheitszustände der Studenten.
+ * Eine JoinExam steht für eine Prüfung zwischen Prüfling und Prüfer.
  *
  * @author Marvin Kampen, Torben Groß, Anil Olgun, Tugce Karakus
- * @version 2018-02-20
+ * @version 2018-03-11
  */
 @Entity
 @Table(name = "JoinExams")
@@ -21,12 +22,21 @@ import java.util.List;
         @NamedQuery(name = "JoinExam.getJoinExamsForUser", query = "SELECT j FROM JoinExam j WHERE j.pruefling = :pruefling") })
 public class JoinExam extends JPAEntity {
 
+    /**
+     * Der Prüfungstermin für die der Prüfling angemeldet ist.
+     */
     @ManyToOne(optional = true)
     private Exam exam;
 
+    /**
+     * Eine Referenz auf den Prüfling, der die JoinExam erhalten hat.
+     */
     @ManyToOne
     private User pruefling;
 
+    /**
+     * Die gespeicherten Noten (Teilnote und Endnote) für die InstaneLecture.
+     */
     @OneToOne
     private Grade grade;
 
@@ -42,14 +52,17 @@ public class JoinExam extends JPAEntity {
     @Column(nullable = true)
     private Anmeldeart kind;
 
+    /**
+     * Eine Referenz auf die InstanceLecture zu der die Prüfung gehört.
+     */
     @ManyToOne
     private InstanceLecture instanceLecture;
 
+    /**
+     * Ein Kommentar zur Prüfung, den der Prüfer setzen kann.
+     */
     @Column
     private String commentary;
-
-    @Column
-    private String hitMeBabyOneMoreTime;
 
     public Exam getExam() {
         return exam;
@@ -107,16 +120,12 @@ public class JoinExam extends JPAEntity {
         this.instanceLecture = instanceLecture;
     }
 
+    /**
+     * Ein String der alle relevanten Attribute der JoinExam enthält. Sollte für den CsvWriter verwendet werden.
+     * @return String im Format attribut; attribut; und so weiter
+     */
     public String toCSV() {
         return String.format("%d; %s; %s; %s; %s, %f", getId(), kind, krank, exam,
                 pruefling, grade);
-    }
-
-    public String getHitMeBabyOneMoreTime() {
-        return hitMeBabyOneMoreTime;
-    }
-
-    public void setHitMeBabyOneMoreTime(String hitMeBabyOneMoreTime) {
-        this.hitMeBabyOneMoreTime = hitMeBabyOneMoreTime;
     }
 }

@@ -5,11 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Nutzen wir nicht.
+ *
  * Repräsentiert die Historie bestimmter Vorgänge eines Prüflings (Anmeldungen,
  * Abmeldungen, Terminverschiebungen, Krankmeldungen und Notenvergaben).
  *
  * @author Torben Groß, Marvin Kampen
- * @version 2018-01-09
+ * @version 2018-03-11
  */
 public class History extends JPAEntity {
 

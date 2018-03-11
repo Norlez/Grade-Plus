@@ -5,11 +5,14 @@ import java.io.File;
 import static common.util.Assertion.assertNotNull;
 
 /**
+ * Nutzen wir nicht.
+ *
  * Repräsentiert ein Backup, welches von einem Adminangelegt werden kann. Zu jedem Backup
  * werden die Daten aus der Datenbank als Datei mit dem Datum und Uhrzeit abgeschpeichert.
  *
+ *
  * @author Andreas Estenfelder, Marvin Kampen
- * @version 2018-01-09
+ * @version 2018-03-11
  */
 public class Backup extends JPAEntity {
 
