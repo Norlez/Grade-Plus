@@ -49,7 +49,7 @@
                                 <h:outputText value="#{msg['subtitleLectures']}" />
                             </h2>
                         </b:column>
-                        <b:column>
+                        <b:column rendered="#{! empty instanceLecturesBean.lecturesOfStudent}">
                             <b:commandButton value="#{msg['outputIcs']}" action="#{fileBean.printDateAsICS(instanceLectureEditBean.getExams(profileBean.thisUser))}" />
                         </b:column>
                     </b:row>

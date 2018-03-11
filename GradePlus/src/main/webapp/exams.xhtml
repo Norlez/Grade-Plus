@@ -233,11 +233,11 @@
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputSubRating']}">
                                         <h:outputText rendered="#{! empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}"/>
-                                        <h:outputText rendered="#{empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNoSubRating']}"/>
+                                        <h:outputText rendered="#{empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNotSpecified']}"/>
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="#{msg['outputFinalScore']}">
                                         <h:outputText rendered="#{! empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}"/>
-                                        <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNoFinalScore']}"/>
+                                        <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNotSpecified']}"/>
                                     </b:dataTableColumn>
                                     <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRemove']}" orderable="false">
                                         <b:commandButton value="#{msg['actionRemove']}"

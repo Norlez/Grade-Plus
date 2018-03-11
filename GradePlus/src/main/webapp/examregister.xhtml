@@ -46,10 +46,7 @@
                             <b:dataTableColumn label="#{msg['outputDate']}" value="#{e.dateToString()}" />
                             <b:dataTableColumn label="#{msg['outputTime']}" value="#{e.timeToString()}" />
                             <b:dataTableColumn label="#{msg['outputLength']}" value="#{e.examLength}" />
-                            <b:dataTableColumn label="#{msg['outputAvailableSpots']}">
-                                <h:outputText rendered="#{e.isSpotAvailable()}" value="#{e.getAvailableSpots()}" />
-                                <h:outputText rendered="#{! e.isSpotAvailable()}" value="#{msg['outputNoAvailableSpots']}" />
-                            </b:dataTableColumn>
+                            <b:dataTableColumn label="#{msg['outputAvailableSpots']}" value="#{e.emptySpotsToString()}"/>
                             <b:dataTableColumn label="#{msg['outputLocation']}">
                                 <h:outputText rendered="#{! empty e.location}" value="#{e.location}" />
                                 <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}" />
@@ -68,6 +65,16 @@
                         <h:outputLabel rendered="#{instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
                                        value="#{msg['outputTermOfApplicationExceeded']}" />
 
+                    </b:column>
+                </b:row>
+            </b:container>
+
+            <b:container>
+                <!-- LINK BACK -->
+                <b:row class="space25px" />
+                <b:row>
+                    <b:column span="1" colSm="12" colMd="12" colXs="12">
+                        <b:button class="btn" id="back" value="#{msg['linkBack']}" outcome="semesterdetails" />
                     </b:column>
                 </b:row>
             </b:container>
