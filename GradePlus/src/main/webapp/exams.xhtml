@@ -356,11 +356,11 @@
                                         <h:outputText rendered="#{empty e.location}" value="#{msg['outputNotSpecified']}"/>
                                     </b:dataTableColumn>
 
-                                    <b:dataTableColumn label="#{msg['actionRelease']}" orderable="false">
-                                        <b:commandButton rendered="#{!e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                    <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRelease']}" orderable="false">
+                                        <b:commandButton rendered="#{!e.getReleased()}"
                                                          value="#{msg['actionRelease']}"
                                                          action="#{examsBean.releaseExam(e)}"/>
-                                        <b:commandButton rendered="#{e.getReleased() and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                        <b:commandButton rendered="#{e.getReleased()}"
                                                          value="#{msg['actionClose']}"
                                                          action="#{examsBean.closeExam(e)}"/>
                                     </b:dataTableColumn>
