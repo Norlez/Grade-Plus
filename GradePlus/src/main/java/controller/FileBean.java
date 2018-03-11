@@ -33,7 +33,7 @@ import static common.util.Assertion.assertNotNull;
  * Diese Bean ist für das Importieren und Exportieren verschiedener Dateien wie
  * Pabo-Listen zuständig.
  *
- * @author Torben Groß
+ * @author Torben Groß, Marvin Kampen, Tugce Karakus
  * @version 2018-02-27
  */
 @Named
@@ -112,7 +112,7 @@ public class FileBean extends AbstractBean implements Serializable {
      * Wandelt einen gegebenen String in einen InputSteam um, der wiederrum in ein StreamedContent objekt gewandelt wird,
      * damit er vom User runtergeladen werden kann.
      * @param pJoinExam
-     * @return
+     * @return Streamedcontent mit dem neuen Protokoll
      */
     public StreamedContent downloadUploadedFile(final JoinExam pJoinExam){
         assertNotNull(pJoinExam.getSavedDocument());
@@ -130,6 +130,13 @@ public class FileBean extends AbstractBean implements Serializable {
      *            Die Session der zu erzeugenden FileBean.
      * @param pUserDao
      *            Die UserDAO der zu erzeugenden FileBean.
+     *            @param pUserDao
+     *            Die UserDao der zu erzeugenden FileBean
+     *            @param pGradeDao
+     *            Die GradeDao der zu erzeugenden FileBean.
+     *            @param pInstanceLectureDAO
+     *            Die InstanceLectureDao der zu erzeugenden FileBean.
+     *
      */
     @Inject
     public FileBean(final Session pSession, final UserDAO pUserDao, final GradeDAO pGradeDao,
@@ -180,7 +187,7 @@ public class FileBean extends AbstractBean implements Serializable {
     /**
      * Speichert eine Menge von Usern aus einer CSV -Datei in die Applikation
      *
-     * @return
+     * @return users.xhtml als weiterführende Seite
      * @throws IOException
      */
     public String saveFromCSV() throws IOException {
@@ -370,7 +377,7 @@ public class FileBean extends AbstractBean implements Serializable {
      * Generiert einen zufälligen String, damit eine neue ICS erstellt wird und nicht
      * immer die alte überschrieben wird.
      * 
-     * @return
+     * @return zufällig generierter String
      */
     protected String generateRandomString() {
         String pool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!&§$#";
@@ -384,7 +391,8 @@ public class FileBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Schreibt die Noten für die gegebene Liste von JoinExams in eine CSV.
+     * Schreibt die Noten für die gegebene ILV in eine CSV.
+     * @param pInstanceLecture für die die Noten exportiert werden sollen
      *
      */
     public void exportGradesFromInstanceLecture(final InstanceLecture pInstanceLecture) {
@@ -420,6 +428,10 @@ public class FileBean extends AbstractBean implements Serializable {
 
     /**
      * Importiert eine Notenliste und vergibt die Endnoten an die Prüflinge für diese ILV.
+     *
+     * @param pInstanceLecture für die Noten vergeben werden sollen
+     *
+     * @return null, da keine neue Seite geladen wird
      */
     public String importGradesFromInstanceLecture(InstanceLecture pInstanceLecture)
             throws IOException {
@@ -433,7 +445,7 @@ public class FileBean extends AbstractBean implements Serializable {
             lines.add(line);
         }
         for (String theLine : lines) {
-            String[] data = theLine.split(";");
+            String[] data = theLine.split(";"); // Schaut nur nach der MatrNr
             if (userDao.getUserForMatrNr(data[0].trim()) != null) {
                 User u = userDao.getUserForMatrNr(data[0].trim());
                 for (JoinExam j : joinExamDAO.getJoinExamsForUser(u)) {
