@@ -121,13 +121,11 @@
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputRecipe']}">
                                 <p:growl id="messages" showDetail="true" />
-                                <p:fileUpload value="#{fileBean.uploadFile}" mode="simple" skinSimple="true"/>
-                                <p:commandButton value="Submit" ajax="false"
+                                <p:fileUpload value="#{fileBean.uploadFile}" mode="simple" skinSimple="true" rendered="#{empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}"/>
+                                <p:commandButton value="#{msg['outputUpload']}" ajax="false" rendered="#{empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}"
                                                  actionListener="#{fileBean.setJoinExamUploadedFile(fileBean.saveDocumentForUserInDatabaseGaaahdDayum(fileBean.uploadFile)
-                                                                ,gradesBean.getJoinExamForUser(gradesBean.exam,e))}"/>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputRecipe']}">
-                                <p:commandButton value="#{msg['actionDownload']}" ajax="false">
+                                    ,gradesBean.getJoinExamForUser(gradesBean.exam,e))}"/>
+                                <p:commandButton value="#{msg['actionDownload']}" ajax="false" rendered="#{!empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}">
                                     <p:fileDownload value="#{fileBean.downloadUploadedFile(gradesBean.getJoinExamForUser(gradesBean.exam,e))}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
