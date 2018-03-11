@@ -22,6 +22,10 @@ import static common.util.Assertion.assertNotNull;
 @Stateless
 public class ExamDAO extends JPADAO<Exam> implements Serializable {
 
+    /**
+     * Holt sich die Klasse, welche persistiert wird.
+     * @return Exam Klasse
+     */
     @Override
     Class<Exam> getClazz() {
         return Exam.class;

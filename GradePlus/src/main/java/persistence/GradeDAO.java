@@ -46,6 +46,10 @@ import static common.util.Assertion.assertNotNull;
 @Stateless
 public class GradeDAO extends JPADAO<Grade> implements Serializable {
 
+    /**
+     * Holt sich die Klasse, welche persistiert wird.
+     * @return Grade Klasse
+     */
     @Override
     Class<Grade> getClazz() {
         return Grade.class;

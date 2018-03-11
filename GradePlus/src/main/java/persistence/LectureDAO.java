@@ -24,6 +24,10 @@ import static java.lang.String.format;
 @Stateless
 public class LectureDAO extends JPADAO<Lecture> implements Serializable {
 
+    /**
+     * Holt sich die Klasse, welche persistiert wird.
+     * @return Lecture Klasse
+     */
     @Override
     Class<Lecture> getClazz() {
         return Lecture.class;
