@@ -250,6 +250,10 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * @return "semester.xhtml", um auf das Facelet der Übersicht der ILVs zu leiten.
      */
     public String save() {
+        if (instanceLecture.isTermOfApplicationExceeded()) {
+            addErrorMessage("errorTermOfApplicationInHistory");
+            return "semestercreate.xhtml";
+        }
         for (InstanceLecture il : getAllInstanceLectures()
                 .stream()
                 .filter(x -> x.getLecture().getId()

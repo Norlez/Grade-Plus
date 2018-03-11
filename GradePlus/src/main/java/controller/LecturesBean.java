@@ -141,7 +141,6 @@ public class LecturesBean extends AbstractBean implements Serializable {
      *         leiten.
      */
     public String save() {
-        System.out.println("YOOOOOOOOOOOOOOOOOOOOOO");
         try {
             lectureDao.save(lecture);
         } catch (final IllegalArgumentException e) {
