@@ -245,7 +245,7 @@ public class UsersBean extends AbstractBean implements Serializable {
      * Aktualisiert den aktuell angezeigten Benutzer in der Liste aller bekannten Benutzer
      * unter Verwendung des entsprechenden Data-Access-Objekts.
      */
-    public void update(final User pUser) { 
+    public void update(final User pUser) {
         assertNotNull(pUser);
         try {
             userDao.update(pUser);

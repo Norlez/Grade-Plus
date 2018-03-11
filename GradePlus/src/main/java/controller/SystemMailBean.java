@@ -42,7 +42,7 @@ import static common.util.Assertion.assertNotNull;
 /**
  * Dieses Bean ist der Controller für die System-Mail.
  *
- * @author Arbnor Miftari
+ * @author Arbnor Miftari, Anil Olgun
  * @version 2018-01-2018
  */
 @Named

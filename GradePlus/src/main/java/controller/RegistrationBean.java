@@ -20,7 +20,7 @@ import static common.util.Assertion.assertNotNull;
 /**
  * Dieses Bean ist der Controller für den Registrierungs-Dialog.
  *
- * @author Torben Groß
+ * @author Torben Groß, Andreas Estenfelder
  * @version 2018-01-2018
  */
 @Named
