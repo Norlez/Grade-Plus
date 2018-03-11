@@ -99,27 +99,27 @@
                                 </b:selectOneMenu>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputOptions']}">
-                                <b:commandButton rendered="#{!gradesBean.hasGrade(e)}"
+                                <b:commandButton rendered="#{!gradesBean.hasGrade(e)}" style="width: 150px"
                                                  value="#{msg['actionSave']}"
                                                  action="#{gradesBean.save(gradesBean.exam, e)}" />
-                                <b:commandButton rendered="#{gradesBean.hasGrade(e)}"
+                                <b:commandButton rendered="#{gradesBean.hasGrade(e)}" style="width: 150px"
                                                  value="#{msg['actionUpdate']}"
                                                  action="#{gradesBean.update(gradesBean.exam, e)}" />
-                                <b:commandButton value="#{msg['actionComment']}"
+                                <b:commandButton value="#{msg['actionComment']}" style="width: 150px"
                                                  action="#{gradesBean.setComment(gradesBean.getJoinExamForUser(gradesBean.exam,e))}" />
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputDownload']}">
-                                <p:commandButton value="#{msg['outputCertificate']}" ajax="false">
+                                <p:commandButton value="#{msg['outputCertificate']}" ajax="false" style="width: 150px">
                                     <p:fileDownload value="#{documentBean.getCertificates(e,gradesBean.exam)}"/>
                                 </p:commandButton>
-                                <p:commandButton value="#{msg['outputProtocol']}" ajax="false">
+                                <p:commandButton value="#{msg['outputProtocol']}" ajax="false" style="width: 150px">
                                     <p:fileDownload value="#{documentBean.getProtocol(e,gradesBean.exam)}"/>
                                 </p:commandButton>
-                                <p:commandButton value="#{msg['outputRecipe']}" ajax="false">
+                                <p:commandButton value="#{msg['outputRecipe']}" ajax="false" style="width: 150px">
                                     <p:fileDownload value="#{documentBean.getReceipe(e,gradesBean.exam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputRecipe']}">
+                            <b:dataTableColumn label="#{msg['outputScannedProtocol']}">
                                 <p:growl id="messages" showDetail="true" />
                                 <p:fileUpload value="#{fileBean.uploadFile}" mode="simple" skinSimple="true" rendered="#{empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}"/>
                                 <p:commandButton value="#{msg['outputUpload']}" ajax="false" rendered="#{empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}"
