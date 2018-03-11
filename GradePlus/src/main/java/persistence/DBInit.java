@@ -39,6 +39,8 @@ import common.model.InstanceLecture;
 import org.apache.log4j.Logger;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Initialisiert den Datenbestand bei Start der Webapplikation.
@@ -86,8 +88,8 @@ public class DBInit {
     private LectureDAO lectureDAO;
 
     /**
-     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
-     * Prüfungs-Objekte übernimmt.
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Prüfungs-Objekte
+     * übernimmt.
      */
     @Inject
     private ExamDAO examDAO;
@@ -112,7 +114,7 @@ public class DBInit {
             final User student = new User();
             final Lecture lecture = new Lecture();
             // final Exam exam = new Exam();
-            user.setUsername(DEFAULT_USER_NAME); //Der Admin
+            user.setUsername(DEFAULT_USER_NAME); // Der Admin
             user.setEmail(DEFAULT_USER_EMAIL);
             user.setPassword(DEFAULT_USER_PASSWORD);
             user.setGivenName("Putin");
@@ -131,15 +133,93 @@ public class DBInit {
             student.setMatrNr("1415352");
             student.setPassword("123");
             student.setEmail("horstIsOffline@offline.de");
-            lecture.setVak("2035252-2"); //Die Lehrveranstaltung
+            lecture.setVak("2035252-2"); // Die Lehrveranstaltung
             lecture.setEcts(9);
             lecture.setName("SWP-2");
             // exam.setInstanceLecture(instanceLecture);
             // exam.setLocalDateTime(LocalDateTime.of(2019, 10, 2, 4, 25));
+
+            // VON TORBEN ZUM TESTEN
+            final List<User> students = new ArrayList<>();
+            final List<User> examiners = new ArrayList<>();
+            final List<User> admins = new ArrayList<>();
+
+            for (int i = 1; i <= 9; i++) {
+                final User s = new User();
+                s.setUsername("s" + i);
+                s.setEmail("s" + i + "@offline.de");
+                s.setMatrNr("4" + i + i + i + i + i + i);
+                s.setRole(Role.STUDENT);
+                s.setPassword("s" + i);
+                students.add(s);
+            }
+            students.get(0).setGivenName("Sabine");
+            students.get(0).setSurname("Einsel");
+            students.get(1).setGivenName("Samuel");
+            students.get(1).setSurname("Zweierlei");
+            students.get(2).setGivenName("Simon");
+            students.get(2).setSurname("Dreie");
+            students.get(3).setGivenName("Siegfried");
+            students.get(3).setSurname("Vierman");
+            students.get(4).setGivenName("Sven");
+            students.get(4).setSurname("Fünffe");
+            students.get(5).setGivenName("Stefan");
+            students.get(5).setSurname("Sechsmer");
+            students.get(6).setGivenName("Saman");
+            students.get(6).setSurname("Siebenne");
+            students.get(7).setGivenName("Sarah");
+            students.get(7).setSurname("Achtel");
+            students.get(8).setGivenName("Sara");
+            students.get(8).setSurname("NeunzigerJahreMusik");
+            for (int i = 1; i <= 5; i++) {
+                final User e = new User();
+                e.setUsername("e" + i);
+                e.setEmail("e" + i + "@offline.de");
+                e.setRole(Role.EXAMINER);
+                e.setPassword("e" + i);
+                examiners.add(e);
+            }
+            examiners.get(0).setGivenName("Emil");
+            examiners.get(0).setSurname("Einsel");
+            examiners.get(1).setGivenName("Eberhart");
+            examiners.get(1).setSurname("Zweierlei");
+            examiners.get(2).setGivenName("Emily");
+            examiners.get(2).setSurname("Dreie");
+            examiners.get(3).setGivenName("Eckerhardt");
+            examiners.get(3).setSurname("Vierman");
+            examiners.get(4).setGivenName("Erik");
+            examiners.get(4).setSurname("Fünffe");
+            for (int i = 1; i <= 2; i++) {
+                final User e = new User();
+                e.setUsername("a" + i);
+                e.setEmail("a" + i + "@offline.de");
+                e.setRole(Role.ADMIN);
+                e.setPassword("a" + i);
+                admins.add(e);
+            }
+            admins.get(0).setGivenName("Amelie");
+            admins.get(0).setSurname("Einsel");
+            admins.get(1).setGivenName("Arbnor");
+            admins.get(1).setSurname("Zweierlei");
+            // BIS HIER
+
             try {
                 userDAO.save(user);
                 userDAO.save(pUser);
                 userDAO.save(student);
+
+                // VON TORBEN ZUM TESTEN
+                for (User s : students) {
+                    userDAO.save(s);
+                }
+                for (User e : examiners) {
+                    userDAO.save(e);
+                }
+                for (User a : admins) {
+                    userDAO.save(a);
+                }
+                // BIS HIER
+
                 lectureDAO.save(lecture);
                 // examDAO.save(exam);
             } catch (final DuplicateUsernameException ex) {
