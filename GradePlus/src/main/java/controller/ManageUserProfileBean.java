@@ -15,6 +15,12 @@ import persistence.UserDAO;
 
 import static common.util.Assertion.assertNotNull;
 
+/**
+ * Dieses Bean ist für die Passwort vergessen Funktion des Benutzers zuständig.
+ *
+ * @author Sebastian Offermann, Karsten Hölscher, Marcel Steinbeck, Arbnor
+ * @version 2018-03-09
+ */
 @Named
 @RequestScoped
 public class ManageUserProfileBean extends LoginIndependentBean {
@@ -66,30 +72,60 @@ public class ManageUserProfileBean extends LoginIndependentBean {
         userDao = assertNotNull(pUserDAO);
     }
 
+    /**
+     * Getter für das Password Attribut
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Setter für das Password-Attribut
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = Assertion.assertNotNull(password);
     }
 
+    /**
+     * Getter für das PasswordWDH Attribut
+     * @return passwordWDH
+     */
     public String getPasswordWDH() {
         return passwordWDH;
     }
 
+    /**
+     * Setter für das PasswordWDH-Attribut
+     * @param passwordWDH
+     */
     public void setPasswordWDH(String passwordWDH) {
         this.passwordWDH = Assertion.assertNotNull(passwordWDH);
     }
 
+    /**
+     * Getter für das Username Attribut
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Setter für das Username-Attribut
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = Assertion.assertNotNull(username);
     }
 
+    /**
+     * Prüft das Password auf Gleiheit.
+     * @param pass1 der erste Vergleichswert
+     * @param pass2 der zweite Vergleichswert
+     * @return true, wenn sie gleich sind
+     */
     public Boolean checkPassword(final String pass1, final String pass2) {
         if (pass1.equals(pass2)) {
             return true;
