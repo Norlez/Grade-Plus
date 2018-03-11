@@ -5,9 +5,12 @@ import java.util.List;
 import common.model.Backup;
 
 /**
+ * Wird nicht genutzt.
+ *
  * Dieses DAO verwaltet die Objekte der Klasse {@link Backup}.
  * 
  * @author Torben Groß
+ * @version 2018-03-11
  */
 public class BackupDAO extends JPADAO<Backup> {
 

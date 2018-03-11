@@ -6,9 +6,12 @@ import common.model.History;
 import common.model.User;
 
 /**
+ * Wird nicht genutzt.
+ *
  * Dieses DAO verwaltet die Objekte der Klasse {@link History}.
  * 
  * @author Torben Groß
+ * @version 2018-03-11
  */
 public class HistoryDAO extends JPADAO<History> {
 

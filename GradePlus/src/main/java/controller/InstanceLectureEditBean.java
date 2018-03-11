@@ -1131,4 +1131,5 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         }
         return tmp;
     }
+
 }

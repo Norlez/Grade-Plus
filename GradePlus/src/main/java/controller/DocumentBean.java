@@ -144,7 +144,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
     private String course = "343636343";
 
     // Ist Pruefung eine Gruppenpruefung
-    private boolean groupe;
+    private boolean groupe = false;
 
     // Angabe des Pruefers zum Inhalt
     private String contentExaminer = "343636343";
@@ -588,9 +588,6 @@ public class DocumentBean extends AbstractBean implements Serializable {
             content = exam.getInstanceLecture().getLecture().getDescription();
         }
 
-        if (exam.getParticipants().size() < 1) {
-            groupe = true;
-        }
 
         try {
 
@@ -667,7 +664,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
             contentStream.endText();
 
             // Einzel, Gruppenleistung
-            if (groupe == false) {
+            if (groupe == true) {
                 contentStream.beginText();
                 contentStream.setFont(fontTimes, 12);
                 contentStream.newLineAtOffset(122, 338);

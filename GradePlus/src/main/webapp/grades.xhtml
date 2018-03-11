@@ -92,7 +92,7 @@
                                 <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(e, instanceLectureEditBean.instanceLecture)}"
                                               value="#{msg['outputNoFinalScore']}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputComment']}" value="#{e.givenName}" />
+                            <b:dataTableColumn label="#{msg['outputComment']}" value="#{gradesBean.getJoinExamForUser(gradesBean.exam,e).commentary}" />
                             <b:dataTableColumn label="#{msg['outputSetGrade']}">
                                 <b:selectOneMenu class="form-control" value="#{gradesBean.selectedGrade}">
                                     <f:selectItems value="#{gradesBean.possibleGrades}" />

@@ -43,8 +43,8 @@ import java.time.LocalDateTime;
 /**
  * Initialisiert den Datenbestand bei Start der Webapplikation.
  * 
- * @author Karsten Hölscher, Sebastian Offermann
- * @version 2016-07-25
+ * @author Karsten Hölscher, Sebastian Offermann, Marvin Kampen
+ * @version 2018-03-11
  */
 @ApplicationScoped
 public class DBInit {
@@ -85,6 +85,10 @@ public class DBInit {
     @Inject
     private LectureDAO lectureDAO;
 
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
+     * Prüfungs-Objekte übernimmt.
+     */
     @Inject
     private ExamDAO examDAO;
 
@@ -108,26 +112,26 @@ public class DBInit {
             final User student = new User();
             final Lecture lecture = new Lecture();
             // final Exam exam = new Exam();
-            user.setUsername(DEFAULT_USER_NAME);
+            user.setUsername(DEFAULT_USER_NAME); //Der Admin
             user.setEmail(DEFAULT_USER_EMAIL);
             user.setPassword(DEFAULT_USER_PASSWORD);
             user.setGivenName("Putin");
             user.setSurname("Vladi");
             user.setRole(Role.ADMIN);
-            pUser.setUsername("user");
+            pUser.setUsername("user"); // Der Prüfer
             pUser.setEmail("user@offline.de");
             pUser.setPassword("123");
             pUser.setGivenName("Boris");
             pUser.setSurname("Jelzin");
             pUser.setRole(Role.EXAMINER);
-            student.setUsername("student");
+            student.setUsername("student"); // Der Student
             student.setGivenName("Horst");
             student.setSurname("Hubert");
             student.setRole(Role.STUDENT);
             student.setMatrNr("1415352");
             student.setPassword("123");
             student.setEmail("horstIsOffline@offline.de");
-            lecture.setVak("2035252-2");
+            lecture.setVak("2035252-2"); //Die Lehrveranstaltung
             lecture.setEcts(9);
             lecture.setName("SWP-2");
             // exam.setInstanceLecture(instanceLecture);

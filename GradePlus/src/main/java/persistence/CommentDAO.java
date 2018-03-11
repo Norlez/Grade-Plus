@@ -6,9 +6,12 @@ import common.model.Comment;
 import common.model.User;
 
 /**
+ * Wird nicht genutzt.
+ *
  * Dieses DAO verwaltet die Objekte der Klasse {@link Comment}.
  * 
  * @author Torben Groß
+ * @version 2018-03-11
  */
 public class CommentDAO extends JPADAO<Comment> {
 
