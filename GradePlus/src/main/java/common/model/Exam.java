@@ -213,18 +213,34 @@ public class Exam extends JPAEntity {
                 "Exam: setParticipants(List<JoinExam>)");
     }
 
+    /**
+     * Getter für das GroupSize-Attribut
+     * @return  groupsize
+     */
     public Integer getGroupSize() {
         return groupSize;
     }
 
+    /**
+     * Setter für das GroupSize-Attribut
+     * @param pGroupSize, darf nicht null sein
+     */
     public void setGroupSize(final Integer pGroupSize) {
         groupSize = assertNotNull(pGroupSize);
     }
 
+    /**
+     * Gibt die verfügbaren freien Plätze für einen Prüfungstermin zurück.
+     * @return Freie Plätze als int
+     */
     public Integer getAvailableSpots() {
         return groupSize - getParticipants().size();
     }
 
+    /**
+     * Gibt zurück, ob ein Platz in  einer Prüfung verfügbar ist oder nicht.
+     * @return true, wenn der Platz verfügbar ist. False, wenn kein Platz verfügbar ist.
+     */
     public boolean isSpotAvailable() {
         return getAvailableSpots() > 0;
     }
@@ -425,6 +441,10 @@ public class Exam extends JPAEntity {
         return localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT));
     }
 
+    /**
+     * Gibt eine String Repräsentation des Exam-Objekts zurück.
+     * @return String Repräsentation
+     */
     @Override
     public String toString() {
         return String.format(
@@ -434,23 +454,40 @@ public class Exam extends JPAEntity {
                                 FormatStyle.SHORT)), examLength, isReleased);
     }
 
+    /**
+     * Gibt einen String zurück für den CsvWriter
+     * @return CSV-String im Format: Attribut;Attribut;
+     */
     public String toCSV() {
         return String.format("%d; %s; %d; %s; %b, %s, %s, %s", getId(), comment,
                 examLength, examRegulations, isReleased, localDateTime, type,
                 instanceLecture);
     }
 
+    /**
+     * Gibt den Prüfungstermin als String zurück.
+     * @return date in Form des Strings.
+     */
     public String examDateToString() {
         String date = dateToString(localDateTime);
         return date;
     }
 
+    /**
+     * Gibt den Prüfungstermin mitsamt der Prüfungslänge einberechnet als String zurück.
+     * @return date in Form von Datum der Veranstaltung und das Ende der Prüfung als Zeit
+     */
     public String datePlusExamLengthToString() {
         LocalDateTime ldtNew = getLocalDateTime().plusMinutes(getExamLength());
         String date = dateToString(ldtNew);
         return date;
     }
 
+    /**
+     * Gibt das Datum des Parameter als String zurück
+     * @param localDateTime
+     * @return Format: yyyyMMddThhmmssZ
+     */
     private String dateToString(LocalDateTime localDateTime) {
         String date = new String("" + localDateTime.getYear() + localDateTime.getMonth()
                 + localDateTime.getDayOfMonth() + "T" + localDateTime.getHour()
@@ -458,6 +495,11 @@ public class Exam extends JPAEntity {
         return date;
     }
 
+    /**
+     * Vergleicht die Gleichheit zweier Exam-Objekte.
+     * @param theObject
+     * @return true, falls die Objektegleich sind, sonst false.
+     */
     @Override
     public boolean equals(final Object theObject) {
         if (this == theObject) {
@@ -477,7 +519,7 @@ public class Exam extends JPAEntity {
      * Formatiert die gegebene LocalDateTime um, damit sie für die ICS-Datei richtig
      * gespeichert wird. Dies ist der Anfang der Prüfung.
      *
-     * @return
+     * @return Format: yyyyMMddTHHmm00
      */
     public String dateTimeToIcsFormat() {
         return "Europe/Berlin:"
@@ -489,7 +531,7 @@ public class Exam extends JPAEntity {
      * Formatiert die gegebene LocalDateTime um, damit sie für die ICS-Datei richtig
      * gespeichert wird. Dies ist das Ende der Prüfung.
      *
-     * @return
+     * @return Format Europe/Berlin: yyyyMMddTHHmm00
      */
     public String dateTimeToIcsPlusExamLengthFormat() {
         return "Europe/Berlin:"
@@ -510,6 +552,10 @@ public class Exam extends JPAEntity {
                 DateTimeFormatter.ofPattern("HH:mm"));
     }
 
+    /**
+     * Gibt die Anzahl der verfügbaren Plätze in einem Exam als String zurück.
+     * @return Format: Anzahl/Gruppengröße
+     */
     public String emptySpotsToString() {
         return getAvailableSpots() + "/" + groupSize;
     }

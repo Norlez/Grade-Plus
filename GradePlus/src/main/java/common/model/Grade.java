@@ -149,23 +149,43 @@ public class Grade extends JPAEntity implements Serializable {
         mark = Assertion.assertNotNull(pMark);
     }
 
+    /**
+     *  Setter für das JoinExam-Attribut
+     * @param joinExam
+     */
     public void setJoinExam(JoinExam joinExam) {
         this.joinExam = joinExam;
     }
 
+    /**
+     *  Getter für das JoinExam-Attribut
+     * @return joinExam
+     */
     public JoinExam getJoinExam() {
         return joinExam;
     }
 
+    /**
+     * Getter für das EndMark-Attribut
+     * @return endMark
+     */
     public Double getEndMark() {
         return endMark;
     }
 
+    /**
+     * Setter für das EndMark-Attribut
+     * @param endMark
+     */
     public void setEndMark(Double endMark) {
         this.endMark = endMark;
     }
 
-    
+    /**
+     * Vergleicht die Objekte der Klasse Grade auf Gleichheit.
+     * @param theObject
+     * @return true, falls die Objekte gleich sind, sonst false
+     */
     @Override
     public boolean equals(final Object theObject) {
         if (!(theObject instanceof Grade)) {
@@ -175,17 +195,29 @@ public class Grade extends JPAEntity implements Serializable {
         return getId().equals(otherGrade.getId());
     }
 
+    /**
+     * Gibt den HashCode für das Grade-Objekt zurück.
+     * @return Hashcode als int
+     */
     @Override
     public int hashCode() {
         return getId().hashCode();
     }
 
+    /**
+     * Gibt die String Repräsentation des Grade-Objekts zurück.
+     * @return Stringrepräsentation
+     */
     @Override
     public String toString() {
         return String.format("Grade {id: %d, subject: %s, mark: %s}", getId(), subject,
                 mark);
     }
 
+    /**
+     * Gibt eine String Repräsentation zurück, die für CSVs geeignet ist.
+     * @return String im Format: Attribut; Attribut;
+     */
     public String toCSV() {
         return String.format("%d; %s; %s; %f", getId(), user, subject, mark);
     }

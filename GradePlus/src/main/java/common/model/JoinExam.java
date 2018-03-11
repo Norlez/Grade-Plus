@@ -71,59 +71,114 @@ public class JoinExam extends JPAEntity {
     @Lob
     private byte[] savedDocument;
 
-
+    /**
+     * Getter für Exam-Attribut
+     * @return exam
+     */
     public Exam getExam() {
         return exam;
     }
 
+    /**
+     * Setter für Exam-Attribut
+     * @param exam
+     */
     public void setExam(Exam exam) {
         this.exam = exam;
     }
 
+    /**
+     * Getter für Prüfling-Attribut
+     * @return pruefling
+     */
     public User getPruefling() {
         return pruefling;
     }
 
+    /**
+     * Setter für Prüfling-Attribut
+     * @param pruefling
+     */
     public void setPruefling(User pruefling) {
         this.pruefling = pruefling;
     }
 
+    /**
+     * Getter für das Kind-Attribut.
+     * @return kind, wie der Prüfling angemeldet wurde.
+     */
     public Anmeldeart getKind() {
         return kind;
     }
 
+    /**
+     * Setter für das Kind-Attribut.
+     * @param kind
+     */
     public void setKind(Anmeldeart kind) {
         this.kind = kind;
     }
 
+    /**
+     * Getter für isKrank-Attribut
+     * @return isKrank
+     */
     public boolean isKrank() {
         return krank;
     }
 
+    /**
+     * Setter für isKrank-Attribut
+     * @param krank
+     */
     public void setKrank(boolean krank) {
         this.krank = krank;
     }
 
+    /**
+     * Getter für Commentary-Attribut
+     * @return commentary
+     */
     public String getCommentary() {
         return commentary;
     }
 
+    /**
+     * Setter für commentary-Attribut
+     * @param commentary
+     */
     public void setCommentary(String commentary) {
         this.commentary = commentary;
     }
 
+    /**
+     * Getter für Grade-Attribut
+     * @return grade
+     */
     public Grade getGrade() {
         return grade;
     }
 
+    /**
+     * Setter für Grade-Attribut
+     * @param grade
+     */
     public void setGrade(Grade grade) {
         this.grade = grade;
     }
 
+    /**
+     * Getter für InstanceLecture-Attribut
+     * @return instanceLecture
+     */
     public InstanceLecture getInstanceLecture() {
         return instanceLecture;
     }
 
+    /**
+     * Setter für InstanceLecture-Attribut
+     * @param instanceLecture
+     */
     public void setInstanceLecture(InstanceLecture instanceLecture) {
         this.instanceLecture = instanceLecture;
     }

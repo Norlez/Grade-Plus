@@ -12,7 +12,8 @@ import static common.util.Assertion.assertNotNull;
  * Vak-Nummer, ein Semester, die ECTS der Veranstaltung sowie eine Beschreibung der
  * Veranstaltung.
  *
- * @author Torben Groß
+ * @author Torben Groß, Marvin Kampen
+ * @version 2018-02-24
  */
 @Entity
 @Table(name = "Lectures")

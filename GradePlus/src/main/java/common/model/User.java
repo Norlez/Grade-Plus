@@ -113,14 +113,23 @@ public class User extends JPAEntity implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Grade> grades;
 
+    /**
+     * Die Liste der
+     */
     @ManyToMany
     @JoinTable(name = "Prof_ILV", joinColumns = @JoinColumn(name = "Prof_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ILV_ID", referencedColumnName = "id"))
     private List<InstanceLecture> asProf;
 
+    /**
+     *
+     */
     @ManyToMany
     @JoinTable(name = "Student_ILV", joinColumns = @JoinColumn(name = "User_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ILV_ID", referencedColumnName = "id"))
     private List<InstanceLecture> asStudent;
 
+    /**
+     *
+     */
     @ManyToMany
     @JoinTable(name = "User_Exam", joinColumns = @JoinColumn(name = "User_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "Exam_ID", referencedColumnName = "id"))
     private List<Exam> ExamAsProf;
@@ -143,6 +152,9 @@ public class User extends JPAEntity implements Serializable {
     @Column(nullable = false)
     private boolean isActive = true;
 
+    /**
+     * Die Liste der JoinExams zu den Prüfungen.
+     */
     @OneToMany(mappedBy = "pruefling")
     private List<JoinExam> participation;
 
@@ -174,6 +186,9 @@ public class User extends JPAEntity implements Serializable {
         username = Assertion.assertNotNull(pUsername);
     }
 
+    /**
+     *
+     */
     public void setUsernameForUserMail() {
         final String tmp = usernameFromEmail(email, '@');
         username = Assertion.assertNotNull(tmp);
@@ -339,10 +354,17 @@ public class User extends JPAEntity implements Serializable {
         return unmodifiableList(grades);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     *
+     */
     public void setActive() {
         if (isActive == true) {
             isActive = false;
@@ -351,18 +373,34 @@ public class User extends JPAEntity implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLoggingString() {
         return loggingString;
     }
 
+    /**
+     *
+     * @param pLoggingString
+     */
     public void setLoggingString(String pLoggingString) {
         this.loggingString = pLoggingString + loggingString;
     }
 
+    /**
+     *
+     * @return
+     */
     public Role getRole() {
         return role;
     }
 
+    /**
+     *
+     * @param role
+     */
     public void setRole(Role role) {
         this.role = role;
     }
@@ -417,66 +455,130 @@ public class User extends JPAEntity implements Serializable {
         return DEFAULT_LANGUAGE;
     }
 
+    /**
+     *
+     * @param asProf
+     */
     public void setAsProf(List<InstanceLecture> asProf) {
         this.asProf = asProf;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<InstanceLecture> getAsProf() {
         return asProf;
     }
 
+    /**
+     *
+     * @param i
+     */
     public void addAsProfToIlv(final InstanceLecture i) {
         asProf.add(i);
     }
 
+    /**
+     *
+     * @param i
+     */
     public void removeProfFromIlv(final InstanceLecture i) {
         asProf.remove(i);
     }
 
+    /**
+     *
+     * @param asStudent
+     */
     public void setAsStudent(List<InstanceLecture> asStudent) {
         this.asStudent = asStudent;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<InstanceLecture> getAsStudent() {
         return asStudent;
     }
 
+    /**
+     *
+     * @param i
+     */
     public void addAsStudentToIlv(final InstanceLecture i) {
         asStudent.add(i);
     }
 
+    /**
+     *
+     * @param i
+     */
     public void removeStudentFromIlv(final InstanceLecture i) {
         asStudent.remove(i);
     }
 
+    /**
+     *
+     * @param examAsProf
+     */
     public void setExamAsProf(List<Exam> examAsProf) {
         ExamAsProf = examAsProf;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Exam> getExamAsProf() {
         return ExamAsProf;
     }
 
+    /**
+     *
+     * @param e
+     */
     public void addExamAsProf(final Exam e) {
         ExamAsProf.add(e);
     }
 
+    /**
+     *
+     * @param e
+     */
     public void removeExamAsProf(final Exam e) {
         ExamAsProf.remove(e);
     }
 
+    /**
+     * Gibt die Liste von JoinExam für den Nutzer zurück.
+     * @return participation als JoinExam Liste
+     */
     public List<JoinExam> getParticipation() {
         return participation;
     }
 
+    /**
+     * Setzt die Liste von JoinExams für den Nutzer
+     * @param participation als Liste von JoinExams
+     */
     public void setParticipation(List<JoinExam> participation) {
         this.participation = participation;
     }
 
+    /**
+     * Fügt die übergebene JoinExam hinzu.
+     * @param p, die zu übergebende JoinExam
+     */
     public void addToParticipation(final JoinExam p) {
         participation.add(p);
     }
 
+    /**
+     * Entfernt die übergebene JoinExam.
+     * @param p, die zu übergebende JoinExam
+     */
     public void removeParticipation(final JoinExam p) {
         participation.remove(p);
     }
