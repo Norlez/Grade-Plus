@@ -334,6 +334,8 @@ public class ExamsBean extends AbstractBean implements Serializable {
     public String update() {
         if (!checked.isEmpty()
                 && checked.entrySet().stream().filter(Map.Entry::getValue)
+                        .map(Map.Entry::getKey).map(userDao::getById)
+                        .filter(u -> u.getRole().equals(Role.EXAMINER))
                         .collect(Collectors.toList()).isEmpty()) {
             addErrorMessage("errorNoExaminersInExam");
             return null;
