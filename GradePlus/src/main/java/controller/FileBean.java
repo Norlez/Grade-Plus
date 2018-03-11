@@ -82,19 +82,21 @@ public class FileBean extends AbstractBean implements Serializable {
 
     /**
      * Setzt den übergebenen String für das jeweilige Attribut in der JoinExam.
-     * 
-     * @param pByte
-     *            zu setzende String.
+     *
+     * @param pFile
+     *            die zu speichernde File
      * @param pJoinExam
-     *            Die JoinExam, dessen String attribut durch pString gesetzt werden soll.
+     *            Die JoinExam, dessen byteAttribut savedDocument gesetzt werden soll.
      */
-    public String setJoinExamUploadedFile(final byte[] pByte, JoinExam pJoinExam) {
-        if (file == null) {
+    public String setJoinExamUploadedFile(JoinExam pJoinExam, final UploadedFile pFile) throws IOException {
+        if (pFile == null) {
             addErrorMessage("errorFileEmpty");
             return null;
         }
-        assertNotNull(pByte);
-        pJoinExam.setSavedDocument(pByte);
+        InputStream inputStream = pFile.getInputstream();
+        byte [] tmpByte = IOUtils.toByteArray(inputStream);
+        assertNotNull(tmpByte);
+        pJoinExam.setSavedDocument(tmpByte);
         joinExamDAO.update(pJoinExam);
         return null;
     }

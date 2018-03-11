@@ -14,6 +14,7 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import persistence.ExamDAO;
 import persistence.InstanceLectureDAO;
 import persistence.JoinExamDAO;
@@ -196,6 +197,32 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      * Das Ende der Prüfung
      */
     private Date endOfTimeFrame;
+
+    /**
+     * Setzt den hochgeladenen File durch den übergebenen Parameter
+     *
+     * @Param die UploadedFile
+     */
+    public void setUploadFile(UploadedFile uploadFile) {
+        this.uploadFile = assertNotNull(uploadFile);
+    }
+
+    /**
+     * File, das für den jeweiligen Prüfer für eine Prüfung und dem dazugehörigen
+     * Studenten im System hochgeladen wird.
+     */
+    private UploadedFile uploadFile;
+
+
+
+    /**
+     * Gibt den hochgeladenen UplaodedFile zurück.
+     *
+     * @return
+     */
+    public UploadedFile getUploadFile() {
+        return uploadFile;
+    }
 
     /**
      * getter vom checked-Attribut
