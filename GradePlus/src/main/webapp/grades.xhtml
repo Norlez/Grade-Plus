@@ -68,7 +68,7 @@
 
             <h:panelGroup>
 
-                <b:form>
+                <b:form enctype="multipart/form-data">
                     <b:container class="form-group">
                         <b:dataTable rendered="#{! empty gradesBean.exam.students}"
                                      span="8" value="#{gradesBean.exam.students}" var="e"
@@ -131,13 +131,18 @@
                                     <p:fileDownload value="#{documentBean.getReceipe(e,gradesBean.exam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
-                            <h:form enctype="multipart/form-data">
+                            <b:dataTableColumn label="#{msg['outputRecipe']}">
                                 <p:growl id="messages" showDetail="true" />
-
-                                <p:fileUpload value="#{fileUploadView.file}" mode="simple" skinSimple="true"/>
-
-                                <p:commandButton value="Submit" ajax="false" actionListener="#{fileUploadView.upload}" disabled="true" />
-                            </h:form>
+                                <p:fileUpload value="#{fileBean.uploadFile}" mode="simple" skinSimple="true"/>
+                                <p:commandButton value="Submit" ajax="false"
+                                                 actionListener="#{fileBean.setJoinExamUploadedFile(fileBean.saveDocumentForUserInDatabaseGaaahdDayum(fileBean.uploadFile)
+                                                                ,gradesBean.getJoinExamForUser(gradesBean.exam,e))}"/>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="#{msg['outputRecipe']}">
+                                <p:commandButton value="#{msg['actionDownload']}" ajax="false">
+                                    <p:fileDownload value="#{fileBean.downloadUploadedFile(gradesBean.getJoinExamForUser(gradesBean.exam,e))}"/>
+                                </p:commandButton>
+                            </b:dataTableColumn>
                         </b:dataTable>
                         <h:outputLabel rendered="#{empty gradesBean.exam.students}"
                                        value="#{msg['outputNoStudents']}"/>

@@ -64,6 +64,14 @@ public class JoinExam extends JPAEntity {
     @Column
     private String commentary;
 
+    /**
+     * Repräsentiert ein hochgeladenes File im Form eines byte-Arrays
+     */
+    @Column
+    @Lob
+    private byte[] savedDocument;
+
+
     public Exam getExam() {
         return exam;
     }
@@ -118,6 +126,25 @@ public class JoinExam extends JPAEntity {
 
     public void setInstanceLecture(InstanceLecture instanceLecture) {
         this.instanceLecture = instanceLecture;
+    }
+
+
+
+    /**
+     * Gibt das hochgeladene File in Form eines Byte-Arrays zurück.
+     *
+     * @return
+     */
+    public byte[] getSavedDocument() {
+        return savedDocument;
+    }
+
+    /**
+     * Setzt den File in Form eines byte-Arrays.
+     * @param savedDocument Das zu speichernde byte-Array.
+     */
+    public void setSavedDocument(byte[] savedDocument) {
+        this.savedDocument = savedDocument;
     }
 
     /**

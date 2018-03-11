@@ -4,8 +4,12 @@ import com.opencsv.CSVWriter;
 import common.exception.DuplicateEmailException;
 import common.exception.DuplicateUsernameException;
 import common.model.*;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import persistence.GradeDAO;
 import persistence.InstanceLectureDAO;
 import persistence.JoinExamDAO;
@@ -48,6 +52,12 @@ public class FileBean extends AbstractBean implements Serializable {
     private UserDAO userDao;
 
     /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Noten-Objekte
+     * übernimmt.
+     */
+    private final GradeDAO gradeDAO;
+
+    /**
      * Das Data-Access-Objekt, das die Verwaltung der Persistierung für
      * InstanceLecture-Objekte übernimmt.
      */
@@ -64,7 +74,49 @@ public class FileBean extends AbstractBean implements Serializable {
      */
     private Part file;
 
-    private final GradeDAO gradeDAO;
+    /**
+     * File, das für den jeweiligen Prüfer für eine Prüfung und dem dazugehörigen Studenten im System
+     * hochgeladen wird.
+     */
+    private UploadedFile uploadFile;
+
+
+    /**
+     * Setzt den übergebenen String für das jeweilige Attribut in der JoinExam.
+     * @param pByte zu setzende String.
+     * @param pJoinExam Die JoinExam, dessen String attribut durch pString gesetzt werden soll.
+     */
+    public void setJoinExamUploadedFile(final byte[] pByte, JoinExam pJoinExam){
+        assertNotNull(pByte);
+        pJoinExam.setSavedDocument(pByte);
+        joinExamDAO.update(pJoinExam);
+    }
+
+    /**
+     * Wandelt den InputStream eines UploadedFile-Objektes in einen String um.
+     * @param pFile die File die hochgeladen werden soll.
+     * @return der aus dem InputStream erzeugte String
+     * @throws IOException
+     */
+    public byte[] saveDocumentForUserInDatabaseGaaahdDayum(final UploadedFile pFile) throws IOException{
+        InputStream inputStream = pFile.getInputstream();
+        return  IOUtils.toByteArray(inputStream);
+    }
+
+    /**
+     * Wandelt einen gegebenen String in einen InputSteam um, der wiederrum in ein StreamedContent objekt gewandelt wird,
+     * damit er vom User runtergeladen werden kann.
+     * @param pJoinExam
+     * @return
+     */
+    public StreamedContent downloadUploadedFile(final JoinExam pJoinExam){
+        assertNotNull(pJoinExam.getSavedDocument());
+        byte[] tmp = pJoinExam.getSavedDocument();
+        java.io.InputStream inputStream =  new ByteArrayInputStream(tmp);
+        return new DefaultStreamedContent(inputStream, "application/pdf",
+                "Protocol" + pJoinExam.getPruefling().getMatrNr()+ ".pdf");
+    }
+
 
     /**
      * Erzeugt eine neue FileBean.
@@ -82,6 +134,23 @@ public class FileBean extends AbstractBean implements Serializable {
         instanceLectureDAO = assertNotNull(pInstanceLectureDAO);
         joinExamDAO = assertNotNull(pJoinExamDAO);
         gradeDAO = pGradeDao;
+    }
+
+
+    /**
+     * Gibt den hochgeladenen UplaodedFile zurück.
+     * @return
+     */
+    public UploadedFile getUploadFile() {
+        return uploadFile;
+    }
+
+    /**
+     * Setzt den hochgeladenen File durch den übergebenen Parameter
+     * @Param die UploadedFile
+     */
+    public void setUploadFile(UploadedFile uploadFile) {
+        this.uploadFile = assertNotNull(uploadFile) ;
     }
 
     /**
