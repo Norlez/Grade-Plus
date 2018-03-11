@@ -33,7 +33,7 @@ public class JoinExamDAO extends JPADAO<JoinExam> implements Serializable {
     }
 
     /**
-     * Speichert das JoinExam Data Access Object in der Datenbak
+     * Speichert das JoinExam Data Access Object in der Datenbank
      * @param pJoinExam, welche persistiert werden soll.
      *
      * @throws UnexpectedUniqueViolationException

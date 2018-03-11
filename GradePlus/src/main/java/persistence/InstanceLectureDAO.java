@@ -24,11 +24,23 @@ import static common.util.Assertion.assertNotNull;
 @Stateless
 public class InstanceLectureDAO extends JPADAO<InstanceLecture> implements Serializable {
 
+    /**
+     * Holt sich die Klasse, welche persistiert wird.
+     * @return InstanceLecture Klasse
+     */
     @Override
     Class<InstanceLecture> getClazz() {
         return InstanceLecture.class;
     }
 
+    /**
+     * Speichert das InstanceLecture Data Access Object in der Datenbank
+     * @param pInstanceLecture, welche persistiert werden soll.
+     *
+     * @throws UnexpectedUniqueViolationException
+     *              falls der Unique Contraint eines Attributs verletzt wird. Der
+     *              Eintrag wäre sonst nicht einzigartig.
+     */
     @Override
     public synchronized void save(final InstanceLecture pInstanceLecture)
             throws DuplicateInstanceLectureException {
@@ -40,6 +52,14 @@ public class InstanceLectureDAO extends JPADAO<InstanceLecture> implements Seria
         }
     }
 
+    /**
+     * Updatet das InstanceLecture DAO in der Datenbank.
+     * @param pILV, welche geupdatet werden soll.
+     *
+     * @throws UnexpectedUniqueViolationException
+     *              falls der Unique Contraint eines Attributs verletzt wird. Der
+     *              Eintrag wäre sonst nicht einzigartig.
+     */
     @Override
     public synchronized void update(InstanceLecture pILV) {
         assertNotNull(pILV);
@@ -50,7 +70,6 @@ public class InstanceLectureDAO extends JPADAO<InstanceLecture> implements Seria
         }
     }
 
-    // TODO: SQL Querries fehlen noch(siehe z.B. ExamDAO) oder sind ungetestet
 
     /**
      * Gibt eine Liste mit allen innerhalb der Applikation bekannten ILVs zurück.
