@@ -11,6 +11,7 @@ import persistence.InstanceLectureDAO;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import persistence.JoinExamDAO;
 import persistence.UserDAO;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +52,8 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     private final UserDAO userDao;
 
     private final ExamDAO examDao;
+
+    private final JoinExamDAO joinExamDao;
 
     /**
      * Der eingeloggte Benutzer, der Methoden dieser Klasse aufruft. Wird benötigt, um
@@ -113,11 +116,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     @Inject
     public InstanceLecturesBean(final Session pSession,
             final InstanceLectureDAO pInstanceLectureDao, final UserDAO pUserDao,
-            final ExamDAO pExamDao) {
+            final ExamDAO pExamDao, final JoinExamDAO pJoinExamDao) {
         super(pSession);
         instanceLectureDao = assertNotNull(pInstanceLectureDao);
         userDao = assertNotNull(pUserDao);
         examDao = assertNotNull(pExamDao);
+        joinExamDao = assertNotNull(pJoinExamDao);
         user = assertNotNull(getSession().getUser());
         times = calculateSemesterMap();
         years = calculateYearList();
@@ -305,6 +309,31 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
                 .isEmpty()) {
             addErrorMessage("errorExamsExist");
             return null;
+        }
+        List<User> studentsOfInstanceLecture = new ArrayList<>(pInstanceLecture.getExaminees());
+        for (User pStudent : studentsOfInstanceLecture) {
+            pInstanceLecture.removeExaminee(pStudent);
+            pStudent.removeStudentFromIlv(pInstanceLecture);
+            JoinExam joinExam = joinExamDao
+                    .getAllJoinExams()
+                    .stream()
+                    .filter(j -> j.getInstanceLecture().getId()
+                            .equals(pInstanceLecture.getId()))
+                    .collect(Collectors.toList()).get(0);
+            instanceLecture.removeJoinExam(joinExam);
+            try {
+                userDao.update(pStudent);
+            } catch (Exception e) {
+            }
+            joinExamDao.remove(joinExam);
+            instanceLectureDao.update(pInstanceLecture);
+            pInstanceLecture.removeExaminee(pStudent);
+            pStudent.removeStudentFromIlv(pInstanceLecture);
+            try {
+                userDao.update(pStudent);
+            } catch (Exception e) {
+            }
+            instanceLectureDao.update(pInstanceLecture);
         }
         instanceLectureDao.remove(pInstanceLecture);
         init();
