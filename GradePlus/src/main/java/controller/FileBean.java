@@ -471,7 +471,7 @@ public class FileBean extends AbstractBean implements Serializable {
                     }
                 }
                 Double grade = Double.parseDouble(data[1].trim());
-                joinExam.getGrade().setEndMark(grade);
+                joinExam.getGrade().setEndMark(grade); //TODO
                 gradeDAO.update(joinExam.getGrade());
             }
 
