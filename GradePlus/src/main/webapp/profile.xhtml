@@ -73,7 +73,7 @@
                         </b:row>
 
                         <!-- MATRIKELNUMMER -->
-                        <b:row>
+                        <b:row rendered="#{usersBean.isStudent(profileBean.thisUser)}">
                             <b:column span="2">
                                 <h:outputLabel value="#{msg['outputMatriculationNumber']}" />
                             </b:column>
@@ -116,12 +116,6 @@
                             </b:column>
                             <b:column span="2">
                                 <b:commandButton rendered="#{profileBean.getEditChecker()}" class="btn-green" value="#{msg['actionCancel']}" action="#{profileBean.setEditChecker()}" />
-                            </b:column>
-                        </b:row>
-                        <b:row class="space50px"/>
-                        <b:row>
-                            <b:column span="2">
-                                <b:commandButton rendered="#{true}" class="btn-green" value="#{msg['actionChangePassword']}" href="https://oracle-web.zfn.uni-bremen.de/secure/passwort_vergessen"/>
                             </b:column>
                         </b:row>
                     </b:formGroup>
