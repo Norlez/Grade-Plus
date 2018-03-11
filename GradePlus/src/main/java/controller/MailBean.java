@@ -239,6 +239,15 @@ public class MailBean extends AbstractBean implements Serializable {
      * @return
      */
     public String sendMail() {
+        String tmp = sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1).trim();
+        if(tmp.equals("uni-bremen.de")
+                || tmp.equals("gmail.com")
+                || tmp.equals("gmail.de")
+                || tmp.equals("googlemail.com")
+                || tmp.equals("googlemail.de")){
+            addErrorMessage("selectValidEmail");
+            return "dashboard.xhtml";
+        }
         try {
             message.setFrom(new InternetAddress(sender.getEmail()));
             message.setRecipients(Message.RecipientType.TO,
@@ -313,6 +322,15 @@ public class MailBean extends AbstractBean implements Serializable {
      * Email mit Anhang.
      */
     public String sendMailWithAttachment() throws IOException {
+        String tmp = sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1).trim();
+        if(tmp.equals("uni-bremen.de")
+                || tmp.equals("gmail.com")
+                || tmp.equals("gmail.de")
+                || tmp.equals("googlemail.com")
+                || tmp.equals("googlemail.de")){
+            addErrorMessage("selectValidEmail");
+            return "dashboard.xhtml";
+        }
         try {
             filetosend = copyPartToFile();
             message.setFrom(new InternetAddress(sender.getEmail()));
@@ -484,4 +502,5 @@ public class MailBean extends AbstractBean implements Serializable {
     }
 
 }
+
 
