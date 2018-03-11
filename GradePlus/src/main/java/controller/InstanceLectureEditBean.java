@@ -378,9 +378,26 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 }
             }
         }
-        instanceLecture.removeExaminee(pStudent);
-        pStudent.removeStudentFromIlv(instanceLecture);
-        update(pStudent);
+        if (instanceLecture.getExaminees().contains(pStudent)) {
+            instanceLecture.removeExaminee(pStudent);
+            pStudent.removeStudentFromIlv(instanceLecture);
+            JoinExam joinExam = joinExamDAO
+                    .getAllJoinExams()
+                    .stream()
+                    .filter(j -> j.getInstanceLecture().getId()
+                            .equals(instanceLecture.getId()))
+                    .collect(Collectors.toList()).get(0);
+            instanceLecture.removeJoinExam(joinExam);
+            try {
+                userDao.update(pStudent);
+            } catch (Exception e) {
+            }
+            joinExamDAO.remove(joinExam);
+            instanceLectureDao.update(instanceLecture);
+            instanceLecture.removeExaminee(pStudent);
+            pStudent.removeStudentFromIlv(instanceLecture);
+            update(pStudent);
+        }
         return "exams.xhtml";
     }
 
