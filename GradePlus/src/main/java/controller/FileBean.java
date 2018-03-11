@@ -465,13 +465,13 @@ public class FileBean extends AbstractBean implements Serializable {
                 for (JoinExam j : joinExamDAO.getJoinExamsForUser(u)) {
                     if (j.getExam() != null
                             && j.getExam().getInstanceLecture().getId() == pInstanceLecture
-                                    .getId()) {
+                                    .getId() && pInstanceLecture.getExaminees().contains(j.getPruefling())) {
                         joinExam = j;
                         break;
                     }
                 }
                 Double grade = Double.parseDouble(data[1].trim());
-                joinExam.getGrade().setEndMark(grade); //TODO
+                joinExam.getGrade().setEndMark(grade);
                 gradeDAO.update(joinExam.getGrade());
             }
 
