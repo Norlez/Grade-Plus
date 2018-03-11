@@ -86,10 +86,15 @@ public class FileBean extends AbstractBean implements Serializable {
      * @param pByte zu setzende String.
      * @param pJoinExam Die JoinExam, dessen String attribut durch pString gesetzt werden soll.
      */
-    public void setJoinExamUploadedFile(final byte[] pByte, JoinExam pJoinExam){
+    public String setJoinExamUploadedFile(final byte[] pByte, JoinExam pJoinExam){
+        if(file == null){
+            addErrorMessage("errorFileEmpty");
+            return null;
+        }
         assertNotNull(pByte);
         pJoinExam.setSavedDocument(pByte);
         joinExamDAO.update(pJoinExam);
+        return null;
     }
 
     /**
