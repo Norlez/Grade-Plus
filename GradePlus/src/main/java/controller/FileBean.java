@@ -419,7 +419,7 @@ public class FileBean extends AbstractBean implements Serializable {
             for (JoinExam joinExam : j) {
                 if (joinExam.getExam() != null
                         && joinExam.getExam().getInstanceLecture().getId() == pInstanceLecture
-                                .getId()) {
+                                .getId() && joinExam.getGrade() != null) {
                     joinExamList.add(joinExam);
                 }
             }
