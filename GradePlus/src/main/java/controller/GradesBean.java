@@ -66,8 +66,8 @@ import persistence.GradeDAO;
  * möglich sind (Löschen einer Note aus der angezeigten Tabelle) bekommt sie
  * {@code ViewScoped}.
  *
- * @author Dennis Schürholz, Karsten Hölscher, Sebastian Offermann, Marcel Steinbeck
- * @version 2017-06-28
+ * @author Dennis Schürholz, Karsten Hölscher, Sebastian Offermann, Marcel Steinbeck, Marvin Kampen, Torben Groß, Tugce Karakus
+ * @version 2018-03-11
  */
 @Named
 @SessionScoped
@@ -101,8 +101,14 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     private final UserDAO userDAO;
 
+    /**
+     * Speichert eine Referenz auf eine Exam.
+     */
     private Exam exam;
 
+    /**
+     * Die Joinexam, die Konfiguriert werden soll.
+     */
     private JoinExam toConfigure;
 
     /**
@@ -115,14 +121,30 @@ public class GradesBean extends AbstractBean implements Serializable {
      */
     private List<Grade> allGrades;
 
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Join-Exams-Objekte
+     * übernimmt.
+     */
     private JoinExamDAO joinExamDAO;
 
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Exams-Objekte
+     * übernimmt.
+     */
     private ExamDAO examDAO;
 
+    /**
+     * Gibt alle möglichen Noten zurück
+     * @return Liste mit allen möglichen Noten
+     */
     public List<Double> getPossibleGrades() {
         return possibleGrades;
     }
 
+    /**
+     *
+     * @param possibleGrades
+     */
     public void setPossibleGrades(List<Double> possibleGrades) {
         this.possibleGrades = possibleGrades;
     }
@@ -160,6 +182,10 @@ public class GradesBean extends AbstractBean implements Serializable {
      *            Die GradeDAO der zu erzeugenden GradesBean.
      * @param pUserDAO
      *            Die UserDAO der zu erzeugenden GradesBean.
+     * @param pExamDAO
+     *              Die ExamDAO der zu erzeugenden GradesBean.
+     * @param pJoinExamDAO
+     *              Die ExamDAO der zu erzeugenden GradesBean.
      * @throws IllegalArgumentException
      *             Falls {@code pSession}, {@code pGradeDAO} oder {@code pUserDAO}
      *             {@code null} ist.
@@ -221,10 +247,18 @@ public class GradesBean extends AbstractBean implements Serializable {
         return grade;
     }
 
+    /**
+     * Getter für toConfigure-Attribut
+     * @return toConfigure
+     */
     public JoinExam getToConfigure() {
         return toConfigure;
     }
 
+    /**
+     * Setter für toConfigure-Attribut
+     * @param toConfigure
+     */
     public void setToConfigure(JoinExam toConfigure) {
         this.toConfigure = toConfigure;
     }
@@ -306,7 +340,7 @@ public class GradesBean extends AbstractBean implements Serializable {
         if (!isLoggedIn()) {
             return null;
         }
-        JoinExam joinExam = null;
+        JoinExam joinExam = null; //Geht durch alle JoinExams
         List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(user);
         for (JoinExam j : joinExams) {
             if (j.getExam() != null && j.getExam().getId() == pExam.getId()) {
@@ -357,7 +391,18 @@ public class GradesBean extends AbstractBean implements Serializable {
     }
 
     /**
+     * Updatet die Note mit der gegebenen Teilnote.
      *
+     * @param pExam in der der Student teilgenommen hat
+     * @param  pStudent der gesuchte User
+     *
+     *  @throws IllegalArgumentException, falsche Argumente
+     *
+     *  @throws DuplicateUsernameException, Username existiert bereits
+     *
+     *  @throws DuplicateEmailException, Email existiert bereits.
+     *
+     * @return null, um auf der Seite zu bleiben
      */
     public String update(Exam pExam, User pStudent) {
         if (!isLoggedIn()) {
@@ -484,10 +529,19 @@ public class GradesBean extends AbstractBean implements Serializable {
         return e;
     }
 
+    /**
+     * Getter für Exam-Attribut
+     * @return exam
+     */
     public Exam getExam() {
         return exam;
     }
 
+    /**
+     * Setter für Exam-Attribut
+     * @param pExam
+     * @return grades.xhtml als Weiterleitung
+     */
     public String setExam(final Exam pExam) {
         exam = assertNotNull(pExam);
         editChecker = false;
@@ -495,6 +549,11 @@ public class GradesBean extends AbstractBean implements Serializable {
         return "grades.xhtml";
     }
 
+    /**
+     * Prüft, ob der User eine Note hat.
+     * @param pStudent
+     * @return grades.xhtml und setcommentaty.xhtml als Weiterleitung
+     */
     public boolean hasGrade(final User pStudent) {
         return exam
                 .getParticipants()
@@ -506,17 +565,33 @@ public class GradesBean extends AbstractBean implements Serializable {
                                 .getId())).collect(Collectors.toList()).get(0).getGrade() != null;
     }
 
+    /**
+     * Speichert den Kommentar ab.
+     * @param pJoinExam
+     * @return grades.xhtml
+     */
     public String enterComment(final JoinExam pJoinExam) {
         joinExamDAO.update(pJoinExam);
         return "grades.xhtml";
     }
 
+    /**
+     * Leitet auf die setCommentary Seite weiter, dabei wird toConfigure mit einem Wert belegt.
+     * @param pJoinExam
+     * @return setCommentary.xhtml
+     */
     public String setComment(final JoinExam pJoinExam) {
         assertNotNull(pJoinExam);
         toConfigure = pJoinExam;
         return "setcommentary.xhtml";
     }
 
+    /**
+     * Gibt alle JoinExams für einen User zurück.
+     * @param e, die Exam an die der User teilnimmt.
+     * @param u, der gesuchte User
+     * @return Die JoinExam für den User.
+     */
     public JoinExam getJoinExamForUser(Exam e, User u) {
         JoinExam tmp = null;
         List<JoinExam> j = joinExamDAO.getJoinExamsForUser(u);
@@ -529,14 +604,29 @@ public class GradesBean extends AbstractBean implements Serializable {
         return tmp;
     }
 
+    /**
+     * Gibt an, ob die Grade bearbeitet wurde. Wird mit false initialisiert.
+     */
     private boolean editChecker = false;
 
+    /**
+     * Speichert einen User temporär.
+     */
     private User user;
 
+    /**
+     * Gibt den Editchecker für den gegebenen User zurück
+     * @param pUser, von dem wir den EditCheck Status haben wollen
+     * @return Den EditChecker
+     */
     public boolean getEditChecker(final User pUser) {
         return editChecker && user.getId().equals(assertNotNull(pUser).getId());
     }
 
+    /**
+     * Setzt den EditChecker auf den gegebenen User.
+     * @param pUser
+     */
     public void setEditChecker(final User pUser) {
         if (editChecker) {
             if (pUser.getId().equals(user.getId())) {
