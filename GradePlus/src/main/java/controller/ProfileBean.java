@@ -58,8 +58,8 @@ import org.apache.log4j.Logger;
 /**
  * Dieses Bean ist für die Verwaltung der Profil-Einstellungen des Benutzers zuständig.
  *
- * @author Sebastian Offermann, Karsten Hölscher, Marcel Steinbeck
- * @version 2017-06-28
+ * @author Sebastian Offermann, Karsten Hölscher, Marcel Steinbeck, Anil Olgun, Andreas Estenfelder
+ * @version 2018-03-08
  */
 @Named
 @SessionScoped
@@ -78,12 +78,12 @@ public class ProfileBean extends AbstractBean implements Serializable {
     private static final Map<String, Locale> countries = calculateCountriesMap();
 
     /**
-     * //TODO
+     * Eine Map, welche die Rollen und zugehörigen Rollennamen enthält.
      */
     private static Map<String, Role> roles;
 
     /**
-     * //TODO
+     * Der Rollenname
      */
     private String roleName;
 
@@ -115,6 +115,9 @@ public class ProfileBean extends AbstractBean implements Serializable {
      */
     private boolean editChecker = false;
 
+    /**
+     * Dient zur Persistierung von JoinExam DAO und den Zugriff auf die JoinExams.
+     */
     private final JoinExamDAO joinExamDAO;
 
     /**
