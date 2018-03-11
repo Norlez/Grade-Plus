@@ -30,20 +30,34 @@ import static common.util.Assertion.*;
 
 /**
  * Diese Bean ist für das Befüllen der Dokumente zuständig.
+ * Es werden darin die Dokumente Protokoll, Quittung und Leistungsnachweis erstellt und befüllt.
+ * Wird auf Grades.xhtml genutzt.
  *
  * @author Marvin Kampen
- * @version 2018-03-01
+ * @version 2018-03-11
  */
 @Named
 @SessionScoped
 public class DocumentBean extends AbstractBean implements Serializable {
 
+    /**
+     * Ist für die Persistierung und das Erhalten von User-DAO-Objekte zuständig.
+     */
     private final UserDAO userDAO;
 
+    /**
+     * Ist für die Persistierung und das Erhalten von Exam-DAO-Objekte zuständig.
+     */
     private final ExamDAO examDAO;
 
+    /**
+     * Ist für die Persistierung und das Erhalten von JoinExam-DAO-Objekte zuständig.
+     */
     private final JoinExamDAO joinExamDAO;
 
+    /**
+     * Ist für die Persistierung und das Erhalten von InstanceLecture-DAO-Objekte zuständig.
+     */
     private final InstanceLectureDAO instanceLectureDAO;
 
     // Gibt an, welche Pruefungsordnung benutzt wird
@@ -199,6 +213,13 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
     /**
      * Methode zum Drucken des Protokolls
+     * @param pUser
+     *              Der Benutzer für den das Protokoll gedruckt werden soll.
+     * @param pExam
+     *              Die Prüfung für die das Protokoll gedruckt werden soll.
+     *
+     * @return Der StreamedContent, welche die erzeugte PDF enthält.
+     * @throws IOException, falls ein Fehler beim Speichern der Datei auftritt.
      *
      */
     public StreamedContent getProtocol(final User pUser, final Exam pExam)
