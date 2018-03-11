@@ -20,7 +20,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static common.util.Assertion.assertNotNull;
-
+/**
+ * Dieses Bean verwaltet Lehrveranstaltungen, wenn sie bearbeitet werden.
+ *
+ * @author Torben Groß, Andreas Estenfelder
+ * @version 2017-12-21
+ */
 @Named
 @SessionScoped
 public class LectureEditBean extends AbstractBean implements Serializable {
@@ -35,6 +40,10 @@ public class LectureEditBean extends AbstractBean implements Serializable {
      */
     private final LectureDAO LectureDao;
 
+    /**
+     *  Das Data-Access-Objekt, das die Verwaltung der Persistierung für Lecture-Objekte
+     * übernimmt.
+     */
     private final InstanceLectureDAO instanceLectureDao;
 
     /**
@@ -59,6 +68,8 @@ public class LectureEditBean extends AbstractBean implements Serializable {
      *            Die Session der zu erzeugenden LectureEditBean.
      * @param pLectureDao
      *            Die LectureDAO der zu erzeugenden LectureEditBean.
+     * @param pInstanceLectureDao
+     *              Die InstanceLectureDAO der zu erzeugenden LectureEditBean.
      * @throws IllegalArgumentException
      *             Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
      *             sind.
@@ -126,6 +137,9 @@ public class LectureEditBean extends AbstractBean implements Serializable {
         selectedLecture = assertNotNull(pLecture);
     }
 
+    /**
+     * Setzt den EditChecker auf true, wenn er false war, ansonsten auf false, wenn er true war.
+     */
     public void setEditCheckerWithoutLecture() {
         editChecker = !editChecker;
     }
@@ -168,14 +182,26 @@ public class LectureEditBean extends AbstractBean implements Serializable {
         return "semesterdetails.xhtml";
     }
 
+    /**
+     * Gibt die Lehrveranstaltung zurück.
+     * @return lecture
+     */
     public Lecture getLecture() {
         return lecture;
     }
 
+    /**
+     * Setzt die Lehrveranstaltung mit dem gegebenen Parameter.
+     * @param pLecture, darf nicht null sein
+     */
     public void setLecture(final Lecture pLecture) {
         lecture = assertNotNull(pLecture);
     }
 
+    /**
+     * Gibt die ILVs für den Studenten zurück
+     * @return Liste von ILVs
+     */
     public List<InstanceLecture> getInstanceLecturesForLectureOfStudent() {
         return instanceLectureDao.getAllInstanceLectures().stream()
                 .filter(i -> i.getLecture().getId().equals(lecture.getId()))

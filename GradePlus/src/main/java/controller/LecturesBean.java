@@ -21,8 +21,8 @@ import static common.util.Assertion.assertNotNull;
 /**
  * Dieses Bean verwaltet Lehrveranstaltungen.
  * 
- * @author Torben Groß
- * @version 2017-12-21
+ * @author Torben Groß, Anil Olgun, Tugce Karakus
+ * @version 2018-02-21
  */
 @Named
 @RequestScoped
@@ -105,6 +105,8 @@ public class LecturesBean extends AbstractBean implements Serializable {
      *
      * @param pLecture
      *            Die anzuzeigende Levrveranstaltung.
+     *
+     * @return semester.xhtml als Weiterleitung
      */
     public String setLecture(final Lecture pLecture) {
         lecture = assertNotNull(pLecture);
@@ -114,9 +116,12 @@ public class LecturesBean extends AbstractBean implements Serializable {
 
     /**
      * Hart gefuschte Methode für Andi <3.
+     * Setzt die Lecture auf den gegebenen Wer
      *
      * @param pLecture
      *            Die anzuzeigende Levrveranstaltung.
+     *
+     * @return lectureedit.xhtml als neue Seite
      */
     public String setLectureEdit(final Lecture pLecture) {
         lecture = assertNotNull(pLecture);
@@ -199,12 +204,24 @@ public class LecturesBean extends AbstractBean implements Serializable {
         return null;
     }
 
+    /**
+     * Hält fest, ob eine Lecture dupliziert vvorliegt.
+     */
     private boolean duplicate = false;
 
+    /**
+     * Gibt das Attribut Duplicate zurück.
+     * @returnduplicate
+     */
     public boolean getsDuplicated() {
         return duplicate;
     }
 
+    /**
+     * Setzt Duplicate auf wahr und es wird eine neue Lecture erzeugt.
+     * @param pLecture
+     * @return lecturecreate.xhtml als Weiterleitung
+     */
     public String duplicate(final Lecture pLecture) {
         lecture = new Lecture(assertNotNull(pLecture, "LecturesBean: duplicate(Lecture)"));
         duplicate = true;

@@ -61,7 +61,7 @@ import static common.util.Assertion.assertNotNull;
 /**
  * Dieses Bean ist der Controller für die Versendung von Emails..
  *
- * @author Arbnor Miftari, Torben Groß
+ * @author Arbnor Miftari, Torben Groß, Andreas Estenfelder
  * @version 2018-02-24
  */
 @Named
@@ -200,6 +200,8 @@ public class MailBean extends AbstractBean implements Serializable {
      *
      * @param pSession
      *            Die Session der zu erzeugenden MailBean.
+     *    @param pUserDAO
+     *              Die UserDao der zu erzeugenden MailBean
      */
     @Inject
     public MailBean(final common.model.Session pSession, final UserDAO pUserDAO) {
@@ -236,7 +238,8 @@ public class MailBean extends AbstractBean implements Serializable {
     /**
      * Sendet eine Nachricht eines Benutzer an einen anderen Benutzer.
      *
-     * @return
+     * @throws MessagingException, wenn ein Fehler beim Messaging auftritt.
+     * @return dashboard.xhtml
      */
     public String sendMail() {
         String tmp = sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1).trim();
@@ -274,6 +277,9 @@ public class MailBean extends AbstractBean implements Serializable {
         return "dashboard.xhtml";
     }
 
+    /**
+     * Speichert die Datei.
+     */
     File filetosend;
 
     /**
@@ -320,6 +326,8 @@ public class MailBean extends AbstractBean implements Serializable {
 
     /**
      * Email mit Anhang.
+     *
+     * @throws IOException, falls bei der Eingabe der File etwas falsch läuft.
      */
     public String sendMailWithAttachment() throws IOException {
         String tmp = sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1).trim();
@@ -371,6 +379,8 @@ public class MailBean extends AbstractBean implements Serializable {
     /**
      * Je nachdem, ob eine Datei ausgewählt wurde, wird eine Mail mit Anhang oder eine
      * ohne versendet.
+     *
+     * @throws IOException, falls beim Einlesen der Datei ein Fehler auftritt
      */
     public void decideWhichEmail() {
         try {
@@ -390,6 +400,7 @@ public class MailBean extends AbstractBean implements Serializable {
      * Verbindung zum smpt Server aufbauen und damit gültig sind.
      *
      * @boolean Gibt zurück, ob die Verbindung erfolgreich war oder nicht.
+     * @throws MessagingException, wenn bei der Benachrichtigung etwas fehlschlägt
      */
     public static boolean isEmailPassCombiValid(String pEmail, String pPassword) {
         // Properties für den SMTP Uni Bremen Server.
@@ -422,6 +433,7 @@ public class MailBean extends AbstractBean implements Serializable {
      * @param pRecipients
      *            Die Mails der Empfänger getrennt durch ein Komma.
      * @return InternetAdress Liste aller Empfänger.
+     * @throws MessagingException, wenn bei der Benachrichtigung etwas fehlschlägt
      */
     public InternetAddress[] getRecipientsAddresses(String pRecipients) {
         String[] recipientList = pRecipients.split(",");
@@ -440,6 +452,11 @@ public class MailBean extends AbstractBean implements Serializable {
         // message.setRecipients(Message.RecipientType.TO, recipientAddress);
     }
 
+    /**
+     * Sendet eine Rundmail an alle User der InstanceLecture.
+     * @param pInstanceLecture, die gewählte InstanceLecture
+     * @return message.xhtml als Weiterleitung
+     */
     public String sendBroadcastMail(final InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
         String seperator = "";
