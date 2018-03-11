@@ -141,6 +141,7 @@ public class LecturesBean extends AbstractBean implements Serializable {
      *         leiten.
      */
     public String save() {
+        System.out.println("YOOOOOOOOOOOOOOOOOOOOOO");
         try {
             lectureDao.save(lecture);
         } catch (final IllegalArgumentException e) {
@@ -199,8 +200,15 @@ public class LecturesBean extends AbstractBean implements Serializable {
         return null;
     }
 
+    private boolean duplicate = false;
+
+    public boolean getsDuplicated() {
+        return duplicate;
+    }
+
     public String duplicate(final Lecture pLecture) {
         lecture = new Lecture(assertNotNull(pLecture, "LecturesBean: duplicate(Lecture)"));
+        duplicate = true;
         return "lecturecreate.xhtml";
     }
 
