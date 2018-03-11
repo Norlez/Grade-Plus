@@ -45,7 +45,7 @@ import common.util.Assertion;
  * <p>
  * Zwei Benutzer sind äquivalent, wenn sie die gleiche ID besitzen.
  *
- * @author Karsten Hölscher, Marcel Steinbeck, Marvin Kampen
+ * @author Karsten Hölscher, Marcel Steinbeck, Marvin Kampen, Anil Olgun, Tugce Karakus
  * @version 2018-02-08
  */
 @Entity
@@ -114,21 +114,21 @@ public class User extends JPAEntity implements Serializable {
     private List<Grade> grades;
 
     /**
-     * Die Liste der
+     * Die Liste der InstanceLectures in denen der User ein Prüfer ist.
      */
     @ManyToMany
     @JoinTable(name = "Prof_ILV", joinColumns = @JoinColumn(name = "Prof_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ILV_ID", referencedColumnName = "id"))
     private List<InstanceLecture> asProf;
 
     /**
-     *
+     * Die Liste der InstanceLectures in denen der User ein Student ist.
      */
     @ManyToMany
     @JoinTable(name = "Student_ILV", joinColumns = @JoinColumn(name = "User_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ILV_ID", referencedColumnName = "id"))
     private List<InstanceLecture> asStudent;
 
     /**
-     *
+     * Die Liste der Exams an denen der User als Prüfer eingetragen ist.
      */
     @ManyToMany
     @JoinTable(name = "User_Exam", joinColumns = @JoinColumn(name = "User_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "Exam_ID", referencedColumnName = "id"))
@@ -153,7 +153,8 @@ public class User extends JPAEntity implements Serializable {
     private boolean isActive = true;
 
     /**
-     * Die Liste der JoinExams zu den Prüfungen.
+     * Die Liste der JoinExams zu den Prüfungen. Ein JoinExam ist für die Teilnahme
+     * an einer Prüfung als Prüfling gedacht.
      */
     @OneToMany(mappedBy = "pruefling")
     private List<JoinExam> participation;
@@ -187,7 +188,7 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
+     * Setzt den Username in der Mail.
      */
     public void setUsernameForUserMail() {
         final String tmp = usernameFromEmail(email, '@');
@@ -355,15 +356,15 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * Gibt das isActive-Attribut zurück
+     * @return isActive
      */
     public boolean isActive() {
         return isActive;
     }
 
     /**
-     *
+     * Ändert das isActive Attribut von true auf false und von false auf true.
      */
     public void setActive() {
         if (isActive == true) {
@@ -374,7 +375,7 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
+     * Gibt den LoggingString zurück.
      * @return
      */
     public String getLoggingString() {
@@ -382,7 +383,7 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
+     * Setzt den LoggingString.
      * @param pLoggingString
      */
     public void setLoggingString(String pLoggingString) {
@@ -390,15 +391,15 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * Gibt die Rolle des Nutzers zurück.
+     * @return role
      */
     public Role getRole() {
         return role;
     }
 
     /**
-     *
+     * Setzt die Rolle des Nutzers.
      * @param role
      */
     public void setRole(Role role) {
@@ -456,7 +457,7 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
+     * Setzt die Liste der Veranstaltungen in denen man als Prüfer eingetragen ist.
      * @param asProf
      */
     public void setAsProf(List<InstanceLecture> asProf) {
@@ -464,31 +465,31 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * Gibt die Liste der Veranstaltungen zurück, wo man als Prüfer eingetragen ist.
+     * @return Liste der ILVs
      */
     public List<InstanceLecture> getAsProf() {
         return asProf;
     }
 
     /**
-     *
-     * @param i
+     * Fügt die ILV zu der Liste von Veranstaltungen hinzu bei denen man Prüfer ist.
+     * @param i, die ILV die hinzugefügt wird.
      */
     public void addAsProfToIlv(final InstanceLecture i) {
         asProf.add(i);
     }
 
     /**
-     *
-     * @param i
+     *Entfernt die ILV aus der Liste von Veranstaltungen bei denen man Prüfer ist.
+     * @param i, die ILV die entfernt wird.
      */
     public void removeProfFromIlv(final InstanceLecture i) {
         asProf.remove(i);
     }
 
     /**
-     *
+     * Setzt die Liste der ILVs bei denen man als Student eingetragen ist.
      * @param asStudent
      */
     public void setAsStudent(List<InstanceLecture> asStudent) {
@@ -496,31 +497,33 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * Gibt die Liste der Ilvs zurück bei denen man als Student eingetragen ist.
+     * @return Liste von Veranstaltungen, in denen man als Student eingetragen ist.
      */
     public List<InstanceLecture> getAsStudent() {
         return asStudent;
     }
 
     /**
-     *
-     * @param i
+     * Fügt einen ILV zu der Liste von Veranstaltungen,
+     * in denen man als Student eingetragen ist, hinzu.
+     * @param i, welche hinzugefügt wird.
      */
     public void addAsStudentToIlv(final InstanceLecture i) {
         asStudent.add(i);
     }
 
     /**
-     *
-     * @param i
+     * Entfernt eine ILV aus der Liste von Veranstaltungen,
+     * in denen man als Student eingetragen ist.
+     * @param i, welche entfernt wird.
      */
     public void removeStudentFromIlv(final InstanceLecture i) {
         asStudent.remove(i);
     }
 
     /**
-     *
+     * Setzt die Liste der Prüfungstermine, in denen man als Prüfer agiert.
      * @param examAsProf
      */
     public void setExamAsProf(List<Exam> examAsProf) {
@@ -528,24 +531,24 @@ public class User extends JPAEntity implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * Gibt die Liste der Prüfungstermine, in denen man als Prüfer agiert.
+     * @return ExamAsProf
      */
     public List<Exam> getExamAsProf() {
         return ExamAsProf;
     }
 
     /**
-     *
-     * @param e
+     * Fügt eine Prüfung zu der Liste von Prüfungen hinzu, in denen man Prüfer ist.
+     * @param e, welche hinzugefüt wird.
      */
     public void addExamAsProf(final Exam e) {
         ExamAsProf.add(e);
     }
 
     /**
-     *
-     * @param e
+     * Entfernt eine Prüfung aus der Liste von Prüfungen, in denen man Prüfer ist.
+     * @param e, welche entfernt wird.
      */
     public void removeExamAsProf(final Exam e) {
         ExamAsProf.remove(e);

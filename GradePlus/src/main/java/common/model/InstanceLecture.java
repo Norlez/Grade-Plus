@@ -19,7 +19,7 @@ import static common.util.Assertion.assertNull;
  * Studenten eintragen können.
  *
  * @author Marvin Kampen, Torben Groß
- * @version 2018-02-10
+ * @version 2018-02-28
  */
 @Entity
 @Table(name = "InstanceLectures")
@@ -99,18 +99,34 @@ public class InstanceLecture extends JPAEntity {
         lecture = assertNotNull(pLecture);
     }
 
+    /**
+     * Eine Liste mit allen JoinExam, die zu der ILV gehören, wird zurückgegeben.
+     * @return Eine Liste von JoinExams
+     */
     public List<JoinExam> getJoinExam() {
         return joinExam;
     }
 
+    /**
+     * Setzt die Liste von JoinExams für diese ILV.
+     * @param joinExam
+     */
     public void setJoinExam(List<JoinExam> joinExam) {
         this.joinExam = joinExam;
     }
 
+    /**
+     * Fügt eine JoinExam der Liste der JoinExams hinzu.
+     * @param j
+     */
     public void addJoinExam(JoinExam j) {
         joinExam.add(j);
     }
 
+    /**
+     * Entfernt eine JoinExam aus der Liste der JoinExams.
+     * @param j
+     */
     public void removeJoinExam(JoinExam j) {
         joinExam.remove(j);
     }
@@ -270,19 +286,35 @@ public class InstanceLecture extends JPAEntity {
 
     }
 
+    /**
+     * Gibt die Anmeldefrist der Prüfung zurück.
+     * @return termOfApplication als Date
+     */
     public Date getTermOfApplication() {
         return termOfApplication;
     }
 
+    /**
+     * Setzt die Anmeldefrist für einen Prüfungstermin
+     * @param pTermOfApplication als das Datum der Prüfung. Darf nicht null sein
+     */
     public void setTermOfApplication(final Date pTermOfApplication) {
         termOfApplication = assertNotNull(pTermOfApplication);
     }
 
+    /**
+     * Gibt die Anmeldefrist für die Prüfung zurück.
+     * @return Im Format: HH:mm, dd.MM.yyyy
+     */
     public String termOfApplicationToString() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm, dd.MM.yyyy");
         return simpleDateFormat.format(termOfApplication);
     }
 
+    /**
+     * Prüft, ob die Anmeldefrist abgelaufen ist.
+     * @return true, die Anmeldefrist ist abgelaufen. false, die Anmeldefrist ist noch nicht abgelaufen.
+     */
     public boolean isTermOfApplicationExceeded() {
         return termOfApplication.compareTo(new Date()) < 0;
     }

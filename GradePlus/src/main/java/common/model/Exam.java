@@ -23,7 +23,7 @@ import static common.util.Assertion.assertNotNull;
  * oder Gruppenprüfung handelt.
  *
  * @author Torben Groß, Marvin Kampen
- * @version 2018-02-08
+ * @version 2018-02-28
  *
  */
 @Entity
