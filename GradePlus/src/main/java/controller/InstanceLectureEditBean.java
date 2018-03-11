@@ -333,13 +333,19 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 }
             }
         }
-        if (instanceLecture.getExaminers().size() <= 1) {
+        if (instanceLecture.getExaminers().stream()
+                .filter(e -> e.getRole().equals(Role.EXAMINER))
+                .collect(Collectors.toList()).size() <= 1
+                && pExaminer.getRole().equals(Role.EXAMINER)) {
             addErrorMessage("errorLastExaminer");
             return "exams.xhtml";
         }
         instanceLecture.removeExaminer(pExaminer);
         pExaminer.removeProfFromIlv(instanceLecture);
         update(pExaminer);
+        if (pExaminer.getId().equals(getSession().getUser().getId())) {
+            return "semester.xhtml";
+        }
         return "exams.xhtml";
     }
 
