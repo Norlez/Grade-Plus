@@ -28,11 +28,14 @@ import static common.util.Assertion.assertNotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -484,10 +487,45 @@ public class UsersBean extends AbstractBean implements Serializable {
      * @param pUser
      *            , der verändert werden soll
      */
-    public void changeActive(final User pUser) throws DuplicateEmailException,
+    public String changeActive(final User pUser) throws DuplicateEmailException,
             DuplicateUsernameException {
         assertNotNull(pUser);
+        if (pUser.getRole().equals(Role.ADMIN)
+                && pUser.isActive()
+                && userDao.getAllUsers().stream()
+                        .filter(u -> u.getRole().equals(Role.ADMIN) && u.isActive())
+                        .collect(Collectors.toList()).size() <= 1) {
+            addErrorMessage("errorLastAdmin");
+            return null;
+        }
         pUser.setActive();
         userDao.update(pUser);
+        if (pUser.getId().equals(getSession().getUser().getId())) {
+            if (logger.isInfoEnabled()) {
+                logger.info(String.format("User %s logged out.", getSession().getUser()
+                        .getUsername()));
+            }
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            User registeredUser = getSession().getUser();
+            registeredUser
+                    .setLoggingString(date.toString() + ": Abmeldung vom System.\n");
+            try {
+                userDao.update(registeredUser);
+            } catch (final IllegalArgumentException e) {
+                addErrorMessageWithLogging(e, logger, Level.DEBUG,
+                        getTranslation("errorUserdataIncomplete"));
+            } catch (final DuplicateUsernameException e) {
+                addErrorMessageWithLogging("registerUserForm:username", e, logger,
+                        Level.DEBUG, "errorUsernameAlreadyInUse",
+                        registeredUser.getUsername());
+            } catch (final DuplicateEmailException e) {
+                addErrorMessageWithLogging("registerUserForm:email", e, logger,
+                        Level.DEBUG, "errorEmailAlreadyInUse", registeredUser.getEmail());
+            }
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            return "/index.xhtml?faces-redirect=true";
+        }
+        return null;
     }
 }
