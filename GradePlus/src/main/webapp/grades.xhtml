@@ -100,7 +100,7 @@
                                 <b:commandButton rendered="#{gradesBean.getEditChecker(e)}" style="width: 150px"
                                                  value="#{msg['actionSave']}"
                                                  action="#{gradesBean.save(gradesBean.exam, e)}" />
-                                <b:commandButton rendered="#{!gradesBean.getEditChecker(e)}" style="width: 150px"
+                                <b:commandButton disabled="#{! empty instanceLectureEditBean.getFinalScore(e,instanceLectureEditBean.instanceLecture)}" rendered="#{!gradesBean.getEditChecker(e)}" style="width: 150px"
                                                  value="#{msg['actionEdit']}"
                                                  action="#{gradesBean.setEditChecker(e)}" />
                                 <b:commandButton value="#{msg['actionComment']}" style="width: 150px"
