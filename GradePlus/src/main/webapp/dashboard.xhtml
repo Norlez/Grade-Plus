@@ -180,7 +180,8 @@
                                     <h:outputText rendered="#{empty e.location}" value="#{msg['outputNoLocation']}"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn class="col" orderable="false" label="#{msg['actionDeregister']}">
-                                    <b:commandButton value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsExaminer(e)}"/>
+                                    <b:commandButton rendered="#{!e.instanceLecture.termOfApplicationExceeded}" value="#{msg['actionDeregister']}" action="#{examsBean.deregisterAsExaminer(e)}"/>
+                                    <h:outputText rendered="#{e.instanceLecture.termOfApplicationExceeded}" value="#{msg['outputTermOfApplicationExpired']}"/>
                                 </b:dataTableColumn>
 
                             </b:dataTable>
