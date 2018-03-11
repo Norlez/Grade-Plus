@@ -113,10 +113,18 @@ public class UsersBean extends AbstractBean implements Serializable {
      */
     private List<User> allUsers;
 
+    /**
+     * Gibt eine Liste von unregistrierten Prüfern zurück
+     * @return Liste von Prüfern
+     */
     public List<User> getNotRegisteredExaminers() {
         return notRegisteredExaminers;
     }
 
+    /**
+     * Setzt die Liste von unregistrierten Prüfern
+     * @param notRegisteredExaminers, die zu setzende Liste
+     */
     public void setNotRegisteredExaminers(List<User> notRegisteredExaminers) {
         this.notRegisteredExaminers = assertNotNull(notRegisteredExaminers);
     }
@@ -237,7 +245,7 @@ public class UsersBean extends AbstractBean implements Serializable {
      * Aktualisiert den aktuell angezeigten Benutzer in der Liste aller bekannten Benutzer
      * unter Verwendung des entsprechenden Data-Access-Objekts.
      */
-    public void update(final User pUser) { // TODO: Nicht Getestet
+    public void update(final User pUser) { 
         assertNotNull(pUser);
         try {
             userDao.update(pUser);
@@ -265,6 +273,8 @@ public class UsersBean extends AbstractBean implements Serializable {
     }
 
     /**
+     * Wird nicht genutzt.
+     *
      * Setzt den Namen der anzuzeigenden Rolle.
      *
      * @param pRole
@@ -278,7 +288,7 @@ public class UsersBean extends AbstractBean implements Serializable {
         // user.setRole(Assertion.assertNotEmpty(pRole));
     }
 
-    // TODO: Rollenänderung ist nicht getestet
+
 
     /**
      * Setzt die User-Rolle auf Prüfer.
@@ -486,6 +496,11 @@ public class UsersBean extends AbstractBean implements Serializable {
      * 
      * @param pUser
      *            , der verändert werden soll
+     *
+     * @throws DuplicateEmailException, falls die E-Mail bereits vorhanden ist
+     * @throws DuplicateUsernameException, falls der Username bereits vorhanden ist
+     *
+     * @return index.xhtml, wenn der aktuelle User der parametrisierte User ist, ansonsten null um auf der Seite zu bleiben
      */
     public String changeActive(final User pUser) throws DuplicateEmailException,
             DuplicateUsernameException {
