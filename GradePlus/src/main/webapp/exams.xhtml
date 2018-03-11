@@ -88,6 +88,104 @@
                 <!-- TABS -->
                 <b:tabView>
 
+                    <!-- PRÜFLINGE -->
+                    <b:tab title="#{msg['tabtitleStudents']}">
+
+                        <!-- PRÜFLINGE HINZUFÜGEN -->
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleAddStudents']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+
+                        <!-- UPLOAD PABO LIST -->
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
+                            <b:column span="3">
+                                <b:button class="btn" value="#{msg['actionImportPabo']}" outcome="importstudentlist"/>
+                            </b:column>
+                        </b:row>
+
+                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
+                            <b:column span="8">
+                                <b:panel  collapsed="true" rendered="#{! empty instanceLectureEditBean.unregisteredStudents}" >
+                                    <f:facet name="heading">
+                                        <h:outputText value="#{msg['outputAddStudents']}" />
+                                    </f:facet>
+                                    <b:dataTable span="8" value="#{instanceLectureEditBean.unregisteredStudents}" var="u"
+                                                 excel="false"
+                                                 csv="false"
+                                                 pdf="false"
+                                                 columnVisibility="false"
+                                                 copy="false"
+                                                 print="false">
+                                        <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
+                                        <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
+                                        <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                                        <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
+                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLectureEditBean.addStudent(u)}" />
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panel>
+                            </b:column>
+                        </b:row>
+                        <b:row class="space25px" />
+
+                        <!-- PRÜFLINGE -->
+                        <b:row class="btn-paragraph">
+                            <b:column span="4">
+                                <h2>
+                                    <h:outputText value="#{msg['subtitleStudents']}" />
+                                </h2>
+                            </b:column>
+                        </b:row>
+                        <b:row class="btn-paragraph">
+                            <b:column span="12">
+                                <b:dataTable span="8"
+                                             rendered="#{! empty instanceLectureEditBean.instanceLecture.examinees}"
+                                             value="#{instanceLectureEditBean.instanceLecture.examinees}"
+                                             var="u"
+                                             excel="false"
+                                             csv="false"
+                                             pdf="false"
+                                             columnVisibility="false"
+                                             copy="false"
+                                             print="false">
+                                    <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
+                                    <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
+                                    <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
+                                    <b:dataTableColumn label="#{msg['outputRegistration']}" value="#{examsBean.getWayOfRegister(u,instanceLectureEditBean.instanceLecture).kind}"/>
+                                    <b:dataTableColumn label="#{msg['outputState']}">
+                                        <h:outputText rendered="#{u.active}" value="#{msg['outputActive']}"/>
+                                        <h:outputText rendered="#{!u.active}" value="#{msg['outputInactive']}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['outputSubRating']}">
+                                        <h:outputText rendered="#{! empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}"/>
+                                        <h:outputText rendered="#{empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNotSpecified']}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="#{msg['outputFinalScore']}">
+                                        <h:outputText rendered="#{! empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}"/>
+                                        <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNotSpecified']}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRemove']}" orderable="false">
+                                        <b:commandButton value="#{msg['actionRemove']}"
+                                                         action="#{instanceLectureEditBean.removeStudent(u)}"/>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
+                                               value="#{msg['outputNoStudents']}"/>
+                            </b:column>
+                        </b:row>
+
+                        <!-- SEND BROADCAST MAIL -->
+                        <b:row rendered="#{! empty instanceLectureEditBean.instanceLecture.examinees}" class="btn-paragraph">
+                            <b:column span="3">
+                                <b:commandButton value="#{msg['actionSendBroadcastMail']}" action="#{mailBean.sendBroadcastMail(instanceLectureEditBean.instanceLecture)}" />
+                            </b:column>
+                        </b:row>
+                    </b:tab>
+
                     <!-- PRÜFER -->
                     <b:tab title="#{msg['tabtitleExaminers']}">
 
@@ -155,104 +253,6 @@
                                     <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examiners}"
                                                    value="#{msg['outputNoExaminers']}"/>
                                 </b:dataTable>
-                            </b:column>
-                        </b:row>
-                    </b:tab>
-
-                    <!-- PRÜFLINGE -->
-                    <b:tab title="#{msg['tabtitleStudents']}">
-
-                        <!-- PRÜFLINGE HINZUFÜGEN -->
-                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
-                            <b:column span="4">
-                                <h2>
-                                    <h:outputText value="#{msg['subtitleAddStudents']}" />
-                                </h2>
-                            </b:column>
-                        </b:row>
-
-                        <!-- UPLOAD PABO LIST -->
-                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
-                            <b:column span="3">
-                                <b:button class="btn" value="#{msg['actionImportPabo']}" outcome="importstudentlist"/>
-                            </b:column>
-                        </b:row>
-
-                        <b:row class="btn-paragraph" rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}">
-                            <b:column span="8">
-                                <b:panel  collapsed="true" rendered="#{! empty instanceLectureEditBean.unregisteredStudents}" >
-                                    <f:facet name="heading">
-                                        <h:outputText value="#{msg['outputAddStudents']}" />
-                                    </f:facet>
-                                    <b:dataTable span="8" value="#{instanceLectureEditBean.unregisteredStudents}" var="u"
-                                                 excel="false"
-                                                 csv="false"
-                                                 pdf="false"
-                                                 columnVisibility="false"
-                                                 copy="false"
-                                                 print="false">
-                                        <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
-                                        <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
-                                        <b:dataTableColumn label="#{msg['outputRole']}" value="#{u.role}"/>
-                                        <b:dataTableColumn label="#{msg['actionAdd']}" orderable="false">
-                                            <b:commandButton value="#{msg['actionAdd']}" action="#{instanceLectureEditBean.addStudent(u)}" />
-                                        </b:dataTableColumn>
-                                    </b:dataTable>
-                                </b:panel>
-                            </b:column>
-                        </b:row>
-                        <b:row class="space25px" />
-
-                        <!-- PRÜFLINGE -->
-                        <b:row class="btn-paragraph">
-                            <b:column span="4">
-                                <h2>
-                                    <h:outputText value="#{msg['subtitleStudents']}" />
-                                </h2>
-                            </b:column>
-                        </b:row>
-                        <b:row class="btn-paragraph">
-                            <b:column span="12">
-                                <b:dataTable span="8"
-                                             rendered="#{! empty instanceLectureEditBean.instanceLecture.examinees}"
-                                             value="#{instanceLectureEditBean.instanceLecture.examinees}"
-                                             var="u"
-                                             excel="false"
-                                             csv="false"
-                                             pdf="false"
-                                             columnVisibility="false"
-                                             copy="false"
-                                             print="false">
-                                    <b:dataTableColumn label="#{msg['outputMatricalNumber']}" value="#{u.matrNr}"/>
-                                    <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{u.givenName}"/>
-                                    <b:dataTableColumn label="#{msg['outputSurname']}" value="#{u.surname}"/>
-                                    <b:dataTableColumn label="#{msg['outputRegistration']}" value="#{examsBean.getWayOfRegister(u,instanceLectureEditBean.instanceLecture).kind}"/>
-                                    <b:dataTableColumn label="#{msg['outputState']}">
-                                        <h:outputText rendered="#{u.active}" value="#{msg['outputActive']}"/>
-                                        <h:outputText rendered="#{!u.active}" value="#{msg['outputInactive']}"/>
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn label="#{msg['outputSubRating']}">
-                                        <h:outputText rendered="#{! empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}"/>
-                                        <h:outputText rendered="#{empty instanceLectureEditBean.getSubRating(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNotSpecified']}"/>
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn label="#{msg['outputFinalScore']}">
-                                        <h:outputText rendered="#{! empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}"/>
-                                        <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(u,instanceLectureEditBean.instanceLecture)}" value="#{msg['outputNotSpecified']}"/>
-                                    </b:dataTableColumn>
-                                    <b:dataTableColumn rendered="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}" label="#{msg['actionRemove']}" orderable="false">
-                                        <b:commandButton value="#{msg['actionRemove']}"
-                                                         action="#{instanceLectureEditBean.removeStudent(u)}"/>
-                                    </b:dataTableColumn>
-                                </b:dataTable>
-                                <h:outputLabel rendered="#{empty instanceLectureEditBean.instanceLecture.examinees}"
-                                               value="#{msg['outputNoStudents']}"/>
-                            </b:column>
-                        </b:row>
-
-                        <!-- SEND BROADCAST MAIL -->
-                        <b:row rendered="#{! empty instanceLectureEditBean.instanceLecture.examinees}" class="btn-paragraph">
-                            <b:column span="3">
-                                <b:commandButton value="#{msg['actionSendBroadcastMail']}" action="#{mailBean.sendBroadcastMail(instanceLectureEditBean.instanceLecture)}" />
                             </b:column>
                         </b:row>
                     </b:tab>
