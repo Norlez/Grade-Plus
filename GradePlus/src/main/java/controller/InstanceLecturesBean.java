@@ -27,8 +27,8 @@ import static common.util.Assertion.assertNotNull;
 /**
  * Dieses Bean verwaltet Instanzen von Lehrveranstaltungen.
  *
- * @author Torben Groß
- * @version 2018-02-19
+ * @author Torben Groß, Arbnor, Andreas Estenfelder, Marvin Kampen
+ * @version 2018-02-28
  */
 @Named
 @RequestScoped
@@ -51,8 +51,16 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      */
     private final UserDAO userDao;
 
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Exams-Objekte
+     * übernimmt.
+     */
     private final ExamDAO examDao;
 
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für JoinExams-Objekte
+     * übernimmt.
+     */
     private final JoinExamDAO joinExamDao;
 
     /**
@@ -109,6 +117,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      *            Die Session der zu erzeugenden InstanceLecturesBean.
      * @param pInstanceLectureDao
      *            Die InstanceLectureDAO der zu erzeugenden InstanceLecturesBean.
+     * @param pUserDao
+     *              Die UserDao der zu erzeugenden InstanceLecturesBean.
+     * @param pExamDao
+     *          Die ExamsDAO der zu erzeugenden InstanceLecturesBean.
+     * @param pJoinExamDao
+     *         Die JoinExamDAO der zu erzeugenden InstanceLecturesBean.
      * @throws IllegalArgumentException
      *             Falls {@code pSession} oder {@code pInstanceLectureDao} {@code null}
      *             sind.
@@ -207,7 +221,6 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
      * 
      * @return Die Liste von InstanceLectures
      */
-    // TODO
     public List<InstanceLecture> getInstanceLecturesForLecture() {
         return instanceLectureDao.getInstanceLecturesForLecture(getSession()
                 .getSelectedLecture());
@@ -446,8 +459,12 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
     /**
      * Dupliziert eine ILV. Dabei wird die Lecture und das Semester übernommen. Das Jahr
      * wird um um eins erhöht.
-     * 
-     * @return Die Seite mit allen ILVs
+     *
+     * @throws DuplicateInstanceLectureException, ILV existiert so bereits einmal
+     * @throws DuplicateUsernameException, Username existiert bereits
+     * @throws DuplicateEmailException, Emailadresse existiert bereits
+     * @param pInstanceLecture , welche Dupliziert wird
+     * @return Die Seite mit allen ILVs (semesster.xhtml)
      */
     public String duplicateInstanceLecture(InstanceLecture pInstanceLecture) {
         assertNotNull(pInstanceLecture);
@@ -492,6 +509,10 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
         return "semester.xhtml";
     }
 
+    /**
+     * Gibt alle Lehrveranstaltungen des Studenten in einer Liste zurück.
+     * @return Liste mit Lehrveranstaltungen
+     */
     public List<Lecture> getLecturesOfStudent() {
         return getInstanceLecturesOfExaminee() == null ? new ArrayList<>()
                 : getInstanceLecturesOfExaminee().stream()
@@ -500,6 +521,10 @@ public class InstanceLecturesBean extends AbstractBean implements Serializable {
                         .stream().collect(Collectors.toList());
     }
 
+    /**
+     * Gibt alle ILVs für den Studenten zurück.
+     * @return Liste mit allen ILVs des Studenten
+     */
     public List<InstanceLecture> getAllInstanceLecturesOfExaminer() {
         return getInstanceLecturesForLecture() == null ? null
                 : getInstanceLecturesForLecture().stream()
