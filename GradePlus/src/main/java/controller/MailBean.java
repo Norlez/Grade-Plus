@@ -263,6 +263,7 @@ public class MailBean extends AbstractBean implements Serializable {
             transport.connect(smtp, sender.getEmail(), getSession().getTmpPassword());
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
+            addErrorMessage("outputMailSent");
         } catch (MessagingException e) {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorTransmitOfMessage", sender.getEmail());
@@ -271,9 +272,6 @@ public class MailBean extends AbstractBean implements Serializable {
         topic = "";
         content = "";
         init();
-        FacesMessage message = new FacesMessage(
-                "Ihre Nachricht wurde erfolgreich versendet!");
-        FacesContext.getCurrentInstance().addMessage(null, message);
         return "dashboard.xhtml";
     }
 
@@ -331,11 +329,11 @@ public class MailBean extends AbstractBean implements Serializable {
      */
     public String sendMailWithAttachment() throws IOException {
         String tmp = sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1).trim();
-        if(tmp.equals("uni-bremen.de")
+        if(!(tmp.equals("uni-bremen.de")
                 || tmp.equals("gmail.com")
                 || tmp.equals("gmail.de")
                 || tmp.equals("googlemail.com")
-                || tmp.equals("googlemail.de")){
+                || tmp.equals("googlemail.de"))){
             addErrorMessage("selectValidEmail");
             return "dashboard.xhtml";
         }
@@ -362,6 +360,7 @@ public class MailBean extends AbstractBean implements Serializable {
             transport.connect(smtp, sender.getEmail(), getSession().getTmpPassword());
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
+            addErrorMessage("outputMailSent");
         } catch (MessagingException e) {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorTransmitOfMessage", sender.getEmail());
@@ -370,9 +369,6 @@ public class MailBean extends AbstractBean implements Serializable {
         content = "";
         recipient = "";
         init();
-        FacesMessage message = new FacesMessage(
-                "Ihre Nachricht wurde erfolgreich versendet!");
-        FacesContext.getCurrentInstance().addMessage(null, message);
         return "dashboard.xhtml";
     }
 
