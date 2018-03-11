@@ -133,7 +133,13 @@ public class GradesBean extends AbstractBean implements Serializable {
     private List<Double> possibleGrades;
 
     public Double getSelectedGrade() {
-        return selectedGrade;
+        List<JoinExam> daGrades = joinExamDAO
+                .getAllJoinExams()
+                .stream()
+                .filter(j -> j.getExam().getId().equals(exam.getId())
+                        && j.getPruefling().getId().equals(user.getId())
+                        && j.getGrade() != null).collect(Collectors.toList());
+        return daGrades.isEmpty() ? 1.0 : daGrades.get(0).getGrade().getMark();
     }
 
     public void setSelectedGrade(Double selectedGrade) {
@@ -301,12 +307,16 @@ public class GradesBean extends AbstractBean implements Serializable {
             return null;
         }
         JoinExam joinExam = null;
-        List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(pStudent);
+        List<JoinExam> joinExams = joinExamDAO.getJoinExamsForUser(user);
         for (JoinExam j : joinExams) {
             if (j.getExam() != null && j.getExam().getId() == pExam.getId()) {
                 joinExam = j;
                 break;
             }
+        }
+        if (joinExam.getGrade() != null) {
+            update(pExam, user);
+            return "grades.xhtml";
         }
         grade.setMark(selectedGrade);
         grade.setJoinExam(joinExam);
@@ -342,6 +352,7 @@ public class GradesBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", pStudent.getEmail());
         }
+        setEditChecker(user);
         return "grades.xhtml";
     }
 
@@ -383,6 +394,7 @@ public class GradesBean extends AbstractBean implements Serializable {
             addErrorMessageWithLogging("registerUserForm:email", e, logger, Level.DEBUG,
                     "errorEmailAlreadyInUse", pStudent.getEmail());
         }
+        setEditChecker(user);
         return null;
     }
 
@@ -478,6 +490,8 @@ public class GradesBean extends AbstractBean implements Serializable {
 
     public String setExam(final Exam pExam) {
         exam = assertNotNull(pExam);
+        editChecker = false;
+        user = null;
         return "grades.xhtml";
     }
 
@@ -492,31 +506,50 @@ public class GradesBean extends AbstractBean implements Serializable {
                                 .getId())).collect(Collectors.toList()).get(0).getGrade() != null;
     }
 
-    public String enterComment(final JoinExam pJoinExam)
-    {
+    public String enterComment(final JoinExam pJoinExam) {
         joinExamDAO.update(pJoinExam);
         return "grades.xhtml";
     }
 
-    public String setComment(final JoinExam pJoinExam)
-    {
+    public String setComment(final JoinExam pJoinExam) {
         assertNotNull(pJoinExam);
         toConfigure = pJoinExam;
         return "setcommentary.xhtml";
     }
 
-    public JoinExam getJoinExamForUser(Exam e, User u)
-    {
+    public JoinExam getJoinExamForUser(Exam e, User u) {
         JoinExam tmp = null;
         List<JoinExam> j = joinExamDAO.getJoinExamsForUser(u);
-        for(JoinExam join: j)
-        {
-            if(join.getExam() != null && join.getExam().getId() == exam.getId())
-            {
+        for (JoinExam join : j) {
+            if (join.getExam() != null && join.getExam().getId() == exam.getId()) {
                 tmp = join;
                 break;
             }
         }
         return tmp;
     }
+
+    private boolean editChecker = false;
+
+    private User user;
+
+    public boolean getEditChecker(final User pUser) {
+        return editChecker && user.getId().equals(assertNotNull(pUser).getId());
+    }
+
+    public void setEditChecker(final User pUser) {
+        if (editChecker) {
+            if (pUser.getId().equals(user.getId())) {
+                user = null;
+                editChecker = !editChecker;
+            } else {
+                user = pUser;
+            }
+        } else {
+            user = assertNotNull(pUser);
+            editChecker = !editChecker;
+        }
+
+    }
+
 }
