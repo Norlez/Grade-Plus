@@ -168,20 +168,6 @@ public class User extends JPAEntity implements Serializable {
 
 
 
-
-    /**
-     * Gibt das kurzzeitig gespeicherte Passwort zurück
-     * @return das temporäre Passwort.
-     */
-    public String getTmpPassword() {
-        return tmpPassword;
-    }
-
-    /**
-     * Speichert für die länge der registrierung kurzzeit das Passwort.
-     */
-    private String tmpPassword;
-
     /**
      * Gibt den Benutzernamen dieses Benutzers zurück.
      *
@@ -299,7 +285,6 @@ public class User extends JPAEntity implements Serializable {
     public void setPassword(final String pPassword) {
 
         password = Crypt.hash(Assertion.assertNotNull(pPassword));
-        tmpPassword  = pPassword;
     }
 
     /**

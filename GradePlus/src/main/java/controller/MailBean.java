@@ -243,11 +243,11 @@ public class MailBean extends AbstractBean implements Serializable {
      */
     public String sendMail() {
         String tmp = sender.getEmail().substring(sender.getEmail().lastIndexOf('@') + 1).trim();
-        if(tmp.equals("uni-bremen.de")
+        if(!(tmp.equals("uni-bremen.de")
                 || tmp.equals("gmail.com")
                 || tmp.equals("gmail.de")
                 || tmp.equals("googlemail.com")
-                || tmp.equals("googlemail.de")){
+                || tmp.equals("googlemail.de"))){
             addErrorMessage("selectValidEmail");
             return "dashboard.xhtml";
         }
