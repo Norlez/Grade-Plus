@@ -33,7 +33,7 @@ import static common.util.Assertion.*;
  * Es werden darin die Dokumente Protokoll, Quittung und Leistungsnachweis erstellt und befüllt.
  * Wird auf Grades.xhtml genutzt.
  *
- * @author Marvin Kampen
+ * @author Marvin Kampen,Andreas Estenfelder
  * @version 2018-03-11
  */
 @Named
@@ -71,7 +71,14 @@ public class DocumentBean extends AbstractBean implements Serializable {
      */
     private Map<String, Boolean> checked = new HashMap<>();
 
+    /**
+     * Der Beginn der Prüfung
+     */
     private Date startOfTimeFrame;
+
+    /**
+     * Das Ende der Prüfung
+     */
     private Date endOfTimeFrame;
 
     // Beinhaltet VAK
@@ -152,6 +159,7 @@ public class DocumentBean extends AbstractBean implements Serializable {
     // Name des Pruefungsgebiets
     private String pruefungsgebiet = "343636343";
 
+    // Format des heutigen Datums
     java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat("dd-MM-yyyy");
 
     /**
@@ -159,6 +167,14 @@ public class DocumentBean extends AbstractBean implements Serializable {
      *
      * @param theSession
      *            Die Session der zu erzeugenden AbstractBean.
+     *            @param pUserDao
+     *            Die UserDao der zu erzeugenden DocumentBean.
+     *            @param pExamDao
+     *            Die ExamDao der zu erzeugenden DocumentBean.
+     *             @param pJoinExamDAo
+     *            Die JoinExamDao der zu erzeugenden DocumentBean.
+     *            @param pInstanceLectureDao
+     *            Die InstanceLectureDao der zu erzeugenden DocumentBean.
      * @throws IllegalArgumentException
      *             Falls {@code theSession} {@code null} ist.
      */
@@ -172,40 +188,79 @@ public class DocumentBean extends AbstractBean implements Serializable {
         instanceLectureDAO = pInstanceLectureDao;
     }
 
+    /**
+     * getter vom checked-Attribut
+     * @return Die checked Map
+     */
     public Map<String, Boolean> getChecked() {
         return checked;
     }
 
+    /**
+     * Setzt die Map auf die gegebenen Parameter.
+     * @param pChecked
+     */
     public void setChecked(final Map<String, Boolean> pChecked) {
         checked = assertNotNull(pChecked);
     }
 
+    /**
+     * Gibt die Startzeit der Prüfung zurück.
+     * @return Startzeit als Date
+     */
     public Date getStartOfTimeFrame() {
         return startOfTimeFrame;
     }
 
+    /**
+     * Setzt die Startzeit der Prüfung
+     * @param startOfTimeFrame
+     */
     public void setStartOfTimeFrame(final Date startOfTimeFrame) {
         this.startOfTimeFrame = startOfTimeFrame;
     }
 
+    /**
+     * Gibt den Endzeitpunkt der Prüfung zurück.
+     * @return endOfTimeFrame als Date
+     */
     public Date getEndOfTimeFrame() {
         return endOfTimeFrame;
     }
 
+    /**
+     * Setzt den Endzeitpunkt der Prüfung.
+     * @param endOfTimeFrame
+     */
     public void setEndOfTimeFrame(final Date endOfTimeFrame) {
         this.endOfTimeFrame = endOfTimeFrame;
     }
 
+    /**
+     * Gibt den Namen des Studenten zurück.
+     * @param pStudent
+     * @return Gibt den Namen des Studenten als String zurück
+     */
     public String getNameOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDAO.getUserForUsername(pStudent.getUsername()).getGivenName();
     }
 
+    /**
+     * Gibt den Nachnamen des Studenten zurück.
+     * @param pStudent
+     * @return Nachname als String.
+     */
     public String getSurnameOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDAO.getUserForUsername(pStudent.getUsername()).getSurname();
     }
 
+    /**
+     * Gib die MatrNr des Studenten zurück.
+     * @param pStudent
+     * @return MatrNr des Studenten als String
+     */
     public String getMatrNrOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDAO.getUserForUsername(pStudent.getUsername()).getMatrNr();
@@ -402,6 +457,13 @@ public class DocumentBean extends AbstractBean implements Serializable {
 
     /**
      * Methode zum Drucken der Quittung
+     * @param pUser
+     *              Der Benutzer für den das Quittung gedruckt werden soll.
+     * @param pExam
+     *              Die Prüfung für die das Quittung gedruckt werden soll.
+     *
+     * @return Der StreamedContent, welche die erzeugte PDF enthält.
+     * @throws IOException, falls ein Fehler beim Speichern der Datei auftritt.
      *
      */
     public StreamedContent getReceipe(final User pUser, final Exam pExam)
@@ -559,7 +621,13 @@ public class DocumentBean extends AbstractBean implements Serializable {
     }
 
     /**
-     * Methode zum Drucken des Leistungsnachweise
+     * @param pUser
+     *              Der Benutzer für den das Leistungsnachweis gedruckt werden soll.
+     * @param pExams
+     *              Die Prüfung für die das Leistungsnachweis gedruckt werden soll.
+     *
+     * @return Der StreamedContent, welche die erzeugte PDF enthält.
+     * @throws IOException, falls ein Fehler beim Speichern der Datei auftritt.
      *
      */
     public StreamedContent getCertificates(final User pUser, final Exam pExams)
@@ -723,6 +791,10 @@ public class DocumentBean extends AbstractBean implements Serializable {
         }
     }
 
+    /**
+     * Gibt alle Dokumente in Form einer Liste zurück.
+     * @return Liste von Dokumenten
+     */
     public List<String> getAvailableDocuments() {
         List<String> availableDocuments = new ArrayList<>();
         availableDocuments.add("Protokoll");
