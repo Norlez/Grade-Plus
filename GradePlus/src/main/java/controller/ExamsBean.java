@@ -139,6 +139,15 @@ public class ExamsBean extends AbstractBean implements Serializable {
      *
      * @param pSession
      *            Die Session der zu erzeugenden ExamsBean.
+     *            @param pUserDao
+     *            Die UserDao der zu erzeugenden ExamsBean.
+     *            @param pExamDao
+     *            Die ExamDao der zu erzeugenden ExamsBean.
+     *            @param pInstanceLectureDao
+     *            Die InstanceLectureDao der zu erzeugenden ExamsBean.
+     *            @param pJoinExamDao
+     *            Die JoinExamDao der zu erzeugenden ExamsBean.
+     *
      *
      * @throws IllegalArgumentException
      *             Falls {@code pSession} {@code null} ist.
@@ -234,7 +243,7 @@ public class ExamsBean extends AbstractBean implements Serializable {
     /**
      * Gibt die temporär gespeicherte Exam zurück
      * 
-     * @return
+     * @return selectedExam
      */
     public Exam getSelectedExam() {
         return selectedExam;
@@ -880,6 +889,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return true;
     }
 
+    /**
+     * Gibt die Prüfung frei.
+     * @param pExam, die gewählte Prüfung
+     * @return exams.xthml wird als nächste Seite übergeben
+     */
     public String releaseExam(final Exam pExam) {
         assertNotNull(pExam).setReleased(true);
         Exam theExam = exam;
@@ -905,6 +919,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
         }
     }
 
+    /**
+     * Schließt die Prüfung
+     * @param pExam, die Prüfung die geschlossen werden soll.
+     * @return exams.xhtml wird als nächste Seite übergeben
+     */
     public String closeExam(final Exam pExam) {
         assertNotNull(pExam).setReleased(false);
         for (User u : pExam.getStudents()) {
@@ -960,10 +979,17 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gibt AlreadyExists zurück.
+     * @return alreadyExists
+     */
     public boolean getAlreadyExists() {
         return alreadyExists;
     }
 
+    /**
+     * Setzt den Wert, auf true wenn es bereits false war, sonst von false zu true.
+     */
     public void setAlreadyExists() {
         alreadyExists = !alreadyExists;
     }
@@ -1032,6 +1058,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
         return joinE;
     }
 
+    /**
+     * Holt die JoinExam für die gegebene Exam zu dem User.
+     * @param pExam
+     * @return JoinExam für den User zu der gegebenen Exam.
+     */
     public JoinExam getJoinExamForUserOfExam(final Exam pExam) {
         return assertNotNull(pExam)
                 .getParticipants()
@@ -1041,6 +1072,11 @@ public class ExamsBean extends AbstractBean implements Serializable {
                 .collect(Collectors.toList()).get(0);
     }
 
+    /**
+     * Setzt die Gruppengröße für die Prüfung
+     * @param pGroupSize
+     * @return null und bleibt damit auf der gleichen Seite
+     */
     public String setExamGroupSize(final int pGroupSize) {
         if (pGroupSize < 1) {
             return null;
