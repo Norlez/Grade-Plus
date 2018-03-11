@@ -1309,7 +1309,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .collect(Collectors.toList());
         return joinExams.get(0).getGrade() == null
                 || joinExams.get(0).getGrade().getEndMark() == null ? null : joinExams
-                .get(0).getGrade().getMark();
+                .get(0).getGrade().getEndMark();
     }
 
     /**
