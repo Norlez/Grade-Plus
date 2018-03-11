@@ -72,16 +72,14 @@
                     <b:container class="form-group">
                         <b:dataTable rendered="#{! empty gradesBean.exam.students}"
                                      span="8" value="#{gradesBean.exam.students}" var="e"
-                                     excel="true"
-                                     csv="true"
-                                     pdf="true"
+                                     excel="false"
+                                     csv="false"
+                                     pdf="false"
                                      columnVisibility="false"
                                      copy="false"
-                                     print="true">
+                                     print="false">
                             <b:dataTableColumn label="#{msg['outputMatriculationNumber']}" value="#{e.matrNr}" />
                             <b:dataTableColumn label="#{msg['outputSurname']}" value="#{e.surname}" />
-                            <b:dataTableColumn label="#{msg['outputGivenName']}" value="#{e.givenName}" />
-                            <b:dataTableColumn label="#{msg['outputComment']}" value="#{e.givenName}" />
                             <b:dataTableColumn label="#{msg['outputSubRating']}">
                                 <h:outputText rendered="#{! empty instanceLectureEditBean.getSubRating(e, instanceLectureEditBean.instanceLecture)}"
                                               value="#{instanceLectureEditBean.getSubRating(e, instanceLectureEditBean.instanceLecture)}" />
@@ -94,40 +92,30 @@
                                 <h:outputText rendered="#{empty instanceLectureEditBean.getFinalScore(e, instanceLectureEditBean.instanceLecture)}"
                                               value="#{msg['outputNoFinalScore']}" />
                             </b:dataTableColumn>
+                            <b:dataTableColumn label="#{msg['outputComment']}" value="#{e.givenName}" />
                             <b:dataTableColumn label="#{msg['outputSetGrade']}">
                                 <b:selectOneMenu class="form-control" value="#{gradesBean.selectedGrade}">
                                     <f:selectItems value="#{gradesBean.possibleGrades}" />
                                 </b:selectOneMenu>
                             </b:dataTableColumn>
                             <b:dataTableColumn label="#{msg['outputOptions']}">
-                                <b:commandButton rendered="#{!gradesBean.hasGrade(e) and !instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
-                                                 disabled="#{!instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
-                                                 title="#{msg['outputTermOfApplicationNotExceeded']}"
-                                                 value="#{msg['actionSave']}"
-                                                 action="#{gradesBean.save(gradesBean.exam, e)}" />
-                                <b:commandButton rendered="#{!gradesBean.hasGrade(e) and instanceLectureEditBean.instanceLecture.termOfApplicationExceeded}"
+                                <b:commandButton rendered="#{!gradesBean.hasGrade(e)}"
                                                  value="#{msg['actionSave']}"
                                                  action="#{gradesBean.save(gradesBean.exam, e)}" />
                                 <b:commandButton rendered="#{gradesBean.hasGrade(e)}"
                                                  value="#{msg['actionUpdate']}"
                                                  action="#{gradesBean.update(gradesBean.exam, e)}" />
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['comment']}">
-                                <b:commandButton value="#{msg['actionSetComment']}"
+                                <b:commandButton value="#{msg['actionComment']}"
                                                  action="#{gradesBean.setComment(gradesBean.getJoinExamForUser(gradesBean.exam,e))}" />
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputCertificate']}">
-                                <p:commandButton value="#{msg['actionDownload']}" ajax="false">
+                            <b:dataTableColumn label="#{msg['outputDownload']}">
+                                <p:commandButton value="#{msg['outputCertificate']}" ajax="false">
                                     <p:fileDownload value="#{documentBean.getCertificates(e,gradesBean.exam)}"/>
                                 </p:commandButton>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputProtocol']}">
-                                <p:commandButton value="#{msg['actionDownload']}" ajax="false">
+                                <p:commandButton value="#{msg['outputProtocol']}" ajax="false">
                                     <p:fileDownload value="#{documentBean.getProtocol(e,gradesBean.exam)}"/>
                                 </p:commandButton>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="#{msg['outputRecipe']}">
-                                <p:commandButton value="#{msg['actionDownload']}" ajax="false">
+                                <p:commandButton value="#{msg['outputRecipe']}" ajax="false">
                                     <p:fileDownload value="#{documentBean.getReceipe(e,gradesBean.exam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
