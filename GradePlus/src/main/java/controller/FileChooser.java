@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Dieses Bean ist der Controller für das auswählen von Dateien über dem Client.
  *
  * @author Arbnor Miftari
- * @version 2018-02-24
+ * @version 2018-03-10
  */
 @Named
 @RequestScoped
@@ -103,6 +103,10 @@ public class FileChooser extends AbstractBean {
         userDAO = Assertion.assertNotNull(pUserDAO);
     }
 
+    /**
+     * Gibt die Daten aus einer CSV in Form vom System.print auf der Konsole aus
+     * @throws IOException, falls ein Fehler beim Lesen geschehen ist
+     */
     public void saveFromCSV() throws IOException {
         InputStream inputStream = file.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));

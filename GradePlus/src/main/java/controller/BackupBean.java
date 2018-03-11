@@ -31,38 +31,80 @@ import static common.util.Assertion.assertNotNull;
  * delete entfernen und mittels create ein neues Backup des derzeitigen Systems erstellen.
  *
  * @author Andreas Estenfelder, Torben Groß, Arbnor Miftari, Anil Olgun
- * @version 2017-12-21
+ * @version 2018-03-11
  */
 @Named
 @RequestScoped
 public class BackupBean extends AbstractBean implements Serializable {
 
+    /**
+     *
+     */
     private final UserDAO userDAO;
 
+    /**
+     *
+     */
     private final LectureDAO lectureDAO;
 
+    /**
+     *
+     */
     private final InstanceLectureDAO instanceLectureDAO;
 
+    /**
+     *
+     */
     private final ExamDAO examDAO;
 
+    /**
+     *
+     */
     private final GradeDAO gradeDAO;
 
+    /**
+     *
+     */
     private final JoinExamDAO joinExamDAO;
 
+    /**
+     *
+     */
     private List<User> allUsers;
 
+    /**
+     *
+     */
     private List<Lecture> allLectures;
 
+    /**
+     *
+     */
     private List<InstanceLecture> allInstanceLectures;
 
+    /**
+     *
+     */
     private List<Exam> allExams;
 
+    /**
+     *
+     */
     private List<JoinExam> allJoinExams;
 
+    /**
+     *
+     */
     private List<Grade> allGrades;
 
+    /**
+     *
+     */
     private Writer out;
 
+    /**
+     *
+     */
     private CSVWriter csvWriter;
 
     /**

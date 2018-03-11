@@ -71,21 +71,21 @@ public class LoginBean extends AbstractBean {
      */
     private String username;
 
-    // TODO: in Aenderungsdoku einfuegen
+
     /**
      * Der Name, der im Facelet angezeigt wird und durch Interaktion mit dem Facelet
      * geändert wird.
      */
     private String name;
 
-    // TODO: in Aenderungsdoku einfuegen
+
     /**
      * Der Vorname, der im Facelet angezeigt wird und durch Interaktion mit dem Facelet
      * geändert wird.
      */
     private String surname;
 
-    // TODO: in Aenderungsdoku einfuegen
+
     /**
      * Der Matrikelnummer, der im Facelet angezeigt wird und durch Interaktion mit dem
      * Facelet geändert wird.
@@ -135,7 +135,7 @@ public class LoginBean extends AbstractBean {
         return username;
     }
 
-    // TODO: in Aenderungsdoku einfuegen
+
     /**
      * Gibt den anzuzeigenden Nachnamen zurück.
      *
@@ -145,7 +145,7 @@ public class LoginBean extends AbstractBean {
         return name;
     }
 
-    // TODO: in Aenderungsdoku einfuegen
+
     /**
      * Gibt den anzuzeigenden Vorname zurück.
      *
@@ -155,7 +155,7 @@ public class LoginBean extends AbstractBean {
         return surname;
     }
 
-    // TODO: in Aenderungsdoku einfuegen
+
     /**
      * Gibt den anzuzeigenden Matrikelnummer zurück.
      *
