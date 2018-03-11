@@ -40,7 +40,7 @@ import static common.util.Assertion.assertNotNull;
  * Diese Bean ist für das Bearbeiten bestimmter {@link InstanceLecture}-Objekte
  * verantwortlich.
  *
- * @author Torben Groß
+ * @author Torben Groß, Marvin Kampen, Tugce Karakus, Anil Olgun,
  * @version 2018-02-27
  */
 @Named
@@ -64,6 +64,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     private final UserDAO userDao;
 
+    /**
+     * Das Data-Access-Objekt, das die Verwaltung der Persistierung für Exam-Objekte
+     * übernimmt.
+     */
     private final ExamDAO examDAO;
 
     // Gibt an, welche Pruefungsordnung benutzt wird
@@ -150,6 +154,7 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     // Name des Pruefungsgebiets
     private String pruefungsgebiet = "343636343";
 
+    //Setzt das Format für Datum
     java.text.SimpleDateFormat todaysDate = new java.text.SimpleDateFormat("dd-MM-yyyy");
 
     /**
@@ -179,30 +184,63 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      */
     private Map<String, Boolean> checked = new HashMap<>();
 
+    /**
+     * Liste mit den ILVs des Users
+     */
     private List<InstanceLecture> instancesForUser;
+    /**
+     * Der Beginn der Prüfung
+     */
     private Date startOfTimeFrame;
+    /**
+     * Das Ende der Prüfung
+     */
     private Date endOfTimeFrame;
 
+    /**
+     * getter vom checked-Attribut
+     * @return Die checked Map
+     */
     public Map<String, Boolean> getChecked() {
         return checked;
     }
 
+    /**
+     * Setzt die Map auf die gegebenen Parameter.
+     * @param pChecked
+     */
     public void setChecked(final Map<String, Boolean> pChecked) {
         checked = assertNotNull(pChecked);
     }
 
+    /**
+     * Gibt die Startzeit der Prüfung zurück.
+     * @return Startzeit als Date
+     */
     public Date getStartOfTimeFrame() {
         return startOfTimeFrame;
     }
 
+    /**
+     * Setzt die Startzeit der Prüfung
+     * @param startOfTimeFrame
+     */
     public void setStartOfTimeFrame(final Date startOfTimeFrame) {
         this.startOfTimeFrame = startOfTimeFrame;
     }
 
+    /**
+     * Gibt den Endzeitpunkt der Prüfung zurück.
+     * @return endOfTimeFrame als Date
+     */
     public Date getEndOfTimeFrame() {
         return endOfTimeFrame;
     }
 
+    /**
+     * Setzt den Endzeitpunkt der Prüfung.
+     * @param endOfTimeFrame
+     */
     public void setEndOfTimeFrame(final Date endOfTimeFrame) {
         this.endOfTimeFrame = endOfTimeFrame;
     }
@@ -212,6 +250,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
      *
      * @param pSession
      *            Die Session der zu erzeugenden InstanceLectureEditBean.
+     *            @param pExamDao
+     *            Die ExamDAo der zu erzeugenden InstanceLectureEditBean
+     *            @param pJoinExamDAO
+     *            Die JoinExamDAo der zu erzeugenden InstanceLectureEditBean
+     *            @param pUserDao
+     *            Die UserDAo der zu erzeugenden InstanceLectureEditBean
      * @param pInstanceLectureDao
      *            Die InstanceLectureDAO der zu erzeugenden InstanceLectureEditBean.
      * @throws IllegalArgumentException
@@ -291,8 +335,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     /**
      * Ist für das Updaten der Studenten und Profs erforderlich.
-     * 
-     * @param pUser
+     * @throws  IllegalArgumentException, falsche Argumente
+     * @throws  UnexpectedUniqueViolationException, Wert ist nicht einzigartig
+     * @throws  DuplicateEmailException, Emailadresse bereits vorhanden
+     * @throws DuplicateUsernameException, Username bereits vorhanden
+     * @param pUser, der geupdatet werden soll
      */
     public void update(User pUser) {
         try {
@@ -311,6 +358,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         }
     }
 
+    /**
+     *  Fügt einen Prüfer zur ILV hinzu..
+     * @param pExaminer, der hinzugefügt werden soll
+     * @return exams.xhtml
+     */
     public String addExaminer(final User pExaminer) {
         assertNotNull(pExaminer, "InstanceLectureEditBean: addExaminer(User)");
         if (!instanceLecture.getExaminees().contains(pExaminer)) {
@@ -323,6 +375,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return "exams.xhtml";
     }
 
+    /**
+     * Entfernt einen Prüfer aus der ILV.
+     * @param pExaminer, der Prüfer der entfernt werden soll
+     * @return exams.xhtml
+     */
     public String removeExaminer(final User pExaminer) {
         assertNotNull(pExaminer, "InstanceLectureEditBean: removeExaminer(User)");
         for (Exam exam : examDAO.getAllExams()) {
@@ -349,6 +406,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return "exams.xhtml";
     }
 
+    /**
+     * Fügt einen Student zu ILV hinzu.
+     * @param pStudent, der hinzugefügt werden soll.
+     * @return exams.xhtml
+     */
     public String addStudent(final User pStudent) {
         assertNotNull(pStudent, "InstanceLectureEditBean: addStudent(User)");
         if (!instanceLecture.getExaminers().contains(pStudent)) {
@@ -368,6 +430,11 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return "exams.xhtml";
     }
 
+    /**
+     * Entfernt einen Studenten aus der ILV.
+     * @param pStudent, der entfernt werden soll
+     * @return exams.xhtml
+     */
     public String removeStudent(final User pStudent) {
         assertNotNull(pStudent, "InstanceLectureEditBean: removeStudent(User)");
         for (Exam exam : examDAO.getAllExams()) {
@@ -401,16 +468,30 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return "exams.xhtml";
     }
 
+    /**
+     * Gibt eine Liste zurück mit allen unregistrierten Studenten im System
+     * @return Liste mit unregistrierten Prüflingen
+     */
     public List<User> getUnregisteredStudents() {
         return userDao.getAllStudents().stream()
                 .filter(s -> !instanceLecture.getExaminees().contains(s))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gibt für die Lehrveranstaltung alle ILVs zurück.
+     * @param pLecture
+     * @return Liste von ILVs
+     */
     public List<InstanceLecture> getAllInstances(Lecture pLecture) {
         return instanceLectureDao.getInstanceLecturesForLecture(pLecture);
     }
 
+    /**
+     * Gibt die Prüfungen eines User zurück
+     * @param pUser, für den gesucht wird
+     * @return Liste mit Prüfungen des Benutzers
+     */
     public List<Exam> getExams(User pUser) {
         List<Exam> exam = new ArrayList<Exam>();
         List<JoinExam> tmp = joinExamDAO.getNonExmptyJoinExamsForUser(pUser);
@@ -424,6 +505,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return exam;
     }
 
+    /**
+     * Gibt eine Liste zurück, welche alle freigegebenen Prüfungen enthält für eine ILV.
+     * @return Liste mit Prüfungen
+     */
     public List<Exam> getReleasedExams() {
         List<Exam> tmp = examDAO.getExamsForInstanceLecture(instanceLecture);
         List<Exam> examList = new ArrayList<Exam>();
@@ -436,6 +521,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return examList;
     }
 
+    /**
+     * Prüft, ob der gegegebene Student für die Prüfung registriert ist.
+     * @return true, falls er registriert ist, sonst false.
+     */
     public boolean isStudentRegisteredForExam() {
         List<User> allRegisteredUsers = new ArrayList<>();
         instanceLecture.getExams().forEach(
@@ -443,6 +532,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return allRegisteredUsers.contains(getSession().getUser());
     }
 
+    /**
+     * Gibt alle freigegebenen Prüfungen für eine ILv zurück
+     * @return Liste von Prüfungen
+     */
     public List<Exam> getReleasedExamsForInstanceLecture() {
         return examDAO
                 .getAllExams()
@@ -453,18 +546,34 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     /*
-     * Duplicated Code
+     * Duplicated Code aus der Document Bean, da es zu unvorhergesehenen Problemen kam.
+     */
+
+    /**
+     * Gibt den Namen des Studenten zurück.
+     * @param pStudent
+     * @return Gibt den Namen des Studenten als String zurück
      */
     public String getNameOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDao.getUserForUsername(pStudent.getUsername()).getGivenName();
     }
 
+    /**
+     * Gibt den Nachnamen des Studenten zurück.
+     * @param pStudent
+     * @return Nachname als String.
+     */
     public String getSurnameOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDao.getUserForUsername(pStudent.getUsername()).getSurname();
     }
 
+    /**
+     * Gib die MatrNr des Studenten zurück.
+     * @param pStudent
+     * @return MatrNr des Studenten als String
+     */
     public String getMatrNrOfStudent(User pStudent) {
         assertNotNull(pStudent);
         return userDao.getUserForUsername(pStudent.getUsername()).getMatrNr();
@@ -472,6 +581,13 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     /**
      * Methode zum Drucken des Protokolls
+     * @param pUser
+     *              Der Benutzer für den das Protokoll gedruckt werden soll.
+     * @param pExam
+     *              Die Prüfung für die das Protokoll gedruckt werden soll.
+     *
+     * @return Der StreamedContent, welche die erzeugte PDF enthält.
+     * @throws IOException, falls ein Fehler beim Speichern der Datei auftritt.
      *
      */
     public StreamedContent getProtocol(final User pUser, final Exam pExam)
@@ -654,6 +770,13 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
 
     /**
      * Methode zum Drucken der Quittung
+     * @param pUser
+     *              Der Benutzer für den das Quittung gedruckt werden soll.
+     * @param pExam
+     *              Die Prüfung für die das Quittung gedruckt werden soll.
+     *
+     * @return Der StreamedContent, welche die erzeugte PDF enthält.
+     * @throws IOException, falls ein Fehler beim Speichern der Datei auftritt.
      *
      */
     public StreamedContent getReceipe(final User pUser, final Exam pExam)
@@ -811,7 +934,13 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
     }
 
     /**
-     * Methode zum Drucken des Leistungsnachweise
+     * @param pUser
+     *              Der Benutzer für den das Leistungsnachweis gedruckt werden soll.
+     * @param pExams
+     *              Die Prüfung für die das Leistungsnachweis gedruckt werden soll.
+     *
+     * @return Der StreamedContent, welche die erzeugte PDF enthält.
+     * @throws IOException, falls ein Fehler beim Speichern der Datei auftritt.
      *
      */
     public StreamedContent getCertificates(final User pUser, final Exam pExams)
@@ -978,6 +1107,10 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         }
     }
 
+    /**
+     * Gibt alle verfügbaren Dokumente zurück.
+     * @return Liste mit den verfügbaren Dokumenten
+     */
     public List<String> getAvailableDocuments() {
         List<String> availableDocuments = new ArrayList<>();
         availableDocuments.add("Protokoll");
@@ -986,6 +1119,15 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         return availableDocuments;
     }
 
+    /**
+     * Erzeugt für einen Zeitraum alle ausgewählten Dokumente
+     * @param pInstanceLecture, die gesuchte ILV.
+     * @param pStart, der Startzeitpunkt
+     * @param pEnd, der Endzeitpunkt
+     * @param pChecked, ob der Dokumententyp ausgewählt wurde.
+     * @return StreamedContent mit den erzeugten Dokumenten
+     * @throws IOException
+     */
     public StreamedContent getDocumentsForTimeFrame(
             final InstanceLecture pInstanceLecture, Date pStart, Date pEnd,
             Map<String, Boolean> pChecked) throws IOException {
@@ -1111,6 +1253,13 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
         }
     }
 
+    /**
+     *   Gibt die Endnote für einen User für eine ILV zurück.
+    *
+     * @param pUser, der gesuchte User
+     * @param pInstanceLecture, die gesuchte ILV
+     * @return Endnote des Studenten in der ILV
+     */
     public Double getSubRating(final User pUser, final InstanceLecture pInstanceLecture) {
         List<JoinExam> joinExams = assertNotNull(
                 instanceLectureDao.getById(pInstanceLecture.getId())).getJoinExam()
@@ -1120,6 +1269,12 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .getMark();
     }
 
+    /**
+     *  Gibt die Endnote für einen User für eine ILV zurück.
+     * @param pUser, der gesuchte User
+     * @param pInstanceLecture, die gesuchte ILV.
+     * @return Endnote des Studenten in der ILV
+     */
     public Double getFinalScore(final User pUser, final InstanceLecture pInstanceLecture) {
         List<JoinExam> joinExams = assertNotNull(
                 instanceLectureDao.getById(pInstanceLecture.getId())).getJoinExam()
@@ -1130,20 +1285,36 @@ public class InstanceLectureEditBean extends AbstractBean implements Serializabl
                 .get(0).getGrade().getMark();
     }
 
+    /**
+     * Gibt die Prüfungen eines Prüfers für eine ILV zurück.
+     * @return Liste von Prüfungen.
+     */
     public List<Exam> getExamsOfInstanceLectureForExaminer() {
         return instanceLecture.getExams().stream()
                 .filter(e -> e.getExaminers().contains(getSession().getUser()))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Getter für InstancesForUser-Attribut
+     * @return Liste von ILVs
+     */
     public List<InstanceLecture> getInstancesForUser() {
         return instancesForUser;
     }
 
+    /**
+     * Setter für InstancesForUser-Attribut
+     * @param instancesForUser
+     */
     public void setInstancesForUser(List<InstanceLecture> instancesForUser) {
         this.instancesForUser = instancesForUser;
     }
 
+    /**
+     * Gibt alle Lectures im System zurück.
+     * @return Liste mit allen Lectures.
+     */
     public List<InstanceLecture> getUniuqueIlvs() {
         List<InstanceLecture> tmp = new ArrayList<InstanceLecture>();
         List<InstanceLecture> j = getSession().getUser().getAsStudent();
