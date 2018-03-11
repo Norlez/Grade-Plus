@@ -68,7 +68,7 @@
 
             <h:panelGroup>
 
-                <b:form>
+                <b:form enctype="multipart/form-data">
                     <b:container class="form-group">
                         <b:dataTable rendered="#{! empty gradesBean.exam.students}"
                                      span="8" value="#{gradesBean.exam.students}" var="e"
@@ -117,6 +117,16 @@
                                     <p:fileDownload value="#{documentBean.getReceipe(e,gradesBean.exam)}"/>
                                 </p:commandButton>
                             </b:dataTableColumn>
+                            <b:dataTableColumn label="#{msg['outputScannedProtocol']}">
+                                <p:growl id="messages" showDetail="true" />
+                                <p:fileUpload value="#{instanceLectureEditBean.uploadFile}" mode="simple" skinSimple="true" rendered="#{empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}"/>
+                                <p:commandButton value="#{msg['outputUpload']}" ajax="false" rendered="#{empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}"
+                                                 actionListener="#{fileBean.setJoinExamUploadedFile(gradesBean.getJoinExamForUser(gradesBean.exam,e), instanceLectureEditBean.uploadFile)}"/>
+                                <p:commandButton value="#{msg['actionDownload']}" ajax="false" rendered="#{!empty gradesBean.getJoinExamForUser(gradesBean.exam,e).getSavedDocument()}">
+                                    <p:fileDownload value="#{fileBean.downloadUploadedFile(gradesBean.getJoinExamForUser(gradesBean.exam,e))}"/>
+                                </p:commandButton>
+                            </b:dataTableColumn>
+
                         </b:dataTable>
                         <h:outputLabel rendered="#{empty gradesBean.exam.students}"
                                        value="#{msg['outputNoStudents']}"/>
